@@ -37,4 +37,14 @@ class UserTest extends TestCase
         $response->assertRedirect('/home');
         $this->assertAuthenticatedAs($user);
     }
+    /**
+     * A user can have accounts asociated
+     * @test
+     */
+    public function aUserHaveMultiplesAccountsAsociated()
+    {
+        $user = factory('App\User')->create();
+        $accounts = factory('App\Account', 3)->create(['user_id' => $user->id]);
+        $this->assertCount(3, $user->accounts);
+    }
 }
