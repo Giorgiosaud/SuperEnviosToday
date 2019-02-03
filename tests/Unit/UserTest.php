@@ -2,13 +2,14 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use \App\User;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic test example.
      *
@@ -18,14 +19,16 @@ class UserTest extends TestCase
     public function aUserHaveADefaultRoleOfClient()
     {
         $user = User::create([
-            'name' => 'ALEX',
-            'email' => 'A@be.com',
+            'name'     => 'ALEX',
+            'email'    => 'A@be.com',
             'password' => bcrypt('LIN'),
         ]);
         $this->assertTrue($user->hasRole('client'));
     }
+
     /**
-     * ActingAsCoordinatorHaveAPasswordToAccess
+     * ActingAsCoordinatorHaveAPasswordToAccess.
+     *
      * @test
      */
     public function theCoordinatorCanLoginWithHisPassword()
@@ -37,8 +40,10 @@ class UserTest extends TestCase
         $response->assertRedirect('/home');
         $this->assertAuthenticatedAs($user);
     }
+
     /**
-     * A user can have accounts asociated
+     * A user can have accounts asociated.
+     *
      * @test
      */
     public function aUserHaveMultiplesAccountsAsociated()
