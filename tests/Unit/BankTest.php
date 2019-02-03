@@ -2,15 +2,16 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use \App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class BankTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
-     * A Bank can have accounts Asociated
+     * A Bank can have accounts Asociated.
+     *
      * @test
      */
     public function aBankCanHaveAccountsAssociated()
