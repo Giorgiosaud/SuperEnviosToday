@@ -13,6 +13,7 @@ class Transaction extends Model
 
     public function destinationAccount()
     {
+
         return $this->belongsTo(Account::class, 'to_account_id');
     }
 }
