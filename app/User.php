@@ -56,4 +56,8 @@ class User extends Authenticatable
     {
         return $this->roles->pluck('name')->contains($roleName);
     }
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
 }
