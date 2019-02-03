@@ -9,13 +9,24 @@ class TransactionTest extends TestCase
 {
     use RefreshDatabase;
     /**
-     * a transactions must belong to an Account
+     * a transactions must be made to an Account
      * @test
      */
-    public function aTransactionMustBelongToAnAccount()
+    public function aTransactionMustHaveADestinationAccount()
     {
         $transaction = factory('App\Transaction')->create();
-        $this->assertInstanceOf(\App\Account::class, $transaction->account);
-
+        $this->assertInstanceOf(\App\Account::class, $transaction->destinationAccount);
+    }
+    /**
+     * a transactions should be from an Account
+     * @test
+     */
+    public function aTransactionShouldHaveAOriginAccount()
+    {
+        $transaction = factory('App\Transaction')->create();
+        $this->assertTrue(
+            $transaction->originAccount instanceof \App\Account
+                || $transaction->originAccount === null
+        );
     }
 }
