@@ -19,7 +19,6 @@ class TransactionTest extends TestCase
         $transaction = factory('App\Transaction')->create();
         $this->assertInstanceOf(\App\Account::class, $transaction->destinationAccount);
     }
-
     /**
      * a transactions should be from an Account.
      *
