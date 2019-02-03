@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Laravel\Passport\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -28,6 +27,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
     /**
      * The roles that belong to the user.
      */
@@ -35,27 +35,31 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
+
     /**
-     * Toogle role to user
+     * Toogle role to user.
      */
     public function toogleRole(String $roleName)
     {
         return $this->roles()->toggle($roleName);
     }
+
     /**
-     * Set role to user
+     * Set role to user.
      */
     public function setRole(String $roleName)
     {
         return $this->roles()->attach($roleName);
     }
+
     /**
-     * Check if user Have Role Assigned
+     * Check if user Have Role Assigned.
      */
     public function hasRole(String $roleName)
     {
         return $this->roles->pluck('name')->contains($roleName);
     }
+
     public function accounts()
     {
         return $this->hasMany(Account::class);
