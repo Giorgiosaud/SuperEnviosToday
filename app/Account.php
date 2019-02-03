@@ -10,14 +10,16 @@ class Account extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
-
     }
+
     public function bank()
     {
         return $this->belongsTo(Bank::class);
     }
+
     //
 }
