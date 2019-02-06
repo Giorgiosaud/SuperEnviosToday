@@ -18,7 +18,7 @@ class UserTest extends TestCase
      */
     public function aUserHaveADefaultRoleOfClient()
     {
-        $user = User::create([
+        $user = factory(User::class)->create([
             'name'     => 'ALEX',
             'email'    => 'A@be.com',
             'password' => bcrypt('LIN'),
