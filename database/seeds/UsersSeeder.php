@@ -12,18 +12,18 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-      $user=factory(User::class)->create([
+        $user = factory(User::class)->create([
         'name'     => 'Alejandro',
         'email'    => 'alejandro@ronpapas.com',
         'password' => bcrypt('Ronpapa'),
       ]);
-      $user->toogleRole('coordinator');
-      $user = factory(User::class)->create([
+        $user->toogleRole('coordinator');
+        $user = factory(User::class)->create([
         'name'     => 'Jorge',
         'email'    => 'jorgelsaud@gmail.com',
-        'phone'  => '+56952218734',
+        'phone'    => '+56952218734',
         'password' => bcrypt('17762267'),
       ]);
-      $user->toogleRole('coordinator');
+        $user->toogleRole('coordinator');
     }
-  }
+}
