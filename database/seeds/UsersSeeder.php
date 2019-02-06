@@ -12,19 +12,18 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        User::unguard();
-        $user = User::create([
-      'name'     => 'Alejandro',
-      'email'    => 'alejandro@ronpapas.com',
-      'password' => bcrypt('Ronpapa'),
-    ]);
-        $user->toogleRole('coordinator');
-        $user = User::create([
-      'name'     => 'Jorge',
-      'email'    => 'jorgelsaud@gmail.com',
-      'password' => bcrypt('17762267'),
-    ]);
-        $user->toogleRole('coordinator');
-        User::reguard();
+      $user=factory(User::class)->create([
+        'name'     => 'Alejandro',
+        'email'    => 'alejandro@ronpapas.com',
+        'password' => bcrypt('Ronpapa'),
+      ]);
+      $user->toogleRole('coordinator');
+      $user = factory(User::class)->create([
+        'name'     => 'Jorge',
+        'email'    => 'jorgelsaud@gmail.com',
+        'phone'  => '+56952218734',
+        'password' => bcrypt('17762267'),
+      ]);
+      $user->toogleRole('coordinator');
     }
-}
+  }
