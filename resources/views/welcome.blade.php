@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ config('app.name', 'Super Envios Today') }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
@@ -80,8 +80,12 @@
             @endif
 
             <div class="content">
+                <div class="col-12 text-center">
+                    <img src="{{ asset('/image/superenvios.png') }}" class="img-fluid" alt="">
+                </div>
                 <div class="title m-b-md">
-                    Laravel
+
+                    {{ config('app.name', 'Super Envios Today') }}
                 </div>
 
                 <div class="links">
