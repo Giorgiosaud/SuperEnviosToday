@@ -8,7 +8,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+import store from './store';
+import vClickOutside from 'v-click-outside'
+const _ =require('lodash');
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -20,14 +22,21 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('main-menu', require('./components/mainMenu.vue').default);
 
+Vue.directive('click-outside',vClickOutside.directve);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store,
+    mounted(){
+    this.$store.commit('globals/SET_SCREEN_WIDTH', window.innerWidth);
+     window.addEventListener("resize", _.debounce(()=> {
+        this.$store.commit('globals/SET_SCREEN_WIDTH', window.innerWidth);
+    },500));
+    }
 });

@@ -17,6 +17,7 @@ class CreateAccountsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('bank_id');
             $table->unsignedInteger('user_id');
+            $table->string('currency_id');
             $table->boolean('is_operator_account')->default(false);
             $table->string('number')->unique();
             $table->timestamps();
