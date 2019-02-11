@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,66 +16,67 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+        <main-menu inline-template>
+            <nav class="flex items-center justify-between flex-wrap bg-teal p-6">
+                <a class="no-underline" href="{{ url('/') }}">
+                    <div class="flex items-center flex-no-shrink text-white mr-6">
+                        <img src="image/superenvios.png" alt="Super Envios Today" class="img-fluid" width="60">
+                        <span class="font-semibold text-xl tracking-tight ml-3">{{ config('app.name', 'Super Envios Today') }}</span>
+                    </div>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                <div class="block md:hidden">
+                    <button class="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white" @click="openMenu= !openMenu">
+                        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
+                    </button>
                 </div>
-            </div>
-        </nav>
-
+                <div class="w-full block flex-grow md:flex md:items-center md:w-auto">
+                    <div class="text-sm md:flex-grow md:flex md:justify-end" v-if="openMenu">
+                        @guest
+                        <a class="block mt-4 md:inline-block md:mt-0 text-teal-lighter hover:text-white mr-4 no-underline" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        @if (Route::has('register'))
+                        <a class="block mt-4 md:inline-block md:mt-0 text-teal-lighter hover:text-white mr-4 no-underline" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        @endif
+                        @else
+                        @if(Auth::user()->hasRole('coordinator'))
+                        <div class="relative cursor-pointer text-teal-lighter hover:text-white">
+                            <a class="flex items-center justify-centerno-underline" @click="coordinatorProfileSubMenu= !coordinatorProfileSubMenu">
+                                Acciones de Coordinador<i class="material-icons">expand_more</i>
+                            </a>
+                            <div class="absolute w-full text-teal-lighter hover:text-whiteabsolute bg-teal" v-if="coordinatorProfileSubMenu">
+                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="{{route('registerOperator')}}">Registrar Operador</a>
+                                
+                            </div>
+                        </div>
+                        @endif
+                        <div class="relative cursor-pointer text-teal-lighter hover:text-white">
+                            <a class="flex items-center justify-centerno-underline" @click="showProfileSubMenu= !showProfileSubMenu">
+                                {{ Auth::user()->email }}  <i class="material-icons">expand_more</i>
+                            </a>
+                            <div class="absolute w-full text-teal-lighter hover:text-whiteabsolute bg-teal" v-if="showProfileSubMenu">
+                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="profile">My Profile</a>
+                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
+                        @endguest
+                    </div>
+                </div>
+            </nav>
+        </main-menu>
         <main class="py-4">
             @yield('content')
         </main>
     </div>
+    @include('layouts.footer')
 </body>
 </html>

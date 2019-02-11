@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
 /*
@@ -21,6 +22,13 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('user', 'AuthController@user');
     });
 });
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('api')->get('/user_token', function (Request $request,Guard $guard) {
+   return $guard->user();
+    return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type'   => 'Bearer',
+            'expires_at'   => Carbon::parse(
+                $tokenResult->token->expires_at)
+                    ->toDateTimeString(),
+        ]);
 });

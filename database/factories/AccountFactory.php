@@ -14,6 +14,12 @@ $factory->define(App\Account::class, function (Faker $faker) {
 
             return $user->id;
         },
+        'currency_id' => function () {
+            $user = factory(\App\Currency::class)->create();
+
+            return $user->id;
+        },
+
         'is_operator_account' => $faker->boolean(),
         'number'              => $faker->bankAccountNumber(),
     ];

@@ -25,5 +25,10 @@ class UsersSeeder extends Seeder
         'password' => bcrypt('17762267'),
       ]);
       $user->toogleRole('coordinator');
+      $user = factory(User::class)->create([
+        'name'     => 'Cliente',
+        'email'    => 'cliente@cliente.com',
+        'password' => bcrypt('secret'),
+      ]);
     }
   }
