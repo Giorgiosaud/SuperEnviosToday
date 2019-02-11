@@ -1,3 +1,6 @@
+import store from './store';
+import vClickOutside from 'v-click-outside'
+import vSelect from 'vue-select'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -8,9 +11,6 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import store from './store';
-import vClickOutside from 'v-click-outside'
-const _ =require('lodash');
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,8 +21,9 @@ const _ =require('lodash');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+Vue.component('v-select', vSelect)
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
+Vue.component('register-client', require('./components/registerClient.vue').default);
 
 Vue.directive('click-outside',vClickOutside.directve);
 /**

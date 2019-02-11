@@ -18,5 +18,6 @@ return [
     'E-Mail Address'=>'Dirección de correo electronico',
     'Password' => 'Clave',
     'Confirm Password' => 'Confirmar Clave',
-    'DNI'=>'RUT/DNI/Cedula',
+    'idn'=>'RUT/DNI/Cedula',
+'idn_type'=>'Tipo de Identificacion',
 ];

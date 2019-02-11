@@ -14,6 +14,7 @@ class UsersSeeder extends Seeder
   {
     $user = factory(User::class)->create([
       'name' => 'Alejandro',
+      'last_name' => 'Ronpapas',
       'email' => 'alejandro@ronpapas.com',
       'password' => bcrypt('Ronpapa'),
     ]);
@@ -25,10 +26,6 @@ class UsersSeeder extends Seeder
       'password' => bcrypt('17762267'),
     ]);
     $user->toogleRole('coordinator');
-    $user = factory(User::class)->create([
-      'name' => 'Cliente',
-      'email' => 'cliente@cliente.com',
-      'password' => bcrypt('secret'),
-    ]);
+    $user = factory(User::class)->create();
   }
 }
