@@ -30,7 +30,8 @@ class RateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +42,8 @@ class RateController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Rate  $rate
+     * @param \App\Rate $rate
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Rate $rate)
@@ -52,7 +54,8 @@ class RateController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Rate  $rate
+     * @param \App\Rate $rate
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Rate $rate)
@@ -63,8 +66,9 @@ class RateController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rate  $rate
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Rate                $rate
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Rate $rate)
@@ -75,7 +79,8 @@ class RateController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Rate  $rate
+     * @param \App\Rate $rate
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Rate $rate)
