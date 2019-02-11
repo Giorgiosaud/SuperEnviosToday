@@ -18,7 +18,8 @@ $factory->define(App\User::class, function (Faker $faker) {
     return [
         'name'              => $faker->name,
         'email'             => $faker->unique()->safeEmail,
-        'dni'               => $faker->unique()->uuid(),
+        'idn'               => $faker->unique()->numberBetween(1000000,30000000),
+        'id_type'               => $faker->randomElement(['DNI','RUT','CI','PASSPORT']),
         'email_verified_at' => now(),
         'password'          => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
         'address'           => $faker->address(),
