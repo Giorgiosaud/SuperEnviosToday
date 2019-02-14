@@ -20,9 +20,9 @@ class CreateUsersTable extends Migration
             $table->string('idn')->unique();
             $table->enum('idn_type',['CI','DNI','RUT','PASSPORT']);
             $table->unique(array('idn', 'idn_type'));
-            $table->string('email')->unique();
-            $table->string('address');
-            $table->string('phone');
+            $table->string('email')->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

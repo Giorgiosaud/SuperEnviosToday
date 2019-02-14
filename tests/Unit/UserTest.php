@@ -6,6 +6,10 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/**
+ * Class UserTest
+ * @package Tests\Unit
+ */
 class UserTest extends TestCase
 {
     use RefreshDatabase;
@@ -19,8 +23,8 @@ class UserTest extends TestCase
     public function aUserHaveADefaultRoleOfClient()
     {
         $user = factory(User::class)->create([
-            'name'     => 'ALEX',
-            'email'    => 'A@be.com',
+            'name' => 'ALEX',
+            'email' => 'A@be.com',
             'password' => bcrypt('LIN'),
         ]);
         $this->assertTrue($user->hasRole('client'));
@@ -34,10 +38,16 @@ class UserTest extends TestCase
     public function theCoordinatorCanLoginWithHisPassword()
     {
         $this->disableExceptionHandling();
-        $user = User::whereName('Alejandro')->first();
-        $this->assertTrue($user->hasRole('coordinator'));
-        $response = $this->post('login', ['email' => 'alejandro@ronpapas.com', 'password' => 'Ronpapa']);
+        $user = factory(User::class)->create([
+            'name' => 'Coordinador',
+            'idn' => '111111',
+            'idn_type' => 'CI',
+            'password' => bcrypt('hidden'),
+        ]);
+        $user->toogleRole('coordinator');
+        $response = $this->post('login', ['idn_type' => 'CI', 'idn' => '111111', 'password' => 'hidden']);
         $response->assertRedirect('/home');
+        $this->isAuthenticated();
         $this->assertAuthenticatedAs($user);
     }
 
@@ -51,5 +61,42 @@ class UserTest extends TestCase
         $user = factory('App\User')->create();
         $accounts = factory('App\Account', 3)->create(['user_id' => $user->id]);
         $this->assertCount(3, $user->accounts);
+    }
+
+    /**
+     * @test
+     */
+    public function aUserWithoutEmailCanBeRegistered()
+    {
+        $user = factory('App\User')->create(['email' => null]);
+        $this->assertNull(User::find($user->id)->email);
+
+
+    }
+
+    /**
+     * @test
+     */
+    public function aUserWithDuplicatedEmailCanBeRegistered()
+    {
+        $email='test@test.com';
+        factory('App\User')->create(['name'=>'test1','email'=>$email]);
+        factory('App\User')->create(['name'=>'test2','email'=>$email]);
+        $users=User::all();
+        $this->assertCount(2,$users);
+        $this->assertEquals($users[0]->email,$users[1]->email);
+
+    }
+    /**
+     * @test
+     */
+    public function aUserCantBeRegisteredWithSameCombinationOfIDNandIDNTYPE()
+    {
+        try {
+            factory('App\User')->create(['idn'=>'123123','idn_type'=>'PASSPORT']);
+            factory('App\User')->create(['idn'=>'123123','idn_type'=>'PASSPORT']);
+        } catch (\Exception $err) {
+            $this->assertContains('Integrity constraint violation', $err->getMessage());
+        }
     }
 }

@@ -20,15 +20,6 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
+        Route::get('users', 'UserController@apiIndex');
     });
-});
-Route::middleware('api')->get('/user_token', function (Request $request,Guard $guard) {
-   return $guard->user();
-    return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type'   => 'Bearer',
-            'expires_at'   => Carbon::parse(
-                $tokenResult->token->expires_at)
-                    ->toDateTimeString(),
-        ]);
 });

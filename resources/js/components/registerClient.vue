@@ -7,6 +7,11 @@
         <span v-if="hasInErrors('idn_type')" class="error-base" role="alert">
           <strong>{{ getError('idn_type') }}</strong>
         </span>
+          <label for="roles" class="label-base">Tipo de Identificación</label>
+          <v-select label="name" index="name_id" multiple id="roles" name="roles" class="mb-3" :class="{'border-red':hasInErrors('role')}" :searchable="false" :clearable="false" :options='roles' v-model="selectedRole" @blur="cleanError('role')"></v-select>
+          <span v-if="hasInErrors('role')" class="error-base" role="alert">
+          <strong>{{ getError('role') }}</strong>
+        </span>
         <label for="idn" class="label-base">Numero de Identificación</label>
 
         <input id="idn" type="text" class="input-base"  :class="{'border-red':hasInErrors('idn')}" name="idn" v-model="person.idn" required autofocus @blur="cleanError('idn')">
@@ -77,9 +82,26 @@
   </div>
 </template>
 <script>
+    import Error from '../mixins/ErrorMixins';
 export default {
   name: 'registerClient',
+    mixins:[Error ],
+    props:{
+      authUser:{
+          type:Object,
+          default(){
+              return {}
+          }
+      },
+        roles:{
+            type:Array,
+            default(){
+                return []
+            }
+        }
+    },
   data () {
+
     return {
       errors:[],
       person:{
@@ -96,26 +118,27 @@ export default {
         phone:'',
         address:''
       },
-      idnTypes:['CI','DNI','RUT','PASSPORT']
+      idnTypes:['CI','DNI','RUT','PASSPORT'],
+        selectedRole:[]
     }
   },
   methods:{
-    hasInErrors(error){
-      if(this.errors.length===0) return false;
-      return Object.keys(this.errors).indexOf(error)!==-1;
-    },
-    getError(error){
-      return this.errors[error][0];
-    },
-    cleanError(error){
-      delete this.errors[error];
-    },
+
     registerPerson(){
-      axios.post('/register',this.person).catch(error=>{
+      axios.post('/registerMember',{person:this.person,roles:this.selectedRole}).catch(error=>{
         this.errors=error.response.data.errors;
       });
+    },
+      hasRole(role){
+          return !!this.user.roles.filter(({name})=>name===role).length;
+      },
+  },
+    mounted(){
+      if(this.user) {
+          this.selectedRole = this.user.roles;
+          this.person = this.user;
+      }
     }
-  }
 }
 </script>
 

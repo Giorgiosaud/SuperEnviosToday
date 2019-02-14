@@ -54,9 +54,9 @@ class RegisterController extends Controller
             'last_name'     => ['required', 'string', 'max:255'],
             'idn'     => ['required', 'string', 'max:255'],
             'idn_type'     => ['required', 'in:CI,PASSPORT,RUT,DNI'],
-            'phone'     => ['required'],
-            'address'     => ['required'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users','confirmed'],
+            'phone'     => ['string'],
+            'address'     => ['string'],
+            'email'    => [ 'string', 'email', 'max:255', 'unique:users','confirmed'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }

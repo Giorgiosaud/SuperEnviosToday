@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Role;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -17,7 +18,26 @@ abstract class TestCase extends BaseTestCase
 
     protected function seedMigrations()
     {
-        (new \DatabaseSeeder())->run();
+        Role::create([
+            'name_id' => 'coordinator',
+            'name'=>'Coordinador'
+        ]);
+        Role::create([
+            'name_id' => 'chilean_operator',
+            'name'=>'Operador Chileno'
+        ]);
+        Role::create([
+            'name_id' => 'venezuelan_operator',
+            'name'=>'Operador Venezolano'
+        ]);
+        Role::create([
+            'name_id' => 'client',
+            'name'=>'Cliente'
+        ]);
+        Role::create([
+            'name_id' => 'receiver',
+            'name'=>'Receptor'
+        ]);
     }
 
     protected function disableExceptionHandling()

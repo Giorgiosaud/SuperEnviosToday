@@ -1798,6 +1798,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mixins_ErrorMixins__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mixins/ErrorMixins */ "./resources/js/mixins/ErrorMixins.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -1878,8 +1879,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'registerClient',
+  mixins: [_mixins_ErrorMixins__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  props: {
+    authUser: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    roles: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    }
+  },
   data: function data() {
     var _person;
 
@@ -1895,26 +1917,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         password: '',
         password_confirmation: ''
       }, _defineProperty(_person, "idn", ''), _defineProperty(_person, "idn_type", ''), _defineProperty(_person, "phone", ''), _defineProperty(_person, "address", ''), _person),
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT']
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT'],
+      selectedRole: []
     };
   },
   methods: {
-    hasInErrors: function hasInErrors(error) {
-      if (this.errors.length === 0) return false;
-      return Object.keys(this.errors).indexOf(error) !== -1;
-    },
-    getError: function getError(error) {
-      return this.errors[error][0];
-    },
-    cleanError: function cleanError(error) {
-      delete this.errors[error];
-    },
     registerPerson: function registerPerson() {
       var _this = this;
 
-      axios.post('/register', this.person).catch(function (error) {
+      axios.post('/registerMember', {
+        person: this.person,
+        roles: this.selectedRole
+      }).catch(function (error) {
         _this.errors = error.response.data.errors;
       });
+    },
+    hasRole: function hasRole(role) {
+      return !!this.user.roles.filter(function (_ref) {
+        var name = _ref.name;
+        return name === role;
+      }).length;
+    }
+  },
+  mounted: function mounted() {
+    if (this.user) {
+      this.selectedRole = this.user.roles;
+      this.person = this.user;
     }
   }
 });
@@ -19606,6 +19634,45 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
+          _c("label", { staticClass: "label-base", attrs: { for: "roles" } }, [
+            _vm._v("Tipo de Identificación")
+          ]),
+          _vm._v(" "),
+          _c("v-select", {
+            staticClass: "mb-3",
+            class: { "border-red": _vm.hasInErrors("role") },
+            attrs: {
+              label: "name",
+              index: "name_id",
+              multiple: "",
+              id: "roles",
+              name: "roles",
+              searchable: false,
+              clearable: false,
+              options: _vm.roles
+            },
+            on: {
+              blur: function($event) {
+                _vm.cleanError("role")
+              }
+            },
+            model: {
+              value: _vm.selectedRole,
+              callback: function($$v) {
+                _vm.selectedRole = $$v
+              },
+              expression: "selectedRole"
+            }
+          }),
+          _vm._v(" "),
+          _vm.hasInErrors("role")
+            ? _c(
+                "span",
+                { staticClass: "error-base", attrs: { role: "alert" } },
+                [_c("strong", [_vm._v(_vm._s(_vm.getError("role")))])]
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c("label", { staticClass: "label-base", attrs: { for: "idn" } }, [
             _vm._v("Numero de Identificación")
           ]),
@@ -32410,6 +32477,11 @@ try {// window.Popper = require('popper.js').default;
 
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.axios.get('/access_token').then(function (response) {
+  sessionStorage.setItem('access_token', response.data.access_token);
+  window.axios.defaults.headers.common['Authorization'] = "Bearer ".concat(response.data.access_token);
+});
+var accessToken = sessionStorage.getItem('access_token');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -32556,6 +32628,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_registerClient_vue_vue_type_template_id_4afd2059_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/mixins/ErrorMixins.js":
+/*!********************************************!*\
+  !*** ./resources/js/mixins/ErrorMixins.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var ErrorMixins = {
+  data: function data() {
+    return {
+      errors: []
+    };
+  },
+  methods: {
+    hasInErrors: function hasInErrors(error) {
+      if (this.errors.length === 0) return false;
+      return Object.keys(this.errors).indexOf(error) !== -1;
+    },
+    getError: function getError(error) {
+      return this.errors[error][0];
+    },
+    cleanError: function cleanError(error) {
+      delete this.errors[error];
+    }
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = (ErrorMixins);
 
 /***/ }),
 
