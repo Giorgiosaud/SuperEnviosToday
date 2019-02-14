@@ -1,29 +1,15 @@
-@extends('layouts.app')
 
-@section('content')
+<template>
     <div class="container mx-auto">
         <div class="w-full max-w-xs mx-auto">
             <form method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="{{ route('login') }}">
                 @csrf
                 <div class="mb-4">
-                    <label class="label-base" for="email">Seleccione Tipo de documento</label>
-                    <select class="input-base {{ $errors->has('idn') ? ' border-red' : '' }}" name="idn_type"
-                            id="idn_type" required>
-                        <option value="PASSPORT">Pasaporte</option>
-                        <option value="CI">CI</option>
-                        <option value="DNI">DNI</option>
-                        <option value="RUT">RUT</option>
-                    </select>
-                    @if ($errors->has('idn_type'))
-                        <span class="error-base" role="alert"><strong>{{ $errors->first('idn_type') }}</strong></span>
-                    @endif
-                </div>
-                <div class="mb-4">
-                    <label class="label-base" for="email">Número</label>
-                    <input class="input-base {{ $errors->has('idn') ? ' border-red' : '' }}" type="text" id="idn"
-                           name="idn" value="{{ old('idn') }}" required autofocus>
-                    @if ($errors->has('idn'))
-                        <span class="error-base" role="alert"><strong>{{ $errors->first('idn') }}</strong></span>
+                    <label class="label-base" for="email">Email</label>
+                    <input class="input-base {{ $errors->has('email') ? ' border-red' : '' }}" type="email" id="email"
+                           name="email" value="{{ old('email') }}" required autofocus>
+                    @if ($errors->has('email'))
+                    <span class="error-base" role="alert"><strong>{{ $errors->first('email') }}</strong></span>
                     @endif
                 </div>
                 <div class="mb-6">
@@ -31,8 +17,8 @@
                     <input class="input-base{{ $errors->has('password') ? ' border-red' : '' }}" id="password"
                            type="password" placeholder="******************" name="password">
                     @if ($errors->has('password'))
-                        <span class="text-red text-xs italic"
-                              role="alert"><strong>{{ $errors->first('password') }}</strong></span>
+                    <span class="text-red text-xs italic"
+                          role="alert"><strong>{{ $errors->first('password') }}</strong></span>
                     @endif
                 </div>
                 <label class="label-base">
@@ -54,4 +40,16 @@
             </p>
         </div>
     </div>
-@endsection
+</template>
+<script>
+    import Error from '../mixins/ErrorMixins';
+
+    export default {
+        mixins:[Error],
+        name: "login.vue"
+    }
+</script>
+
+<style scoped>
+
+</style>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,19 +17,11 @@ use Illuminate\Contracts\Auth\Guard;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/user_token', function (Request $request,Guard $guard) {
-   return $guard->user()->tokens->last();
+Route::get('/access_token', 'AuthController@getToken');
 
-    return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type'   => 'Bearer',
-            'expires_at'   => Carbon::parse(
-                $tokenResult->token->expires_at)
-                    ->toDateTimeString(),
-        ]);
-});
-Route::group(['prefix' => 'coordinator'], function () {
-    Route::get('/createMember','RegisterCompanyMembersController@create')->middleware('auth','role:coordinator')->name('registerOperator');
+Route::middleware(['auth','role:coordinator'])->group( function () {
+    Route::get('/createMember','RegisterCompanyMembersController@create')->name('registerOperator');
+    Route::get('/users','UserController@index')->name('users');
 });
 
 Auth::routes();

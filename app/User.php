@@ -57,7 +57,7 @@ class User extends Authenticatable
      */
     public function hasRole(String $roleName)
     {
-        return $this->roles->pluck('name')->contains($roleName);
+        return $this->roles->pluck('name_id')->contains($roleName);
     }
 
     public function accounts()

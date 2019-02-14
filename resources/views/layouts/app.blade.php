@@ -26,7 +26,7 @@
             <nav class="flex items-center justify-between flex-wrap bg-teal p-6">
                 <a class="no-underline" href="{{ url('/') }}">
                     <div class="flex items-center flex-no-shrink text-white mr-6">
-                        <img src="image/superenvios.png" alt="Super Envios Today" class="img-fluid" width="60">
+                        <img src="{{ asset('image/superenvios.png') }}" alt="Super Envios Today" class="img-fluid" width="60">
                         <span class="font-semibold text-xl tracking-tight ml-3">{{ config('app.name', 'Super Envios Today') }}</span>
                     </div>
                 </a>
@@ -49,8 +49,9 @@
                                 Acciones de Coordinador<i class="material-icons">expand_more</i>
                             </a>
                             <div class="absolute w-full text-teal-lighter hover:text-whiteabsolute bg-teal" v-if="coordinatorProfileSubMenu">
+                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="{{route('users')}}">Listar Usuarios</a>
                                 <a class="block no-underline text-teal-lighter hover:text-white p-3" href="{{route('registerOperator')}}">Registrar Operador</a>
-                                
+
                             </div>
                         </div>
                         @endif

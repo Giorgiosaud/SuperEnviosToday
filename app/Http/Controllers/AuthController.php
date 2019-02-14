@@ -16,19 +16,54 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string',
-            'email'    => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed',
+            'name'     => ['required', 'string', 'max:255'],
+            'last_name'     => ['required', 'string', 'max:255'],
+            'idn'     => ['required', 'string', 'max:255'],
+            'idn_type'     => ['required', 'in:CI,PASSPORT,RUT,DNI'],
+            'phone'     => ['string'],
+            'address'     => ['string'],
+            'email'    => [ 'string', 'email', 'max:255', 'unique:users','confirmed'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
         $user = new User([
             'name'     => $request->name,
+            'last_name'     => $request->last_name,
+            'idn'     => $request->idn,
+            'idn_type'     => $request->idn_type,
+            'phone'     => $request->phone,
+            'address'     => $request->address,
             'email'    => $request->email,
+            'password' => $request->password,
+
+            'name' => $request->name,
+            'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
         $user->save();
 
         return response()->json([
-            'message' => 'Successfully created user!', ], 201);
+            'message' => 'Successfully created user!',], 201);
+    }
+
+    public function getToken()
+    {
+        if (Auth::guest()) {
+            return response()->json([
+                'access_token' => '',
+                'token_type' => 'Bearer',
+                'expires_at' => \Carbon\Carbon::now()->toDateTimeString()
+            ]);
+        }
+
+        $tokenResult = Auth::user()->createToken('Personal Access Token');
+        return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => \Carbon\Carbon::parse(
+                $tokenResult->token->expires_at)
+                ->toDateTimeString(),
+        ]);
+
     }
 
     /**
@@ -39,14 +74,15 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email'       => 'required|string|email',
-            'password'    => 'required|string',
+            'idn_type' => 'required|in:PASSPORT,DNI,RUT,CI',
+            'idn' => 'required|string',
+            'password' => 'required|string',
             'remember_me' => 'boolean',
         ]);
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Unauthorized', ], 401);
+                'message' => 'Unauthorized',], 401);
         }
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
@@ -58,10 +94,10 @@ class AuthController extends Controller
 
         return response()->json([
             'access_token' => $tokenResult->accessToken,
-            'token_type'   => 'Bearer',
-            'expires_at'   => Carbon::parse(
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at)
-                    ->toDateTimeString(),
+                ->toDateTimeString(),
         ]);
     }
 
@@ -72,7 +108,9 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
+        Auth::user()->tokens->each(function ($token) {
+            return $token->revoke();
+        });
 
         return response()->json(['message' => 'Successfully logged out']);
     }
@@ -84,7 +122,7 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        return response()->json($request->user()->roles);
     }
 
     //

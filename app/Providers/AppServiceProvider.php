@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Observers\UserObserver;
 use App\User;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::defaultView('vendor.pagination.bootstrap-4');
+
         User::observe(UserObserver::class);
 
         //
