@@ -6,9 +6,9 @@
             return {
                 openMenu: false,
                 showProfileSubMenu: false,
-                coordinatorProfileSubMenu: false,
-                chileanOperatorProfileSubMenu:false,
-                venezuelanOperatorProfileSubMenu:false
+                coordinatorSubMenu: false,
+                chileanOperatorSubMenu:false,
+                venezuelanOperatorSubMenu:false
             }
         },
         computed: {
@@ -25,10 +25,32 @@
 
                 });
             },
-            clickOutside(){
+            tooggleSubMenuProfile(){
+                this.showProfileSubMenu= !this.showProfileSubMenu;
+                this.coordinatorSubMenu= false;
+                this.chileanOperatorSubMenu=false;
+                this.venezuelanOperatorSubMenu=false;
+            },
+            tooggleSubMenuCoordinador(){
                 this.showProfileSubMenu=false;
-                this.coordinatorProfileSubMenu=false;
-                this.venezuelanOperatorProfileSubMenu=false;
+                this.coordinatorSubMenu= !this.coordinatorSubMenu;
+                this.chileanOperatorSubMenu=false;
+                this.venezuelanOperatorSubMenu=false;
+            },
+            tooggleSubMenuChileanOperator(){
+                this.showProfileSubMenu=false;
+                this.coordinatorSubMenu= false;
+                this.chileanOperatorSubMenu= !this.chileanOperatorSubMenu;
+                this.venezuelanOperatorSubMenu=false;
+            },
+            tooggleSubMenuVenezuelanOperator(){
+                this.showProfileSubMenu=false;
+                this.coordinatorSubMenu= false;
+                this.chileanOperatorSubMenu=false;
+                this.venezuelanOperatorSubMenu= !this.venezuelanOperatorSubMenu;
+            },
+            clickOutside(){
+
             }
         },
         mounted() {

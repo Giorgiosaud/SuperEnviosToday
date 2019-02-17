@@ -9,7 +9,7 @@
                 <span v-if="hasInErrors('idn_type')" class="error-base" role="alert">
           <strong>{{ getError('idn_type') }}</strong>
         </span>
-                <label for="roles" class="label-base">Tipo de Identificación</label>
+                <label for="roles" class="label-base">Rol</label>
                 <v-select label="name" index="name_id" multiple id="roles" name="roles" class="mb-3"
                           :class="{'border-red':hasInErrors('role')}" :searchable="false" :clearable="false"
                           :options='roles' v-model="selectedRole" @blur="cleanError('role')"></v-select>
@@ -57,7 +57,7 @@
           <strong>{{ getError('email') }}</strong>
         </span>
 
-                <label class="label-base" for="email_confirmation">Confirmaciond de Email</label>
+                <label class="label-base" for="email_confirmation">Confirmacion de Email</label>
                 <input class="input-base" :class="{'border-red':hasInErrors('email_confirmation')}" type="email"
                        id="email_confirmation" name="email" v-model="person.email_confirmation" required autofocus>
                 <span v-if="hasInErrors('email_confirmation')" class="error-base" role="alert">
