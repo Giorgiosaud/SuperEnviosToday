@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="52c911e5-3fc1-476e-9e9f-5f65bed7a741" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Feature/UserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/UserTest.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,11 +33,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/Feature/UserTest.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="31" column="36" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+            <state relative-caret-position="290">
+              <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/TestCase.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-7">
+              <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/phpunit.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="87" />
             </state>
           </provider>
         </entry>
@@ -92,7 +110,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/database/migrations/2019_02_03_185213_create_banks_table.php" />
-        <option value="$PROJECT_DIR$/phpunit.xml" />
         <option value="$PROJECT_DIR$/database/migrations/2019_02_03_163803_create_roles_table.php" />
         <option value="$PROJECT_DIR$/database/seeds/RoleSeeder.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_02_03_164510_role_user_table.php" />
@@ -142,6 +159,7 @@
         <option value="$PROJECT_DIR$/resources/js/app.js" />
         <option value="$PROJECT_DIR$/webpack.mix.js" />
         <option value="$PROJECT_DIR$/tests/Feature/UserTest.php" />
+        <option value="$PROJECT_DIR$/phpunit.xml" />
       </list>
     </option>
   </component>
@@ -268,28 +286,7 @@
             <path>
               <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
               <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="Auth" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
@@ -351,6 +348,11 @@
               <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
               <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -395,10 +397,19 @@
       <TestRunner class="Tests\Unit\UserTest" file="$PROJECT_DIR$/tests/Unit/UserTest.php" method="aUserWithDuplicatedEmailCanBeRegistered" scope="Method" />
       <method v="2" />
     </configuration>
+    <configuration name="UserTest.rolesAPIWorks" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Tests\Feature\UserTest" file="$PROJECT_DIR$/tests/Feature/UserTest.php" method="rolesAPIWorks" scope="Method" />
+      <method v="2" />
+    </configuration>
     <configuration name="UserTest.testBasicTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="Tests\Feature\UserTest" file="$PROJECT_DIR$/tests/Feature/UserTest.php" method="testBasicTest" scope="Method" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHPUnit.UserTest.rolesAPIWorks" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -420,44 +431,44 @@
       <workItem from="1550240337350" duration="9000" />
       <workItem from="1550272009233" duration="6196000" />
       <workItem from="1550326543399" duration="11637000" />
-      <workItem from="1550362695916" duration="15478000" />
+      <workItem from="1550362695916" duration="15807000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="UserTest_aUserWithDuplicatedEmailCanBeRegistered - 2019.02.14 at 08h 17m 32s.xml">
-      <configuration name="UserTest.aUserWithDuplicatedEmailCanBeRegistered" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_aUserWithDuplicatedEmailCanBeRegistered - 2019.02.14 at 08h 17m 59s.xml">
-      <configuration name="UserTest.aUserWithDuplicatedEmailCanBeRegistered" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_aUserWithDuplicatedEmailCanBeRegistered - 2019.02.14 at 08h 18m 06s.xml">
-      <configuration name="UserTest.aUserWithDuplicatedEmailCanBeRegistered" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_aUserWithDuplicatedEmailCanBeRegistered - 2019.02.14 at 08h 18m 42s.xml">
-      <configuration name="UserTest.aUserWithDuplicatedEmailCanBeRegistered" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="phpunit_xml - 2019.02.14 at 08h 18m 46s.xml">
-      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="phpunit_xml - 2019.02.14 at 08h 20m 04s.xml">
-      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="phpunit_xml - 2019.02.14 at 08h 22m 01s.xml">
-      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="phpunit_xml - 2019.02.14 at 08h 23m 13s.xml">
-      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
     <history-entry file="phpunit_xml - 2019.02.14 at 08h 23m 14s.xml">
       <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
     <history-entry file="phpunit_xml - 2019.02.17 at 13h 54m 43s.xml">
       <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
+    <history-entry file="phpunit_xml - 2019.02.17 at 13h 55m 02s.xml">
+      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_rolesAPIWorks - 2019.02.17 at 13h 56m 38s.xml">
+      <configuration name="UserTest.rolesAPIWorks" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_rolesAPIWorks - 2019.02.17 at 13h 56m 50s.xml">
+      <configuration name="UserTest.rolesAPIWorks" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="phpunit_xml - 2019.02.17 at 13h 57m 01s.xml">
+      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="phpunit_xml - 2019.02.17 at 13h 57m 57s.xml">
+      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="phpunit_xml - 2019.02.17 at 13h 58m 46s.xml">
+      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="phpunit_xml - 2019.02.17 at 13h 58m 54s.xml">
+      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="phpunit_xml - 2019.02.17 at 13h 59m 00s.xml">
+      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53161000" />
+    <option name="totallyTimeSpent" value="53490000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
@@ -468,21 +479,21 @@
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" sideWeight="0.5082803" side_tool="true" weight="0.38197425" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32866243" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3299363" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32866243" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32885906" />
-      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" weight="0.3298969" />
+      <window_info anchor="right" id="Database" order="3" weight="0.3297568" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49171975" visible="true" weight="0.19241774" />
@@ -532,17 +543,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Policies/UserPolicy.php" />
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RolesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-          <folding>
-            <element signature="e#40#53#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/ResetPasswordController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -885,8 +885,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/Feature/UserTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="31" column="36" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+        <state relative-caret-position="290">
+          <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/TestCase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/phpunit.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="87" />
         </state>
       </provider>
     </entry>
