@@ -28,6 +28,7 @@
             clickOutside(){
                 this.showProfileSubMenu=false;
                 this.coordinatorProfileSubMenu=false;
+                this.venezuelanOperatorProfileSubMenu=false;
             }
         },
         mounted() {
