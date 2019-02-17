@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('deploy', 'UtilController@deploy');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('valid', 'AuthController@isValid');
     Route::get('logout', 'AuthController@logout');
