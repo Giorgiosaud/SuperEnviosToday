@@ -5,6 +5,11 @@ namespace Tests\Feature;
 use App\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 /**
  * Class UserTest
@@ -12,6 +17,9 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
+    use RefreshDatabase;
+
+
     /**
      * A basic test example.
      * @test
@@ -20,7 +28,7 @@ class UserTest extends TestCase
     public function aUsersAPIWORKS()
     {
         $this->disableExceptionHandling();
-        factory(User::class,10)->create();
+        factory(User::class, 10)->create();
         $user = factory(User::class)->create([
             'name' => 'Coordinador',
             'idn' => '1',
@@ -41,7 +49,8 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function rolesAPIWorks(){
+    public function rolesAPIWorks()
+    {
         $user = factory(User::class)->create([
             'name' => 'Coordinador',
             'idn' => '1',
@@ -54,9 +63,8 @@ class UserTest extends TestCase
             ['create-servers']
         );
         $response = $this->get('/api/roles');
-        $response->assertJsonCount(4, $key = 'data');
+        $response->assertJsonCount(5);
 
-        $response->assertStatus(200);
 
     }
 }
