@@ -29,7 +29,7 @@ class UserTest extends TestCase
             ['create-servers']
         );
 
-        $response = $this->get('/api/auth/users');
+        $response = $this->get('/api/users');
         $response->assertJsonCount(11, $key = 'data');
 
         $response->assertStatus(200);
