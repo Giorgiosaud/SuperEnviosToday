@@ -2,17 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
-    public function index(){
-        $users=User::paginate(20);
-        return view('coordinator.users',['users' => $users]);
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        $users = User::paginate(20);
+        return view('coordinator.users', ['users' => $users]);
     }
-    public function apiIndex(){
-        return User::paginate(20);
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function apiIndex(Request $request)
+    {
+        $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+        $q = $request->has('q') ? $request->get('q') : null;
+        if ($q) {
+            return User::where('name', 'like', '%' . $q . '%')
+                ->orWhere('last_name', 'like', '%' . $q . '%')
+                ->orWhere('idn', 'like', '%' . $q . '%')
+                ->orWhere('idn_type', 'like', '%' . $q . '%')
+                ->orWhere('email', 'like', '%' . $q . '%')
+                ->orWhere('address', 'like', '%' . $q . '%')
+                ->orWhere('phone', 'like', '%' . $q . '%')
+                ->paginate($limit);
+
+        }
+        return User::paginate($limit);
     }
-    //
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return string
+     */
+
+    public function patch(UserRequest $request, User $user){
+
+        $validated = $request->validated();
+        if (Auth::user()->hasRole('coordinator')&& Auth::user()->id !== $user->id) {
+            $user->update($validated);
+            $user->syncRoles($request->only('roles')['roles']);
+            return response([
+                'success' => true,
+                'message' => 'Changes'
+            ], 202);
+        }
+       return response([
+            'success' => false,
+            'message' => 'Unauthorized'
+        ], 402);
+
+    }
 }

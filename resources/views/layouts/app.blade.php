@@ -3,7 +3,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,69 +15,121 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <main-menu inline-template>
-            <nav class="flex items-center justify-between flex-wrap bg-teal p-6">
-                <a class="no-underline" href="{{ url('/') }}">
-                    <div class="flex items-center flex-no-shrink text-white mr-6">
-                        <img src="{{ asset('image/superenvios.png') }}" alt="Super Envios Today" class="img-fluid" width="60">
-                        <span class="font-semibold text-xl tracking-tight ml-3">{{ config('app.name', 'Super Envios Today') }}</span>
-                    </div>
-                </a>
-                <div class="block md:hidden">
-                    <button class="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white" @click="openMenu= !openMenu">
-                        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-                    </button>
+<div id="app">
+    <main-menu inline-template>
+        <nav class="flex items-center justify-between flex-wrap bg-teal p-6">
+            <a class="no-underline" href="{{ url('/') }}">
+                <div class="flex items-center flex-no-shrink text-white mr-6">
+                    <img src="{{ asset('image/superenvios.png') }}" alt="Super Envios Today" class="img-fluid"
+                         width="60">
+                    <span
+                        class="font-semibold text-xl tracking-tight ml-3">{{ config('app.name', 'Super Envios Today') }}</span>
                 </div>
-                <div class="w-full block flex-grow md:flex md:items-center md:w-auto">
-                    <div class="text-sm md:flex-grow md:flex md:justify-end" v-if="openMenu">
-                        @guest
-                        <a class="block mt-4 md:inline-block md:mt-0 text-teal-lighter hover:text-white mr-4 no-underline" href="{{ route('login') }}">{{ __('Login') }}</a>
+            </a>
+            <div class="block md:hidden">
+                <button
+                    class="flex items-center px-3 py-2 border rounded text-teal-lighter border-teal-light hover:text-white hover:border-white"
+                    @click="openMenu= !openMenu">
+                    <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>
+                            Menu</title>
+                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="w-full block flex-grow md:flex md:items-center md:w-auto">
+                <div class="text-sm md:flex-grow md:flex md:justify-end" v-if="openMenu">
+                    @guest
+                        <a class="block mt-4 md:inline-block md:mt-0 text-teal-lighter hover:text-white mr-4 no-underline"
+                           href="{{ route('login') }}">{{ __('Login') }}</a>
                         @if (Route::has('register'))
-                        <a class="block mt-4 md:inline-block md:mt-0 text-teal-lighter hover:text-white mr-4 no-underline" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="block mt-4 md:inline-block md:mt-0 text-teal-lighter hover:text-white mr-4 no-underline"
+                               href="{{ route('register') }}">{{ __('Register') }}</a>
                         @endif
-                        @else
+                    @else
                         @if(Auth::user()->hasRole('coordinator'))
-                        <div class="relative cursor-pointer text-teal-lighter hover:text-white">
-                            <a class="flex items-center justify-centerno-underline" @click="coordinatorProfileSubMenu= !coordinatorProfileSubMenu">
-                                Acciones de Coordinador<i class="material-icons">expand_more</i>
-                            </a>
-                            <div class="absolute w-full text-teal-lighter hover:text-whiteabsolute bg-teal" v-if="coordinatorProfileSubMenu">
-                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="{{route('users')}}">Listar Usuarios</a>
-                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="{{route('registerOperator')}}">Registrar Operador</a>
+                            <div class="relative cursor-pointer text-teal-lighter hover:text-white">
+                                <a class="flex items-center justify-centerno-underline"
+                                   @click="coordinatorProfileSubMenu= !coordinatorProfileSubMenu">
+                                    Acciones de Coordinador<i class="material-icons">expand_more</i>
+                                </a>
+                                <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
+                                     v-if="coordinatorProfileSubMenu" v-click-outside="clickOutside">
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="{{route('users')}}">Listar Usuarios</a>
 
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="{{route('registerOperator')}}">Registrar Operador</a>
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="#">Definir Tasa</a>
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="#">Cambiar Status de Sistema</a>
+
+                                </div>
                             </div>
-                        </div>
                         @endif
+                            @if(Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
+                                <div class="relative cursor-pointer text-teal-lighter hover:text-white">
+                                    <a class="flex items-center justify-centerno-underline"
+                                       @click="chileanOperatorProfileSubMenu= !chileanOperatorProfileSubMenu">
+                                        Acciones de Operador Chile<i class="material-icons">expand_more</i>
+                                    </a>
+                                    <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
+                                         v-if="chileanOperatorProfileSubMenu" v-click-outside="clickOutside">
+                                        <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                           href="#">Registrar Transacción</a>
+                                        <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                           href="#">Listar Operadores Venezuela y saldos disponibles</a>
+                                        <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                           href="#">Listar mis Transacciones pendientes</a>
+
+                                    </div>
+                                </div>
+                            @endif
+                            @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
+                                <div class="relative cursor-pointer text-teal-lighter hover:text-white">
+                                    <a class="flex items-center justify-centerno-underline"
+                                       @click="venezuelanOperatorProfileSubMenu= !venezuelanOperatorProfileSubMenu">
+                                        Acciones de Operador Venezuela<i class="material-icons">expand_more</i>
+                                    </a>
+                                    <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
+                                         v-if="venezuelanOperatorProfileSubMenu" v-click-outside="clickOutside">
+                                        <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                           href="#">Mis Transacciones</a>
+                                    </div>
+                                </div>
+                            @endif
                         <div class="relative cursor-pointer text-teal-lighter hover:text-white">
-                            <a class="flex items-center justify-centerno-underline" @click="showProfileSubMenu= !showProfileSubMenu">
-                                {{ Auth::user()->email }}  <i class="material-icons">expand_more</i>
+                            <a class="flex items-center justify-centerno-underline"
+                               @click="showProfileSubMenu= !showProfileSubMenu">
+                                {{ Auth::user()->email }} <i class="material-icons">expand_more</i>
                             </a>
-                            <div class="absolute w-full text-teal-lighter hover:text-whiteabsolute bg-teal" v-if="showProfileSubMenu">
-                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="profile">My Profile</a>
-                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
+                            <div class="absolute w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
+                                 v-if="showProfileSubMenu">
+                                <a class="block no-underline text-teal-lighter hover:text-white p-3" href="profile">My
+                                    Profile</a>
+                                <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                   @click.prevent="logout">
+
+                                    {{ __('Logout') }}
+                                </a>
                             </div>
                         </div>
-                        @endguest
-                    </div>
+                    @endguest
                 </div>
-            </nav>
-        </main-menu>
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
-    @include('layouts.footer')
+            </div>
+        </nav>
+    </main-menu>
+    <main class="py-4">
+        @yield('content')
+    </main>
+</div>
+@include('layouts.footer')
 </body>
 </html>

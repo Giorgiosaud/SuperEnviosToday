@@ -7,10 +7,10 @@ window._ = require('lodash');
  */
 
 try {
-    // window.Popper = require('popper.js').default;
-    // window.$ = window.jQuery = require('jquery');
+    window.Popper = require('popper.js').default;
+    window.$ = window.jQuery = require('jquery');
 
-    // require('bootstrap');
+    require('bootstrap');
 } catch (e) {
 }
 
@@ -20,14 +20,20 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
-window.axios.get('/access_token').then((response) => {
-    sessionStorage.setItem('access_token', response.data.access_token);
-    window.axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
-});
-const accessToken = sessionStorage.getItem('access_token');
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios = require('axios');
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+const accessToken = sessionStorage.getItem('access_token');
+
+if(!accessToken ){
+    axios.get('/access_token').then((response) => {
+        sessionStorage.setItem('access_token', response.data.access_token);
+        axios.defaults.headers.common['Authorization']= `Bearer ${response.data.access_token}`;
+    })
+}
+else{
+    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+}
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just
@@ -36,12 +42,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

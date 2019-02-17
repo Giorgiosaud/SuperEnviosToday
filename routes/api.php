@@ -13,13 +13,13 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['prefix' => 'auth'], function () {
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('valid', 'AuthController@isValid');
+    Route::get('logout', 'AuthController@logout');
+    Route::get('user', 'AuthController@user');
+    Route::patch('user/{user}','UserController@patch');
+    Route::get('users', 'UserController@apiIndex');
+    Route::get('roles', 'RolesController@index');
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
-
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('logout', 'AuthController@logout');
-        Route::get('user', 'AuthController@user');
-        Route::get('users', 'UserController@apiIndex');
-    });
 });
