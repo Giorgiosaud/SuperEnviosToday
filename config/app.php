@@ -122,7 +122,15 @@ return [
     'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
-
+    /*
+        |--------------------------------------------------------------------------
+        | webhook Key
+        |--------------------------------------------------------------------------
+        |
+        | This key is used by the github webhook to throw deploys automatically
+        |
+        */
+    'deploy_secret' => env('APP_DEPLOY_SECRET'),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
