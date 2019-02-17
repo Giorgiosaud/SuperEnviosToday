@@ -20,20 +20,38 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-axios = require('axios');
+window.axios = require('axios');
+window.axios_token = require('axios');
+
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
+axios_token.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 const accessToken = sessionStorage.getItem('access_token');
-
-if(!accessToken ){
-    axios.get('/access_token').then((response) => {
-        sessionStorage.setItem('access_token', response.data.access_token);
-        axios.defaults.headers.common['Authorization']= `Bearer ${response.data.access_token}`;
-    })
-}
-else{
+if (accessToken) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 }
+axios.interceptors.response.use(
+    response => {
+        return response;
+    },
+    error => {
+        const {config, response: {status}} = error;
+        const originalRequest = config;
+        if (status === 401) {
+            return axios_token.get('/access_token')
+                .then((response) => {
+                        const token = response.data.access_token;
+                        sessionStorage.setItem('access_token', token);
+                        originalRequest.headers['Authorization'] = 'Bearer ' + token;
+                        window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                        return window.axios(originalRequest);
+                    }
+                );
+        }
+        throw error;
+    }
+);
+
+
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just
