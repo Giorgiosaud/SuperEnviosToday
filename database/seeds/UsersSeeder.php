@@ -42,7 +42,7 @@ class UsersSeeder extends Seeder
             'idn' => '19',
             'name' => 'Operador Venezuela ',
             'last_name' => 'Prueba'
-        ])
+        ]);
         $user->toogleRole('venezuelan_operator');
         factory(User::class)->create();
     }
