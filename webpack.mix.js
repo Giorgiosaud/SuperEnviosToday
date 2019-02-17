@@ -13,5 +13,10 @@ require('laravel-mix-tailwind');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-.stylus('resources/stylus/app.styl','public/css')
+    .sass('resources/sass/app.scss','public/css/sass.css')
+    .stylus('resources/stylus/app.styl','public/css/stylus.css')
 .tailwind();
+mix.styles([
+    'public/css/sass.css',
+    'public/css/stylus.css'
+], 'public/css/app.css');

@@ -1,5 +1,5 @@
 import store from './store';
-import vClickOutside from 'v-click-outside'
+import vco from 'v-click-outside'
 import vSelect from 'vue-select'
 
 /**
@@ -11,6 +11,7 @@ import vSelect from 'vue-select'
 require('./bootstrap');
 
 window.Vue = require('vue');
+Vue.use(vco);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,11 +22,13 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-Vue.component('v-select', vSelect)
+
+Vue.component('v-select', vSelect);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
 Vue.component('register-client', require('./components/registerClient.vue').default);
+Vue.component('users-list', require('./components/usersList.vue').default);
 
-Vue.directive('click-outside',vClickOutside.directve);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

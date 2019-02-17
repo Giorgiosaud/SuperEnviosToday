@@ -30,6 +30,20 @@ class UsersSeeder extends Seeder
             'password' => bcrypt('17762267'),
         ]);
         $user->toogleRole('coordinator');
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->create([
+            'idn_type' => 'RUT',
+            'idn' => '123123123',
+            'name' => 'Operador Chile ',
+            'last_name' => 'Prueba'
+        ])
+        $user->toogleRole('chilean_operator');
+        $user = factory(User::class)->create([
+            'idn_type' => 'RUT',
+            'idn' => '19',
+            'name' => 'Operador Venezuela ',
+            'last_name' => 'Prueba'
+        ])
+        $user->toogleRole('venezuelan_operator');
+        factory(User::class)->create();
     }
 }

@@ -17,6 +17,7 @@
         "laravel-mix": "^4.0.7",
         "laravel-mix-tailwind": "^0.1.0",
         "lodash": "^4.17.5",
+        "mark.js": "^8.11.1",
         "popper.js": "^1.12",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
@@ -24,8 +25,7 @@
         "stylus": "^0.54.5",
         "stylus-loader": "^3.0.2",
         "tailwindcss": "^0.7.4",
-        "vue": "^2.5.17",
-        "vue-template-compiler": "^2.5.22"
+        "vue": "^2.6.6"
     },
     "dependencies": {
         "@modyo/eslint-config-modyo": "^1.0.4",
@@ -34,6 +34,7 @@
         "postcss-import": "^12.0.1",
         "v-click-outside": "^2.0.2",
         "vue-select": "^2.5.1",
+        "vue-template-compiler": "^2.6.6",
         "vuex": "^3.1.0"
     }
 }

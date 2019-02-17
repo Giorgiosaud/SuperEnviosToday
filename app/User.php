@@ -6,6 +6,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * Class User
+ * @package App
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -16,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'idn','idn_type','name','last_name', 'email', 'password', 'address', 'phone'
+        'idn', 'idn_type', 'name', 'last_name', 'email', 'password', 'address', 'phone'
     ];
 
     /**
@@ -27,6 +31,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @var array
+     */
+    protected $with = ['roles'];
+
 
     /**
      * The roles that belong to the user.
@@ -52,6 +62,16 @@ class User extends Authenticatable
         return $this->roles()->attach($roleName);
     }
 
+
+    /**
+     * @param $roles
+     * @return array
+     */
+    public function syncRoles($roles)
+    {
+        return $this->roles()->sync($roles);
+    }
+
     /**
      * Check if user Have Role Assigned.
      */
@@ -60,6 +80,9 @@ class User extends Authenticatable
         return $this->roles->pluck('name_id')->contains($roleName);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function accounts()
     {
         return $this->hasMany(Account::class);

@@ -49,10 +49,9 @@ class AuthController extends Controller
     {
         if (Auth::guest()) {
             return response()->json([
-                'access_token' => '',
-                'token_type' => 'Bearer',
-                'expires_at' => \Carbon\Carbon::now()->toDateTimeString()
-            ]);
+                'code'      =>  401,
+                'message'   =>  'Unauthorized'
+            ], 401);
         }
 
         $tokenResult = Auth::user()->createToken('Personal Access Token');
@@ -123,6 +122,10 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return response()->json($request->user()->roles);
+    }
+    public function isValid()
+    {
+        return response()->json(['ok'=>'ok']);
     }
 
     //
