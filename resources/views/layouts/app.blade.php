@@ -67,7 +67,7 @@
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('registerOperator')}}">Registrar Operador</a>
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
-                                       href="#">Definir Tasa</a>
+                                       href="{{route("rate")}}">Definir Tasa</a>
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="#">Cambiar Status de Sistema</a>
 

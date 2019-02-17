@@ -1,6 +1,9 @@
 import store from './store';
 import vco from 'v-click-outside'
 import vSelect from 'vue-select'
+import Datetime from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
+
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -11,6 +14,7 @@ import vSelect from 'vue-select'
 require('./bootstrap');
 
 window.Vue = require('vue');
+
 Vue.use(vco);
 /**
  * The following block of code may be used to automatically register your
@@ -22,11 +26,12 @@ Vue.use(vco);
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+Vue.use(Datetime)
 Vue.component('v-select', vSelect);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
-Vue.component('register-client', require('./components/registerClient.vue').default);
+Vue.component('register-member', require('./components/registerMember.vue').default);
 Vue.component('users-list', require('./components/usersList.vue').default);
+Vue.component('rate', require('./components/rate.vue').default);
 
 
 /**

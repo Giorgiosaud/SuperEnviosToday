@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Rate;
 use Illuminate\Http\Request;
 
+/**
+ * Class RateController
+ * @package App\Http\Controllers
+ */
 class RateController extends Controller
 {
     /**
@@ -14,8 +18,25 @@ class RateController extends Controller
      */
     public function index()
     {
+        return view('auth.rate');
         //
     }
+
+    /**
+     * @return mixed
+     */
+    public function allRates()
+    {
+        return Rate::orderBy('since','DESC')->paginate(20);
+    }
+    /**
+     * @return mixed
+     */
+    public function lastRate()
+    {
+        return Rate::orderBy('since','DESC')->first();
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -67,7 +88,7 @@ class RateController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Rate                $rate
+     * @param \App\Rate $rate
      *
      * @return \Illuminate\Http\Response
      */
