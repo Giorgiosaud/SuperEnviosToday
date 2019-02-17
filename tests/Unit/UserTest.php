@@ -45,6 +45,7 @@ class UserTest extends TestCase
             'password' => bcrypt('hidden'),
         ]);
         $user->toogleRole('coordinator');
+        $this->assertTrue($user->hasRole('coordinator'));
         $response = $this->post('login', ['idn_type' => 'CI', 'idn' => '111111', 'password' => 'hidden']);
         $response->assertRedirect('/home');
         $this->isAuthenticated();

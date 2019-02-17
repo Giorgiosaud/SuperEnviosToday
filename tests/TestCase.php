@@ -14,6 +14,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->seedMigrations();
+
     }
 
     protected function seedMigrations()
