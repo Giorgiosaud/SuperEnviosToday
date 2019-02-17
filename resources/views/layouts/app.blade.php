@@ -60,7 +60,7 @@
                                     Acciones de Coordinador<i class="material-icons">expand_more</i>
                                 </a>
                                 <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
-                                     v-if="coordinatorProfileSubMenu" v-click-outside="clickOutside">
+                                     v-if="coordinatorProfileSubMenu">
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('users')}}">Listar Usuarios</a>
 
@@ -81,7 +81,7 @@
                                         Acciones de Operador Chile<i class="material-icons">expand_more</i>
                                     </a>
                                     <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
-                                         v-if="chileanOperatorProfileSubMenu" v-click-outside="clickOutside">
+                                         v-if="chileanOperatorProfileSubMenu">
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                            href="#">Registrar Transacción</a>
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
@@ -99,7 +99,7 @@
                                         Acciones de Operador Venezuela<i class="material-icons">expand_more</i>
                                     </a>
                                     <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
-                                         v-if="venezuelanOperatorProfileSubMenu" v-click-outside="clickOutside">
+                                         v-if="venezuelanOperatorProfileSubMenu">
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                            href="#">Mis Transacciones</a>
                                     </div>

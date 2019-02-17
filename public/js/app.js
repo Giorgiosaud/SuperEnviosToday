@@ -1790,6 +1790,7 @@ __webpack_require__.r(__webpack_exports__);
     clickOutside: function clickOutside() {
       this.showProfileSubMenu = false;
       this.coordinatorProfileSubMenu = false;
+      this.venezuelanOperatorProfileSubMenu = false;
     }
   },
   mounted: function mounted() {
