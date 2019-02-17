@@ -56,11 +56,11 @@
                         @if(Auth::user()->hasRole('coordinator'))
                             <div class="relative cursor-pointer text-teal-lighter hover:text-white">
                                 <a class="flex items-center justify-centerno-underline" v-cloak
-                                   @click="coordinatorProfileSubMenu= !coordinatorProfileSubMenu">
+                                   @click="tooggleSubMenuCoordinador">
                                     Acciones de Coordinador<i class="material-icons">expand_more</i>
                                 </a>
                                 <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
-                                     v-if="coordinatorProfileSubMenu">
+                                     v-if="coordinatorSubMenu">
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('users')}}">Listar Usuarios</a>
 
@@ -77,11 +77,11 @@
                             @if(Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
                                 <div class="relative cursor-pointer text-teal-lighter hover:text-white">
                                     <a class="flex items-center justify-centerno-underline" v-cloak
-                                       @click="chileanOperatorProfileSubMenu= !chileanOperatorProfileSubMenu">
+                                       @click="tooggleSubMenuChileanOperator">
                                         Acciones de Operador Chile<i class="material-icons">expand_more</i>
                                     </a>
                                     <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
-                                         v-if="chileanOperatorProfileSubMenu">
+                                         v-if="chileanOperatorSubMenu">
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                            href="#">Registrar Transacción</a>
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
@@ -95,11 +95,11 @@
                             @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
                                 <div class="relative cursor-pointer text-teal-lighter hover:text-white">
                                     <a class="flex items-center justify-centerno-underline" v-cloak
-                                       @click="venezuelanOperatorProfileSubMenu= !venezuelanOperatorProfileSubMenu">
+                                       @click="tooggleSubMenuVenezuelanOperator">
                                         Acciones de Operador Venezuela<i class="material-icons">expand_more</i>
                                     </a>
                                     <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
-                                         v-if="venezuelanOperatorProfileSubMenu">
+                                         v-if="venezuelanOperatorSubMenu">
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                            href="#">Mis Transacciones</a>
                                     </div>
@@ -107,7 +107,7 @@
                             @endif
                         <div class="relative cursor-pointer text-teal-lighter hover:text-white">
                             <a class="flex items-center justify-centerno-underline" v-cloak
-                               @click="showProfileSubMenu= !showProfileSubMenu">
+                               @click="tooggleSubMenuProfile">
                                 {{ Auth::user()->email }} <i class="material-icons">expand_more</i>
                             </a>
                             <div class="absolute w-full text-teal-lighter hover:text-whiteabsolute bg-teal"

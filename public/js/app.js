@@ -1769,9 +1769,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       openMenu: false,
       showProfileSubMenu: false,
-      coordinatorProfileSubMenu: false,
-      chileanOperatorProfileSubMenu: false,
-      venezuelanOperatorProfileSubMenu: false
+      coordinatorSubMenu: false,
+      chileanOperatorSubMenu: false,
+      venezuelanOperatorSubMenu: false
     };
   },
   computed: {
@@ -1787,11 +1787,31 @@ __webpack_require__.r(__webpack_exports__);
         window.location.href = "/";
       });
     },
-    clickOutside: function clickOutside() {
+    tooggleSubMenuProfile: function tooggleSubMenuProfile() {
+      this.showProfileSubMenu = !this.showProfileSubMenu;
+      this.coordinatorSubMenu = false;
+      this.chileanOperatorSubMenu = false;
+      this.venezuelanOperatorSubMenu = false;
+    },
+    tooggleSubMenuCoordinador: function tooggleSubMenuCoordinador() {
       this.showProfileSubMenu = false;
-      this.coordinatorProfileSubMenu = false;
-      this.venezuelanOperatorProfileSubMenu = false;
-    }
+      this.coordinatorSubMenu = !this.coordinatorSubMenu;
+      this.chileanOperatorSubMenu = false;
+      this.venezuelanOperatorSubMenu = false;
+    },
+    tooggleSubMenuChileanOperator: function tooggleSubMenuChileanOperator() {
+      this.showProfileSubMenu = false;
+      this.coordinatorSubMenu = false;
+      this.chileanOperatorSubMenu = !this.chileanOperatorSubMenu;
+      this.venezuelanOperatorSubMenu = false;
+    },
+    tooggleSubMenuVenezuelanOperator: function tooggleSubMenuVenezuelanOperator() {
+      this.showProfileSubMenu = false;
+      this.coordinatorSubMenu = false;
+      this.chileanOperatorSubMenu = false;
+      this.venezuelanOperatorSubMenu = !this.venezuelanOperatorSubMenu;
+    },
+    clickOutside: function clickOutside() {}
   },
   mounted: function mounted() {
     var _this = this;
@@ -37808,7 +37828,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _c("label", { staticClass: "label-base", attrs: { for: "roles" } }, [
-            _vm._v("Tipo de Identificación")
+            _vm._v("Rol")
           ]),
           _vm._v(" "),
           _c("v-select", {
@@ -38068,7 +38088,7 @@ var render = function() {
           _c(
             "label",
             { staticClass: "label-base", attrs: { for: "email_confirmation" } },
-            [_vm._v("Confirmaciond de Email")]
+            [_vm._v("Confirmacion de Email")]
           ),
           _vm._v(" "),
           _c("input", {

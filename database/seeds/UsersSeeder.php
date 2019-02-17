@@ -25,6 +25,7 @@ class UsersSeeder extends Seeder
             'idn_type' => 'RUT',
             'idn' => '263215982',
             'name' => 'Jorge',
+            'last_name' => 'Saud',
             'email' => 'jorgelsaud@gmail.com',
             'phone' => '+56952218734',
             'password' => bcrypt('17762267'),
