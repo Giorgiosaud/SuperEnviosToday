@@ -55,7 +55,7 @@
                     @else
                         @if(Auth::user()->hasRole('coordinator'))
                             <div class="relative cursor-pointer text-teal-lighter hover:text-white">
-                                <a class="flex items-center justify-centerno-underline"
+                                <a class="flex items-center justify-centerno-underline" v-cloak
                                    @click="coordinatorProfileSubMenu= !coordinatorProfileSubMenu">
                                     Acciones de Coordinador<i class="material-icons">expand_more</i>
                                 </a>
@@ -76,7 +76,7 @@
                         @endif
                             @if(Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
                                 <div class="relative cursor-pointer text-teal-lighter hover:text-white">
-                                    <a class="flex items-center justify-centerno-underline"
+                                    <a class="flex items-center justify-centerno-underline" v-cloak
                                        @click="chileanOperatorProfileSubMenu= !chileanOperatorProfileSubMenu">
                                         Acciones de Operador Chile<i class="material-icons">expand_more</i>
                                     </a>
@@ -94,7 +94,7 @@
                             @endif
                             @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
                                 <div class="relative cursor-pointer text-teal-lighter hover:text-white">
-                                    <a class="flex items-center justify-centerno-underline"
+                                    <a class="flex items-center justify-centerno-underline" v-cloak
                                        @click="venezuelanOperatorProfileSubMenu= !venezuelanOperatorProfileSubMenu">
                                         Acciones de Operador Venezuela<i class="material-icons">expand_more</i>
                                     </a>
@@ -106,7 +106,7 @@
                                 </div>
                             @endif
                         <div class="relative cursor-pointer text-teal-lighter hover:text-white">
-                            <a class="flex items-center justify-centerno-underline"
+                            <a class="flex items-center justify-centerno-underline" v-cloak
                                @click="showProfileSubMenu= !showProfileSubMenu">
                                 {{ Auth::user()->email }} <i class="material-icons">expand_more</i>
                             </a>
