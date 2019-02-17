@@ -169,12 +169,16 @@
                         this.setData(response.data);
                     });
                 }
-                const instance = new Mark(document.querySelector("div.context"));
-                instance.mark("text", {
-                    "element": "span",
-                    "className": "highlight"
-                });
+
             }, 400)
+        },
+        updated(){
+            const instance = new Mark(document.querySelector("table.table"));
+            instance.unmark();
+            instance.mark(this.query, {
+                "element": "span",
+                "className": "highlight"
+            });
         },
         methods: {
             setData(data) {
@@ -240,4 +244,5 @@
     .material-icons {
         font-size: 12px;
     }
+
 </style>

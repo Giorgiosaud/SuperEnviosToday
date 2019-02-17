@@ -2176,13 +2176,15 @@ __webpack_require__.r(__webpack_exports__);
           _this.setData(response.data);
         });
       }
-
-      var instance = new Mark(document.querySelector("div.context"));
-      instance.mark("text", {
-        "element": "span",
-        "className": "highlight"
-      });
     }, 400)
+  },
+  updated: function updated() {
+    var instance = new Mark(document.querySelector("table.table"));
+    instance.unmark();
+    instance.mark(this.query, {
+      "element": "span",
+      "className": "highlight"
+    });
   },
   methods: {
     setData: function setData(data) {
