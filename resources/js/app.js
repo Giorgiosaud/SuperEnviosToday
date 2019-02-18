@@ -3,7 +3,8 @@ import vco from 'v-click-outside'
 import vSelect from 'vue-select'
 import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
-
+import VueFrappe from 'vue2-frappe';
+import { Settings } from 'luxon'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -14,8 +15,11 @@ import 'vue-datetime/dist/vue-datetime.css'
 require('./bootstrap');
 
 window.Vue = require('vue');
-
 Vue.use(vco);
+
+Settings.defaultLocale = 'es'
+Vue.use(Datetime);
+Vue.use(VueFrappe);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -26,7 +30,6 @@ Vue.use(vco);
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-Vue.use(Datetime)
 Vue.component('v-select', vSelect);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
 Vue.component('register-member', require('./components/registerMember.vue').default);

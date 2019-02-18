@@ -12,6 +12,13 @@ class RateSeeder extends Seeder
      */
     public function run()
     {
-        factory(Rate::class,100)->create();
+        $currency=factory(\App\Currency::class)->create([
+            'name'=>'Pesos Chilenos',
+            'identificator'=>'CLP',
+            'sign'=>'$',
+        ]);
+        factory(Rate::class,100)->create([
+            'currency_id'=>$currency->id
+        ]);
     }
 }
