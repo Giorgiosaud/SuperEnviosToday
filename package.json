@@ -35,6 +35,7 @@
         "postcss-import": "^12.0.1",
         "terser": "^3.14.1",
         "v-click-outside": "^2.0.2",
+        "vue-currency-filter": "^3.2.3",
         "vue-datetime": "^1.0.0-beta.10",
         "vue-select": "^2.5.1",
         "vue-template-compiler": "^2.6.6",

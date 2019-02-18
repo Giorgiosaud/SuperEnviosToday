@@ -22,13 +22,15 @@
                     </div>
                     <div class="col-4">
                         <label for="since" class="label-base bg-white">Aplicar desde:</label>
-                        <datetime id="since" class="input-base" type="datetime"  :flow="['date', 'time']" format="dd-MM-yyyy hh:mm"
+                        <datetime id="since" class="input-base" type="datetime" :flow="['date', 'time']"
+                                  format="dd-MM-yyyy hh:mm"
                                   v-model="since"></datetime>
 
                     </div>
                     <div class="col-3">
                         <label for="currency" class="label-base bg-white">Seleccione Moneda:</label>
-                        <v-select id="currency" :searchable="false" :options="currencies" label="name" class="input-base"
+                        <v-select id="currency" :searchable="false" :options="currencies" label="name"
+                                  class="input-base"
                                   v-model="selectedCurrency"></v-select>
 
                     </div>
@@ -36,7 +38,8 @@
                 <div class="row">
                     <div class="col-12 py-3">
                         <button class="btn-primary btn-lg btn-block"
-                                :disabled="isDisabledSend" @click="setNewRate">Guardar Tasa</button>
+                                :disabled="isDisabledSend" @click="setNewRate">Guardar Tasa
+                        </button>
                     </div>
                 </div>
             </div>
@@ -52,9 +55,12 @@
                         <tr v-for="rate in rates">
 
                             <td v-for="key in keysToShow">
-                                <span>
-                            {{rate[key]}}
-                        </span>
+                                <span v-if="key==='amount'">
+                                    {{rate[key]|currency}}
+                                </span>
+                                <span v-else>
+                                    {{rate[key]}}
+                                </span>
                             </td>
                             <td>
                             <span class="cursor-pointer" @click="removeRate(rate)" data-toggle="modal"
@@ -77,12 +83,12 @@
         data() {
             return {
                 rates: [],
-                currencies:[],
-                selectedCurrency:null,
+                currencies: [],
+                selectedCurrency: null,
                 newRate: '',
                 since: '',
                 headers: ['Aplicar desde', 'Tasa'],
-                keysToShow: ['since', 'amount_bs'],
+                keysToShow: ['since', 'amount'],
                 selectedRate: null,
             }
         },
@@ -92,12 +98,12 @@
             this.getCurrencies();
         },
         computed: {
-            isDisabledSend(){
-                return this.selectedCurrency===null ||this.since===''|| this.newRate==='';
+            isDisabledSend() {
+                return this.selectedCurrency === null || this.since === '' || this.newRate === '';
             },
             rateValue() {
                 let amount = this.newRate.replace(/,/g, '.');
-                return parseFloat(amount, 10) * 100;
+                return parseFloat(amount,10);
             },
             updatedData() {
                 return {
@@ -147,11 +153,9 @@
                 axios.post('api/rate', {
                     since: this.since,
                     "amount_bs": this.rateValue,
-                    currency:this.selectedCurrency
+                    currency: this.selectedCurrency
                 })
                     .then((response) => {
-                        console.log('done',response);
-                        response.data.amount_bs = response.data.amount_bs / 100;
                         this.rates.unshift(response.data);
                     })
                     .catch(() => {
@@ -160,10 +164,7 @@
             },
             getRates() {
                 axios.get('api/rates').then((response) => {
-                    this.rates = response.data.data.map(tasa => {
-                        tasa.amount_bs = tasa.amount_bs / 100;
-                        return tasa
-                    });
+                    this.rates = response.data.data
                 })
             },
             getCurrencies() {
@@ -176,7 +177,7 @@
 </script>
 
 <style scoped>
-    .btn-primary:disabled{
+    .btn-primary:disabled {
         background-color: gray;
     }
 </style>

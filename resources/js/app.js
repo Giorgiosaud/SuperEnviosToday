@@ -5,6 +5,7 @@ import Datetime from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import VueFrappe from 'vue2-frappe';
 import { Settings } from 'luxon'
+import VueCurrencyFilter from 'vue-currency-filter'
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -20,6 +21,15 @@ Vue.use(vco);
 Settings.defaultLocale = 'es'
 Vue.use(Datetime);
 Vue.use(VueFrappe);
+Vue.use(VueCurrencyFilter,
+    {
+        symbol : ' Bs',
+        thousandsSeparator: '.',
+        fractionCount: 2,
+        fractionSeparator: ',',
+        symbolPosition: 'front',
+        symbolSpacing: true
+    })
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
