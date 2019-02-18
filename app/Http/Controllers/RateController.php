@@ -64,11 +64,11 @@ class RateController extends Controller
         $validated = $request->validate([
             'currency' => 'required',
             'since' => 'required|date',
-            'amount_bs' => 'required|Numeric',
+            'amount' => 'required|Numeric',
         ]);
         return Rate::create( [
             'currency_id' => $validated['currency']['id'],
-            'amount_bs' => $validated['amount_bs'],
+            'amount' => $validated['amount'],
             'since' => Carbon::parse($validated['since']),
         ]);
     }

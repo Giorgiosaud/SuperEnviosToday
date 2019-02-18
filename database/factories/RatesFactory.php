@@ -11,7 +11,6 @@ $factory->define(App\Rate::class, function (Faker $faker) {
             return $currency->id;
         },
         'since' => Carbon::now()->subDays(rand(1,365))->subSeconds(rand(1,86400)),
-        'amount_bs' => $faker->numberBetween(30000,600000),
-
+        'amount' => $faker->numberBetween(3000000,60000000),
     ];
 });

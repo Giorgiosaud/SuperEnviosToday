@@ -1907,6 +1907,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "rate",
@@ -1918,7 +1924,7 @@ __webpack_require__.r(__webpack_exports__);
       newRate: '',
       since: '',
       headers: ['Aplicar desde', 'Tasa'],
-      keysToShow: ['since', 'amount_bs'],
+      keysToShow: ['since', 'amount'],
       selectedRate: null
     };
   },
@@ -1932,7 +1938,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     rateValue: function rateValue() {
       var amount = this.newRate.replace(/,/g, '.');
-      return parseFloat(amount, 10) * 100;
+      return parseFloat(amount, 10);
     },
     updatedData: function updatedData() {
       return {
@@ -1987,9 +1993,6 @@ __webpack_require__.r(__webpack_exports__);
         "amount_bs": this.rateValue,
         currency: this.selectedCurrency
       }).then(function (response) {
-        console.log('done', response);
-        response.data.amount_bs = response.data.amount_bs / 100;
-
         _this.rates.unshift(response.data);
       }).catch(function () {
         alert('no pudo');
@@ -1999,10 +2002,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('api/rates').then(function (response) {
-        _this2.rates = response.data.data.map(function (tasa) {
-          tasa.amount_bs = tasa.amount_bs / 100;
-          return tasa;
-        });
+        _this2.rates = response.data.data;
       });
     },
     getCurrencies: function getCurrencies() {
@@ -6722,10 +6722,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-datetime/dist/vue-datetime.css":
-/*!*****************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--7-1!./node_modules/postcss-loader/src??ref--7-2!./node_modules/vue-datetime/dist/vue-datetime.css ***!
-  \*****************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-datetime/dist/vue-datetime.css":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-datetime/dist/vue-datetime.css ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6734,17 +6734,17 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 
 // module
-exports.push([module.i, ".vdatetime-fade-enter-active,\n.vdatetime-fade-leave-active {\n  transition: opacity .4s;\n}\n\n.vdatetime-fade-enter,\n.vdatetime-fade-leave-to {\n  opacity: 0;\n}\n\n.vdatetime-overlay {\n  z-index: 999;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, .5);\n  transition: opacity .5s;\n}\n\n.vdatetime-popup {\n  box-sizing: border-box;\n  z-index: 1000;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  width: 340px;\n  max-width: calc(100% - 30px);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);\n  color: #444;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif;\n  line-height: 1.18;\n  background: #fff;\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n}\n\n.vdatetime-popup * {\n  box-sizing: border-box;\n}\n\n.vdatetime-popup__header {\n  padding: 18px 30px;\n  background: #3f51b5;\n  color: #fff;\n  font-size: 32px;\n}\n\n.vdatetime-popup__title {\n  margin-bottom: 8px;\n  font-size: 21px;\n  font-weight: 300;\n}\n\n.vdatetime-popup__year {\n  font-weight: 300;\n  font-size: 14px;\n  opacity: .7;\n  cursor: pointer;\n  transition: opacity .3s;\n}\n\n.vdatetime-popup__year:hover {\n  opacity: 1;\n}\n\n.vdatetime-popup__date {\n  line-height: 1;\n  cursor: pointer;\n}\n\n.vdatetime-popup__actions {\n  padding: 0 20px 10px 30px;\n  text-align: right;\n}\n\n.vdatetime-popup__actions__button {\n  display: inline-block;\n  border: none;\n  padding: 10px 20px;\n  background: transparent;\n  font-size: 16px;\n  color: #3f51b5;\n  cursor: pointer;\n  transition: color .3s;\n}\n\n.vdatetime-popup__actions__button:hover {\n  color: #444;\n}\n\n.vdatetime-calendar__navigation--previous:hover svg path,\n.vdatetime-calendar__navigation--next:hover svg path {\n  stroke: #888;\n}\n\n.vdatetime-calendar__navigation,\n.vdatetime-calendar__navigation * {\n  box-sizing: border-box;\n}\n\n.vdatetime-calendar__navigation {\n  position: relative;\n  margin: 15px 0;\n  padding: 0 30px;\n  width: 100%;\n}\n\n.vdatetime-calendar__navigation--previous,\n.vdatetime-calendar__navigation--next {\n  position: absolute;\n  top: 0;\n  padding: 0 5px;\n  width: 18px;\n  cursor: pointer;\n}\n\n.vdatetime-calendar__navigation--previous svg,\n.vdatetime-calendar__navigation--next svg {\n  width: 8px;\n}\n\n.vdatetime-calendar__navigation--previous svg path,\n.vdatetime-calendar__navigation--next svg path {\n  transition: stroke .3s;\n}\n\n.vdatetime-calendar__navigation--previous {\n  left: 25px;\n}\n\n.vdatetime-calendar__navigation--next {\n  right: 25px;\n  -webkit-transform: scaleX(-1);\n          transform: scaleX(-1);\n}\n\n.vdatetime-calendar__current--month {\n  text-align: center;\n  text-transform: capitalize;\n}\n\n.vdatetime-calendar__month {\n  padding: 0 20px;\n  transition: height .2s;\n}\n\n.vdatetime-calendar__month__weekday,\n.vdatetime-calendar__month__day {\n  display: inline-block;\n  width: 14.28571%;\n  line-height: 36px;\n  text-align: center;\n  font-size: 15px;\n  font-weight: 300;\n  cursor: pointer;\n}\n\n.vdatetime-calendar__month__weekday > span,\n.vdatetime-calendar__month__day > span {\n  display: block;\n  width: 100%;\n  position: relative;\n  height: 0;\n  padding: 0 0 100%;\n  overflow: hidden;\n}\n\n.vdatetime-calendar__month__weekday > span > span,\n.vdatetime-calendar__month__day > span > span {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  border: 0;\n  border-radius: 50%;\n  transition: background-color .3s, color .3s;\n}\n\n.vdatetime-calendar__month__weekday {\n  font-weight: bold;\n}\n\n.vdatetime-calendar__month__day:hover > span > span {\n  background: #eee;\n}\n\n.vdatetime-calendar__month__day--selected {\n}\n\n.vdatetime-calendar__month__day--selected > span > span,\n.vdatetime-calendar__month__day--selected:hover > span > span {\n  color: #fff;\n  background: #3f51b5;\n}\n\n.vdatetime-calendar__month__day--disabled {\n  opacity: .4;\n  cursor: default;\n}\n\n.vdatetime-calendar__month__day--disabled:hover > span > span {\n  color: inherit;\n  background: transparent;\n}\n\n.vdatetime-time-picker__list::-webkit-scrollbar-thumb {\n  background: #ccc;\n}\n\n.vdatetime-time-picker__list::-webkit-scrollbar-track {\n  background: #efefef;\n}\n\n.vdatetime-time-picker * {\n  box-sizing: border-box;\n}\n\n.vdatetime-time-picker {\n  box-sizing: border-box;\n}\n\n.vdatetime-time-picker::after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.vdatetime-time-picker__list {\n  float: left;\n  width: 50%;\n  height: 305px;\n  overflow-y: scroll;\n}\n\n.vdatetime-time-picker__list::-webkit-scrollbar {\n  width: 3px;\n}\n\n.vdatetime-time-picker__with-suffix .vdatetime-time-picker__list {\n  width: 33.3%;\n}\n\n.vdatetime-time-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-time-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-time-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n\n.vdatetime-time-picker__item--disabled {\n  opacity: .4;\n  cursor: default;\n  font-size: 20px !important;\n}\n\n.vdatetime-year-picker__list::-webkit-scrollbar-thumb {\n  background: #ccc;\n}\n\n.vdatetime-year-picker__list::-webkit-scrollbar-track {\n  background: #efefef;\n}\n\n.vdatetime-year-picker * {\n  box-sizing: border-box;\n}\n\n.vdatetime-year-picker {\n  box-sizing: border-box;\n}\n\n.vdatetime-year-picker::after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.vdatetime-year-picker__list {\n  float: left;\n  width: 100%;\n  height: 305px;\n  overflow-y: scroll;\n}\n\n.vdatetime-year-picker__list::-webkit-scrollbar {\n  width: 3px;\n}\n\n.vdatetime-year-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-year-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-year-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n\n.vdatetime-year-picker__item--disabled {\n  opacity: .4;\n  cursor: default;\n}\n\n.vdatetime-year-picker__item--disabled:hover {\n  color: inherit;\n  background: transparent;\n}\n\n.vdatetime-month-picker__list::-webkit-scrollbar-thumb {\n  background: #ccc;\n}\n\n.vdatetime-month-picker__list::-webkit-scrollbar-track {\n  background: #efefef;\n}\n\n.vdatetime-month-picker * {\n  box-sizing: border-box;\n}\n\n.vdatetime-month-picker {\n  box-sizing: border-box;\n}\n\n.vdatetime-month-picker::after {\n  content: '';\n  display: table;\n  clear: both;\n}\n\n.vdatetime-month-picker__list {\n  float: left;\n  width: 100%;\n  height: 305px;\n  overflow-y: scroll;\n}\n\n.vdatetime-month-picker__list::-webkit-scrollbar {\n  width: 3px;\n}\n\n.vdatetime-month-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-month-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-month-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n\n.vdatetime-month-picker__item--disabled {\n  opacity: .4;\n  cursor: default;\n}\n\n.vdatetime-month-picker__item--disabled:hover {\n  color: inherit;\n  background: transparent;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-fade-enter-active,\n.vdatetime-fade-leave-active {\n  transition: opacity .4s;\n}\n\n.vdatetime-fade-enter,\n.vdatetime-fade-leave-to {\n  opacity: 0;\n}\n\n.vdatetime-overlay {\n  z-index: 999;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, .5);\n  transition: opacity .5s;\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-popup {\n  box-sizing: border-box;\n  z-index: 1000;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  width: 340px;\n  max-width: calc(100% - 30px);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);\n  color: #444;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif;\n  line-height: 1.18;\n  background: #fff;\n  -webkit-tap-highlight-color: rgba(0, 0, 0, 0)\n}\n\n.vdatetime-popup * {\n    box-sizing: border-box\n}\n\n.vdatetime-popup__header {\n  padding: 18px 30px;\n  background: #3f51b5;\n  color: #fff;\n  font-size: 32px;\n}\n\n.vdatetime-popup__title {\n  margin-bottom: 8px;\n  font-size: 21px;\n  font-weight: 300;\n}\n\n.vdatetime-popup__year {\n  font-weight: 300;\n  font-size: 14px;\n  opacity: 0.7;\n  cursor: pointer;\n  transition: opacity .3s\n}\n\n.vdatetime-popup__year:hover {\n    opacity: 1\n}\n\n.vdatetime-popup__date {\n  line-height: 1;\n  cursor: pointer;\n}\n\n.vdatetime-popup__actions {\n  padding: 0 20px 10px 30px;\n  text-align: right;\n}\n\n.vdatetime-popup__actions__button {\n  display: inline-block;\n  border: none;\n  padding: 10px 20px;\n  background: transparent;\n  font-size: 16px;\n  color: #3f51b5;\n  cursor: pointer;\n  transition: color .3s\n}\n\n.vdatetime-popup__actions__button:hover {\n    color: #444\n}\n.vdatetime-calendar__navigation--previous:hover svg path, .vdatetime-calendar__navigation--next:hover svg path {\n    stroke: #888;\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-calendar__navigation,\n.vdatetime-calendar__navigation * {\n  box-sizing: border-box;\n}\n\n.vdatetime-calendar__navigation {\n  position: relative;\n  margin: 15px 0;\n  padding: 0 30px;\n  width: 100%;\n}\n\n.vdatetime-calendar__navigation--previous,\n.vdatetime-calendar__navigation--next {\n  position: absolute;\n  top: 0;\n  padding: 0 5px;\n  width: 18px;\n  cursor: pointer\n}\n\n.vdatetime-calendar__navigation--previous svg, .vdatetime-calendar__navigation--next svg {\n    width: 8px;\n}\n\n.vdatetime-calendar__navigation--previous svg path, .vdatetime-calendar__navigation--next svg path {\n      transition: stroke .3s;\n}\n\n.vdatetime-calendar__navigation--previous {\n  left: 25px;\n}\n\n.vdatetime-calendar__navigation--next {\n  right: 25px;\n  -webkit-transform: scaleX(-1);\n          transform: scaleX(-1);\n}\n\n.vdatetime-calendar__current--month {\n  text-align: center;\n  text-transform: capitalize;\n}\n\n.vdatetime-calendar__month {\n  padding: 0 20px;\n  transition: height .2s;\n}\n\n.vdatetime-calendar__month__weekday,\n.vdatetime-calendar__month__day {\n  display: inline-block;\n  width: 14.28571%;\n  line-height: 36px;\n  text-align: center;\n  font-size: 15px;\n  font-weight: 300;\n  cursor: pointer\n}\n\n.vdatetime-calendar__month__weekday > span, .vdatetime-calendar__month__day > span {\n    display: block;\n    width: 100%;\n    position: relative;\n    height: 0;\n    padding: 0 0 100%;\n    overflow: hidden;\n}\n\n.vdatetime-calendar__month__weekday > span > span, .vdatetime-calendar__month__day > span > span {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n      -webkit-box-align: center;\n          -ms-flex-align: center;\n              align-items: center;\n      position: absolute;\n      top: 0;\n      right: 0;\n      bottom: 0;\n      left: 0;\n      border: 0;\n      border-radius: 50%;\n      transition: background-color .3s, color .3s;\n}\n\n.vdatetime-calendar__month__weekday {\n  font-weight: bold;\n}\n\n.vdatetime-calendar__month__day:hover > span > span {\n  background: #eee;\n}\n\n.vdatetime-calendar__month__day--selected {\n}\n\n.vdatetime-calendar__month__day--selected > span > span,\n  .vdatetime-calendar__month__day--selected:hover > span > span {\n    color: #fff;\n    background: #3f51b5;\n}\n\n.vdatetime-calendar__month__day--disabled {\n  opacity: 0.4;\n  cursor: default\n}\n\n.vdatetime-calendar__month__day--disabled:hover > span > span {\n    color: inherit;\n    background: transparent;\n}\n.vdatetime-time-picker__list::-webkit-scrollbar-thumb {\n    background: #ccc\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker__list::-webkit-scrollbar-track {\n    background: #efefef\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker * {\n    box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker {\n  box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-time-picker::after {\n    content: '';\n    display: table;\n    clear: both\n}\n\n.vdatetime-time-picker__list {\n  float: left;\n  width: 50%;\n  height: 305px;\n  overflow-y: scroll\n}\n\n.vdatetime-time-picker__list::-webkit-scrollbar {\n    width: 3px\n}\n\n.vdatetime-time-picker__with-suffix .vdatetime-time-picker__list {\n  width: 33.3%;\n}\n\n.vdatetime-time-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-time-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-time-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n\n.vdatetime-time-picker__item--disabled {\n  opacity: 0.4;\n  cursor: default;\n  font-size: 20px !important;\n}\n.vdatetime-year-picker__list::-webkit-scrollbar-thumb {\n    background: #ccc\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker__list::-webkit-scrollbar-track {\n    background: #efefef\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker * {\n    box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker {\n  box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-year-picker::after {\n    content: '';\n    display: table;\n    clear: both\n}\n\n.vdatetime-year-picker__list {\n  float: left;\n  width: 100%;\n  height: 305px;\n  overflow-y: scroll\n}\n\n.vdatetime-year-picker__list::-webkit-scrollbar {\n    width: 3px\n}\n\n.vdatetime-year-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-year-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-year-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n\n.vdatetime-year-picker__item--disabled {\n  opacity: 0.4;\n  cursor: default\n}\n\n.vdatetime-year-picker__item--disabled:hover {\n    color: inherit;\n    background: transparent\n}\n.vdatetime-month-picker__list::-webkit-scrollbar-thumb {\n    background: #ccc\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-month-picker__list::-webkit-scrollbar-track {\n    background: #efefef\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-month-picker * {\n    box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-month-picker {\n  box-sizing: border-box\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.vdatetime-month-picker::after {\n    content: '';\n    display: table;\n    clear: both\n}\n\n.vdatetime-month-picker__list {\n  float: left;\n  width: 100%;\n  height: 305px;\n  overflow-y: scroll\n}\n\n.vdatetime-month-picker__list::-webkit-scrollbar {\n    width: 3px\n}\n\n.vdatetime-month-picker__item {\n  padding: 10px 0;\n  font-size: 20px;\n  text-align: center;\n  cursor: pointer;\n  transition: font-size .3s;\n}\n\n.vdatetime-month-picker__item:hover {\n  font-size: 32px;\n}\n\n.vdatetime-month-picker__item--selected {\n  color: #3f51b5;\n  font-size: 32px;\n}\n\n.vdatetime-month-picker__item--disabled {\n  opacity: 0.4;\n  cursor: default\n}\n\n.vdatetime-month-picker__item--disabled:hover {\n    color: inherit;\n    background: transparent\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--7-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6753,17 +6753,17 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".btn-primary[data-v-8e1e20aa]:disabled {\n  background-color: gray;\n}\n", ""]);
+exports.push([module.i, "\n.btn-primary[data-v-8e1e20aa]:disabled {\n    background-color: gray;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css&":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--7-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css& ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6772,7 +6772,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".material-icons[data-v-2af1d3ea] {\n  font-size: 12px;\n}\n", ""]);
+exports.push([module.i, "\n.material-icons[data-v-2af1d3ea] {\n    font-size: 12px;\n}\n\n", ""]);
 
 // exports
 
@@ -52678,15 +52678,15 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--7-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--7-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/vue-loader/lib??vue-loader-options!./rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/vue-loader/lib??vue-loader-options!./rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -52708,15 +52708,15 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--7-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--7-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/vue-loader/lib??vue-loader-options!./usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/vue-loader/lib??vue-loader-options!./usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -53335,6 +53335,369 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-currency-filter/dist/vue-currency-filter.es.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/vue-currency-filter/dist/vue-currency-filter.es.js ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+var nativeMap = Array.prototype.map,
+    nativeIsArray = Array.isArray,
+    toString = Object.prototype.toString;
+var utils = {
+  __isNull: function __isNull(obj) {
+    return typeof obj === 'undefined' || obj === null;
+  },
+  __isString: function __isString(obj) {
+    return !!(obj === '' || obj && obj.charCodeAt && obj.substr);
+  },
+  __isArray: function __isArray(obj) {
+    return nativeIsArray ? nativeIsArray(obj) : toString.call(obj) === '[object Array]';
+  },
+  __isObject: function __isObject(obj) {
+    return obj && toString.call(obj) === '[object Object]';
+  },
+  __defaults: function __defaults(object, defs) {
+    var key;
+    object = object || {};
+    defs = defs || {}; // Iterate over object non-prototype properties:
+
+    for (key in defs) {
+      if (defs.hasOwnProperty(key)) {
+        // Replace values with defaults only if undefined (allow empty/zero values):
+        if (object[key] == null) object[key] = defs[key];
+      }
+    }
+
+    return object;
+  },
+  __map: function __map(obj, iterator, context) {
+    var results = [],
+        i,
+        j;
+    if (!obj) return results; // Use native .map method if it exists:
+
+    if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context); // Fallback for native .map:
+
+    for (i = 0, j = obj.length; i < j; i++) {
+      results[i] = iterator.call(context, obj[i], i, obj);
+    }
+
+    return results;
+  }
+};
+
+/*
+ * accounting.js v0.4.2, Copyright 2014 Open Exchange Rates, Docs: http://openexchangerates.github.io/accounting.js/
+ * --0-- Moderate and maintain by Irfan Maulana <github.com/mazipan> for Vue-Currency-Filter needed --0--
+ */
+// Create the local library object, to be exported or referenced globally later
+
+var lib = {};
+/* --- Exposed settings --- */
+// The library's settings configuration object. Contains default parameters for
+// currency and number formatting
+
+lib.settings = {
+  currency: {
+    symbol: '$',
+    // default currency symbol is '$'
+    format: '%s%v',
+    // controls output: %s = symbol, %v = value (can be object, see docs)
+    decimal: '.',
+    // decimal point separator
+    thousand: ',',
+    // thousands separator
+    precision: 2,
+    // decimal places
+    grouping: 3 // digit grouping (not implemented yet)
+
+  },
+  number: {
+    precision: 0,
+    // default precision on numbers is 0
+    grouping: 3,
+    // digit grouping (not implemented yet)
+    thousand: ',',
+    decimal: '.'
+  }
+  /**
+   * Check and normalise the value of precision (must be positive integer)
+   */
+
+};
+
+function checkPrecision(val, base) {
+  val = Math.round(Math.abs(val));
+  return isNaN(val) ? base : val;
+}
+/**
+ * Parses a format string or object and returns format obj for use in rendering
+ *
+ * `format` is either a string with the default (positive) format, or object
+ * containing `pos` (required), `neg` and `zero` values (or a function returning
+ * either a string or object)
+ *
+ * Either string or format.pos must contain "%v" (value) to be valid
+ */
+
+
+function checkCurrencyFormat(format) {
+  var defaults = lib.settings.currency.format; // Allow function as format parameter (should return string or object):
+
+  if (typeof format === 'function') format = format(); // Format can be a string, in which case `value` ("%v") must be present:
+
+  if (utils.__isString(format) && format.match('%v')) {
+    // Create and return positive, negative and zero formats:
+    return {
+      pos: format,
+      neg: format.replace('-', '').replace('%v', '-%v'),
+      zero: format // If no format, or object is missing valid positive value, use defaults:
+
+    };
+  } else if (!format || !format.pos || !format.pos.match('%v')) {
+    // If defaults is a string, casts it to an object for faster checking next time:
+    return !utils.__isString(defaults) ? defaults : lib.settings.currency.format = {
+      pos: defaults,
+      neg: defaults.replace('%v', '-%v'),
+      zero: defaults
+    };
+  } // Otherwise, assume format was fine:
+
+
+  return format;
+}
+/* --- API Methods --- */
+
+/**
+ * Takes a string/array of strings, removes all formatting/cruft and returns the raw float value
+ * Alias: `accounting.parse(string)`
+ *
+ * Decimal must be included in the regular expression to match floats (defaults to
+ * accounting.settings.number.decimal), so if the number uses a non-standard decimal 
+ * separator, provide it as the second argument.
+ *
+ * Also matches bracketed negatives (eg. "$ (1.99)" => -1.99)
+ *
+ * Doesn't throw any errors (`NaN`s become 0) but this may change in future
+ */
+
+
+var unformat = lib.unformat = lib.parse = function (value, decimal) {
+  // Recursively unformat arrays:
+  if (utils.__isArray(value)) {
+    return utils.__map(value, function (val) {
+      return unformat(val, decimal);
+    });
+  } // Fails silently (need decent errors):
+
+
+  value = value || 0; // Return the value as-is if it's already a number:
+
+  if (typeof value === 'number') return value; // Default decimal point comes from settings, but could be set to eg. "," in opts:
+
+  decimal = decimal || lib.settings.number.decimal; // Build regex to strip out everything except digits, decimal point and minus sign:
+
+  var regex = new RegExp('[^0-9-' + decimal + ']', ['g']),
+      unformatted = parseFloat(('' + value).replace(/\((?=\d+)(.*)\)/, '-$1') // replace bracketed values with negatives
+  .replace(regex, '') // strip out any cruft
+  .replace(decimal, '.') // make sure decimal point is standard
+  ); // This will fail silently which may cause trouble, let's wait and see:
+
+  return !isNaN(unformatted) ? unformatted : 0;
+};
+/**
+ * Implementation of toFixed() that treats floats more like decimals
+ *
+ * Fixes binary rounding issues (eg. (0.615).toFixed(2) === "0.61") that present
+ * problems for accounting- and finance-related software.
+ */
+
+
+var toFixed = lib.toFixed = function (value, precision) {
+  precision = checkPrecision(precision, lib.settings.number.precision);
+  var exponentialForm = Number(lib.unformat(value) + 'e' + precision);
+  var rounded = Math.round(exponentialForm);
+  var finalResult = Number(rounded + 'e-' + precision).toFixed(precision);
+  return finalResult;
+};
+/**
+ * Format a number, with comma-separated thousands and custom precision/decimal places
+ * Alias: `accounting.format()`
+ *
+ * Localise by overriding the precision and thousand / decimal separators
+ * 2nd parameter `precision` can be an object matching `settings.number`
+ */
+
+
+var formatNumber = lib.formatNumber = lib.format = function (number, precision, thousand, decimal) {
+  // Resursively format arrays:
+  if (utils.__isArray(number)) {
+    return utils.__map(number, function (val) {
+      return formatNumber(val, precision, thousand, decimal);
+    });
+  } // Clean up number:
+
+
+  number = unformat(number); // Build options object from second param (if object) or all params, extending defaults:
+
+  var opts = utils.__defaults(utils.__isObject(precision) ? precision : {
+    precision: precision,
+    thousand: thousand,
+    decimal: decimal
+  }, lib.settings.number),
+      // Clean up precision
+  usePrecision = checkPrecision(opts.precision),
+      // Do some calc:
+  negative = number < 0 ? '-' : '',
+      base = parseInt(toFixed(Math.abs(number || 0), usePrecision), 10) + '',
+      mod = base.length > 3 ? base.length % 3 : 0; // Format the number:
+
+
+  return negative + (mod ? base.substr(0, mod) + opts.thousand : '') + base.substr(mod).replace(/(\d{3})(?=\d)/g, '$1' + opts.thousand) + (usePrecision ? opts.decimal + toFixed(Math.abs(number), usePrecision).split('.')[1] : '');
+};
+/**
+ * Format a number into currency
+ *
+ * Usage: accounting.formatMoney(number, symbol, precision, thousandsSep, decimalSep, format)
+ * defaults: (0, "$", 2, ",", ".", "%s%v")
+ *
+ * Localise by overriding the symbol, precision, thousand / decimal separators and format
+ * Second param can be an object matching `settings.currency` which is the easiest way.
+ *
+ * To do: tidy up the parameters
+ */
+
+
+var formatMoney = lib.formatMoney = function (number, symbol, precision, thousand, decimal, format) {
+  // Resursively format arrays:
+  if (utils.__isArray(number)) {
+    return utils.__map(number, function (val) {
+      return formatMoney(val, symbol, precision, thousand, decimal, format);
+    });
+  } // Clean up number:
+
+
+  number = unformat(number); // Build options object from second param (if object) or all params, extending defaults:
+
+  var opts = utils.__defaults(utils.__isObject(symbol) ? symbol : {
+    symbol: symbol,
+    precision: precision,
+    thousand: thousand,
+    decimal: decimal,
+    format: format
+  }, lib.settings.currency),
+      // Check format (returns object with pos, neg and zero):
+  formats = checkCurrencyFormat(opts.format),
+      // Choose which format to use for this value:
+  useFormat = number > 0 ? formats.pos : number < 0 ? formats.neg : formats.zero; // Return with currency symbol added:
+
+
+  return useFormat.replace('%s', opts.symbol).replace('%v', formatNumber(Math.abs(number), checkPrecision(opts.precision), opts.thousand, opts.decimal));
+};
+
+var VueCurrencyFilter = {
+  install: function install(Vue, options) {
+    var defaultConfig = {
+      symbol: '',
+      thousandsSeparator: '.',
+      fractionCount: 0,
+      fractionSeparator: ',',
+      symbolPosition: 'front',
+      symbolSpacing: true
+    };
+    if (utils.__isNull(options)) options = {};
+
+    var configs = utils.__defaults(options, defaultConfig);
+
+    var filterCurrency = function filterCurrency(value, _symbol, _thousandsSeparator, _fractionCount, _fractionSeparator, _symbolPosition, _symbolSpacing) {
+      var runtimeConfig = utils.__defaults({
+        symbol: _symbol,
+        thousandsSeparator: _thousandsSeparator,
+        fractionCount: _fractionCount,
+        fractionSeparator: _fractionSeparator,
+        symbolPosition: _symbolPosition,
+        symbolSpacing: _symbolSpacing
+      }, configs);
+
+      if (_typeof(_symbol) === 'object') {
+        runtimeConfig = utils.__defaults(_symbol, configs);
+      }
+
+      var result = 0.0;
+      var isNegative = String(value).charAt(0) === '-';
+
+      if (isNegative) {
+        value = String(value).slice(1);
+      }
+
+      var amount = parseFloat(value);
+
+      if (!isNaN(amount)) {
+        result = amount;
+      }
+
+      var formatConfig = '%s%v';
+
+      if (runtimeConfig.symbolPosition === 'front') {
+        formatConfig = runtimeConfig.symbolSpacing ? '%s %v' : '%s%v';
+      } else {
+        formatConfig = runtimeConfig.symbolSpacing ? '%v %s' : '%v%s';
+      }
+
+      if (runtimeConfig.fractionCount > 0) {
+        value = lib.toFixed(value, runtimeConfig.fractionCount);
+      }
+
+      result = lib.formatMoney(value, {
+        format: formatConfig,
+        symbol: runtimeConfig.symbol,
+        precision: runtimeConfig.fractionCount,
+        thousand: runtimeConfig.thousandsSeparator,
+        decimal: runtimeConfig.fractionSeparator
+      });
+
+      if (isNegative) {
+        result = '-' + result;
+      }
+
+      return result;
+    };
+
+    Vue.filter('currency', filterCurrency);
+    Vue.prototype.$CurrencyFilter = {
+      setConfig: function setConfig(options) {
+        configs = utils.__defaults(options, defaultConfig);
+      },
+      getConfig: function getConfig() {
+        return configs;
+      }
+    };
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (VueCurrencyFilter);
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-datetime/dist/vue-datetime.css":
 /*!*********************************************************!*\
   !*** ./node_modules/vue-datetime/dist/vue-datetime.css ***!
@@ -53343,7 +53706,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../css-loader??ref--7-1!../../postcss-loader/src??ref--7-2!./vue-datetime.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-datetime/dist/vue-datetime.css");
+var content = __webpack_require__(/*! !../../css-loader!./vue-datetime.css */ "./node_modules/css-loader/index.js!./node_modules/vue-datetime/dist/vue-datetime.css");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -54740,7 +55103,7 @@ var render = function() {
                 attrs: { disabled: _vm.isDisabledSend },
                 on: { click: _vm.setNewRate }
               },
-              [_vm._v("Guardar Tasa")]
+              [_vm._v("Guardar Tasa\n                    ")]
             )
           ])
         ])
@@ -54769,13 +55132,21 @@ var render = function() {
                   [
                     _vm._l(_vm.keysToShow, function(key) {
                       return _c("td", [
-                        _c("span", [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(rate[key]) +
-                              "\n                    "
-                          )
-                        ])
+                        key === "amount"
+                          ? _c("span", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(_vm._f("currency")(rate[key])) +
+                                  "\n                            "
+                              )
+                            ])
+                          : _c("span", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(rate[key]) +
+                                  "\n                            "
+                              )
+                            ])
                       ])
                     }),
                     _vm._v(" "),
@@ -69565,6 +69936,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_frappe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue2-frappe */ "./node_modules/vue2-frappe/src/index.js");
 /* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! luxon */ "./node_modules/luxon/build/cjs-browser/luxon.js");
 /* harmony import */ var luxon__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(luxon__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue_currency_filter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-currency-filter */ "./node_modules/vue-currency-filter/dist/vue-currency-filter.es.js");
+
 
 
 
@@ -69585,6 +69958,14 @@ Vue.use(v_click_outside__WEBPACK_IMPORTED_MODULE_1___default.a);
 luxon__WEBPACK_IMPORTED_MODULE_6__["Settings"].defaultLocale = 'es';
 Vue.use(vue_datetime__WEBPACK_IMPORTED_MODULE_3___default.a);
 Vue.use(vue2_frappe__WEBPACK_IMPORTED_MODULE_5__["default"]);
+Vue.use(vue_currency_filter__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  symbol: ' Bs',
+  thousandsSeparator: '.',
+  fractionCount: 2,
+  fractionSeparator: ',',
+  symbolPosition: 'front',
+  symbolSpacing: true
+});
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -69760,15 +70141,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************!*\
   !*** ./resources/js/components/rate.vue ***!
   \******************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rate_vue_vue_type_template_id_8e1e20aa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rate.vue?vue&type=template&id=8e1e20aa&scoped=true& */ "./resources/js/components/rate.vue?vue&type=template&id=8e1e20aa&scoped=true&");
 /* harmony import */ var _rate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rate.vue?vue&type=script&lang=js& */ "./resources/js/components/rate.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _rate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _rate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& */ "./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& */ "./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -69800,7 +70180,7 @@ component.options.__file = "resources/js/components/rate.vue"
 /*!*******************************************************************!*\
   !*** ./resources/js/components/rate.vue?vue&type=script&lang=js& ***!
   \*******************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -69819,10 +70199,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--7-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/vue-loader/lib??vue-loader-options!./rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/vue-loader/lib??vue-loader-options!./rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./resources/js/components/rate.vue?vue&type=style&index=0&id=8e1e20aa&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_rate_vue_vue_type_style_index_0_id_8e1e20aa_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -69975,10 +70355,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--7-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/vue-loader/lib??vue-loader-options!./usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_7_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/vue-loader/lib??vue-loader-options!./usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./resources/js/components/usersList.vue?vue&type=style&index=0&id=2af1d3ea&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_usersList_vue_vue_type_style_index_0_id_2af1d3ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

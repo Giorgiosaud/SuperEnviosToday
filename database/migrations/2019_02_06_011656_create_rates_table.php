@@ -17,7 +17,7 @@ class CreateRatesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('currency_id');
             $table->dateTime('since');
-            $table->bigInteger('amount_bs');
+            $table->bigInteger('amount');
             $table->timestamps();
         });
     }
