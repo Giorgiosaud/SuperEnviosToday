@@ -7,5 +7,6 @@ $factory->define(Currency::class, function (Faker $faker) {
     return [
         'name'         => $faker->currencyCode(),
         'identificator'=> $faker->currencyCode(),
+        'sign'=> $faker->currencyCode(),
     ];
 });

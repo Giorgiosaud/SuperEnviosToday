@@ -25,5 +25,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
     Route::get('rates', 'RateController@allRates');
+    Route::post('rate','RateController@store');
+    Route::get('currencies', 'CurrencyController@index');
     Route::get('last_rate', 'RateController@lastRate');
 });

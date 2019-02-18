@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Currency;
 use App\Rate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 /**
@@ -25,16 +27,18 @@ class RateController extends Controller
     /**
      * @return mixed
      */
-    public function allRates()
+    public function allRates(Request $request)
     {
-        return Rate::orderBy('since','DESC')->paginate(20);
+        $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+        return Rate::paginate($limit);
     }
+
     /**
      * @return mixed
      */
     public function lastRate()
     {
-        return Rate::orderBy('since','DESC')->first();
+        return Rate::orderBy('since', 'DESC')->first();
     }
 
 
@@ -57,7 +61,16 @@ class RateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'currency' => 'required',
+            'since' => 'required|date',
+            'amount_bs' => 'required|Numeric',
+        ]);
+        return Rate::create( [
+            'currency_id' => $validated['currency']['id'],
+            'amount_bs' => $validated['amount_bs'],
+            'since' => Carbon::parse($validated['since']),
+        ]);
     }
 
     /**
