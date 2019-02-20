@@ -110,9 +110,9 @@
                     datasets: [{
                         name: 'CLP',
                         chartType: 'line',
-                        values: this.rates.map(rate => rate.amount_bs / 100)
+                        values: this.rates.map(rate => rate.amount).reverse()
                     }],
-                    labels: this.labels,
+                    labels: this.labels.map(lab=>dateFns.parse(lab)).reverse(),
                     tooltipOptions: {
                         formatTooltipX: d => (d + '').toUpperCase(),
                         formatTooltipY: d => d + ' Bs',

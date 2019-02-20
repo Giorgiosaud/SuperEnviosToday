@@ -1946,10 +1946,12 @@ __webpack_require__.r(__webpack_exports__);
           name: 'CLP',
           chartType: 'line',
           values: this.rates.map(function (rate) {
-            return rate.amount_bs / 100;
-          })
+            return rate.amount;
+          }).reverse()
         }],
-        labels: this.labels,
+        labels: this.labels.map(function (lab) {
+          return date_fns__WEBPACK_IMPORTED_MODULE_0___default.a.parse(lab);
+        }).reverse(),
         tooltipOptions: {
           formatTooltipX: function formatTooltipX(d) {
             return (d + '').toUpperCase();
