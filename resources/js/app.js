@@ -6,7 +6,6 @@ import 'vue-datetime/dist/vue-datetime.css'
 import VueFrappe from 'vue2-frappe';
 import { Settings } from 'luxon'
 import VueCurrencyFilter from 'vue-currency-filter'
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -14,7 +13,6 @@ import VueCurrencyFilter from 'vue-currency-filter'
  */
 
 require('./bootstrap');
-
 window.Vue = require('vue');
 Vue.use(vco);
 
