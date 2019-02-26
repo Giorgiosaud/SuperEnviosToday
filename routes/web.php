@@ -23,6 +23,7 @@ Route::middleware(['auth','role:coordinator'])->group( function () {
     Route::get('/createMember','RegisterCompanyMembersController@create')->name('registerOperator');
     Route::get('/users','UserController@index')->name('users');
     Route::get('/rate','RateController@index')->name('rate');
+    Route::get('/settings','SettingsController@index')->name('settings');
 });
 
 Auth::routes();
