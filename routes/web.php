@@ -19,6 +19,10 @@ Route::get('/', function () {
 });
 Route::get('/access_token', 'AuthController@getToken');
 
+Route::middleware(['auth','role:chilean_operator'])->group( function () {
+  Route::get('/transactions','TransactionController@index')->name('chilean_transactions');
+    Route::get('/transactions/pending','TransactionController@pending')->name('chilean_pending_transactions');
+});
 Route::middleware(['auth','role:coordinator'])->group( function () {
     Route::get('/createMember','RegisterCompanyMembersController@create')->name('registerOperator');
     Route::get('/users','UserController@index')->name('users');

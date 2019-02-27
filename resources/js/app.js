@@ -6,6 +6,8 @@ import 'vue-datetime/dist/vue-datetime.css'
 import VueFrappe from 'vue2-frappe';
 import { Settings } from 'luxon';
 import VueCurrencyFilter from 'vue-currency-filter';
+import Transactions from './Pages/Transactions';
+import TransactionsPending from './Pages/TransactionsPending';
 
 
 /**
@@ -41,6 +43,8 @@ Vue.use(VueCurrencyFilter,
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('v-select', vSelect);
+Vue.component('transactions', Transactions);
+Vue.component('transactions-pending', TransactionsPending);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
 Vue.component('register-member', require('./components/registerMember.vue').default);
 Vue.component('users-list', require('./components/usersList.vue').default);
