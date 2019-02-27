@@ -14,6 +14,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
+        return view('operators.transactions');
         //
     }
 
@@ -22,8 +23,10 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function pending()
     {
+        return view('operators.transactions-pending');
+
         //
     }
 

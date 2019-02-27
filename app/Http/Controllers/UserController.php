@@ -53,7 +53,11 @@ class UserController extends Controller
     public function patch(UserRequest $request, User $user){
 
         $validated = $request->validated();
-        if (Auth::user()->hasRole('coordinator')&& Auth::user()->id !== $user->id) {
+        if (Auth::user()->hasRole('coordinator')&& Auth::user()->id === $user->id) {
+            $roles=$request->only('roles')['roles'];
+            array_push($roles,'coordinator');
+        }
+        if (Auth::user()->hasRole('coordinator')){
             $user->update($validated);
             $user->syncRoles($request->only('roles')['roles']);
             return response([

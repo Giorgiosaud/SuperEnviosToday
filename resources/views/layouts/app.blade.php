@@ -83,11 +83,11 @@
                                     <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
                                          v-if="chileanOperatorSubMenu">
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
-                                           href="#">Registrar Transacción</a>
+                                           href="{{route('chilean_transactions')}}">Registrar Transacción</a>
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                            href="#">Listar Operadores Venezuela y saldos disponibles</a>
                                         <a class="block no-underline text-teal-lighter hover:text-white p-3"
-                                           href="#">Listar mis Transacciones pendientes</a>
+                                           href="{{route('chilean_pending_transactions')}}">Listar mis Transacciones pendientes</a>
 
                                     </div>
                                 </div>
