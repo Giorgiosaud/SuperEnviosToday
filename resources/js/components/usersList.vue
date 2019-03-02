@@ -216,7 +216,7 @@
                 this.selectedUser.roles = this.selectedUser.roles.map(role => role.name_id);
             },
             guardarUsuario() {
-                axios.patch(`api/user/${this.selectedUser.id}`, this.selectedUser)
+                window.axios.patch(`api/user/${this.selectedUser.id}`, this.selectedUser)
                     .then(response => {
                         console.log(response)
                     });

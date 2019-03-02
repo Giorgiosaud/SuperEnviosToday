@@ -1,13 +1,19 @@
 <?php
 
-namespace App;
+    namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Support\Facades\Storage;
 
-class Bank extends Model
-{
-    public function accounts()
+    class Bank extends Model
     {
-        return $this->hasMAny(Account::class);
+        protected $fillable = ['currency_id', 'name'];
+        protected $with=['currency'];
+        public function currency(){
+            return $this->belongsTo(Currency::class);
+        }
+        public function accounts()
+        {
+            return $this->hasMAny(Account::class);
+        }
     }
-}

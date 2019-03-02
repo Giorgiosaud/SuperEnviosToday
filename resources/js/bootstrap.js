@@ -7,11 +7,11 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+  window.Popper = require('popper.js').default;
+  window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap');
-    require('date-fns');
+  require('bootstrap');
+  require('date-fns');
 } catch (e) {
 }
 
@@ -28,28 +28,25 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios_token.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 const accessToken = sessionStorage.getItem('access_token');
 if (accessToken) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+  axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 }
 axios.interceptors.response.use(
-    response => {
-        return response;
-    },
-    error => {
-        const {config, response: {status}} = error;
-        const originalRequest = config;
-        if (status === 401) {
-            return axios_token.get('/access_token')
-                .then((response) => {
-                        const token = response.data.access_token;
-                        sessionStorage.setItem('access_token', token);
-                        originalRequest.headers['Authorization'] = 'Bearer ' + token;
-                        window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                        return window.axios(originalRequest);
-                    }
-                );
-        }
-        throw error;
+  response => response,
+  (error) => {
+    const { config, response: { status } } = error;
+    const originalRequest = config;
+    if (status === 401) {
+      return axios_token.get('/access_token')
+        .then((response) => {
+          const token = response.data.access_token;
+          sessionStorage.setItem('access_token', token);
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          window.axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+          return window.axios(originalRequest);
+        });
     }
+    throw error;
+  },
 );
 
 
@@ -59,12 +56,11 @@ axios.interceptors.response.use(
  * a simple convenience so we don't have to attach every token manually.
  */
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
+const token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-
+  axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
-    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
