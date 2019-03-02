@@ -7,7 +7,11 @@
 </template>
 
 <script>
+    import Bank from './Bank';
   export default {
+      components{
+          Bank
+      },
     name: "Settings"
   }
 </script>
