@@ -1,6 +1,7 @@
 <?php
 
-use App\Rate;
+    use App\Currency;
+    use App\Rate;
 use Illuminate\Database\Seeder;
 
 class RateSeeder extends Seeder
@@ -12,7 +13,12 @@ class RateSeeder extends Seeder
      */
     public function run()
     {
-        $currency=factory(\App\Currency::class)->create([
+        factory(Currency::class)->create([
+            'name'=>'Bolivar Soberano',
+            'identificator'=>'Bs',
+            'sign'=>'Bs S.',
+        ]);
+        $currency=factory(Currency::class)->create([
             'name'=>'Pesos Chilenos',
             'identificator'=>'CLP',
             'sign'=>'$',

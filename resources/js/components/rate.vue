@@ -163,12 +163,12 @@
                     });
             },
             getRates() {
-                axios.get('api/rates').then((response) => {
+                window.axios.get('api/rates').then((response) => {
                     this.rates = response.data.data
                 })
             },
             getCurrencies() {
-                axios.get('api/currencies').then((response) => {
+                window.axios.get('api/currencies').then((response) => {
                     this.currencies = response.data;
                 })
             }

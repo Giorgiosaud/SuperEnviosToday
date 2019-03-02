@@ -4,10 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Super Envios Today') }}</title>
 
     <!-- Scripts -->
@@ -56,7 +53,7 @@
                         @if(Auth::user()->hasRole('coordinator'))
                             <div class="relative cursor-pointer text-teal-lighter hover:text-white">
                                 <a class="flex items-center justify-centerno-underline" v-cloak
-                                   @click="tooggleSubMenuCoordinador">
+                                   @click="toggleSubMenuCoordinator">
                                     Acciones de Coordinador<i class="material-icons">expand_more</i>
                                 </a>
                                 <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
@@ -74,40 +71,41 @@
                                 </div>
                             </div>
                         @endif
-                            @if(Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
-                                <div class="relative cursor-pointer text-teal-lighter hover:text-white">
-                                    <a class="flex items-center justify-centerno-underline" v-cloak
-                                       @click="tooggleSubMenuChileanOperator">
-                                        Acciones de Operador Chile<i class="material-icons">expand_more</i>
-                                    </a>
-                                    <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
-                                         v-if="chileanOperatorSubMenu">
-                                        <a class="block no-underline text-teal-lighter hover:text-white p-3"
-                                           href="{{route('chilean_transactions')}}">Registrar Transacción</a>
-                                        <a class="block no-underline text-teal-lighter hover:text-white p-3"
-                                           href="#">Listar Operadores Venezuela y saldos disponibles</a>
-                                        <a class="block no-underline text-teal-lighter hover:text-white p-3"
-                                           href="{{route('chilean_pending_transactions')}}">Listar mis Transacciones pendientes</a>
+                        @if(Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
+                            <div class="relative cursor-pointer text-teal-lighter hover:text-white">
+                                <a class="flex items-center justify-centerno-underline" v-cloak
+                                   @click="toggleSubMenuChileanOperator">
+                                    Acciones de Operador Chile<i class="material-icons">expand_more</i>
+                                </a>
+                                <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
+                                     v-if="chileanOperatorSubMenu">
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="{{route('chilean_transactions')}}">Registrar Transacción</a>
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="#">Listar Operadores Venezuela y saldos disponibles</a>
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="{{route('chilean_pending_transactions')}}">Listar mis Transacciones
+                                        pendientes</a>
 
-                                    </div>
                                 </div>
-                            @endif
-                            @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
-                                <div class="relative cursor-pointer text-teal-lighter hover:text-white">
-                                    <a class="flex items-center justify-centerno-underline" v-cloak
-                                       @click="tooggleSubMenuVenezuelanOperator">
-                                        Acciones de Operador Venezuela<i class="material-icons">expand_more</i>
-                                    </a>
-                                    <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
-                                         v-if="venezuelanOperatorSubMenu">
-                                        <a class="block no-underline text-teal-lighter hover:text-white p-3"
-                                           href="#">Mis Transacciones</a>
-                                    </div>
+                            </div>
+                        @endif
+                        @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
+                            <div class="relative cursor-pointer text-teal-lighter hover:text-white">
+                                <a class="flex items-center justify-centerno-underline" v-cloak
+                                   @click="toggleSubMenuVenezuelanOperator">
+                                    Acciones de Operador Venezuela<i class="material-icons">expand_more</i>
+                                </a>
+                                <div class="absolute z-10 w-full text-teal-lighter hover:text-whiteabsolute bg-teal"
+                                     v-if="venezuelanOperatorSubMenu">
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="#">Mis Transacciones</a>
                                 </div>
-                            @endif
+                            </div>
+                        @endif
                         <div class="relative cursor-pointer text-teal-lighter hover:text-white">
                             <a class="flex items-center justify-centerno-underline" v-cloak
-                               @click="tooggleSubMenuProfile">
+                               @click="toggleSubMenuProfile">
                                 {{ Auth::user()->email }} <i class="material-icons">expand_more</i>
                             </a>
                             <div class="absolute w-full text-teal-lighter hover:text-whiteabsolute bg-teal"

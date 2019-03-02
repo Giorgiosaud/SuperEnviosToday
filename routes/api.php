@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::post('deploy', 'UtilController@deploy');
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => ['auth:api','role:coordinator']], function () {
     Route::get('valid', 'AuthController@isValid');
     Route::get('logout', 'AuthController@logout');
     Route::get('user', 'AuthController@user');
@@ -27,5 +27,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('rates', 'RateController@allRates');
     Route::post('rate','RateController@store');
     Route::get('currencies', 'CurrencyController@index');
+    Route::get('foreign_currencies', 'CurrencyController@foreignIndex');
+    Route::post('currencies', 'CurrencyController@store');
     Route::get('last_rate', 'RateController@lastRate');
+    Route::get('banks', 'BankController@index');
+    Route::post('banks', 'BankController@store');
 });

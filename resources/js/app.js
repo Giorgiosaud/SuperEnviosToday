@@ -1,14 +1,14 @@
-import store from './store';
-import vco from 'v-click-outside'
-import vSelect from 'vue-select'
-import Datetime from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
+import vco from 'v-click-outside';
+import vSelect from 'vue-select';
+import Datetime from 'vue-datetime';
 import VueFrappe from 'vue2-frappe';
+import 'vue-datetime/dist/vue-datetime.css';
 import { Settings } from 'luxon';
+import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
+import store from './store';
 import Transactions from './Pages/Transactions';
 import TransactionsPending from './Pages/TransactionsPending';
-
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -17,21 +17,25 @@ import TransactionsPending from './Pages/TransactionsPending';
  */
 
 require('./bootstrap');
-window.Vue = require('vue');
+
+window.Vue = Vue;
+
 Vue.use(vco);
 
-Settings.defaultLocale = 'es'
+Settings.defaultLocale = 'es';
 Vue.use(Datetime);
 Vue.use(VueFrappe);
-Vue.use(VueCurrencyFilter,
-    {
-        symbol : ' Bs',
-        thousandsSeparator: '.',
-        fractionCount: 2,
-        fractionSeparator: ',',
-        symbolPosition: 'front',
-        symbolSpacing: true
-    })
+Vue.use(
+  VueCurrencyFilter,
+  {
+    symbol: ' Bs',
+    thousandsSeparator: '.',
+    fractionCount: 2,
+    fractionSeparator: ',',
+    symbolPosition: 'front',
+    symbolSpacing: true,
+  },
+);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -58,12 +62,12 @@ Vue.component('settings', require('./Pages/Settings/Settings.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 const app = new Vue({
-    el: '#app',
-    store,
-    mounted(){
+  el: '#app',
+  store,
+  mounted() {
     this.$store.commit('globals/SET_SCREEN_WIDTH', window.innerWidth);
-     window.addEventListener("resize", _.debounce(()=> {
-        this.$store.commit('globals/SET_SCREEN_WIDTH', window.innerWidth);
-    },500));
-    }
+    window.addEventListener('resize', _.debounce(() => {
+      this.$store.commit('globals/SET_SCREEN_WIDTH', window.innerWidth);
+    }, 500));
+  },
 });

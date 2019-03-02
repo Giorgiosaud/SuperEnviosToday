@@ -1,91 +1,106 @@
 <?php
 
-namespace App\Http\Controllers;
+    namespace App\Http\Controllers;
 
-use App\Currency;
-use Illuminate\Http\Request;
+    use App\Currency;
+    use Illuminate\Http\Request;
 
-class CurrencyController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    class CurrencyController extends Controller
     {
-        return Currency::all();
-        //
-    }
+        /**
+         * Display a listing of the resource.
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function index()
+        {
+            return Currency::all();
+            //
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+        /**
+         * @return mixed
+         */
+        public function foreignIndex()
+        {
+            return Currency::where('identificator', '<>', 'Bs')->get();
+        }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        /**
+         * Show the form for creating a new resource.
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function create()
+        {
+            //
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Currency $currency
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Currency $currency)
-    {
-        //
-    }
+        /**
+         * Store a newly created resource in storage.
+         *
+         * @param \Illuminate\Http\Request $request
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function store(Request $request)
+        {
+            $validated = $request->validate([
+                'name' => 'required',
+                'identificator' => 'required',
+                'sign' => 'required'
+            ]);
+            $currency = Currency::create($validated);
+            return $currency;
+            //
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Currency $currency
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Currency $currency)
-    {
-        //
-    }
+        /**
+         * Display the specified resource.
+         *
+         * @param \App\Currency $currency
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function show(Currency $currency)
+        {
+            //
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Currency            $currency
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Currency $currency)
-    {
-        //
-    }
+        /**
+         * Show the form for editing the specified resource.
+         *
+         * @param \App\Currency $currency
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function edit(Currency $currency)
+        {
+            //
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Currency $currency
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Currency $currency)
-    {
-        //
+        /**
+         * Update the specified resource in storage.
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param \App\Currency $currency
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function update(Request $request, Currency $currency)
+        {
+            //
+        }
+
+        /**
+         * Remove the specified resource from storage.
+         *
+         * @param \App\Currency $currency
+         *
+         * @return \Illuminate\Http\Response
+         */
+        public function destroy(Currency $currency)
+        {
+            //
+        }
     }
-}

@@ -1,4 +1,4 @@
-const ErrorMixins={
+const ErrorMixins = {
     data(){
         return {
             errors:[]
@@ -15,6 +15,6 @@ const ErrorMixins={
         cleanError(error) {
             delete this.errors[error];
         },
-    }
-}
+    },
+};
 export default ErrorMixins;
