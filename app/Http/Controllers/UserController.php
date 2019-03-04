@@ -1,74 +1,113 @@
 <?php
 
-namespace App\Http\Controllers;
+    namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
-/**
- * Class UserController
- * @package App\Http\Controllers
- */
-class UserController extends Controller
-{
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index()
-    {
-        $users = User::paginate(20);
-        return view('coordinator.users', ['users' => $users]);
-    }
+    use App\Http\Requests\UserRequest;
+    use App\User;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
 
     /**
-     * @param Request $request
-     * @return mixed
+     * Class UserController
+     * @package App\Http\Controllers
      */
-    public function apiIndex(Request $request)
+    class UserController extends Controller
     {
-        $limit = $request->has('perPage') ? $request->get('perPage') : 20;
-        $q = $request->has('q') ? $request->get('q') : null;
-        if ($q) {
-            return User::where('name', 'like', '%' . $q . '%')
-                ->orWhere('last_name', 'like', '%' . $q . '%')
-                ->orWhere('idn', 'like', '%' . $q . '%')
-                ->orWhere('idn_type', 'like', '%' . $q . '%')
-                ->orWhere('email', 'like', '%' . $q . '%')
-                ->orWhere('address', 'like', '%' . $q . '%')
-                ->orWhere('phone', 'like', '%' . $q . '%')
-                ->paginate($limit);
+        /**
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+         */
+        public function index()
+        {
+            $users = User::paginate(20);
+            return view('coordinator.users', ['users' => $users]);
+        }
+
+        /**
+         * @param Request $request
+         * @return mixed
+         */
+        public function apiIndex(Request $request)
+        {
+            $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+            $q = $request->has('q') ? $request->get('q') : null;
+            if ($q) {
+                return User::where('name', 'like', '%' . $q . '%')
+                    ->orWhere('last_name', 'like', '%' . $q . '%')
+                    ->orWhere('idn', 'like', '%' . $q . '%')
+                    ->orWhere('idn_type', 'like', '%' . $q . '%')
+                    ->orWhere('email', 'like', '%' . $q . '%')
+                    ->orWhere('address', 'like', '%' . $q . '%')
+                    ->orWhere('phone', 'like', '%' . $q . '%')
+                    ->paginate($limit);
+
+            }
+            return User::paginate($limit);
+        }
+
+        /**
+         * @param Request $request
+         * @param User $user
+         * @return string
+         */
+
+        public function patch(UserRequest $request, User $user)
+        {
+
+            $validated = $request->validated();
+            if (Auth::user()->hasRole('coordinator') && Auth::user()->id === $user->id) {
+                $roles = $request->only('roles')['roles'];
+                array_push($roles, 'coordinator');
+            }
+            if (Auth::user()->hasRole('coordinator')) {
+                $user->update($validated);
+                $user->syncRoles($request->only('roles')['roles']);
+                return response([
+                    'success' => true,
+                    'message' => 'Changes'
+                ], 202);
+            }
+            return response([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ], 402);
 
         }
-        return User::paginate($limit);
-    }
 
-    /**
-     * @param Request $request
-     * @param User $user
-     * @return string
-     */
+        /**
+         *
+         */
+        public function myProfile()
+        {
 
-    public function patch(UserRequest $request, User $user){
-
-        $validated = $request->validated();
-        if (Auth::user()->hasRole('coordinator')&& Auth::user()->id === $user->id) {
-            $roles=$request->only('roles')['roles'];
-            array_push($roles,'coordinator');
+            return view('auth.profile');
         }
-        if (Auth::user()->hasRole('coordinator')){
+
+        /**
+         * @return \Illuminate\Contracts\Auth\Authenticatable|null
+         */
+        public function info()
+        {
+            return \auth()->user();
+        }
+
+        /**
+         * @param Request $request
+         * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+         */
+        public function infoPatch(Request $request)
+        {
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'phone' => ['string'],
+                'address' => ['string'],
+                'email' => ['string', 'email', 'max:255'],
+            ]);
+            $user = auth()->user();
             $user->update($validated);
-            $user->syncRoles($request->only('roles')['roles']);
             return response([
                 'success' => true,
                 'message' => 'Changes'
             ], 202);
         }
-       return response([
-            'success' => false,
-            'message' => 'Unauthorized'
-        ], 402);
-
     }
-}

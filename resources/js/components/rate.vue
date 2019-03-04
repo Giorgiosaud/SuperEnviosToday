@@ -152,7 +152,7 @@
 
                 axios.post('api/rate', {
                     since: this.since,
-                    "amount_bs": this.rateValue,
+                    amount: this.rateValue,
                     currency: this.selectedCurrency
                 })
                     .then((response) => {

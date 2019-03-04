@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class TransactionController extends Controller
 {
     /**
+     *
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -39,6 +40,11 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        $validData=$request->validate([
+            'to_account_id'=>'required|numeric',
+            'amount'=>'required|numeric'
+        ]);
+        return Transaction::create($validData);
         //
     }
 

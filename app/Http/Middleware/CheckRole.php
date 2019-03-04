@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Middleware;
+    namespace App\Http\Middleware;
 
-use Closure;
+    use Closure;
 
-class CheckRole
-{
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next,$role)
+    class CheckRole
     {
-        if (! $request->user()->hasRole($role)) {
+        /**
+         * Handle an incoming request.
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param \Closure $next
+         * @return mixed
+         */
+        public function handle($request, Closure $next, ... $roles)
+        {
+            foreach ($roles as $role) {
+                // Check if user has the role This check will depend on how your roles are set up
+                if ($request->user()->hasRole($role))
+                    return $next($request);
+            }
             abort(403, "No tienes autorización para ingresar.");
         }
-        return $next($request);
     }
-}
