@@ -64,6 +64,8 @@
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('registerOperator')}}">Registrar Operador</a>
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="{{route('addFoundsToVenezuelanOperator')}}">Agregar Fondos a Operador Venezuela</a>
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('rate')}}">Definir Tasa</a>
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('settings')}}">Settings</a>

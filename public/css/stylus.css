@@ -672,6 +672,10 @@ input.vdatetime-input {
   height: 100%;
 }
 
+.v-select .dropdown-toggle::after {
+  content: none;
+}
+
 .btn-primary {
   background-color: #3490dc;
   color: #fff;

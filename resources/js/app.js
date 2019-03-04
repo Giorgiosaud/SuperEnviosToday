@@ -7,7 +7,7 @@ import { Settings } from 'luxon';
 import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
 import store from './store';
-import Transactions from './Pages/Transactions';
+import Transactions from './Pages/Transactions/Transactions';
 import TransactionsPending from './Pages/TransactionsPending';
 
 /**
@@ -54,6 +54,8 @@ Vue.component('register-member', require('./components/registerMember.vue').defa
 Vue.component('users-list', require('./components/usersList.vue').default);
 Vue.component('rate', require('./components/rate.vue').default);
 Vue.component('settings', require('./Pages/Settings/Settings.vue').default);
+Vue.component('my-profile', require('./Pages/MyProfile/MyProfile.vue').default);
+Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
 
 
 /**

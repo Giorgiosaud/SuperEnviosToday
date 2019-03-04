@@ -64,8 +64,37 @@ class UserTest extends TestCase
         );
         $response = $this->get('/api/roles');
         $response->assertJsonCount(5);
+    }
+    /**
+     * @test
+     */
+    public function anVenezuelanOperatorListIsShown(){
+        $users=factory(User::class,20)->create();
+        foreach ($users as $user){
+            $user->toogleRole('venezuelan_operator');
+        }
+        $user = factory(User::class)->create([
+            'name' => 'Coordinador',
+            'idn' => '1',
+            'idn_type' => 'CI',
+            'password' => bcrypt('hidden'),
+        ]);
+        $user->toogleRole('coordinator');
+        Passport::actingAs(
+            $user,
+            ['create-servers']
+        );
+        $response = $this->get('/api/operadores-venezuela');
+        $response->assertJsonCount(20);
 
+    }
 
+    /**
+     * @test
+     */
+    public function CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators(){
+        $this->actingAsCoordinator();
+        $this->getJson(route('venezuelan_operators'))->dump();
     }
 }
 
