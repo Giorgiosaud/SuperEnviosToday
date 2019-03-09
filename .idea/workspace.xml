@@ -9,51 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52c911e5-3fc1-476e-9e9f-5f65bed7a741" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/SuperEnviosToday.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/composerJson.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php-test-framework.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Pages/AddFunds/AddFunds.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Pages/MyProfile/MyProfile.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/js/variables/currenciesFormats.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/auth/profile.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/coordinator/addFundsToOperator.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/AccountsTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/BanksTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/CurrenciesTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/RatesTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Feature/TransactionsTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Account.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Bank.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Bank.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Currency.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Currency.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AccountController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/CheckRole.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/CheckRole.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Transaction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Transaction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/AccountFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/AccountFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_02_03_180256_create_accounts_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_02_03_180256_create_accounts_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2019_02_03_180313_create_transactions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_02_03_180313_create_transactions_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/stylus.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/stylus.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Transactions.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/rate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/rate.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/usersList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/usersList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/stylus/components/inputs.styl" beforeDir="false" afterPath="$PROJECT_DIR$/resources/stylus/components/inputs.styl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/UserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Feature/UserTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/TestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/TestCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -257,8 +214,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="200" selection-start-line="200" selection-end-line="200" />
+            <state relative-caret-position="130">
+              <caret line="197" column="4" selection-start-line="197" selection-start-column="4" selection-end-line="197" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -266,7 +223,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/js/components/registerClient.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
+            <state relative-caret-position="966">
               <caret line="271" column="6" selection-start-line="271" selection-start-column="6" selection-end-line="271" selection-end-column="48" />
               <folding>
                 <element signature="n#form#0;n#div#0;n#div#0;n#template#0;n#!!top" />
@@ -510,7 +467,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -577,6 +533,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -597,7 +554,7 @@
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.PHP" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Colors" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -691,7 +648,8 @@
       <workItem from="1551498675601" duration="1679000" />
       <workItem from="1551533487446" duration="1088000" />
       <workItem from="1551535561579" duration="8278000" />
-      <workItem from="1551619069047" duration="18740000" />
+      <workItem from="1551619069047" duration="18858000" />
+      <workItem from="1552091628436" duration="245000" />
     </task>
     <servers />
   </component>
@@ -728,19 +686,18 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104545000" />
+    <option name="totallyTimeSpent" value="104908000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47788697" visible="true" weight="0.23032904" />
-      <window_info id="Structure" order="1" sideWeight="0.5082803" side_tool="true" weight="0.19241774" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.482801" visible="true" weight="0.23319027" />
+      <window_info id="Structure" order="1" sideWeight="0.51719904" side_tool="true" weight="0.23319027" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" sideWeight="0.522113" side_tool="true" weight="0.23032904" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32923833" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3280098" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3280098" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3992629" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -749,7 +706,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32885906" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32846716" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3280098" />
       <window_info active="true" anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.32846716" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -760,7 +717,7 @@
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47788697" weight="0.23032904" />
       <window_info id="Structure" order="1" sideWeight="0.5082803" side_tool="true" weight="0.19241774" />
       <window_info id="npm" order="2" side_tool="true" />
-      <window_info active="true" id="Favorites" order="3" sideWeight="0.522113" side_tool="true" visible="true" weight="0.23032904" />
+      <window_info active="true" id="Favorites" order="3" sideWeight="0.522113" side_tool="true" weight="0.23032904" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32923833" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32866243" />
@@ -1149,15 +1106,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/variables/currenciesFormats.js">
+    <entry file="file://$PROJECT_DIR$/resources/views/auth/register.blade.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/auth/register.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/js/variables/currenciesFormats.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/registerClient.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
+        <state relative-caret-position="966">
           <caret line="271" column="6" selection-start-line="271" selection-start-column="6" selection-end-line="271" selection-end-column="48" />
           <folding>
             <element signature="n#form#0;n#div#0;n#div#0;n#template#0;n#!!top" />
@@ -1167,8 +1124,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="200" selection-start-line="200" selection-end-line="200" />
+        <state relative-caret-position="130">
+          <caret line="197" column="4" selection-start-line="197" selection-start-column="4" selection-end-line="197" selection-end-column="4" />
         </state>
       </provider>
     </entry>

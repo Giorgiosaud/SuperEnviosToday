@@ -195,9 +195,9 @@
           class="input-base"
           required
           autofocus
-          name="address"/>
-          Datos de Transaccion
-          <hr>
+          name="address"></textarea>
+        Datos de Transaccion
+        <hr>
       </div>
       <div class="col-12 col-md-6">
         Lista de Operadores y Cuentas
