@@ -51,6 +51,7 @@ Vue.component('transactions', Transactions);
 Vue.component('transactions-pending', TransactionsPending);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
 Vue.component('register-member', require('./components/registerMember.vue').default);
+Vue.component('register-client', require('./components/registerClient.vue').default);
 Vue.component('users-list', require('./components/usersList.vue').default);
 Vue.component('rate', require('./components/rate.vue').default);
 Vue.component('settings', require('./Pages/Settings/Settings.vue').default);

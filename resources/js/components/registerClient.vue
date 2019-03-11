@@ -8,13 +8,13 @@
           for="idn_type"
           class="label-base">Tipo de Identificación</label>
         <v-select
+          id="idn_type"
           :class="{'border-red':hasInErrors('idn')}"
           :searchable="false"
           :clearable="false"
           :options="idnTypes"
           v-model="person.idn_type"
           name="idn_type"
-          id="idn_type"
           class="mb-3"
           @blur="cleanError('idn_type')"/>
         <span
@@ -22,28 +22,6 @@
           class="error-base"
           role="alert">
           <strong>{{ getError('idn_type') }}</strong>
-        </span>
-        <label
-          for="roles"
-          class="label-base">Rol</label>
-        <v-select
-          id="roles"
-          :class="{'border-red':hasInErrors('role')}"
-          :searchable="false"
-          :clearable="false"
-          label="name"
-          :options="roles"
-          index="name_id"
-          v-model="selectedRole"
-          multiple
-          name="roles"
-          class="mb-3"
-          @blur="cleanError('role')"/>
-        <span
-          v-if="hasInErrors('role')"
-          class="error-base"
-          role="alert">
-          <strong>{{ getError('role') }}</strong>
         </span>
         <label
           for="idn"
@@ -170,7 +148,6 @@
         <label
           for="address"
           class="label-base">Dirección</label>
-
         <textarea
           id="address"
           :class="{'border-red':hasInErrors('address')}"
@@ -178,52 +155,13 @@
           class="input-base"
           required
           autofocus
-          name="address"/>
-
+          name="address">Direccion</textarea>
         <span
           v-if="hasInErrors('address')"
           class="error-base"
           role="alert">
           <strong>{{ getError('address') }}</strong>
         </span>
-        <label
-          for="password"
-          class="label-base">Clave</label>
-
-        <input
-          id="password"
-          :class="{'border-red':hasInErrors('password')}"
-          v-model="person.password"
-          type="password"
-          class="input-base"
-          name="password"
-          required>
-        <span
-          v-if="hasInErrors('password')"
-          class="error-base"
-          role="alert">
-          <strong>{{ getError('password') }}</strong>
-        </span>
-
-        <label
-          for="password_confirmation"
-          class="label-base">Confirmación de Clave</label>
-
-        <input
-          id="password_confirmation"
-          v-model="person.password_confirmation"
-          :class="{'border-red':hasInErrors('password_confirmation')}"
-          type="password"
-          class="input-base"
-          name="password_confirmation"
-          required>
-        <span
-          v-if="hasInErrors('password_confirmation')"
-          class="error-base"
-          role="alert">
-          <strong>{{ getError('password_confirmation') }}</strong>
-        </span>
-
         <button
           type="button"
           class="btn btn-primary mt-2"
@@ -241,17 +179,21 @@ export default {
   name: 'RegisterClient',
   mixins: [Error],
   props: {
-    authUser: {
-      type: Object,
-      default() {
-        return {};
-      },
+    idn_type_imported: {
+      type: String,
+      default: '',
     },
-    roles: {
-      type: Array,
-      default() {
-        return [];
-      },
+    idn_imported: {
+      type: String,
+      default: '',
+    },
+    clientType: {
+      type: String,
+      default: 'client',
+    },
+    relatedTo: {
+      type: Number,
+      default: null,
     },
   },
   data() {
@@ -275,19 +217,29 @@ export default {
   },
   mounted() {
     if (this.user) {
-      this.selectedRole = this.user.roles;
       this.person = this.user;
     }
   },
+  created() {
+    if (this.idn_imported !== '') {
+      this.person.idn = this.idn_imported;
+    }
+    if (this.idn_type_imported !== '') {
+      this.person.idn_type = this.idn_type_imported;
+    }
+  },
   methods: {
-
     registerPerson() {
-      axios.post('/registerMember', { person: this.person, roles: this.selectedRole }).catch((error) => {
-        this.errors = error.response.data.errors;
-      });
-    },
-    hasRole(role) {
-      return !!this.user.roles.filter(({ name }) => name === role).length;
+      axios.post('/api/registerClient', this.person)
+        .then(() => {
+          $('#modal').modal('hide');
+          this.$emmit('registered');
+        })
+        .catch((error) => {
+          if (this.errors) {
+            this.errors = error.response.data.errors;
+          }
+        });
     },
   },
 };

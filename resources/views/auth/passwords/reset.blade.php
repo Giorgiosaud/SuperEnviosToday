@@ -14,14 +14,35 @@
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="idn_type" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
+                                <select
+                                    id="idn_type"
+                                    class="form-control{{ $errors->has('idn_type') ? ' is-invalid' : '' }}"
+                                    name="idn_type" value="{{ $idn_type ?? old('idn_type') }}" required autofocus>
+                                    <option value="CI">CI</option>
+                                    <option value="RUT">RUT</option>
+                                    <option value="PASSPORT">PASSPORT</option>
+                                    <option value="DNI">DNI</option>
+                                </select>
+                                @if ($errors->has('idn_type'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('idn_type') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="idn" class="col-md-4 col-form-label text-md-right">{{ __('Numero de Identificación') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="idn" type="text" class="form-control{{ $errors->has('idn') ? ' is-invalid' : '' }}" name="idn" value="{{ $idn ?? old('idn') }}" required autofocus>
+
+                                @if ($errors->has('idn'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('idn') }}</strong>
                                     </span>
                                 @endif
                             </div>

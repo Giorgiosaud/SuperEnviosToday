@@ -676,6 +676,25 @@ input.vdatetime-input {
   content: none;
 }
 
+.input-base[disabled] {
+  background: rgba(128, 128, 128, .31);
+}
+
+.input-base.v-select {
+  background: #fff;
+}
+
+.input-base.v-select .form-control {
+  height: calc(1.4em + .75rem + 2px);
+}
+
+.input-base.v-select input[type=search],
+.input-base.v-select input[type=search]:focus,
+.input-base.v-select .dropdown-toggle {
+  padding: 0;
+  margin: 0;
+}
+
 .btn-primary {
   background-color: #3490dc;
   color: #fff;
