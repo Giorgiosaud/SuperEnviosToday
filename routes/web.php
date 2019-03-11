@@ -21,7 +21,7 @@
     Route::middleware(['auth'])->group(function () {
         Route::get('/profile', 'UserController@myProfile')->name('chilean_transactions');
     });
-    Route::middleware(['auth', 'role:chilean_operator'])->group(function () {
+    Route::middleware(['auth', 'role:chilean_operator,coordinator'])->group(function () {
         Route::get('/transactions', 'TransactionController@index')->name('chilean_transactions');
         Route::get('/transactions/pending', 'TransactionController@pending')->name('chilean_pending_transactions');
     });

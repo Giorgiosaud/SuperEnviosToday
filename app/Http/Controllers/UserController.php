@@ -110,4 +110,12 @@
                 'message' => 'Changes'
             ], 202);
         }
+        public function userData(Request $request){
+            $validated=$request->validate([
+                'idn'=>'required',
+                'idn_type'=>'required|in:PASSPORT,RUT,CI,DNI',
+            ]);
+            return User::where($validated)->get();
+
+        }
     }
