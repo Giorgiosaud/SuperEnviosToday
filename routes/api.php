@@ -13,9 +13,14 @@
     | is assigned the "api" middleware group. Enjoy building your API!
     |
     */
+    Route::get('test',function(){
+        return response([
+            'success' => true,
+            'message' => 'Changes'
+        ], 201);
+    });
     Route::post('deploy', 'UtilController@deploy');
     Route::get('last_rate', 'RateController@lastRate')->name('last_rate');
-
     Route::group(['middleware' => ['auth:api']], function () {
         Route::get('my_info', 'UserController@info');
         Route::patch('my_info', 'UserController@infoPatch');

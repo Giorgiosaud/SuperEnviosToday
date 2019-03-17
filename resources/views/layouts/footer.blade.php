@@ -4,3 +4,4 @@
        'apiToken' => $currentUser->api_token ?? null,
    ]) !!};
 </script>
+<script src="{{mix('/js/app.js')}}" ></script>

@@ -12,6 +12,19 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
+        factory(User::class)->create([
+            'idn' => '123',
+            'idn_type' => 'CI',
+            'name'=>'Cliente',
+            'password' => bcrypt('123'),
+        ]);
+        $receiver = factory(User::class)->create([
+            'idn' => '123',
+            'idn_type' => 'CI',
+            'name'=>'Cliente',
+            'password' => bcrypt('123'),
+        ]);
+        $receiver->toogleRole('client');
         $user = factory(User::class)->create([
             'name' => 'Alejandro',
             'idn' => '123123123',
@@ -33,7 +46,7 @@ class UsersSeeder extends Seeder
         $user->toogleRole('coordinator');
         $user = factory(User::class)->create([
             'idn_type' => 'RUT',
-            'idn' => '123123123',
+            'idn' => '123',
             'name' => 'Operador Chile ',
             'last_name' => 'Prueba'
         ]);

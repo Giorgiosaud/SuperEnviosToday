@@ -7,8 +7,8 @@ import { Settings } from 'luxon';
 import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
 import store from './store';
-import Transactions from './Pages/Transactions/Transactions';
-import TransactionsPending from './Pages/TransactionsPending';
+import Transactions from './Pages/Transactions/Transactions.vue';
+import TransactionsPending from './Pages/TransactionsPending.vue';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -18,7 +18,9 @@ import TransactionsPending from './Pages/TransactionsPending';
 
 require('./bootstrap');
 
-window.Vue = Vue;
+// window.Vue = Vue;
+
+const _ = require('lodash');
 
 Vue.use(vco);
 
@@ -57,6 +59,7 @@ Vue.component('rate', require('./components/rate.vue').default);
 Vue.component('settings', require('./Pages/Settings/Settings.vue').default);
 Vue.component('my-profile', require('./Pages/MyProfile/MyProfile.vue').default);
 Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
+Vue.component('add-account', require('./components/addAccount.vue').default);
 
 
 /**
@@ -74,3 +77,4 @@ const app = new Vue({
     }, 500));
   },
 });
+export default app;
