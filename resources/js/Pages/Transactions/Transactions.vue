@@ -143,7 +143,7 @@
           </tr>
           <tr
             v-for="receiver in client.receivers"
-            :class="{active:selectedReceiver===receiver}">
+            :class="{active:selectedReceiver ===receiver}">
             <td>{{ receiver.idn_type }}</td>
             <td>{{ receiver.idn }}</td>
             <td>{{ receiver.name }}</td>
@@ -157,7 +157,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        Datos de la tr
+        Seleccione Cuenta o asocie una a este receptor
         <hr>
       </div>
     </div>
@@ -166,7 +166,7 @@
         <button
           :disabled="!client.id"
           class="btn btn-primary"
-          @click="agregarUsuarioReceptor">Agregar Receptor</button>
+          @click="agregarCuenta">Agregar Cuenta</button>
       </div>
     </div>
     <hr>
@@ -183,7 +183,8 @@
             {{ modalTitle }}
           </div>
           <div class="modal-body">
-            <register-client
+            <component
+                :is="modalComponent"
               v-bind="propsOfComponent"
               @registered="buscarCliente"/>
           </div>
@@ -227,7 +228,7 @@ export default {
       idn_type: '',
       idn: '',
       client: {},
-      receiver: {},
+      selectedReceiver: {},
       modalTitle: '',
       modalComponent: '',
     };
@@ -261,8 +262,13 @@ export default {
       $('#modal').modal('show');
     },
     assignReceiver(receiver) {
-      this.receiver = receiver;
+      this.selectedReceiver = receiver;
     },
+      agregarCuenta() {
+          this.modalTitle = 'Agregar Cuenta';
+          this.modalComponent = 'register-client';
+          $('#modal').modal('show');
+      },
     agregarUsuarioReceptor() {
       this.modalTitle = 'Agregar Receptor';
       this.modalComponent = 'register-client';
