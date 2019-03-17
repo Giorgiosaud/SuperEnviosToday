@@ -9,27 +9,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52c911e5-3fc1-476e-9e9f-5f65bed7a741" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/SuperEnviosToday.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SuperEnviosToday.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RateController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/RatesFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/RatesFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/stylus.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/stylus.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/rate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/rate.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/registerClient.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/registerClient.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/stylus/components/inputs.styl" beforeDir="false" afterPath="$PROJECT_DIR$/resources/stylus/components/inputs.styl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Unit/UserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/UserTest.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -225,11 +211,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="156" column="39" selection-start-line="156" selection-start-column="39" selection-end-line="156" selection-end-column="39" />
+            <state relative-caret-position="594">
+              <caret line="295" column="21" selection-start-line="295" selection-start-column="21" selection-end-line="295" selection-end-column="21" />
               <folding>
                 <element signature="n#div#0;n#div#0;n#template#0;n#!!top" />
                 <element signature="n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" />
@@ -241,17 +227,7 @@
                 <element signature="n#label#0;n#div#1;n#div#4;n#div#0;n#template#0;n#!!top" />
                 <element signature="n#input#0;n#div#1;n#div#4;n#div#0;n#template#0;n#!!top" />
                 <element signature="n#div#2;n#div#4;n#div#0;n#template#0;n#!!top" />
-                <element signature="n#div#5;n#div#0;n#template#0;n#!!top" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/js/components/registerClient.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="233" column="6" selection-start-line="233" selection-start-column="6" selection-end-line="233" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -269,8 +245,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>FilesystemContract</find>
-      <find>visib</find>
       <find>passport</find>
       <find>CheckRole</find>
       <find>checkRole</find>
@@ -299,6 +273,8 @@
       <find>registerM</find>
       <find>roles</find>
       <find>register</find>
+      <find>agregar receptor</find>
+      <find>re</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/resources/js</dir>
@@ -310,9 +286,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/2019_02_06_005714_create_currencies_table.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/CurrencyController.php" />
-        <option value="$PROJECT_DIR$/resources/js/Pages/Settings/Currencies.vue" />
         <option value="$PROJECT_DIR$/resources/js/Pages/Settings/Settings.vue" />
         <option value="$PROJECT_DIR$/resources/js/Pages/Settings/Status.vue" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.blade.php" />
@@ -333,7 +306,6 @@
         <option value="$PROJECT_DIR$/app/Transaction.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_02_03_180313_create_transactions_table.php" />
         <option value="$PROJECT_DIR$/resources/js/Pages/AddFunds/AddFunds.vue" />
-        <option value="$PROJECT_DIR$/tests/Unit/UserTest.php" />
         <option value="$PROJECT_DIR$/tests/Feature/AccountsTest.php" />
         <option value="$PROJECT_DIR$/tests/Feature/TransactionsTest.php" />
         <option value="$PROJECT_DIR$/tests/TestCase.php" />
@@ -347,20 +319,24 @@
         <option value="$PROJECT_DIR$/resources/js/components/usersList.vue" />
         <option value="$PROJECT_DIR$/resources/js/Pages/Transactions.vue" />
         <option value="$PROJECT_DIR$/database/factories/RatesFactory.php" />
-        <option value="$PROJECT_DIR$/app/User.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RateController.php" />
         <option value="$PROJECT_DIR$/resources/js/components/rate.vue" />
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/resources/stylus/components/inputs.styl" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UserController.php" />
         <option value="$PROJECT_DIR$/routes/api.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" />
         <option value="$PROJECT_DIR$/resources/js/components/registerReceptor.vue" />
         <option value="$PROJECT_DIR$/resources/js/app.js" />
-        <option value="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" />
+        <option value="$PROJECT_DIR$/database/migrations/2019_03_12_052052_create_user_related_pivot_table.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2019_03_12_052052_create_users_receivers_pivot_table.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2019_03_12_052702_create_users_receivers_pivot_table.php" />
+        <option value="$PROJECT_DIR$/app/User.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php" />
+        <option value="$PROJECT_DIR$/tests/Unit/UserTest.php" />
         <option value="$PROJECT_DIR$/resources/js/components/registerClient.vue" />
+        <option value="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" />
       </list>
     </option>
   </component>
@@ -506,32 +482,6 @@
             <path>
               <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
               <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="Http" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-              <item name="Auth" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -546,6 +496,32 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="Pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="Pages" type="462c0819:PsiDirectoryNode" />
+              <item name="Transactions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="Unit" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -599,15 +575,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="PHPUnit.phpunit.xml">
-    <configuration name="CurrenciesTest.aCoordinatorCanStoreAndSeeCurrencies" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="Tests\Feature\CurrenciesTest" file="$PROJECT_DIR$/tests/Feature/CurrenciesTest.php" method="aCoordinatorCanStoreAndSeeCurrencies" scope="Method" />
-      <method v="2" />
-    </configuration>
-    <configuration name="CurrenciesTest.onlyCoordinatorCanGetCurrencies" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="Tests\Feature\CurrenciesTest" file="$PROJECT_DIR$/tests/Feature/CurrenciesTest.php" method="onlyCoordinatorCanGetCurrencies" scope="Method" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="PHPUnit.UserTest.aReceiverUserCanHaveManyAsociatedSenders">
     <configuration name="RatesTest.aNonCordinatorCantSeeRates" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="Tests\Feature\RatesTest" file="$PROJECT_DIR$/tests/Feature/RatesTest.php" method="aNonCordinatorCantSeeRates" scope="Method" />
       <method v="2" />
@@ -620,17 +588,25 @@
       <TestRunner class="Tests\Feature\UserTest" file="$PROJECT_DIR$/tests/Feature/UserTest.php" method="CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators" scope="Method" />
       <method v="2" />
     </configuration>
+    <configuration name="UserTest.aReceiverUserCanHaveManyAsociatedSenders" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Tests\Unit\UserTest" file="$PROJECT_DIR$/tests/Unit/UserTest.php" method="aReceiverUserCanHaveManyAsociatedSenders" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="UserTest.aUserCanRegisterAReceiverAndAsociateIt" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Tests\Unit\UserTest" file="$PROJECT_DIR$/tests/Unit/UserTest.php" method="aUserCanRegisterAReceiverAndAsociateIt" scope="Method" />
+      <method v="2" />
+    </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="PHPUnit.UserTest.aReceiverUserCanHaveManyAsociatedSenders" />
+        <item itemvalue="PHPUnit.UserTest.aUserCanRegisterAReceiverAndAsociateIt" />
         <item itemvalue="PHPUnit.UserTest.CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators" />
         <item itemvalue="PHPUnit.RatesTest.anyoneCanSeLastRate" />
         <item itemvalue="PHPUnit.RatesTest.aNonCordinatorCantSeeRates" />
-        <item itemvalue="PHPUnit.CurrenciesTest.aCoordinatorCanStoreAndSeeCurrencies" />
-        <item itemvalue="PHPUnit.CurrenciesTest.onlyCoordinatorCanGetCurrencies" />
       </list>
     </recent_temporary>
   </component>
@@ -668,49 +644,52 @@
       <workItem from="1551535561579" duration="8278000" />
       <workItem from="1551619069047" duration="18858000" />
       <workItem from="1552091628436" duration="823000" />
-      <workItem from="1552227053661" duration="12514000" />
+      <workItem from="1552227053661" duration="12711000" />
+      <workItem from="1552378178324" duration="2799000" />
+      <workItem from="1552699237180" duration="725000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="RatesTest_anyoneCanSeLastRate - 2019.03.03 at 20h 42m 27s.xml">
-      <configuration name="RatesTest.anyoneCanSeLastRate" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="phpunit_xml - 2019.03.03 at 20h 42m 43s.xml">
-      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators - 2019.03.03 at 20h 45m 26s.xml">
-      <configuration name="UserTest.CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators - 2019.03.03 at 20h 45m 39s.xml">
-      <configuration name="UserTest.CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators - 2019.03.03 at 20h 45m 48s.xml">
-      <configuration name="UserTest.CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators - 2019.03.03 at 20h 45m 56s.xml">
-      <configuration name="UserTest.CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators - 2019.03.03 at 20h 46m 10s.xml">
-      <configuration name="UserTest.CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="UserTest_CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators - 2019.03.03 at 20h 46m 25s.xml">
-      <configuration name="UserTest.CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
-    <history-entry file="phpunit_xml - 2019.03.03 at 20h 49m 22s.xml">
-      <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
-    </history-entry>
     <history-entry file="phpunit_xml - 2019.03.03 at 21h 17m 49s.xml">
       <configuration name="phpunit.xml" configurationId="PHPUnitRunConfigurationType" />
     </history-entry>
+    <history-entry file="UserTest_aUserCanRegisterAReceiverAndAsociateIt - 2019.03.12 at 05h 25m 34s.xml">
+      <configuration name="UserTest.aUserCanRegisterAReceiverAndAsociateIt" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_aUserCanRegisterAReceiverAndAsociateIt - 2019.03.12 at 05h 26m 08s.xml">
+      <configuration name="UserTest.aUserCanRegisterAReceiverAndAsociateIt" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_aUserCanRegisterAReceiverAndAsociateIt - 2019.03.12 at 05h 26m 28s.xml">
+      <configuration name="UserTest.aUserCanRegisterAReceiverAndAsociateIt" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_aUserCanRegisterAReceiverAndAsociateIt - 2019.03.12 at 05h 27m 30s.xml">
+      <configuration name="UserTest.aUserCanRegisterAReceiverAndAsociateIt" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_aUserCanRegisterAReceiverAndAsociateIt - 2019.03.12 at 05h 27m 53s.xml">
+      <configuration name="UserTest.aUserCanRegisterAReceiverAndAsociateIt" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_aUserCanRegisterAReceiverAndAsociateIt - 2019.03.12 at 05h 28m 07s.xml">
+      <configuration name="UserTest.aUserCanRegisterAReceiverAndAsociateIt" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_aUserCanRegisterAReceiverAndAsociateIt - 2019.03.12 at 05h 28m 19s.xml">
+      <configuration name="UserTest.aUserCanRegisterAReceiverAndAsociateIt" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_aReceiverUserCanHaveManyAsociatedSenders - 2019.03.12 at 05h 30m 16s.xml">
+      <configuration name="UserTest.aReceiverUserCanHaveManyAsociatedSenders" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+    <history-entry file="UserTest_aReceiverUserCanHaveManyAsociatedSenders - 2019.03.12 at 05h 59m 36s.xml">
+      <configuration name="UserTest.aReceiverUserCanHaveManyAsociatedSenders" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="118000000" />
+    <option name="totallyTimeSpent" value="121721000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.482801" visible="true" weight="0.23319027" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.482801" visible="true" weight="0.23891273" />
       <window_info id="Structure" order="1" sideWeight="0.51719904" side_tool="true" weight="0.23319027" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" sideWeight="0.522113" side_tool="true" weight="0.23032904" />
@@ -725,7 +704,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32885906" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3280098" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3280098" />
       <window_info active="true" anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.32846716" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -780,59 +759,22 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue</url>
           <line>3</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue</url>
           <line>14</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue</url>
           <line>8</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Currency.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" column="53" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/Feature/UserTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="96" column="50" selection-start-line="96" selection-start-column="50" selection-end-line="96" selection-end-column="50" />
-          <folding>
-            <element signature="e#33#46#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/Feature/AccountsTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/Feature/CurrenciesTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="61" selection-start-line="61" selection-end-line="61" />
-          <folding>
-            <element signature="e#41#58#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/Feature/BanksTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -919,13 +861,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/CheckRole.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/components/rate.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="199">
@@ -986,13 +921,6 @@
         <state relative-caret-position="-2" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Auth/Passwords/CanResetPassword.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
@@ -1007,20 +935,6 @@
           <folding>
             <element signature="e#46#82#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="4" column="34" selection-start-line="4" selection-start-column="34" selection-end-line="4" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -1047,13 +961,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/auth/login.blade.php">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RoleController.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -1128,13 +1035,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/registerReceptor.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4075">
-          <caret line="178" column="25" selection-start-line="178" selection-start-column="25" selection-end-line="178" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/registerReceptor.vue" />
     <entry file="file://$PROJECT_DIR$/resources/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="249">
@@ -1145,10 +1046,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2019_03_12_052052_create_users_receivers_pivot_table.php" />
+    <entry file="file://$PROJECT_DIR$/database/migrations/2019_03_12_052702_create_users_receivers_pivot_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="19" column="33" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1122">
+          <caret line="37" column="41" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
+          <folding>
+            <element signature="e#23#78#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/Unit/UserTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="118" column="32" selection-start-line="118" selection-start-column="32" selection-end-line="118" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="134">
+          <caret line="57" column="28" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/components/registerClient.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5255">
+          <caret line="231" column="18" selection-start-line="231" selection-start-column="18" selection-end-line="231" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="35" column="70" selection-start-line="35" selection-start-column="70" selection-end-line="35" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/CheckRole.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="156" column="39" selection-start-line="156" selection-start-column="39" selection-end-line="156" selection-end-column="39" />
+        <state relative-caret-position="594">
+          <caret line="295" column="21" selection-start-line="295" selection-start-column="21" selection-end-line="295" selection-end-column="21" />
           <folding>
             <element signature="n#div#0;n#div#0;n#template#0;n#!!top" />
             <element signature="n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" />
@@ -1160,15 +1128,7 @@
             <element signature="n#label#0;n#div#1;n#div#4;n#div#0;n#template#0;n#!!top" />
             <element signature="n#input#0;n#div#1;n#div#4;n#div#0;n#template#0;n#!!top" />
             <element signature="n#div#2;n#div#4;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#5;n#div#0;n#template#0;n#!!top" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/registerClient.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="233" column="6" selection-start-line="233" selection-start-column="6" selection-end-line="233" selection-end-column="6" />
         </state>
       </provider>
     </entry>

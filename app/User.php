@@ -35,7 +35,7 @@ class User extends Authenticatable
     /**
      * @var array
      */
-    protected $with = ['roles'];
+    protected $with = ['roles','receivers'];
 
 
     /**
@@ -86,5 +86,16 @@ class User extends Authenticatable
     public function accounts()
     {
         return $this->hasMany(Account::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function receivers(){
+        return $this->belongsToMany(User::class,'users_receivers','receiver_id','user_id')->withTimestamps();
+    }
+    public function senders(){
+        return $this->belongsToMany(User::class,'users_receivers','user_id','receiver_id')->withTimestamps();
+
     }
 }

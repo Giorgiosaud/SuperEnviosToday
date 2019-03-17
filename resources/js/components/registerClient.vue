@@ -187,11 +187,7 @@ export default {
       type: String,
       default: '',
     },
-    clientType: {
-      type: String,
-      default: 'client',
-    },
-    relatedTo: {
+    clientParent: {
       type: Number,
       default: null,
     },
@@ -205,9 +201,6 @@ export default {
         name: '',
         last_name: '',
         email: '',
-        email_confirmation: '',
-        password: '',
-        password_confirmation: '',
         phone: '',
         address: '',
       },
@@ -230,10 +223,13 @@ export default {
   },
   methods: {
     registerPerson() {
+      if (this.clientParent !== null) {
+        this.person.relatedSender = this.clientParent;
+      }
       axios.post('/api/registerClient', this.person)
         .then(() => {
           $('#modal').modal('hide');
-          this.$emmit('registered');
+          this.$emit('registered');
         })
         .catch((error) => {
           if (this.errors) {
