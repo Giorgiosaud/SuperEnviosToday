@@ -1,5 +1,8 @@
 const mix = require('laravel-mix');
 require('laravel-mix-tailwind');
+// version does not work in hmr mode
+const path = require('path');
+// fix css files 404 issue
 
 /*
  |--------------------------------------------------------------------------
@@ -19,5 +22,4 @@ mix.js('resources/js/app.js', 'public/js')
   .styles([
     'public/css/sass.css',
     'public/css/stylus.css',
-  ], 'public/css/app.css')
-  .browserSync('https://superenvios.dev');
+  ], 'public/css/app.css');

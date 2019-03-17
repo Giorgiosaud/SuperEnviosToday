@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <h1>Transcacciones</h1>
+        <h1>Transcaccion</h1>
       </div>
     </div>
     <div class="row">
@@ -15,20 +15,23 @@
       <div class="col-6 col-md-4">
         <label
           for="idn_type"
-          class="label-base">Tipo de Identificación</label>
+          class="label-base"
+        >Tipo de Identificación</label>
         <v-select
           id="idn_type"
+          v-model="idn_type"
           :searchable="false"
           :clearable="false"
           :options="idnTypes"
-          v-model="idn_type"
           name="idn_type"
-          class="mb-3 input-base p-0"/>
+          class="mb-3 input-base p-0"
+        />
       </div>
       <div class="col-6 col-md-4">
         <label
           for="idn"
-          class="label-base">Numero de Identificación</label>
+          class="label-base"
+        >Numero de Identificación</label>
 
         <input
           id="idn"
@@ -38,7 +41,8 @@
           name="idn"
           required
           autofocus
-          @blur="buscarCliente">
+          @blur="buscarCliente"
+        >
       </div>
     </div>
     <div class="row">
@@ -46,18 +50,22 @@
         <button
           :disabled="agregarDisabled"
           class="btn btn-primary"
-          @click="agregarCliente">Agregar Cliente</button>
+          @click="agregarCliente"
+        >
+          Agregar Cliente
+        </button>
       </div>
     </div>
     <div class="row">
       <div class="col-6 col-md-4">
         <label
           for="name"
-          class="label-base">Nombre</label>
+          class="label-base"
+        >Nombre</label>
         <input
           id="name"
-          :disabled="inputClientDisabled"
           v-model="client.name"
+          :disabled="inputClientDisabled"
           type="text"
           class="input-base"
           name="name"
@@ -68,7 +76,8 @@
       <div class="col-6 col-md-4">
         <label
           for="last_name"
-          class="label-base">Apellido(s)</label>
+          class="label-base"
+        >Apellido(s)</label>
         <input
           id="last_name"
           v-model="client.last_name"
@@ -77,27 +86,31 @@
           class="input-base"
           name="last_name"
           required
-          autofocus>
+          autofocus
+        >
       </div>
       <div class="col-6 col-md-4">
         <label
           for="phone"
-          class="label-base">Telefono</label>
+          class="label-base"
+        >Telefono</label>
 
         <input
           id="phone"
-          :disabled="inputClientDisabled"
           v-model="client.phone"
+          :disabled="inputClientDisabled"
           type="text"
           class="input-base"
           name="phone"
           required
-          autofocus>
+          autofocus
+        >
       </div>
       <div class="col-6 col-md-4">
         <label
           class="label-base"
-          for="email">Email</label>
+          for="email"
+        >Email</label>
         <input
           id="email"
           v-model="client.email"
@@ -106,12 +119,14 @@
           type="email"
           name="email"
           required
-          autofocus>
+          autofocus
+        >
       </div>
       <div class="col-6 col-md-4">
         <label
           for="address"
-          class="label-base">Dirección</label>
+          class="label-base"
+        >Dirección</label>
         <textarea
           id="address"
           v-model="client.address"
@@ -119,8 +134,8 @@
           class="input-base"
           required
           autofocus
-          name="address">Dirección</textarea>
-
+          name="address"
+        >Dirección</textarea>
       </div>
     </div>
     <div class="row">
@@ -131,7 +146,8 @@
     </div>
     <div
       v-if="client.receivers && client.receivers.length"
-      class="row">
+      class="row"
+    >
       <div class="table-responsive">
         <table class="table">
           <tr>
@@ -143,16 +159,33 @@
           </tr>
           <tr
             v-for="receiver in client.receivers"
-            :class="{active:selectedReceiver ===receiver}">
+            :class="{active:selectedReceiver ===receiver}"
+          >
             <td>{{ receiver.idn_type }}</td>
             <td>{{ receiver.idn }}</td>
             <td>{{ receiver.name }}</td>
             <td>{{ receiver.last_name }}</td>
-            <td><button
-              class="btn btn-primary"
-              @click="assignReceiver(receiver)">Seleccionar Receptor</button></td>
+            <td>
+              <button
+                class="btn btn-primary"
+                @click="assignReceiver(receiver)"
+              >
+                Seleccionar Receptor
+              </button>
+            </td>
           </tr>
         </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button
+          :disabled="!client.id"
+          class="btn btn-primary"
+          @click="agregarCliente"
+        >
+          Agregar Receptor
+        </button>
       </div>
     </div>
     <div class="row">
@@ -161,12 +194,47 @@
         <hr>
       </div>
     </div>
+    <div
+      v-if="selectedReceiver.accounts && selectedReceiver.accounts.length"
+      class="row"
+    >
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th>Tipo de Moneda</th>
+              <th>Nombre de Banco</th>
+              <th>Numero de Cuenta</th>
+              <th>Accion</th>
+            </tr>
+            <tr v-for="account in selectedReceiver.accounts"
+                :class="{active:selectedAccount === account}">
+              <td>{{ account.bank.currency.name }}</td>
+              <td>{{ account.bank.name }}</td>
+              <td>{{ account.number }}</td>
+              <td>
+                <button
+                  class="btn btn-primary"
+                  @click="assignAccount(account)"
+                >
+                  Seleccionar Cuenta
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-12">
         <button
-          :disabled="!client.id"
+          :disabled="!selectedReceiver.id"
           class="btn btn-primary"
-          @click="agregarCuenta">Agregar Cuenta</button>
+          @click="agregarCuenta"
+        >
+          Agregar Cuenta
+        </button>
       </div>
     </div>
     <hr>
@@ -176,17 +244,27 @@
       tabindex="-1"
       role="dialog"
       aria-labelledby="modalExtraInfo"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             {{ modalTitle }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
           </div>
           <div class="modal-body">
             <component
-                :is="modalComponent"
+              :is="modalComponent"
               v-bind="propsOfComponent"
-              @registered="buscarCliente"/>
+              @registered="buscarCliente"
+            />
           </div>
         </div>
       </div>
@@ -229,6 +307,7 @@ export default {
       idn: '',
       client: {},
       selectedReceiver: {},
+      selectedAccount: {},
       modalTitle: '',
       modalComponent: '',
     };
@@ -236,11 +315,15 @@ export default {
   computed: {
     propsOfComponent() {
       const props = {};
-      if (this.client.id) {
-        props.clientParent = this.client.id;
+      if (this.modalComponent === 'register-client') {
+        if (this.client.id) {
+          props.clientParent = this.client.id;
+        } else {
+          props.idn_imported = this.idn;
+          props.idn_type_imported = this.idn_type;
+        }
       } else {
-        props.idn_imported = this.idn;
-        props.idn_type_imported = this.idn_type;
+        props.client = this.selectedReceiver;
       }
       return props;
     },
@@ -262,13 +345,24 @@ export default {
       $('#modal').modal('show');
     },
     assignReceiver(receiver) {
+      if (this.selectedReceiver === receiver) {
+        this.selectedReceiver = null;
+        return;
+      }
       this.selectedReceiver = receiver;
     },
-      agregarCuenta() {
-          this.modalTitle = 'Agregar Cuenta';
-          this.modalComponent = 'register-client';
-          $('#modal').modal('show');
-      },
+    assignAccount(account) {
+      if (this.selectedAccount === account) {
+        this.selectedAccount = null;
+        return;
+      }
+      this.selectedAccount = account;
+    },
+    agregarCuenta() {
+      this.modalTitle = 'Agregar Cuenta';
+      this.modalComponent = 'add-account';
+      $('#modal').modal('show');
+    },
     agregarUsuarioReceptor() {
       this.modalTitle = 'Agregar Receptor';
       this.modalComponent = 'register-client';
@@ -299,6 +393,9 @@ export default {
 
 <style scoped>
 tr.active{
-    background:green;
+    background:#bcdefa;
+}
+.modal-dialog{
+    max-width: 90%;
 }
 </style>
