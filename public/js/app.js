@@ -2601,6 +2601,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Transactions',
   data: function data() {
@@ -2612,7 +2613,7 @@ __webpack_require__.r(__webpack_exports__);
       idn_type: '',
       idn: '',
       client: {},
-      receiver: {},
+      selectedReceiver: {},
       modalTitle: '',
       modalComponent: ''
     };
@@ -2650,7 +2651,12 @@ __webpack_require__.r(__webpack_exports__);
       $('#modal').modal('show');
     },
     assignReceiver: function assignReceiver(receiver) {
-      this.receiver = receiver;
+      this.selectedReceiver = receiver;
+    },
+    agregarCuenta: function agregarCuenta() {
+      this.modalTitle = 'Agregar Cuenta';
+      this.modalComponent = 'register-client';
+      $('#modal').modal('show');
     },
     agregarUsuarioReceptor: function agregarUsuarioReceptor() {
       this.modalTitle = 'Agregar Receptor';
@@ -44606,6 +44612,10 @@ function () {
 }();
 
 var singleton = null;
+/**
+ * Represents the local zone for this Javascript environment.
+ * @implments {Zone}
+ */
 
 var LocalZone =
 /*#__PURE__*/
@@ -44618,25 +44628,36 @@ function (_Zone) {
 
   var _proto = LocalZone.prototype;
 
+  /** @override **/
   _proto.offsetName = function offsetName(ts, _ref) {
     var format = _ref.format,
         locale = _ref.locale;
     return parseZoneInfo(ts, format, locale);
   };
+  /** @override **/
+
 
   _proto.offset = function offset(ts) {
     return -new Date(ts).getTimezoneOffset();
   };
+  /** @override **/
+
 
   _proto.equals = function equals(otherZone) {
     return otherZone.type === "local";
   };
+  /** @override **/
+
 
   _createClass(LocalZone, [{
     key: "type",
+
+    /** @override **/
     get: function get() {
       return "local";
     }
+    /** @override **/
+
   }, {
     key: "name",
     get: function get() {
@@ -44644,6 +44665,8 @@ function (_Zone) {
         return new Intl.DateTimeFormat().resolvedOptions().timeZone;
       } else return "local";
     }
+    /** @override **/
+
   }, {
     key: "universal",
     get: function get() {
@@ -44656,6 +44679,11 @@ function (_Zone) {
     }
   }], [{
     key: "instance",
+
+    /**
+     * Get a singleton instance of the local zone
+     * @return {LocalZone}
+     */
     get: function get() {
       if (singleton === null) {
         singleton = new LocalZone();
@@ -44726,15 +44754,37 @@ function partsOffset(dtf, date) {
 
   return filled;
 }
+/**
+ * A zone identified by an IANA identifier, like America/New_York
+ * @implments {Zone}
+ */
+
 
 var IANAZone =
 /*#__PURE__*/
 function (_Zone) {
   _inheritsLoose(IANAZone, _Zone);
 
+  /**
+   * Returns whether the provided string is a valid specifier. This only checks the string's format, not that the specifier identifies a known zone; see isValidZone for that.
+   * @param {string} s - The string to check validity on
+   * @example IANAZone.isValidSpecifier("America/New_York") //=> true
+   * @example IANAZone.isValidSpecifier("Fantasia/Castle") //=> true
+   * @example IANAZone.isValidSpecifier("Sport~~blorp") //=> false
+   * @return {true}
+   */
   IANAZone.isValidSpecifier = function isValidSpecifier(s) {
     return s && s.match(matchingRegex);
   };
+  /**
+   * Returns whether the provided string identifies a real zone
+   * @param {string} zone - The string to check
+   * @example IANAZone.isValidZone("America/New_York") //=> true
+   * @example IANAZone.isValidZone("Fantasia/Castle") //=> false
+   * @example IANAZone.isValidZone("Sport~~blorp") //=> false
+   * @return {true}
+   */
+
 
   IANAZone.isValidZone = function isValidZone(zone) {
     try {
@@ -44746,6 +44796,8 @@ function (_Zone) {
       return false;
     }
   }; // Etc/GMT+8 -> -480
+
+  /** @ignore */
 
 
   IANAZone.parseGMTOffset = function parseGMTOffset(specifier) {
@@ -44764,22 +44816,31 @@ function (_Zone) {
     var _this;
 
     _this = _Zone.call(this) || this;
+    /** @private **/
+
     _this.zoneName = name;
+    /** @private **/
+
     _this.valid = IANAZone.isValidZone(name);
     return _this;
   }
+  /** @override **/
+
 
   var _proto = IANAZone.prototype;
 
+  /** @override **/
   _proto.offsetName = function offsetName(ts, _ref) {
     var format = _ref.format,
         locale = _ref.locale;
-    return parseZoneInfo(ts, format, locale, this.zoneName);
+    return parseZoneInfo(ts, format, locale, this.name);
   };
+  /** @override **/
+
 
   _proto.offset = function offset(ts) {
     var date = new Date(ts),
-        dtf = makeDTF(this.zoneName),
+        dtf = makeDTF(this.name),
         _ref2 = dtf.formatToParts ? partsOffset(dtf, date) : hackyOffset(dtf, date),
         year = _ref2[0],
         month = _ref2[1],
@@ -44801,21 +44862,29 @@ function (_Zone) {
     asTS -= asTS % 1000;
     return (asUTC - asTS) / (60 * 1000);
   };
+  /** @override **/
+
 
   _proto.equals = function equals(otherZone) {
-    return otherZone.type === "iana" && otherZone.zoneName === this.zoneName;
+    return otherZone.type === "iana" && otherZone.name === this.name;
   };
+  /** @override **/
+
 
   _createClass(IANAZone, [{
     key: "type",
     get: function get() {
       return "iana";
     }
+    /** @override **/
+
   }, {
     key: "name",
     get: function get() {
       return this.zoneName;
     }
+    /** @override **/
+
   }, {
     key: "universal",
     get: function get() {
@@ -44840,15 +44909,34 @@ function hoursMinutesOffset(z) {
       base = sign + Math.abs(hours);
   return minutes > 0 ? base + ":" + padStart(minutes, 2) : base;
 }
+/**
+ * A zone with a fixed offset (i.e. no DST)
+ * @implments {Zone}
+ */
+
 
 var FixedOffsetZone =
 /*#__PURE__*/
 function (_Zone) {
   _inheritsLoose(FixedOffsetZone, _Zone);
 
+  /**
+   * Get an instance with a specified offset
+   * @param {number} offset - The offset in minutes
+   * @return {FixedOffsetZone}
+   */
   FixedOffsetZone.instance = function instance(offset) {
     return offset === 0 ? FixedOffsetZone.utcInstance : new FixedOffsetZone(offset);
   };
+  /**
+   * Get an instance of FixedOffsetZone with from a UTC offset string, like "UTC+6"
+   * @param {string} s - The offset string to parse
+   * @example FixedOffsetZone.parseSpecifier("UTC+6")
+   * @example FixedOffsetZone.parseSpecifier("UTC+06")
+   * @example FixedOffsetZone.parseSpecifier("UTC-6:00")
+   * @return {FixedOffsetZone}
+   */
+
 
   FixedOffsetZone.parseSpecifier = function parseSpecifier(s) {
     if (s) {
@@ -44864,6 +44952,11 @@ function (_Zone) {
 
   _createClass(FixedOffsetZone, null, [{
     key: "utcInstance",
+
+    /**
+     * Get a singleton instance of UTC
+     * @return {FixedOffsetZone}
+     */
     get: function get() {
       if (singleton$1 === null) {
         singleton$1 = new FixedOffsetZone(0);
@@ -44877,29 +44970,43 @@ function (_Zone) {
     var _this;
 
     _this = _Zone.call(this) || this;
+    /** @private **/
+
     _this.fixed = offset;
     return _this;
   }
+  /** @override **/
+
 
   var _proto = FixedOffsetZone.prototype;
 
+  /** @override **/
   _proto.offsetName = function offsetName() {
     return this.name;
   };
+  /** @override **/
 
+
+  /** @override **/
   _proto.offset = function offset() {
     return this.fixed;
   };
+  /** @override **/
+
 
   _proto.equals = function equals(otherZone) {
     return otherZone.type === "fixed" && otherZone.fixed === this.fixed;
   };
+  /** @override **/
+
 
   _createClass(FixedOffsetZone, [{
     key: "type",
     get: function get() {
       return "fixed";
     }
+    /** @override **/
+
   }, {
     key: "name",
     get: function get() {
@@ -44920,6 +45027,11 @@ function (_Zone) {
   return FixedOffsetZone;
 }(Zone);
 
+/**
+ * A zone that failed to parse. You should never need to instantiate this.
+ * @implments {Zone}
+ */
+
 var InvalidZone =
 /*#__PURE__*/
 function (_Zone) {
@@ -44929,34 +45041,49 @@ function (_Zone) {
     var _this;
 
     _this = _Zone.call(this) || this;
+    /**  @private */
+
     _this.zoneName = zoneName;
     return _this;
   }
+  /** @override **/
+
 
   var _proto = InvalidZone.prototype;
 
+  /** @override **/
   _proto.offsetName = function offsetName() {
     return null;
   };
+  /** @override **/
+
 
   _proto.offset = function offset() {
     return NaN;
   };
+  /** @override **/
+
 
   _proto.equals = function equals() {
     return false;
   };
+  /** @override **/
+
 
   _createClass(InvalidZone, [{
     key: "type",
     get: function get() {
       return "invalid";
     }
+    /** @override **/
+
   }, {
     key: "name",
     get: function get() {
       return this.zoneName;
     }
+    /** @override **/
+
   }, {
     key: "universal",
     get: function get() {
@@ -44984,7 +45111,7 @@ function normalizeZone(input, defaultZone) {
     return input;
   } else if (isString(input)) {
     var lowered = input.toLowerCase();
-    if (lowered === "local") return LocalZone.instance;else if (lowered === "utc" || lowered === "gmt") return FixedOffsetZone.utcInstance;else if ((offset = IANAZone.parseGMTOffset(input)) != null) {
+    if (lowered === "local") return defaultZone;else if (lowered === "utc" || lowered === "gmt") return FixedOffsetZone.utcInstance;else if ((offset = IANAZone.parseGMTOffset(input)) != null) {
       // handle Etc/GMT-4, which V8 chokes on
       return FixedOffsetZone.instance(offset);
     } else if (IANAZone.isValidSpecifier(lowered)) return new IANAZone(input);else return FixedOffsetZone.parseSpecifier(lowered) || new InvalidZone(input);
@@ -46143,7 +46270,7 @@ function () {
     }));
   };
 
-  _proto4.months = function months$$1(length, format, defaultOK) {
+  _proto4.months = function months$1(length, format, defaultOK) {
     var _this = this;
 
     if (format === void 0) {
@@ -46173,7 +46300,7 @@ function () {
     });
   };
 
-  _proto4.weekdays = function weekdays$$1(length, format, defaultOK) {
+  _proto4.weekdays = function weekdays$1(length, format, defaultOK) {
     var _this2 = this;
 
     if (format === void 0) {
@@ -46205,7 +46332,7 @@ function () {
     });
   };
 
-  _proto4.meridiems = function meridiems$$1(defaultOK) {
+  _proto4.meridiems = function meridiems$1(defaultOK) {
     var _this3 = this;
 
     if (defaultOK === void 0) {
@@ -46231,7 +46358,7 @@ function () {
     });
   };
 
-  _proto4.eras = function eras$$1(length, defaultOK) {
+  _proto4.eras = function eras$1(length, defaultOK) {
     var _this4 = this;
 
     if (defaultOK === void 0) {
@@ -48168,7 +48295,7 @@ function () {
    */
 
 
-  Info.normalizeZone = function normalizeZone$$1(input) {
+  Info.normalizeZone = function normalizeZone$1(input) {
     return normalizeZone(input, Settings.defaultZone);
   };
   /**
@@ -58011,9 +58138,9 @@ var render = function() {
           {
             staticClass: "btn btn-primary",
             attrs: { disabled: !_vm.client.id },
-            on: { click: _vm.agregarUsuarioReceptor }
+            on: { click: _vm.agregarCuenta }
           },
-          [_vm._v("Agregar Receptor")]
+          [_vm._v("Agregar Cuenta")]
         )
       ])
     ]),
@@ -58044,10 +58171,10 @@ var render = function() {
               { staticClass: "modal-body" },
               [
                 _c(
-                  "register-client",
+                  _vm.modalComponent,
                   _vm._b(
-                    { on: { registered: _vm.buscarCliente } },
-                    "register-client",
+                    { tag: "component", on: { registered: _vm.buscarCliente } },
+                    "component",
                     _vm.propsOfComponent,
                     false
                   )
@@ -58116,7 +58243,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-12" }, [
-        _vm._v("\n      Datos de la tr\n      "),
+        _vm._v(
+          "\n      Seleccione Cuenta o asocie una a este receptor\n      "
+        ),
         _c("hr")
       ])
     ])
@@ -60068,7 +60197,7 @@ o[t.label]=e,o)),t._v(" "),t.multiple?n("button",{staticClass:"close",attrs:{dis
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.8
+ * Vue.js v2.6.9
  * (c) 2014-2019 Evan You
  * Released under the MIT License.
  */
@@ -61926,10 +62055,11 @@ function invokeWithErrorHandling (
   var res;
   try {
     res = args ? handler.apply(context, args) : handler.call(context);
-    if (res && !res._isVue && isPromise(res)) {
+    if (res && !res._isVue && isPromise(res) && !res._handled) {
+      res.catch(function (e) { return handleError(e, vm, info + " (Promise/async)"); });
       // issue #9511
-      // reassign to res to avoid catch triggering multiple times when nested calls
-      res = res.catch(function (e) { return handleError(e, vm, info + " (Promise/async)"); });
+      // avoid catch triggering multiple times when nested calls
+      res._handled = true;
     }
   } catch (e) {
     handleError(e, vm, info);
@@ -62613,6 +62743,7 @@ function normalizeScopedSlots (
 ) {
   var res;
   var isStable = slots ? !!slots.$stable : true;
+  var hasNormalSlots = Object.keys(normalSlots).length > 0;
   var key = slots && slots.$key;
   if (!slots) {
     res = {};
@@ -62624,7 +62755,8 @@ function normalizeScopedSlots (
     prevSlots &&
     prevSlots !== emptyObject &&
     key === prevSlots.$key &&
-    Object.keys(normalSlots).length === 0
+    !hasNormalSlots &&
+    !prevSlots.$hasNormal
   ) {
     // fast path 2: stable scoped slots w/ no normal slots to proxy,
     // only need to normalize once
@@ -62650,6 +62782,7 @@ function normalizeScopedSlots (
   }
   def(res, '$stable', isStable);
   def(res, '$key', key);
+  def(res, '$hasNormal', hasNormalSlots);
   return res
 }
 
@@ -62659,8 +62792,10 @@ function normalizeScopedSlot(normalSlots, key, fn) {
     res = res && typeof res === 'object' && !Array.isArray(res)
       ? [res] // single vnode
       : normalizeChildren(res);
-    return res && res.length === 0
-      ? undefined
+    return res && (
+      res.length === 0 ||
+      (res.length === 1 && res[0].isComment) // #9658
+    ) ? undefined
       : res
   };
   // this is a slot using the new v-slot syntax without scope. although it is
@@ -62840,12 +62975,13 @@ function bindObjectProps (
             : data.attrs || (data.attrs = {});
         }
         var camelizedKey = camelize(key);
-        if (!(key in hash) && !(camelizedKey in hash)) {
+        var hyphenatedKey = hyphenate(key);
+        if (!(camelizedKey in hash) && !(hyphenatedKey in hash)) {
           hash[key] = value[key];
 
           if (isSync) {
             var on = data.on || (data.on = {});
-            on[("update:" + camelizedKey)] = function ($event) {
+            on[("update:" + key)] = function ($event) {
               value[key] = $event;
             };
           }
@@ -63680,7 +63816,7 @@ function resolveAsyncComponent (
   }
 
   var owner = currentRenderingInstance;
-  if (isDef(factory.owners) && factory.owners.indexOf(owner) === -1) {
+  if (owner && isDef(factory.owners) && factory.owners.indexOf(owner) === -1) {
     // already pending
     factory.owners.push(owner);
   }
@@ -63689,7 +63825,7 @@ function resolveAsyncComponent (
     return factory.loadingComp
   }
 
-  if (!isDef(factory.owners)) {
+  if (owner && !isDef(factory.owners)) {
     var owners = factory.owners = [owner];
     var sync = true
 
@@ -64304,10 +64440,15 @@ var getNow = Date.now;
 // timestamp can either be hi-res (relative to page load) or low-res
 // (relative to UNIX epoch), so in order to compare time we have to use the
 // same timestamp type when saving the flush timestamp.
-if (inBrowser && getNow() > document.createEvent('Event').timeStamp) {
-  // if the low-res timestamp which is bigger than the event timestamp
-  // (which is evaluated AFTER) it means the event is using a hi-res timestamp,
-  // and we need to use the hi-res version for event listeners as well.
+if (
+  inBrowser &&
+  window.performance &&
+  typeof performance.now === 'function' &&
+  document.createEvent('Event').timeStamp <= performance.now()
+) {
+  // if the event timestamp is bigger than the hi-res timestamp
+  // (which is evaluated AFTER) it means the event is using a lo-res timestamp,
+  // and we need to use the lo-res version for event listeners as well.
   getNow = function () { return performance.now(); };
 }
 
@@ -65473,7 +65614,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.8';
+Vue.version = '2.6.9';
 
 /*  */
 
@@ -67565,8 +67706,10 @@ function add$1 (
         e.target === e.currentTarget ||
         // event is fired after handler attachment
         e.timeStamp >= attachedTimestamp ||
-        // #9462 bail for iOS 9 bug: event.timeStamp is 0 after history.pushState
-        e.timeStamp === 0 ||
+        // bail for environments that have buggy event.timeStamp implementations
+        // #9462 iOS 9 bug: event.timeStamp is 0 after history.pushState
+        // #9681 QtWebEngine event.timeStamp is negative value
+        e.timeStamp <= 0 ||
         // #9448 bail if event is fired in another document in a multi-page
         // electron/nw.js app, since event.timeStamp will be using a different
         // starting reference
@@ -68184,8 +68327,8 @@ function enter (vnode, toggleDisplay) {
   var context = activeInstance;
   var transitionNode = activeInstance.$vnode;
   while (transitionNode && transitionNode.parent) {
-    transitionNode = transitionNode.parent;
     context = transitionNode.context;
+    transitionNode = transitionNode.parent;
   }
 
   var isAppear = !context._isMounted || !vnode.isRootInsert;
@@ -69892,7 +70035,7 @@ function parse (
         text = preserveWhitespace ? ' ' : '';
       }
       if (text) {
-        if (whitespaceOption === 'condense') {
+        if (!inPre && whitespaceOption === 'condense') {
           // condense consecutive whitespaces into single space
           text = text.replace(whitespaceRE$1, ' ');
         }

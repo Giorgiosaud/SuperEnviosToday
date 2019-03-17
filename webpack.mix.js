@@ -13,10 +13,11 @@ require('laravel-mix-tailwind');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss','public/css/sass.css')
-    .stylus('resources/stylus/app.styl','public/css/stylus.css')
-    .tailwind()
-    .styles([
+  .sass('resources/sass/app.scss', 'public/css/sass.css')
+  .stylus('resources/stylus/app.styl', 'public/css/stylus.css')
+  .tailwind()
+  .styles([
     'public/css/sass.css',
-    'public/css/stylus.css'
-], 'public/css/app.css');
+    'public/css/stylus.css',
+  ], 'public/css/app.css')
+  .browserSync('https://superenvios.dev');
