@@ -30,22 +30,23 @@ axios.interceptors.response.use(
   (error) => {
     const { config, response: { status } } = error;
     const originalRequest = config;
+    if (originalRequest.url === '/access_token') {
+      throw error;
+    }
     if (status === 401) {
       return axios.get('/access_token')
         .then((response) => {
-        /** @namespace response.data.access_token */
+          /** @namespace response.data.access_token */
           const token = response.data.access_token;
           sessionStorage.setItem('access_token', token);
           originalRequest.headers.Authorization = `Bearer ${token}`;
+
           /** @namespace window.axios.defaults */
-          window.axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-          return window.axios(originalRequest);
-        })
-        .catch((errorToken) => {
-          throw errorToken;
+          axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+          return axios(originalRequest);
         });
     }
-    return originalRequest;
+    throw error;
   },
 );
 
