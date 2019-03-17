@@ -140,7 +140,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        Receptores Registrados para este cliente
+        <h2>Receptores Registrados para este cliente</h2>
         <hr>
       </div>
     </div>
@@ -190,7 +190,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        Seleccione Cuenta o asocie una a este receptor
+        <h2>Seleccione Cuenta o asocie una a este receptor</h2>
         <hr>
       </div>
     </div>
@@ -207,8 +207,10 @@
               <th>Numero de Cuenta</th>
               <th>Accion</th>
             </tr>
-            <tr v-for="account in selectedReceiver.accounts"
-                :class="{active:selectedAccount === account}">
+            <tr
+              v-for="account in selectedReceiver.accounts"
+              :class="{active:selectedAccount === account}"
+            >
               <td>{{ account.bank.currency.name }}</td>
               <td>{{ account.bank.name }}</td>
               <td>{{ account.number }}</td>
@@ -217,7 +219,7 @@
                   class="btn btn-primary"
                   @click="assignAccount(account)"
                 >
-                  Seleccionar Cuenta
+                  <h2>Seleccionar Cuenta</h2>
                 </button>
               </td>
             </tr>
@@ -269,36 +271,49 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <h2>Datos de la transacción</h2>
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <label
+        for="amount"
+        class="label-base"
+      >Ingrese un monto</label>
+      <input
+        id="amount"
+        v-model="amount"
+        type="text"
+        class="input-base"
+      >
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h3>Tasa Actual {{ actualRate | currency }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h3>Monto en Bs {{ actualRate * amount| currency }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h2>Operadores Venezuela Disponibles</h2>
+        <hr>
+      </div>
+    </div>
   </div>
-  <!--div class="col-12 col-md-6">
-    Lista de Operadores y Cuentas
-    <div
-      v-for="operador in operadoresVenezuela"
-      :key="operador.id">
-      {{ operador.name }} {{ operador.last_name }}
-      <div
-        class="table-responsive">
-        <table class="table">
-          <tr>
-            <th>Nombre de Banco</th>
-            <th>Numero de cuenta</th>
-            <th>Monto Total</th>
-          </tr>
-          <tr
-            v-for="account in operador.accounts"
-            :key="account.id">
-            <th>{{ account.bank.name }}</th>
-            <th>{{ account.number }}</th>
-            <th>{{ account.TotalAmount }}</th>
-          </tr>
-        </table>
-      </div-->
 </template>
 <script>
 export default {
   name: 'Transactions',
   data() {
     return {
+      amount: '',
+      actualRate: 0,
       inputClientDisabled: true,
       agregarDisabled: true,
       operadoresVenezuela: [],
@@ -337,6 +352,9 @@ export default {
     window.axios.get('api/operadores-venezuela').then((response) => {
       this.operadoresVenezuela = response.data;
     });
+    axios.get('api/last_rate').then((response) => {
+      this.actualRate = response.data.amount;
+    });
   },
   methods: {
     agregarCliente() {
@@ -369,6 +387,7 @@ export default {
       $('#modal').modal('show');
     },
     buscarCliente() {
+      $('#modal').modal('hide');
       console.log('buscando');
       if (this.idn !== '' && this.idn_type !== '') {
         axios.get('api/user_data', {

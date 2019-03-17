@@ -92,10 +92,9 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function receivers(){
-        return $this->belongsToMany(User::class,'users_receivers','receiver_id','user_id')->withTimestamps();
+        return $this->belongsToMany(User::class,'users_receivers','user_id','receiver_id')->withTimestamps();
     }
     public function senders(){
-        return $this->belongsToMany(User::class,'users_receivers','user_id','receiver_id')->withTimestamps();
-
+        return $this->belongsToMany(User::class,'users_receivers','receiver_id','user_id')->withTimestamps();
     }
 }
