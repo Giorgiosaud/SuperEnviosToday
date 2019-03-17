@@ -64,6 +64,7 @@ class RegisterCompanyMembersController extends Controller
             'idn_type'=>'required|in:PASSPORT,RUT,CI,DNI',
             'name'=>'required',
             'last_name'=>'required',
+            'relatedSender'=>'numeric',
         ]);
 
         $validated['password']='secret';
@@ -77,6 +78,9 @@ class RegisterCompanyMembersController extends Controller
             'password'=>Hash::make($validated['password']),
             'last_name'=>$validated['last_name'],
         ]);
+        if($validated['relatedSender']!==null){
+            $user->senders()->attach($validated['relatedSender']);
+        }
         event(new Registered($user));
         $user->setRole('receiver');
         return $user;

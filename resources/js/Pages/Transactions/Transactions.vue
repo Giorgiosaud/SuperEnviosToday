@@ -127,14 +127,46 @@
       <div class="col-12">
         Receptores Registrados para este cliente
         <hr>
-        <div class="row">
-          <div class="col-12">
-            <button
-              :disabled="!client.id"
+      </div>
+    </div>
+    <div
+      v-if="client.receivers && client.receivers.length"
+      class="row">
+      <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <th>Idn Type</th>
+            <th>Idn</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Accion</th>
+          </tr>
+          <tr
+            v-for="receiver in client.receivers"
+            :class="{active:selectedReceiver===receiver}">
+            <td>{{ receiver.idn_type }}</td>
+            <td>{{ receiver.idn }}</td>
+            <td>{{ receiver.name }}</td>
+            <td>{{ receiver.last_name }}</td>
+            <td><button
               class="btn btn-primary"
-              @click="agregarUsuarioReceptor">Agregar Receptor</button>
-          </div>
-        </div>
+              @click="assignReceiver(receiver)">Seleccionar Receptor</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        Datos de la tr
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button
+          :disabled="!client.id"
+          class="btn btn-primary"
+          @click="agregarUsuarioReceptor">Agregar Receptor</button>
       </div>
     </div>
     <hr>
@@ -151,8 +183,7 @@
             {{ modalTitle }}
           </div>
           <div class="modal-body">
-            <component
-              :is="modalComponent"
+            <register-client
               v-bind="propsOfComponent"
               @registered="buscarCliente"/>
           </div>
@@ -204,17 +235,11 @@ export default {
   computed: {
     propsOfComponent() {
       const props = {};
-      switch (this.modalComponent) {
-        case 'register-client':
-          props.idn_imported = this.idn;
-          props.idn_type_imported = this.idn_type;
-          props.clientType = 'cliente';
-          break;
-        case 'register-client':
-          props.clientType = 'receptor';
-          break;
-        default:
-          break;
+      if (this.client.id) {
+        props.clientParent = this.client.id;
+      } else {
+        props.idn_imported = this.idn;
+        props.idn_type_imported = this.idn_type;
       }
       return props;
     },
@@ -230,11 +255,16 @@ export default {
     });
   },
   methods: {
-    agregarUsuarioReceptor() {
-
-    },
     agregarCliente() {
       this.modalTitle = 'Agregar Cliente';
+      this.modalComponent = 'register-client';
+      $('#modal').modal('show');
+    },
+    assignReceiver(receiver) {
+      this.receiver = receiver;
+    },
+    agregarUsuarioReceptor() {
+      this.modalTitle = 'Agregar Receptor';
       this.modalComponent = 'register-client';
       $('#modal').modal('show');
     },
@@ -262,5 +292,7 @@ export default {
 </script>
 
 <style scoped>
-
+tr.active{
+    background:green;
+}
 </style>

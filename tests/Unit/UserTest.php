@@ -100,4 +100,29 @@ class UserTest extends TestCase
             $this->assertContains('Integrity constraint violation', $err->getMessage());
         }
     }
+
+    /**
+     * @test
+     */
+    public function aUserCanRegisterAReceiverAndAsociateIt(){
+        $user=factory('App\User')->create();
+        $related=factory('App\User')->create();
+        $user->receivers()->attach($related->id);
+        $related=factory('App\User')->create();
+        $user->receivers()->attach($related->id);
+        $this->assertCount(2,$user->receivers);
+    }
+
+    /**
+     * @test
+     */
+    public function aReceiverUserCanHaveManyAsociatedSenders(){
+        $user=factory('App\User')->create();
+        $related=factory('App\User')->create();
+        $related->senders()->attach($user->id);
+        $user2=factory('App\User')->create();
+        $user2->receivers()->attach($related->id);
+        $this->assertCount(2,$related->senders);
+    }
+
 }
