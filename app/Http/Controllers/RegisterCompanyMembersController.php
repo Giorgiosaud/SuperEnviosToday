@@ -22,7 +22,7 @@ class RegisterCompanyMembersController extends Controller
     public function save(Request $request){
         $validated=$request->validate([
             'email'=>'required|email|confirmed',
-            'address'=>'required|string|min:20',
+            'address'=>'required|string',
             'phone'=>'required|string|min:9',
             'idn'=>'required',
             'idn_type'=>'required|in:PASSPORT,RUT,CI,DNI',
@@ -32,17 +32,8 @@ class RegisterCompanyMembersController extends Controller
             'roles'=>'required',
         ]);
 
-
-        $user=User::create([
-            'email'=>$validated['email'],
-            'address'=>$validated['address'],
-            'phone'=>$validated['phone'],
-            'idn'=>$validated['idn'],
-            'idn_type'=>$validated['idn_type'],
-            'name'=>$validated['name'],
-            'password'=>Hash::make($validated['password']),
-            'last_name'=>$validated['last_name'],
-        ]);
+        $validated['password']=Hash::make($validated['password']);
+        $user=User::create($validated);
         event(new Registered($user));
         foreach ($validated['roles'] as $role){
             $user->setRole($role);
@@ -58,26 +49,16 @@ class RegisterCompanyMembersController extends Controller
     public function saveClient(Request $request){
         $validated=$request->validate([
             'email'=>'required|email|confirmed',
-            'address'=>'required|string|min:20',
+            'address'=>'required|string',
             'phone'=>'required|string|min:9',
             'idn'=>'required',
             'idn_type'=>'required|in:PASSPORT,RUT,CI,DNI',
             'name'=>'required',
             'last_name'=>'required',
-            'relatedSender'=>'numeric',
         ]);
 
-        $validated['password']='secret';
-        $user=User::create([
-            'email'=>$validated['email'],
-            'address'=>$validated['address'],
-            'phone'=>$validated['phone'],
-            'idn'=>$validated['idn'],
-            'idn_type'=>$validated['idn_type'],
-            'name'=>$validated['name'],
-            'password'=>Hash::make($validated['password']),
-            'last_name'=>$validated['last_name'],
-        ]);
+        $validated['password']=Hash::make('secret');
+        $user=User::create($validated);
         if($validated['relatedSender']!==null){
             $user->senders()->attach($validated['relatedSender']);
         }

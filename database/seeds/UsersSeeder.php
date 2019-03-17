@@ -12,12 +12,6 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class)->create([
-            'idn' => '123',
-            'idn_type' => 'CI',
-            'name'=>'Cliente',
-            'password' => bcrypt('123'),
-        ]);
         $receiver = factory(User::class)->create([
             'idn' => '123',
             'idn_type' => 'CI',
