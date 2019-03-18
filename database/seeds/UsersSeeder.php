@@ -12,13 +12,17 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
+        $client = factory(User::class)->create([
+            'idn' => '123',
+            'idn_type' => 'Rut',
+            'password' => bcrypt('123'),
+        ]);
         $receiver = factory(User::class)->create([
             'idn' => '123',
             'idn_type' => 'CI',
-            'name'=>'Cliente',
             'password' => bcrypt('123'),
         ]);
-        $receiver->toogleRole('client');
+        $receiver->sender()->attach($client->id);
         $user = factory(User::class)->create([
             'name' => 'Alejandro',
             'idn' => '123123123',

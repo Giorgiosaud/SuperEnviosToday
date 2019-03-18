@@ -115,7 +115,7 @@
                 'idn'=>'required',
                 'idn_type'=>'required|in:PASSPORT,RUT,CI,DNI',
             ]);
-            return User::where($validated)->get();
+            return User::where($validated)->with('receivers')->get();
 
         }
     }
