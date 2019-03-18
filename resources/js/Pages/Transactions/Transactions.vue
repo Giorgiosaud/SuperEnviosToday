@@ -305,6 +305,34 @@
         <hr>
       </div>
     </div>
+    <div class="row">
+      <div
+        v-for="operador in operadoresVenezuela"
+        class="col-12"
+      >
+        {{ operador.name }} {{ operador.last_name }}
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th>
+                Banco
+              </th>
+              <th>
+                Cuenta
+              </th>
+              <th>
+                Saldo
+              </th>
+            </tr>
+            <tr v-for="account in operador.accounts">
+              <td>{{ account.bank.name }}</td>
+              <td>{{ account.number }}</td>
+              <td>{{ account.totalAmount|currency }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
