@@ -14,7 +14,7 @@ class UsersSeeder extends Seeder
     {
         $client = factory(User::class)->create([
             'idn' => '123',
-            'idn_type' => 'Rut',
+            'idn_type' => 'PASSPORT',
             'password' => bcrypt('123'),
         ]);
         $receiver = factory(User::class)->create([
@@ -22,7 +22,7 @@ class UsersSeeder extends Seeder
             'idn_type' => 'CI',
             'password' => bcrypt('123'),
         ]);
-        $receiver->sender()->attach($client->id);
+        $receiver->senders()->attach($client->id);
         $user = factory(User::class)->create([
             'name' => 'Alejandro',
             'idn' => '123123123',

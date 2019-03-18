@@ -2,7 +2,12 @@
   <div class="container">
     <div class="col-12 text-center">
       <h1>Rate Setup</h1>
-      <div id="graph">
+      <div
+        id="graph"
+        :class="{
+          invisible:!selectedCurrency
+        }"
+      >
         <vue-frappe
           id="test"
           ref="graph"
@@ -11,45 +16,52 @@
           :colors="['light-blue']"
           :data-sets="this.graphData"
           title="CLP Bs"
-          type="axis-mixed"/>
+          type="axis-mixed"
+        />
       </div>
       <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <label
+              for="currency"
+              class="label-base bg-white"
+            >Seleccione Moneda:</label>
+            <v-select
+              id="currency"
+              v-model="selectedCurrency"
+              :searchable="false"
+              :options="currencies"
+              label="name"
+              class="input-base"
+            />
+          </div>
+        </div>
         <div class="row">
           <div class="col-5">
             <label
               for="new-rate"
-              class="label-base">Nueva Tasa</label>
+              class="label-base"
+            >Nueva Tasa</label>
             <input
               id="new-rate"
               v-model="newRate"
               type="text"
-              class="input-base bg-white">
+              class="input-base bg-white"
+            >
           </div>
           <div class="col-4">
             <label
               for="since"
-              class="label-base bg-white">Aplicar desde:</label>
+              class="label-base bg-white"
+            >Aplicar desde:</label>
             <datetime
               id="since"
-              :flow="['date', 'time']"
               v-model="since"
+              :flow="['date', 'time']"
               class="input-base"
               type="datetime"
-              format="dd-MM-yyyy hh:mm"/>
-
-          </div>
-          <div class="col-3">
-            <label
-              for="currency"
-              class="label-base bg-white">Seleccione Moneda:</label>
-            <v-select
-              id="currency"
-              :searchable="false"
-              :options="currencies"
-              v-model="selectedCurrency"
-              label="name"
-              class="input-base"/>
-
+              format="dd-MM-yyyy hh:mm"
+            />
           </div>
         </div>
         <div class="row">
@@ -57,7 +69,9 @@
             <button
               :disabled="isDisabledSend"
               class="btn-primary btn-lg btn-block"
-              @click="setNewRate">Guardar Tasa
+              @click="setNewRate"
+            >
+              Guardar Tasa
             </button>
           </div>
         </div>
@@ -69,15 +83,18 @@
               <tr>
                 <th
                   v-for="header in headers"
-                  class="text-left">{{ header }}</th>
+                  class="text-left"
+                >
+                  {{ header }}
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="rate in rates">
-
+              <tr v-for="rate in selectedRates">
                 <td
                   v-for="key in keysToShow"
-                  class="text-left">
+                  class="text-left"
+                >
                   <span v-if="key==='since'">
                     {{ format(rate[key],'DD-MM-YYYY hh:mm:ss') }}
                   </span>
@@ -93,12 +110,18 @@
                     class="btn btn-danger btn-xs"
                     data-toggle="modal"
                     data-target="#user-modal"
-                    @click="removeRate(rate)">Eliminar</button>
+                    @click="removeRate(rate)"
+                  >
+                    Eliminar
+                  </button>
                   <button
                     class="btn btn-primary btn-xs"
                     data-toggle="modal"
                     data-target="#user-modal"
-                    @click="editRate(rate)">Editar</button>
+                    @click="editRate(rate)"
+                  >
+                    Editar
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -129,7 +152,12 @@ export default {
     };
   },
   computed: {
-
+    selectedRates() {
+      if (!this.selectedCurrency) {
+        return null;
+      }
+      return this.rates.filter(rate => rate.currency_id === this.selectedCurrency.id);
+    },
     isDisabledSend() {
       return this.selectedCurrency === null || this.since === '' || this.newRate === '';
     },
@@ -138,11 +166,26 @@ export default {
       return parseFloat(amount, 10);
     },
     updatedData() {
+      if (!this.selectedCurrency) {
+        return {
+          datasets: [{
+            name: 'CLP',
+            chartType: 'line',
+            values: [1, 2, 4],
+          }],
+          labels: ['1', '2', '4'],
+          tooltipOptions: {
+
+            formatTooltipX: d => (`${d}`).toUpperCase(),
+            formatTooltipY: d => `${d} Bs`,
+          },
+        };
+      }
       return {
         datasets: [{
-          name: 'CLP',
+          name: this.selectedCurrency.name,
           chartType: 'line',
-          values: this.rates.map(rate => rate.amount).reverse(),
+          values: this.selectedRates.map(rate => rate.amount).reverse(),
         }],
         labels: this.labels.map(lab => dateFns.parse(lab)).reverse(),
         tooltipOptions: {
@@ -152,19 +195,22 @@ export default {
       };
     },
     graphData() {
-      if (this.rates.length > 1) {
-
-      } else {
+      if (this.selectedRates) {
         return [{
-          name: 'CLP',
+          name: this.selectedCurrency.name,
           chartType: 'line',
-          values: [25, 40, 30, 35, 8, 52, 17, -4],
+          values: this.selectedRates,
         }];
       }
+      return [{
+        name: 'CLP',
+        chartType: 'line',
+        values: [25, 40, 30, 35, 8, 52, 17, -4],
+      }];
     },
     labels() {
-      if (this.rates.length > 1) {
-        return this.rates.map(rate => rate.since);
+      if (this.selectedRates) {
+        return this.selectedRates.map(rate => rate.since);
       }
       return [
         '12am-3am', '3am-6am', '6am-9am', '9am-12pm',
@@ -174,8 +220,8 @@ export default {
 
   },
   watch: {
-    updatedData() {
-      this.$refs.graph.update(this.updatedData);
+    updatedData(val) {
+      if (this.$refs.graph) this.$refs.graph.update(val);
     },
   },
   created() {
@@ -221,7 +267,7 @@ export default {
           currency: this.selectedCurrency,
         })
           .then((response) => {
-              this.rates.shift();
+            this.rates.shift();
             this.rates.unshift(response.data);
           })
           .catch(() => {
@@ -235,7 +281,7 @@ export default {
       });
     },
     getCurrencies() {
-      window.axios.get('api/currencies').then((response) => {
+      window.axios.get('api/foreign_currencies').then((response) => {
         this.currencies = response.data;
       });
     },
