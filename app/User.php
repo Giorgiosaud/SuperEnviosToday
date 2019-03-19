@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Observers\UserObserver;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -37,7 +38,11 @@ class User extends Authenticatable
      */
     protected $with = ['roles','accounts'];
 
-
+    public static function boot()
+    {
+        parent::boot();
+        User::observe(new UserObserver);
+    }
     /**
      * The roles that belong to the user.
      */

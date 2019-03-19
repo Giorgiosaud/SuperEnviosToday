@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::defaultView('vendor.pagination.bootstrap-4');
 
-        User::observe(UserObserver::class);
+        //User::observe(UserObserver::class);
 
         //
     }

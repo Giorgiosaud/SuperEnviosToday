@@ -1,100 +1,128 @@
 <?php
 
-namespace Tests\Feature;
+    namespace Tests\Feature;
 
-use App\User;
-use Laravel\Passport\Passport;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+    use App\Events\RegisteredOperator;
+    use App\User;
+    use Illuminate\Support\Facades\Event;
+    use Laravel\Passport\Passport;
+    use Tests\TestCase;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-/**
- * Class UserTest
- * @package Tests\Feature
- */
-class UserTest extends TestCase
-{
-    use RefreshDatabase;
-
+    use Illuminate\Foundation\Testing\WithoutMiddleware;
+    use Illuminate\Foundation\Testing\DatabaseMigrations;
+    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     /**
-     * A basic test example.
-     * @test
-     * @return void
+     * Class UserTest
+     * @package Tests\Feature
      */
-    public function aUsersAPIWORKS()
+    class UserTest extends TestCase
     {
-        $this->disableExceptionHandling();
-        factory(User::class, 10)->create();
-        $user = factory(User::class)->create([
-            'name' => 'Coordinador',
-            'idn' => '1',
-            'idn_type' => 'CI',
-            'password' => bcrypt('hidden'),
-        ]);
-        $user->toogleRole('coordinator');
-        Passport::actingAs(
-            $user,
-            ['create-servers']
-        );
+        use RefreshDatabase;
 
-        $response = $this->get('/api/users');
-        $response->assertJsonCount(11, $key = 'data');
 
-    }
+        /**
+         * A basic test example.
+         * @test
+         * @return void
+         */
+        public function aUsersAPIWORKS()
+        {
+            $this->disableExceptionHandling();
+            factory(User::class, 10)->create();
+            $user = factory(User::class)->create([
+                'name' => 'Coordinador',
+                'idn' => '1',
+                'idn_type' => 'CI',
+                'password' => bcrypt('hidden'),
+            ]);
+            $user->toogleRole('coordinator');
+            Passport::actingAs(
+                $user,
+                ['create-servers']
+            );
 
-    /**
-     * @test
-     */
-    public function rolesAPIWorks()
-    {
-        $user = factory(User::class)->create([
-            'name' => 'Coordinador',
-            'idn' => '1',
-            'idn_type' => 'CI',
-            'password' => bcrypt('hidden'),
-        ]);
-        $user->toogleRole('coordinator');
-        Passport::actingAs(
-            $user,
-            ['create-servers']
-        );
-        $response = $this->get('/api/roles');
-        $response->assertJsonCount(5);
-    }
-    /**
-     * @test
-     */
-    public function anVenezuelanOperatorListIsShown(){
-        $users=factory(User::class,20)->create();
-        foreach ($users as $user){
-            $user->toogleRole('venezuelan_operator');
+            $response = $this->get('/api/users');
+            $response->assertJsonCount(11, $key = 'data');
+
         }
-        $user = factory(User::class)->create([
-            'name' => 'Coordinador',
-            'idn' => '1',
-            'idn_type' => 'CI',
-            'password' => bcrypt('hidden'),
-        ]);
-        $user->toogleRole('coordinator');
-        Passport::actingAs(
-            $user,
-            ['create-servers']
-        );
-        $response = $this->get('/api/operadores-venezuela');
-        $response->assertJsonCount(20);
 
-    }
+        /**
+         * @test
+         */
+        public function rolesAPIWorks()
+        {
+            $user = factory(User::class)->create([
+                'name' => 'Coordinador',
+                'idn' => '1',
+                'idn_type' => 'CI',
+                'password' => bcrypt('hidden'),
+            ]);
+            $user->toogleRole('coordinator');
+            Passport::actingAs(
+                $user,
+                ['create-servers']
+            );
+            $response = $this->get('/api/roles');
+            $response->assertJsonCount(5);
+        }
 
-    /**
-     * @test
-     */
-    public function CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators(){
-        $this->actingAsCoordinator();
-        $this->getJson(route('venezuelan_operators'))->dump();
+        /**
+         * @test
+         */
+        public function anVenezuelanOperatorListIsShown()
+        {
+            $users = factory(User::class, 20)->create();
+            foreach ($users as $user) {
+                $user->toogleRole('venezuelan_operator');
+            }
+            $user = factory(User::class)->create([
+                'name' => 'Coordinador',
+                'idn' => '1',
+                'idn_type' => 'CI',
+                'password' => bcrypt('hidden'),
+            ]);
+            $user->toogleRole('coordinator');
+            Passport::actingAs(
+                $user,
+                ['create-servers']
+            );
+            $response = $this->get('/api/operadores-venezuela');
+            $response->assertJsonCount(20);
+
+        }
+
+        /**
+         * @test
+         */
+        public function CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators()
+        {
+            $this->actingAsCoordinator();
+            $this->getJson(route('venezuelan_operators'))->dump();
+        }
+
+        /**
+         * @test
+         */
+        public function whenOperatorIsRegisteredThworEventRegisteredOperator()
+        {
+
+            Event::fake();
+            $this->postJson('api/registerMember', [
+                "address" => "avenida",
+                "email" => "jorgelsaud@gmail.com",
+                "email_confirmation" => "jorgelsaud@gmail.com",
+                "idn"=> "263215982",
+                "idn_type" => "CI",
+                "last_name" => "bruces",
+                "name" => "Dea",
+                "password" => "123123123",
+                "password_confirmation" => "123123123",
+                "phone" => "123123123",
+                "roles" => ["venezuelan_operator"],
+            ]);
+        Event::assertDispatched(RegisteredOperator::class);
     }
-}
+    }
 

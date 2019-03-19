@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
+    use App\Currency;
+    use Illuminate\Database\Seeder;
 use App\Bank;
 
 class BankSeeder extends Seeder
@@ -44,6 +45,5 @@ class BankSeeder extends Seeder
             'name'=>'Santander',
             'currency_id'=>"2"
         ]);
-        //
     }
 }
