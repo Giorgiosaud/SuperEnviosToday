@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Events\RegisteredOperator;
-use \App\Listeners\AddChashAccount;
+use App\Listeners\AddCashAccount;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,8 +17,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        RegisteredOperator::class=>[
-          AddChashAccount::class,
+        RegisteredOperator::class =>[
+          AddCashAccount::class,
         ],
         Registered::class => [
             SendEmailVerificationNotification::class,
