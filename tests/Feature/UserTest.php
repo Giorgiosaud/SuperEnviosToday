@@ -107,13 +107,13 @@
          */
         public function whenOperatorIsRegisteredThworEventRegisteredOperator()
         {
-
+            $this->actingAsCoordinator();
             Event::fake();
             $this->postJson('api/registerMember', [
                 "address" => "avenida",
                 "email" => "jorgelsaud@gmail.com",
                 "email_confirmation" => "jorgelsaud@gmail.com",
-                "idn"=> "263215982",
+                "idn" => "263215982",
                 "idn_type" => "CI",
                 "last_name" => "bruces",
                 "name" => "Dea",
@@ -122,7 +122,7 @@
                 "phone" => "123123123",
                 "roles" => ["venezuelan_operator"],
             ]);
-        Event::assertDispatched(RegisteredOperator::class);
-    }
+            Event::assertDispatched(RegisteredOperator::class);
+        }
     }
 
