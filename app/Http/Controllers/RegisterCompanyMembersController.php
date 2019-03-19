@@ -2,6 +2,7 @@
 
     namespace App\Http\Controllers;
 
+    use App\Events\RegisteredOperator;
     use App\User;
     use Illuminate\Auth\Events\Registered;
     use Illuminate\Http\Request;
@@ -21,6 +22,10 @@
             return view('auth.registerMembers');
         }
 
+        /**
+         * @param Request $request
+         * @return mixed
+         */
         public function save(Request $request)
         {
             $validated = $request->validate([
@@ -37,10 +42,10 @@
 
             $validated['password'] = Hash::make($validated['password']);
             $user = User::create($validated);
-            event(new Registered($user));
             foreach ($validated['roles'] as $role) {
                 $user->setRole($role);
             }
+            event(new RegisteredOperator($user));
             return $user;
 
         }
