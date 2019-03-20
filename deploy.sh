@@ -19,3 +19,4 @@ php artisan migrate --force
 
 # stop maintenance mode
 php artisan up
+php artisan  migrate:refresh --seed && art passport:install --force
