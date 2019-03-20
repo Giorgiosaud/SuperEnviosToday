@@ -6,16 +6,19 @@
     <div class="row py-2">
       <label
         for="selector-operador-venezuela"
-        class="base-label col-12">Seleccione Operador Venezuela</label>
+        class="base-label col-12"
+      >Seleccione Operador Venezuela</label>
       <v-select
         id="selector-operador-venezuela"
-        :options="venezuelanOperators"
         v-model="selectedOperator"
+        :options="venezuelanOperators"
         class="col-12 p-0"
-        label="name">
+        label="name"
+      >
         <template
           slot="option"
-          slot-scope="option">
+          slot-scope="option"
+        >
           {{ option.name }} {{ option.last_name }}
         </template>
       </v-select>
@@ -23,20 +26,22 @@
     <div class="row py-2">
       <label
         for="selector-cuenta-venezuela"
-        class="base-label col-12">
+        class="base-label col-12"
+      >
         Seleccione Cuenta Destino
       </label>
       <v-select
         id="selector-cuenta-venezuela"
-        :options="accounts"
         v-model="selectedAccount"
+        :options="accounts"
         :disabled="!selectedOperator"
         :get-option-label="selectedAccountLabel"
         class="col-12 p-0"
       >
         <template
           slot="option"
-          slot-scope="option">
+          slot-scope="option"
+        >
           {{ option.bank.name }} – {{ option.number }}
         </template>
       </v-select>
@@ -45,25 +50,30 @@
       <button
         :disabled="!selectedOperator"
         class="btn btn-primary"
-        @click.prevent="showAddAccountModal">Agregar Cuenta
+        @click.prevent="showAddAccountModal"
+      >
+        Agregar Cuenta
       </button>
     </div>
     <div class="row py-2">
       <label
         for="amount"
-        class="base-label col-12">
+        class="base-label col-12"
+      >
         Ingrese Monto
       </label>
       <input
         id="amount"
         v-model="amount"
         type="text"
-        class="input-base">
+        class="input-base"
+      >
     </div>
     <div class="row py-2">
       <button
         class="btn btn-primary"
-        @click.prevent="addFunds">
+        @click.prevent="addFunds"
+      >
         Agregar Fondos
       </button>
     </div>
@@ -71,46 +81,56 @@
       id="addAccountModal"
       class="modal fade"
       tabindex="-1"
-      role="dialog">
+      role="dialog"
+    >
       <div
         class="modal-dialog modal-lg"
-        role="document">
+        role="document"
+      >
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Agregar Cuenta</h5>
+            <h5 class="modal-title">
+              Agregar Cuenta
+            </h5>
             <button
               type="button"
               class="close"
               data-dismiss="modal"
-              aria-label="Close">
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="container">
-              <div class="row"><v-select
-                id="selector-operador-venezuela"
-                :options="banks"
-                v-model="selectedBank"
-                class="col-12 p-0"
-                index="id"
-                label="name">
-                <template
-                  slot="option"
-                  slot-scope="option">
-                  {{ option.name }} – {{ option.currency.name }}
-                </template>
-              </v-select>
+              <div class="row">
+                <v-select
+                  id="selector-operador-venezuela"
+                  v-model="selectedBank"
+                  :options="banks"
+                  class="col-12 p-0"
+                  index="id"
+                  label="name"
+                >
+                  <template
+                    slot="option"
+                    slot-scope="option"
+                  >
+                    {{ option.name }} – {{ option.currency.name }}
+                  </template>
+                </v-select>
               </div>
               <div class="row">
                 <label
                   for="accountNumber"
-                  class="label-base">Account Number</label>
+                  class="label-base"
+                >Account Number</label>
                 <input
                   id="accountNumber"
                   v-model="newAccountNumber"
                   type="text"
-                  class="input-base">
+                  class="input-base"
+                >
               </div>
             </div>
           </div>
@@ -118,14 +138,17 @@
             <button
               type="button"
               class="btn btn-primary"
-              @click.prevent="addAccount">
+              @click.prevent="addAccount"
+            >
               Asociar Cuenta
             </button>
             <button
               type="button"
               class="btn btn-secondary"
               data-dismiss="modal"
-              @click.prevent="closeAddAccount">Close
+              @click.prevent="closeAddAccount"
+            >
+              Close
             </button>
           </div>
         </div>
@@ -190,11 +213,14 @@ export default {
       this.newAccountNumber = '';
     },
     addFunds() {
-      window.axios.post('api/transactions', {
+      window.axios.post('api/transaction-to-venezuelan-operator', {
         to_account_id: this.selectedAccount.id,
         amount: this.amount,
       }).then(() => {
-
+        this.amount = '';
+        this.selectedOperator = null;
+        this.selectedAccount = null;
+        alert('monto añadido exitosamente');
       });
     },
     getBanks() {
