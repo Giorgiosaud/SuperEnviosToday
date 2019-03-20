@@ -51,7 +51,8 @@
         Route::get('banks', 'BankController@index');
         Route::post('banks', 'BankController@store');
         Route::post('accounts', 'AccountController@store');
-        //TODO TEST
+        //TODO TEST and rename next two lines
         Route::post('transaction-to-venezuelan-operator', 'TransactionController@store');
+        Route::post('add-transaction', 'TransactionController@normalstore');
 
     });
