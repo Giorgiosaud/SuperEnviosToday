@@ -52,6 +52,6 @@
         Route::post('banks', 'BankController@store');
         Route::post('accounts', 'AccountController@store');
         //TODO TEST
-        Route::post('transaction-to-venezuelan-operator', 'transactionController@store');
+        Route::post('transaction-to-venezuelan-operator', 'TransactionController@store');
 
     });
