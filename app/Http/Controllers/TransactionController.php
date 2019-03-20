@@ -44,6 +44,8 @@ class TransactionController extends Controller
             'to_account_id'=>'required|numeric',
             'amount'=>'required|numeric'
         ]);
+        $validData['emitter_operator']=$request->user()->id;
+        $validData['status']='terminated';
         return Transaction::create($validData);
         //
     }

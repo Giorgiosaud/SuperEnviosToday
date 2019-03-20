@@ -1899,6 +1899,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AddFunds',
   data: function data() {
@@ -1960,16 +1983,23 @@ __webpack_require__.r(__webpack_exports__);
       this.newAccountNumber = '';
     },
     addFunds: function addFunds() {
-      window.axios.post('api/transactions', {
-        to_account_id: this.selectedAccount.id,
-        amount: this.amount
-      }).then(function () {});
-    },
-    getBanks: function getBanks() {
       var _this3 = this;
 
+      window.axios.post('api/transaction-to-venezuelan-operator', {
+        to_account_id: this.selectedAccount.id,
+        amount: this.amount
+      }).then(function () {
+        _this3.amount = '';
+        _this3.selectedOperator = null;
+        _this3.selectedAccount = null;
+        alert('monto añadido exitosamente');
+      });
+    },
+    getBanks: function getBanks() {
+      var _this4 = this;
+
       window.axios.get('api/banks').then(function (response) {
-        _this3.banks = response.data;
+        _this4.banks = response.data;
       });
     }
   }
@@ -67478,7 +67508,7 @@ var render = function() {
             }
           }
         },
-        [_vm._v("Agregar Cuenta\n    ")]
+        [_vm._v("\n      Agregar Cuenta\n    ")]
       )
     ]),
     _vm._v(" "),
@@ -67562,11 +67592,11 @@ var render = function() {
                             fn: function(option) {
                               return [
                                 _vm._v(
-                                  "\n                " +
+                                  "\n                  " +
                                     _vm._s(option.name) +
                                     " – " +
                                     _vm._s(option.currency.name) +
-                                    "\n              "
+                                    "\n                "
                                 )
                               ]
                             }
@@ -67647,7 +67677,7 @@ var render = function() {
                       }
                     }
                   },
-                  [_vm._v("Close\n          ")]
+                  [_vm._v("\n            Close\n          ")]
                 )
               ])
             ])
@@ -67671,7 +67701,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h5", { staticClass: "modal-title" }, [_vm._v("Agregar Cuenta")]),
+      _c("h5", { staticClass: "modal-title" }, [
+        _vm._v("\n            Agregar Cuenta\n          ")
+      ]),
       _vm._v(" "),
       _c(
         "button",
@@ -69116,7 +69148,7 @@ var render = function() {
                     _c("td", [_vm._v(_vm._s(account.number))]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v(_vm._s(_vm._f("currency")(account.totalAmount)))
+                      _vm._v(_vm._s(_vm._f("currency")(account.TotalAmount)))
                     ])
                   ])
                 })

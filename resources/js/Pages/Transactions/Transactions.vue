@@ -327,7 +327,7 @@
             <tr v-for="account in operador.accounts">
               <td>{{ account.bank.name }}</td>
               <td>{{ account.number }}</td>
-              <td>{{ account.totalAmount|currency }}</td>
+              <td>{{ account.TotalAmount|currency }}</td>
             </tr>
           </table>
         </div>
