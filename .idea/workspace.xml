@@ -9,7 +9,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52c911e5-3fc1-476e-9e9f-5f65bed7a741" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Account.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Account.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RateController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Transaction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Transaction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2019_02_03_180313_create_transactions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2019_02_03_180313_create_transactions_table.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/deploy.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/sass.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/sass.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/stylus.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/stylus.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/js/components/registerClient.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/registerClient.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -204,21 +218,46 @@
     </favorites_list>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/api.php">
+        <entry file="file://$PROJECT_DIR$/app/Account.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="53" column="45" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+            <state relative-caret-position="360">
+              <caret line="31" column="104" selection-start-line="31" selection-start-column="104" selection-end-line="31" selection-end-column="104" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/TransactionController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
+              <folding>
+                <element signature="e#40#53#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="497" column="8" selection-start-line="497" selection-start-column="8" selection-end-line="497" selection-end-column="8" />
+              <folding>
+                <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#div#0;n#div#2;n#div#0;n#template#0;n#!!top" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/deploy.sh">
+        <entry file="file://$PROJECT_DIR$/app/Transaction.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="184">
+              <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -236,23 +275,11 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>agrega</find>
-      <find>registerClient</find>
-      <find>agregar cuenta</find>
-      <find>client.nam</find>
-      <find>hot</find>
-      <find>alert</find>
-      <find>usuario creado exitosamente</find>
-      <find>registercli</find>
-      <find>register</find>
-      <find>created</find>
-      <find>creart</find>
       <find>api</find>
       <find>sum</find>
       <find>user_data</find>
       <find>userdaa</find>
       <find>getcu</find>
-      <find>curren</find>
       <find>selectedrates</find>
       <find>update</find>
       <find>graphdata</find>
@@ -266,6 +293,18 @@
       <find>addaccount</find>
       <find>transac</find>
       <find>agregar fondos</find>
+      <find>relatedSender</find>
+      <find>clientParent</find>
+      <find>person</find>
+      <find>length</find>
+      <find>active</find>
+      <find>agregar</find>
+      <find>Tipo de Moneda</find>
+      <find>last</find>
+      <find>last_r</find>
+      <find>transa</find>
+      <find>curren</find>
+      <find>currencies</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/resources/js</dir>
@@ -277,8 +316,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/stylus/components/inputs.styl" />
-        <option value="$PROJECT_DIR$/resources/views/auth/passwords/reset.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/passwords/email.blade.php" />
         <option value="$PROJECT_DIR$/resources/js/components/registerReceptor.vue" />
         <option value="$PROJECT_DIR$/database/migrations/2019_03_12_052052_create_user_related_pivot_table.php" />
@@ -297,9 +334,7 @@
         <option value="$PROJECT_DIR$/webpack.mix.js" />
         <option value="$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/footer.blade.php" />
-        <option value="$PROJECT_DIR$/resources/js/components/registerClient.vue" />
         <option value="$PROJECT_DIR$/resources/js/components/addAccount.vue" />
-        <option value="$PROJECT_DIR$/app/Account.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" />
         <option value="$PROJECT_DIR$/resources/js/components/registerMember.vue" />
         <option value="$PROJECT_DIR$/resources/js/bootstrap.js" />
@@ -320,14 +355,18 @@
         <option value="$PROJECT_DIR$/app/Listeners/AddChashAccount.php" />
         <option value="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" />
         <option value="$PROJECT_DIR$/tests/Feature/UserTest.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php" />
         <option value="$PROJECT_DIR$/database/factories/TransactionFactory.php" />
+        <option value="$PROJECT_DIR$/resources/js/Pages/AddFunds/AddFunds.vue" />
+        <option value="$PROJECT_DIR$/deploy.sh" />
+        <option value="$PROJECT_DIR$/resources/js/components/registerClient.vue" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RateController.php" />
+        <option value="$PROJECT_DIR$/routes/api.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_02_03_180313_create_transactions_table.php" />
+        <option value="$PROJECT_DIR$/app/Account.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/TransactionController.php" />
         <option value="$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue" />
-        <option value="$PROJECT_DIR$/resources/js/Pages/AddFunds/AddFunds.vue" />
-        <option value="$PROJECT_DIR$/routes/api.php" />
-        <option value="$PROJECT_DIR$/deploy.sh" />
+        <option value="$PROJECT_DIR$/app/Transaction.php" />
       </list>
     </option>
   </component>
@@ -463,6 +502,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -470,11 +510,32 @@
               <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
               <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SuperEnviosToday" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SuperEnviosToday" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -595,7 +656,8 @@
       <workItem from="1552699237180" duration="21956000" />
       <workItem from="1552917820902" duration="27000" />
       <workItem from="1552953164272" duration="5002000" />
-      <workItem from="1553121804493" duration="2637000" />
+      <workItem from="1553121804493" duration="2740000" />
+      <workItem from="1553212411974" duration="4937000" />
     </task>
     <task id="LOCAL-00001" summary="wip transaction">
       <created>1552827757302</created>
@@ -646,7 +708,21 @@
       <option name="project" value="LOCAL" />
       <updated>1553125023376</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="test deploy">
+      <created>1553125180418</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1553125180418</updated>
+    </task>
+    <task id="LOCAL-00009" summary="test deploy">
+      <created>1553125214884</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1553125214884</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -682,16 +758,16 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="150618000" />
+    <option name="totallyTimeSpent" value="155658000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.47897622" visible="true" weight="0.27753934" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.47897622" visible="true" weight="0.2811159" />
       <window_info id="Structure" order="1" sideWeight="0.51719904" side_tool="true" weight="0.23319027" />
       <window_info id="npm" order="2" side_tool="true" />
-      <window_info id="Favorites" order="3" sideWeight="0.52102375" side_tool="true" visible="true" weight="0.27753934" />
+      <window_info id="Favorites" order="3" sideWeight="0.52102375" side_tool="true" weight="0.27753934" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32923833" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.3280098" />
@@ -703,7 +779,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32885906" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3280098" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3280098" />
       <window_info active="true" anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.32846716" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="13" visible="true" weight="0.32923833" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -756,7 +832,8 @@
     <MESSAGE value="add refresh db to deploy" />
     <MESSAGE value="change to uppercase controller name" />
     <MESSAGE value="log deploys" />
-    <option name="LAST_COMMIT_MESSAGE" value="log deploys" />
+    <MESSAGE value="test deploy" />
+    <option name="LAST_COMMIT_MESSAGE" value="test deploy" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -780,23 +857,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="61" column="49" selection-start-line="61" selection-start-column="49" selection-end-line="61" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1495">
-          <caret line="69" column="7" selection-start-line="69" selection-start-column="7" selection-end-line="69" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/composer.lock">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -831,13 +891,6 @@
     <entry file="file://$PROJECT_DIR$/resources/views/auth/register.blade.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/components/registerClient.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="258" column="21" lean-forward="true" selection-start-line="258" selection-start-column="21" selection-end-line="258" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/bootstrap.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="33">
@@ -855,27 +908,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Account.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="23" column="38" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="117" column="59" selection-start-line="117" selection-start-column="59" selection-end-line="117" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/Pages/Rates/rate.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4371">
-          <caret line="92" column="46" selection-start-line="92" selection-start-column="46" selection-end-line="92" selection-end-column="46" />
-          <folding>
-            <element signature="e#3611#3642#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1075,16 +1111,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
-          <folding>
-            <element signature="e#48#82#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/Feature/UserTest.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
@@ -1116,24 +1142,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="329" column="40" selection-start-line="329" selection-start-column="40" selection-end-line="329" selection-end-column="40" />
-          <folding>
-            <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#0;n#div#2;n#div#0;n#template#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2019_02_03_180313_create_transactions_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/js/Pages/AddFunds/AddFunds.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
@@ -1144,24 +1152,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/TransactionController.php">
+    <entry file="file://$PROJECT_DIR$/resources/js/components/registerClient.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="49" column="10" selection-start-line="49" selection-start-column="10" selection-end-line="49" selection-end-column="10" />
+        <state relative-caret-position="276">
+          <caret line="276" column="6" selection-start-line="276" selection-start-column="6" selection-end-line="276" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/api.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RegisterCompanyMembersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="53" column="45" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+        <state relative-caret-position="277">
+          <caret line="76" selection-start-line="76" selection-end-line="76" />
+          <folding>
+            <element signature="e#48#82#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/deploy.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="406">
+          <caret line="23" selection-start-line="23" selection-end-line="23" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/Pages/Rates/rate.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="36" selection-end-column="16" />
+          <folding>
+            <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2019_02_03_180313_create_transactions_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="23" column="69" selection-start-line="23" selection-start-column="69" selection-end-line="23" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RateController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Account.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="31" column="104" selection-start-line="31" selection-start-column="104" selection-end-line="31" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/js/Pages/Transactions/Transactions.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="497" column="8" selection-start-line="497" selection-start-column="8" selection-end-line="497" selection-end-column="8" />
+          <folding>
+            <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#0;n#div#2;n#div#0;n#template#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/TransactionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="49" column="23" selection-start-line="49" selection-start-column="23" selection-end-line="49" selection-end-column="23" />
+          <folding>
+            <element signature="e#40#53#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Transaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
         </state>
       </provider>
     </entry>

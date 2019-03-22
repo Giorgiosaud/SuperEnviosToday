@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Rate;
 use App\Transaction;
 use Illuminate\Http\Request;
 
@@ -46,10 +47,29 @@ class TransactionController extends Controller
         ]);
         $validData['emitter_operator']=$request->user()->id;
         $validData['status']='terminated';
+        $validData['type']='income';
         return Transaction::create($validData);
         //
     }
 
+    /**
+     * @param Request $request
+     * @return RateController
+     */
+    public function normalstore(Request $request){
+    $validData=$request->validate([
+        'to_account_id'=>'required|numeric',
+        'from_account_id'=>'required|numeric',
+        'from_client_id'=>'required|numeric',//TODO ADD LIMIT TO ACCOUNTS IN DB
+        'amount'=>'required|numeric',
+        'foreign_currency_id'=>'required|numeric'
+    ]);
+    $rate= Rate::whereCurrencyId($validData['foreign_currency_id'])->orderBy('since', 'DESC')->first();
+    $validData['amount']=$rate['amount']*$validData['amount'];
+    $validData['emitter_operator']=$request->user()->id;
+    $validData['status']='assigned';
+    return Transaction::create($validData);
+}
     /**
      * Display the specified resource.
      *

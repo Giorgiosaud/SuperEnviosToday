@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
-    protected $fillable=['to_account_id','form_account_id','amount'];
+    protected $fillable=['type','to_account_id','from_account_id','amount','from_client_id','to_receiver_id','emitter_operator','foreign_currency_id','status'];
     public function originAccount()
     {
         return $this->belongsTo(Account::class, 'from_account_id');

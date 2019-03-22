@@ -21,4 +21,5 @@ php artisan migrate --force
 php artisan up
 php artisan migrate:refresh --seed
 php artisan passport:install --force
+git log -1 --pretty=%B >> deployLog
 date >> deployLog
