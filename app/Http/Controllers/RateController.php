@@ -36,9 +36,9 @@
         /**
          * @return mixed
          */
-        public function lastRate()
+        public function lastRate(Request $request,$id)
         {
-            return Rate::orderBy('since', 'DESC')->first();
+            return Rate::whereCurrencyId($id)->orderBy('since', 'DESC')->first();
         }
 
 

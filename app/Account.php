@@ -13,17 +13,23 @@
         /**
          * @return \Illuminate\Database\Eloquent\Relations\HasMany
          */
-        public function transactions()
+        public function incomingTransactions()
         {
             return $this->hasMany(Transaction::class, 'to_account_id');
         }
-
+        /**
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function outgoingTransactions()
+        {
+            return $this->hasMany(Transaction::class, 'from_account_id');
+        }
         /**
          * @return mixed
          */
         public function getTotalAmountAttribute()
         {
-            return $this->transactions->sum('amount');
+            return $this->incomingTransactions->sum('amount')-$this->outgoingTransactions->sum('amount');
         }
 
         /**

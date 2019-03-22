@@ -256,7 +256,7 @@ export default {
   },
   methods: {
     registerPerson() {
-      if (this.clientParent !== null) {
+      if (this.clientParent) {
         this.person.relatedSender = this.clientParent;
       }
       axios.post('/api/registerClient', this.person)

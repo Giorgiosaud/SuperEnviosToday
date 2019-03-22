@@ -73,7 +73,7 @@
                 $user=new User($validated);
             }
             $user->save();
-            if ($validated['relatedSender'] !== null) {
+            if (isset($validated['relatedSender'])) {
                 $user->senders()->attach($validated['relatedSender']);
             }
             event(new Registered($user));

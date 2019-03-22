@@ -19,9 +19,10 @@ class CreateTransactionsTable extends Migration
             $table->unsignedInteger('from_account_id')->nullable();
             $table->unsignedInteger('to_account_id');
             $table->unsignedInteger('from_client_id')->nullable();
-            $table->unsignedInteger('to_receiver_id')->nullable();
+            $table->unsignedInteger('foreign_currency_id')->nullable();
             $table->unsignedInteger('emitter_operator')->nullable();
-            $table->enum('status',['assigned','in_progress','excecuted','confirmed','terminated'])->default('assigned');
+            $table->enum('status',['assigned','in_progress','executed','confirmed','terminated'])->default('assigned');
+            $table->enum('type', ['income','outcome','pqc'])->default('outcome');
             $table->timestamps();
         });
     }

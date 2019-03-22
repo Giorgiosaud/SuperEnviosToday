@@ -20,7 +20,7 @@
         ], 201);
     });
     Route::post('deploy', 'UtilController@deploy');
-    Route::get('last_rate', 'RateController@lastRate')->name('last_rate');
+    Route::get('last_rate/{id}', 'RateController@lastRate')->name('last_rate');
     Route::group(['middleware' => ['auth:api']], function () {
         Route::get('my_info', 'UserController@info');
         Route::patch('my_info', 'UserController@infoPatch');

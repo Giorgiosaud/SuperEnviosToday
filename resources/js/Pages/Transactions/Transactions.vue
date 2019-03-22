@@ -209,7 +209,7 @@
             </tr>
             <tr
               v-for="account in selectedReceiver.accounts"
-              :class="{active:selectedAccount === account}"
+              :class="{active:selectedReceiverAccount === account}"
             >
               <td>{{ account.bank.currency.name }}</td>
               <td>{{ account.bank.name }}</td>
@@ -219,7 +219,7 @@
                   class="btn btn-primary"
                   @click="assignAccount(account)"
                 >
-                  <h2>Seleccionar Cuenta</h2>
+                  Seleccionar Cuenta
                 </button>
               </td>
             </tr>
@@ -278,6 +278,20 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-12">
+        <label
+          for="currency"
+          class="label-base bg-white"
+        >Seleccione Moneda:</label>
+        <v-select
+          id="currency"
+          v-model="selectedCurrency"
+          :searchable="false"
+          :options="currencies"
+          label="name"
+          class="input-base"
+        />
+      </div>
       <label
         for="amount"
         class="label-base"
@@ -323,14 +337,39 @@
               <th>
                 Saldo
               </th>
+              <th>
+                Accion
+              </th>
             </tr>
-            <tr v-for="account in operador.accounts">
-              <td>{{ account.bank.name }}</td>
-              <td>{{ account.number }}</td>
-              <td>{{ account.TotalAmount|currency }}</td>
+            <tr
+              v-for="venezuelan_account in operador.accounts"
+              :class="{active:selectedvenezuelanAccount === venezuelan_account.id}"
+            >
+              <td>{{ venezuelan_account.bank.name }}</td>
+              <td>{{ venezuelan_account.number }}</td>
+              <td>{{ venezuelan_account.TotalAmount|currency }}</td>
+              <td>
+                <button
+                  class="btn btn-primary"
+                  @click="assignVenezuelanAccount(venezuelan_account)"
+                >
+                  Seleccionar Cuenta Venezuela
+                </button>
+              </td>
             </tr>
           </table>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button
+          :disabled="!selectedReceiver.id"
+          class="btn btn-primary"
+          @click="agregarTransaccion"
+        >
+          Agregar Transacción
+        </button>
       </div>
     </div>
   </div>
@@ -350,9 +389,12 @@ export default {
       idn: '',
       client: {},
       selectedReceiver: {},
-      selectedAccount: {},
+      selectedReceiverAccount: {},
       modalTitle: '',
       modalComponent: '',
+      selectedvenezuelanAccount: '',
+      selectedCurrency: '',
+      currencies: [],
     };
   },
   computed: {
@@ -375,16 +417,24 @@ export default {
     idn_type() {
       this.buscarCliente();
     },
+    selectedCurrency(val) {
+      axios.get(`api/last_rate/${val.id}`).then((response) => {
+        this.actualRate = response.data.amount;
+      });
+    },
   },
   created() {
-    window.axios.get('api/operadores-venezuela').then((response) => {
+    axios.get('api/operadores-venezuela').then((response) => {
       this.operadoresVenezuela = response.data;
     });
-    axios.get('api/last_rate').then((response) => {
-      this.actualRate = response.data.amount;
+    axios.get('api/foreign_currencies').then(({ data }) => {
+      this.currencies = data;
     });
   },
   methods: {
+    assignVenezuelanAccount(account) {
+      this.selectedvenezuelanAccount = account.id;
+    },
     agregarCliente() {
       this.modalTitle = 'Agregar Cliente';
       this.modalComponent = 'register-client';
@@ -398,11 +448,11 @@ export default {
       this.selectedReceiver = receiver;
     },
     assignAccount(account) {
-      if (this.selectedAccount === account) {
-        this.selectedAccount = null;
+      if (this.selectedReceiverAccount === account) {
+        this.selectedReceiverAccount = null;
         return;
       }
-      this.selectedAccount = account;
+      this.selectedReceiverAccount = account;
     },
     agregarCuenta() {
       this.modalTitle = 'Agregar Cuenta';
@@ -433,6 +483,20 @@ export default {
             }
           });
       }
+    },
+    agregarTransaccion() {
+      const payload = {
+        to_account_id: this.selectedReceiverAccount.id,
+        from_account_id: this.selectedvenezuelanAccount,
+        from_client_id: this.client.id,
+        foreign_currency_id: this.selectedCurrency.id,
+        amount: this.amount,
+      };
+      axios.post('api/add-transaction', payload)
+        .then(() => {
+          alert('transaction ok');
+          window.location.reload();
+        });
     },
   },
 };
