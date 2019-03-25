@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Role;
 use App\User;
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Passport\Passport;
@@ -26,8 +27,8 @@ abstract class TestCase extends BaseTestCase
             'name'=>'Coordinador'
         ]);
         Role::create([
-            'name_id' => 'chilean_operator',
-            'name'=>'Operador Chileno'
+            'name_id' => 'foreign_operator',
+            'name'=>'Operador Extranjero'
         ]);
         Role::create([
             'name_id' => 'venezuelan_operator',
@@ -49,7 +50,7 @@ abstract class TestCase extends BaseTestCase
             'idn_type' => 'CI',
             'password' => bcrypt('hidden'),
         ]);
-        $user->toogleRole('chilean_operator');
+        $user->toogleRole('foreign_operator');
         Passport::actingAs(
             $user,
             ['create-servers']
@@ -106,11 +107,11 @@ abstract class TestCase extends BaseTestCase
             {
             }
 
-            public function report(\Exception $e)
+            public function report(Exception $e)
             {
             }
 
-            public function render($request, \Exception $e)
+            public function render($request, Exception $e)
             {
                 throw $e;
             }

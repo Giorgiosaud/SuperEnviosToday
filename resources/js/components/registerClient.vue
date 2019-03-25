@@ -1,4 +1,5 @@
 <template>
+    <!--TODO borrar datos al salvar-->
   <div class="container mx-auto">
     <div class="w-100">
       <form
@@ -229,7 +230,7 @@ export default {
         phone: '',
         address: '',
       },
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT','RIF'],
       selectedRole: [],
     };
   },

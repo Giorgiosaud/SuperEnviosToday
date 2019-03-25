@@ -4,6 +4,9 @@
 
     use Illuminate\Database\Eloquent\Model;
 
+    /**
+     * @method static create($validInputs)
+     */
     class Account extends Model
     {
         protected $with = ['bank'];

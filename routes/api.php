@@ -1,8 +1,5 @@
 <?php
 
-    use Illuminate\Contracts\Auth\Guard;
-    use Illuminate\Http\Request;
-
     /*
     |--------------------------------------------------------------------------
     | API Routes
@@ -25,10 +22,12 @@
         Route::get('my_info', 'UserController@info');
         Route::patch('my_info', 'UserController@infoPatch');
     });
-    Route::group(['middleware' => ['auth:api', 'role:coordinator,chilean_operator']], function () {
+    Route::group(['middleware' => ['auth:api', 'role:coordinator,foreign_operator']], function () {
         Route::get('operadores-venezuela', 'operatorsController@venezuelanIndex')->name('venezuelan_operators');
         //TODO make test
         Route::get('user_data', 'UserController@userData');
+        Route::post('add-transaction', 'TransactionController@normalstore');
+
     });
     Route::group(['middleware' => ['auth:api', 'role:coordinator']], function () {
         Route::get('valid', 'AuthController@isValid');
@@ -47,12 +46,13 @@
         Route::patch('rate/{rate}', 'RateController@update')->name('edit_rate');
         Route::get('currencies', 'CurrencyController@index')->name('currencies');
         Route::get('foreign_currencies', 'CurrencyController@foreignIndex')->name('foreign_currencies');
+        Route::get('foreign_operators','UserController@foreignOperators')->name('foreign_operators');
         Route::post('currencies', 'CurrencyController@store')->name('create_currency');
         Route::get('banks', 'BankController@index');
+        Route::get('foreign_banks/{currency}', 'BankController@foreign_index')->name('foreign_banks');
         Route::post('banks', 'BankController@store');
         Route::post('accounts', 'AccountController@store');
         //TODO TEST and rename next two lines
         Route::post('transaction-to-venezuelan-operator', 'TransactionController@store');
-        Route::post('add-transaction', 'TransactionController@normalstore');
 
     });

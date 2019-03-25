@@ -17,8 +17,8 @@ class RoleSeeder extends Seeder
             'name'=>'Coordinador'
         ]);
         Role::create([
-            'name_id' => 'chilean_operator',
-            'name'=>'Operador Chileno'
+            'name_id' => 'foreign_operator',
+            'name'=>'Operador Extranjero'
         ]);
         Role::create([
             'name_id' => 'venezuelan_operator',

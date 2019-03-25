@@ -23,6 +23,15 @@
         }
 
         /**
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+         */
+        public function createAndAssignAccount()
+        {
+            return view('auth.assignAccounts');
+
+        }
+
+        /**
          * @param Request $request
          * @return mixed
          */
@@ -69,8 +78,8 @@
 
             $validated['password'] = Hash::make('secret');
             $user = User::whereIdn($request->only(['idn']))->whereIdnType($request->only(['idn_type']))->first();
-            if(!$user){
-                $user=new User($validated);
+            if (!$user) {
+                $user = new User($validated);
             }
             $user->save();
             if (isset($validated['relatedSender'])) {

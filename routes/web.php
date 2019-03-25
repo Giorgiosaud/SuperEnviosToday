@@ -1,8 +1,4 @@
 <?php
-
-    use Illuminate\Contracts\Auth\Guard;
-    use Illuminate\Http\Request;
-
     /*
     |--------------------------------------------------------------------------
     | Web Routes
@@ -19,14 +15,16 @@
     });
     Route::get('/access_token', 'AuthController@getToken');
     Route::middleware(['auth'])->group(function () {
-        Route::get('/profile', 'UserController@myProfile')->name('chilean_transactions');
+        Route::get('/profile', 'UserController@myProfile')->name('user_profile');
     });
-    Route::middleware(['auth', 'role:chilean_operator,coordinator'])->group(function () {
+    Route::middleware(['auth', 'role:foreign_operator,coordinator'])->group(function () {
         Route::get('/transactions', 'TransactionController@index')->name('chilean_transactions');
         Route::get('/transactions/pending', 'TransactionController@pending')->name('chilean_pending_transactions');
+        //TODO agregar endpoint de transferencias Realizadas
     });
     Route::middleware(['auth', 'role:coordinator'])->group(function () {
         Route::get('/createMember', 'RegisterCompanyMembersController@create')->name('registerOperator');
+        Route::get('/registerForeignAccount', 'RegisterCompanyMembersController@createAndAssignAccount')->name('registerOperatorAccount');
         Route::get('/users', 'UserController@index')->name('users');
         Route::get('/rate', 'RateController@index')->name('rate');
         Route::get('/settings', 'SettingsController@index')->name('settings');

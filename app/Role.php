@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static create(array $array)
+ */
 class Role extends Model
 {
     protected $fillable = ['name_id','name'];
