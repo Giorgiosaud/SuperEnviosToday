@@ -237,7 +237,7 @@ export default {
       last_page: '',
       selectedUser: null,
       current_page: '',
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT','RIF'],
 
     };
   },

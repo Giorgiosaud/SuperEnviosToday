@@ -48,7 +48,7 @@ class UsersSeeder extends Seeder
             'name' => 'Operador Chile ',
             'last_name' => 'Prueba'
         ]);
-        $user->toogleRole('chilean_operator');
+        $user->toogleRole('foreign_operator');
         $user = factory(User::class)->create([
             'idn_type' => 'RUT',
             'idn' => '19',

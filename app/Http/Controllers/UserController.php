@@ -54,10 +54,13 @@
         {
 
             $validated = $request->validated();
+            /** @noinspection PhpUndefinedMethodInspection */
+            /** @noinspection PhpUndefinedFieldInspection */
             if (Auth::user()->hasRole('coordinator') && Auth::user()->id === $user->id) {
                 $roles = $request->only('roles')['roles'];
                 array_push($roles, 'coordinator');
             }
+            /** @noinspection PhpUndefinedMethodInspection */
             if (Auth::user()->hasRole('coordinator')) {
                 $user->update($validated);
                 $user->syncRoles($request->only('roles')['roles']);
@@ -104,18 +107,30 @@
                 'email' => ['string', 'email', 'max:255'],
             ]);
             $user = auth()->user();
+            /** @noinspection PhpUndefinedMethodInspection */
             $user->update($validated);
             return response([
                 'success' => true,
                 'message' => 'Changes'
             ], 202);
         }
-        public function userData(Request $request){
-            $validated=$request->validate([
-                'idn'=>'required',
-                'idn_type'=>'required|in:PASSPORT,RUT,CI,DNI',
+
+        public function userData(Request $request)
+        {
+            $validated = $request->validate([
+                'idn' => 'required',
+                'idn_type' => 'required|in:PASSPORT,RUT,CI,DNI',
             ]);
             return User::where($validated)->with('receivers')->get();
 
+        }
+
+        public function foreignOperators()
+        {
+            return User::whereHas(
+                'roles', function ($q) {
+                /** @noinspection PhpUndefinedMethodInspection */
+                $q->where('name_id','coordinator')->orWhere('name_id', 'foreign_operator');
+            })->get();
         }
     }

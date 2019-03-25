@@ -2739,6 +2739,31 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3124,7 +3149,7 @@ __webpack_require__.r(__webpack_exports__);
       inputClientDisabled: true,
       agregarDisabled: true,
       operadoresVenezuela: [],
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF'],
       idn_type: '',
       idn: '',
       client: {},
@@ -3134,10 +3159,27 @@ __webpack_require__.r(__webpack_exports__);
       modalComponent: '',
       selectedvenezuelanAccount: '',
       selectedCurrency: '',
-      currencies: []
+      currencies: [],
+      operator: null,
+      selectedOperatorAccount: ''
     };
   },
   computed: {
+    operatorAccounts: function operatorAccounts() {
+      var _this = this;
+
+      if (!this.operator) {
+        return [];
+      }
+
+      var accounts = this.operator.accounts.filter(function (acc) {
+        return acc.bank.currency.id === _this.selectedCurrency.id;
+      });
+      accounts.forEach(function (acc) {
+        acc.label = acc.bank.name;
+      });
+      return accounts;
+    },
     propsOfComponent: function propsOfComponent() {
       var props = {};
 
@@ -3160,22 +3202,27 @@ __webpack_require__.r(__webpack_exports__);
       this.buscarCliente();
     },
     selectedCurrency: function selectedCurrency(val) {
-      var _this = this;
+      var _this2 = this;
 
+      this.selectedOperatorAccount = null;
       axios.get("api/last_rate/".concat(val.id)).then(function (response) {
-        _this.actualRate = response.data.amount;
+        _this2.actualRate = response.data.amount;
       });
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
-    axios.get('api/operadores-venezuela').then(function (response) {
-      _this2.operadoresVenezuela = response.data;
-    });
-    axios.get('api/foreign_currencies').then(function (_ref) {
+    axios.get('api/my_info').then(function (_ref) {
       var data = _ref.data;
-      _this2.currencies = data;
+      _this3.operator = data;
+    });
+    axios.get('api/operadores-venezuela').then(function (response) {
+      _this3.operadoresVenezuela = response.data;
+    });
+    axios.get('api/foreign_currencies').then(function (_ref2) {
+      var data = _ref2.data;
+      _this3.currencies = data;
     });
   },
   methods: {
@@ -3214,10 +3261,9 @@ __webpack_require__.r(__webpack_exports__);
       $('#modal').modal('show');
     },
     buscarCliente: function buscarCliente() {
-      var _this3 = this;
+      var _this4 = this;
 
       $('#modal').modal('hide');
-      console.log('buscando');
 
       if (this.idn !== '' && this.idn_type !== '') {
         axios.get('api/user_data', {
@@ -3225,13 +3271,18 @@ __webpack_require__.r(__webpack_exports__);
             idn_type: this.idn_type,
             idn: this.idn
           }
-        }).then(function (response) {
-          if (!response.data.length) {
-            _this3.agregarDisabled = false;
-            _this3.client = {};
+        }).then(function (_ref3) {
+          var data = _ref3.data;
+
+          if (!data.length) {
+            _this4.agregarDisabled = false;
+            _this4.client = {};
           } else {
-            _this3.agregarDisabled = true;
-            _this3.client = response.data[0];
+            _this4.agregarDisabled = true;
+
+            var _data = _slicedToArray(data, 1);
+
+            _this4.client = _data[0];
           }
         });
       }
@@ -3239,6 +3290,7 @@ __webpack_require__.r(__webpack_exports__);
     agregarTransaccion: function agregarTransaccion() {
       var payload = {
         to_account_id: this.selectedReceiverAccount.id,
+        operator_account_id: this.selectedOperatorAccount.id,
         from_account_id: this.selectedvenezuelanAccount,
         from_client_id: this.client.id,
         foreign_currency_id: this.selectedCurrency.id,
@@ -3275,6 +3327,133 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* eslint-disable no-alert */
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'AssignForeignAccount',
+  data: function data() {
+    return {
+      selectedUser: null,
+      foreign_users: [],
+      banks: [],
+      currencies: [],
+      selectedCurrency: null,
+      selectedBank: null,
+      number: ''
+    };
+  },
+  watch: {
+    selectedCurrency: function selectedCurrency(val) {
+      this.getBanks(val.id);
+    }
+  },
+  created: function created() {
+    this.getForgeinUsers();
+    this.getCurrencies();
+  },
+  methods: {
+    getBanks: function getBanks(currencyId) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("api/foreign_banks/".concat(currencyId)).then(function (response) {
+        _this.banks = response.data;
+      });
+    },
+    getCurrencies: function getCurrencies() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('api/foreign_currencies').then(function (response) {
+        _this2.currencies = response.data;
+      });
+    },
+    addAccount: function addAccount() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/accounts', {
+        user_id: this.selectedUser.id,
+        bank_id: this.selectedBank.id,
+        number: this.number,
+        is_operator_account: true
+      }).then(function () {
+        alert('account added');
+        window.location.reload();
+      });
+    },
+    getForgeinUsers: function getForgeinUsers() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('api/foreign_operators').then(function (_ref) {
+        var data = _ref.data;
+        _this3.foreign_users = data;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/addAccount.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/addAccount.vue?vue&type=script&lang=js& ***!
@@ -3284,6 +3463,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3335,7 +3523,15 @@ __webpack_require__.r(__webpack_exports__);
       currency_id: '',
       currencies: [],
       banks: [],
-      number: ''
+      number: '',
+      account_type: '',
+      account_types: [{
+        label: 'Corriente',
+        index: 'corriente'
+      }, {
+        label: 'Ahorro',
+        index: 'ahorro'
+      }]
     };
   },
   computed: {
@@ -3655,6 +3851,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'RegisterClient',
@@ -3685,7 +3882,7 @@ __webpack_require__.r(__webpack_exports__);
         phone: '',
         address: ''
       },
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF'],
       selectedRole: []
     };
   },
@@ -4029,7 +4226,7 @@ __webpack_require__.r(__webpack_exports__);
         address: '',
         roles: []
       },
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF'],
       selectedRole: [],
       roles: []
     };
@@ -4322,7 +4519,7 @@ __webpack_require__.r(__webpack_exports__);
       last_page: '',
       selectedUser: null,
       current_page: '',
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT']
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF']
     };
   },
   created: function created() {
@@ -68977,10 +69174,13 @@ var render = function() {
               [
                 _vm._m(3),
                 _vm._v(" "),
-                _vm._l(_vm.client.receivers, function(receiver) {
+                _vm._l(_vm.client.receivers, function(receiver, receiverIndex) {
                   return _c(
                     "tr",
-                    { class: { active: _vm.selectedReceiver === receiver } },
+                    {
+                      key: receiverIndex,
+                      class: { active: _vm.selectedReceiver === receiver }
+                    },
                     [
                       _c("td", [_vm._v(_vm._s(receiver.idn_type))]),
                       _vm._v(" "),
@@ -69048,6 +69248,7 @@ var render = function() {
                     return _c(
                       "tr",
                       {
+                        key: account.id,
                         class: {
                           active: _vm.selectedReceiverAccount === account
                         }
@@ -69104,48 +69305,7 @@ var render = function() {
     _vm._v(" "),
     _c("hr"),
     _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "modal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "modalExtraInfo",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c("div", { staticClass: "modal-dialog modal-lg" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _vm._v("\n          " + _vm._s(_vm.modalTitle) + "\n          "),
-              _vm._m(6)
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "modal-body" },
-              [
-                _c(
-                  _vm.modalComponent,
-                  _vm._b(
-                    { tag: "component", on: { registered: _vm.buscarCliente } },
-                    "component",
-                    _vm.propsOfComponent,
-                    false
-                  )
-                )
-              ],
-              1
-            )
-          ])
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _vm._m(7),
+    _vm._m(6),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c(
@@ -69172,6 +69332,38 @@ var render = function() {
                 _vm.selectedCurrency = $$v
               },
               expression: "selectedCurrency"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-12" },
+        [
+          _c(
+            "label",
+            {
+              staticClass: "label-base bg-white",
+              attrs: { for: "foreign_account" }
+            },
+            [_vm._v("Seleccione Cuenta Receptor:")]
+          ),
+          _vm._v(" "),
+          _c("v-select", {
+            staticClass: "input-base",
+            attrs: {
+              id: "foreign_account",
+              searchable: false,
+              options: _vm.operatorAccounts
+            },
+            model: {
+              value: _vm.selectedOperatorAccount,
+              callback: function($$v) {
+                _vm.selectedOperatorAccount = $$v
+              },
+              expression: "selectedOperatorAccount"
             }
           })
         ],
@@ -69224,13 +69416,13 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(8),
+    _vm._m(7),
     _vm._v(" "),
     _c(
       "div",
       { staticClass: "row" },
-      _vm._l(_vm.operadoresVenezuela, function(operador) {
-        return _c("div", { staticClass: "col-12" }, [
+      _vm._l(_vm.operadoresVenezuela, function(operador, opvenindex) {
+        return _c("div", { key: opvenindex, staticClass: "col-12" }, [
           _vm._v(
             "\n      " +
               _vm._s(operador.name) +
@@ -69243,12 +69435,16 @@ var render = function() {
               "table",
               { staticClass: "table" },
               [
-                _vm._m(9, true),
+                _vm._m(8, true),
                 _vm._v(" "),
-                _vm._l(operador.accounts, function(venezuelan_account) {
+                _vm._l(operador.accounts, function(
+                  venezuelan_account,
+                  vacindex
+                ) {
                   return _c(
                     "tr",
                     {
+                      key: vacindex,
                       class: {
                         active:
                           _vm.selectedvenezuelanAccount ===
@@ -69312,7 +69508,48 @@ var render = function() {
           [_vm._v("\n        Agregar Transacción\n      ")]
         )
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "modalExtraInfo",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-lg" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-header" }, [
+              _vm._v("\n          " + _vm._s(_vm.modalTitle) + "\n          "),
+              _vm._m(9)
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "modal-body" },
+              [
+                _c(
+                  _vm.modalComponent,
+                  _vm._b(
+                    { tag: "component", on: { registered: _vm.buscarCliente } },
+                    "component",
+                    _vm.propsOfComponent,
+                    false
+                  )
+                )
+              ],
+              1
+            )
+          ])
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -69393,23 +69630,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "modal",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-12" }, [
         _c("h2", [_vm._v("Datos de la transacción")]),
@@ -69443,6 +69663,23 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("\n              Accion\n            ")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true
@@ -69476,6 +69713,141 @@ var staticRenderFns = [
     return _c("div", [_c("h1", [_vm._v("Transactions Pending")])])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=template&id=02aadcf6&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=template&id=02aadcf6&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-12" },
+        [
+          _c("label", { attrs: { for: "currencyId" } }, [
+            _vm._v("Seleccione el Operador")
+          ]),
+          _vm._v(" "),
+          _c("v-select", {
+            attrs: { options: _vm.foreign_users, label: "name" },
+            model: {
+              value: _vm.selectedUser,
+              callback: function($$v) {
+                _vm.selectedUser = $$v
+              },
+              expression: "selectedUser"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-12" },
+        [
+          _c("label", { attrs: { for: "currencyId" } }, [
+            _vm._v("Seleccione el tipo de moneda")
+          ]),
+          _vm._v(" "),
+          _c("v-select", {
+            attrs: { id: "currencyId", options: _vm.currencies, label: "name" },
+            model: {
+              value: _vm.selectedCurrency,
+              callback: function($$v) {
+                _vm.selectedCurrency = $$v
+              },
+              expression: "selectedCurrency"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "col-12" },
+        [
+          _c("label", { attrs: { for: "bankId" } }, [
+            _vm._v("Seleccione el Banco")
+          ]),
+          _vm._v(" "),
+          _c("v-select", {
+            attrs: { id: "bankId", options: _vm.banks, label: "name" },
+            model: {
+              value: _vm.selectedBank,
+              callback: function($$v) {
+                _vm.selectedBank = $$v
+              },
+              expression: "selectedBank"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12" }, [
+        _c("label", { attrs: { for: "number" } }, [_vm._v("Número de Cuenta")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.number,
+              expression: "number"
+            }
+          ],
+          staticClass: "input-base",
+          attrs: { id: "number", type: "text" },
+          domProps: { value: _vm.number },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.number = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary mt-2",
+            attrs: { type: "button" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.addAccount($event)
+              }
+            }
+          },
+          [_vm._v("\n        Registrar Cuenta\n      ")]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -69540,30 +69912,24 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("label", { attrs: { for: "number" } }, [_vm._v("Número de Cuenta")]),
+      _c("label", { attrs: { for: "account_type" } }, [
+        _vm._v("Seleccione el Tipo de Cuenta")
+      ]),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.number,
-            expression: "number"
-          }
-        ],
-        staticClass: "input-base",
-        attrs: { id: "number", type: "text" },
-        domProps: { value: _vm.number },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.number = $event.target.value
-          }
+      _c("v-select", {
+        attrs: { id: "account_type", options: _vm.account_types },
+        model: {
+          value: _vm.account_type,
+          callback: function($$v) {
+            _vm.account_type = $$v
+          },
+          expression: "account_type"
         }
       }),
       _vm._v(" "),
+      _c("label", { attrs: { for: "number" } }, [_vm._v("Número de Cuenta")]),
+      _vm._v(" "),
+      _vm._v("\n    >\n\n    "),
       _c(
         "button",
         {
@@ -69576,7 +69942,7 @@ var render = function() {
             }
           }
         },
-        [_vm._v("\n    Registrar Cuenta\n  ")]
+        [_vm._v("\n        Registrar Cuenta\n    ")]
       )
     ],
     1
@@ -85444,6 +85810,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue":
+/*!**************************************************************************!*\
+  !*** ./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _assignForeignAccount_vue_vue_type_template_id_02aadcf6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./assignForeignAccount.vue?vue&type=template&id=02aadcf6&scoped=true& */ "./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=template&id=02aadcf6&scoped=true&");
+/* harmony import */ var _assignForeignAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assignForeignAccount.vue?vue&type=script&lang=js& */ "./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _assignForeignAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _assignForeignAccount_vue_vue_type_template_id_02aadcf6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _assignForeignAccount_vue_vue_type_template_id_02aadcf6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "02aadcf6",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/assignForeignAccount/assignForeignAccount.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_assignForeignAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./assignForeignAccount.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_assignForeignAccount_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=template&id=02aadcf6&scoped=true&":
+/*!*********************************************************************************************************************!*\
+  !*** ./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=template&id=02aadcf6&scoped=true& ***!
+  \*********************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_assignForeignAccount_vue_vue_type_template_id_02aadcf6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./assignForeignAccount.vue?vue&type=template&id=02aadcf6&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue?vue&type=template&id=02aadcf6&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_assignForeignAccount_vue_vue_type_template_id_02aadcf6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_assignForeignAccount_vue_vue_type_template_id_02aadcf6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -85519,6 +85954,7 @@ vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('transactions', _Pages_Tran
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('transactions-pending', _Pages_TransactionsPending_vue__WEBPACK_IMPORTED_MODULE_10__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('main-menu', __webpack_require__(/*! ./components/mainMenu.vue */ "./resources/js/components/mainMenu.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('register-member', __webpack_require__(/*! ./components/registerMember.vue */ "./resources/js/components/registerMember.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('assign-foreign-account', __webpack_require__(/*! ./Pages/assignForeignAccount/assignForeignAccount.vue */ "./resources/js/Pages/assignForeignAccount/assignForeignAccount.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('register-client', __webpack_require__(/*! ./components/registerClient.vue */ "./resources/js/components/registerClient.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('users-list', __webpack_require__(/*! ./components/usersList.vue */ "./resources/js/components/usersList.vue").default);
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('rate', __webpack_require__(/*! ./Pages/Rates/rate.vue */ "./resources/js/Pages/Rates/rate.vue").default);

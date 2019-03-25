@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('last_name')->nullable();
             $table->string('idn');
-            $table->enum('idn_type',['CI','DNI','RUT','PASSPORT']);
+            $table->enum('idn_type',['CI','DNI','RUT','PASSPORT','RIF']);
             $table->unique(array('idn', 'idn_type'));
             $table->string('email')->nullable();
             $table->string('address')->nullable();

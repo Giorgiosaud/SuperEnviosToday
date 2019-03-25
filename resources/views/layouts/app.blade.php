@@ -65,6 +65,8 @@
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('registerOperator')}}">Registrar Operador</a>
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
+                                       href="{{route('registerOperatorAccount')}}">Agregar Cuenta a Operador Extranjero</a>
+                                    <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('addFoundsToVenezuelanOperator')}}">Agregar Fondos a Operador Venezuela</a>
                                     <a class="block no-underline text-teal-lighter hover:text-white p-3"
                                        href="{{route('rate')}}">Definir Tasa</a>
@@ -74,7 +76,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if(Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
+                        @if(Auth::user()->hasRole('foreign_operator')||Auth::user()->hasRole('coordinator'))
                             <div class="relative cursor-pointer text-teal-lighter hover:text-white">
                                 <a class="flex items-center justify-centerno-underline" v-cloak
                                    @click="toggleSubMenuChileanOperator">
@@ -93,7 +95,7 @@
                                 </div>
                             </div>
                         @endif
-                        @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('chilean_operator')||Auth::user()->hasRole('coordinator'))
+                        @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('foreign_operator')||Auth::user()->hasRole('coordinator'))
                             <div class="relative cursor-pointer text-teal-lighter hover:text-white">
                                 <a class="flex items-center justify-centerno-underline" v-cloak
                                    @click="toggleSubMenuVenezuelanOperator">

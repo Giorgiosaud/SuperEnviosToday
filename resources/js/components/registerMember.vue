@@ -284,7 +284,7 @@ export default {
         address: '',
         roles: [],
       },
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT','RIF'],
       selectedRole: [],
       roles: [],
     };

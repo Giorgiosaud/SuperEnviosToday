@@ -4,8 +4,10 @@
 
     use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Support\Facades\Storage;
 
+    /**
+     * @method static create($validated)
+     */
     class Bank extends Model
     {
         protected $fillable = ['currency_id', 'name'];

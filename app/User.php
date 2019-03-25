@@ -3,13 +3,23 @@
 namespace App;
 
 use App\Observers\UserObserver;
+use Closure;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 
 /**
  * Class User
  * @package App
+ * @method static Collection paginate(int $qty)
+ * @method static User where(string|array $column, string|null $operator , string $compare_value)
+ * @method static User orWhere(string $column, string $operator, string $compare_value)
+ * @method static User create($validated)
+ *  @method static User whereIdn(array $only)
+ * @method static User whereIdnType(array $only)
+ * @method first()
+ * @method static whereHas(string $string, Closure $param)
  */
 class User extends Authenticatable
 {
@@ -99,6 +109,10 @@ class User extends Authenticatable
     public function receivers(){
         return $this->belongsToMany(User::class,'users_receivers','user_id','receiver_id')->withTimestamps();
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function senders(){
         return $this->belongsToMany(User::class,'users_receivers','receiver_id','user_id')->withTimestamps();
     }

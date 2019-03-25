@@ -158,7 +158,8 @@
             <th>Accion</th>
           </tr>
           <tr
-            v-for="receiver in client.receivers"
+            v-for="(receiver , receiverIndex) in client.receivers"
+            :key="receiverIndex"
             :class="{active:selectedReceiver ===receiver}"
           >
             <td>{{ receiver.idn_type }}</td>
@@ -209,6 +210,7 @@
             </tr>
             <tr
               v-for="account in selectedReceiver.accounts"
+              :key="account.id"
               :class="{active:selectedReceiverAccount === account}"
             >
               <td>{{ account.bank.currency.name }}</td>
@@ -227,7 +229,6 @@
         </div>
       </div>
     </div>
-
     <div class="row">
       <div class="col-12">
         <button
@@ -240,37 +241,7 @@
       </div>
     </div>
     <hr>
-    <div
-      id="modal"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="modalExtraInfo"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            {{ modalTitle }}
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <component
-              :is="modalComponent"
-              v-bind="propsOfComponent"
-              @registered="buscarCliente"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+
     <div class="row">
       <div class="col-12">
         <h2>Datos de la transacción</h2>
@@ -289,6 +260,19 @@
           :searchable="false"
           :options="currencies"
           label="name"
+          class="input-base"
+        />
+      </div>
+      <div class="col-12">
+        <label
+          for="foreign_account"
+          class="label-base bg-white"
+        >Seleccione Cuenta Receptor:</label>
+        <v-select
+          id="foreign_account"
+          v-model="selectedOperatorAccount"
+          :searchable="false"
+          :options="operatorAccounts"
           class="input-base"
         />
       </div>
@@ -321,7 +305,8 @@
     </div>
     <div class="row">
       <div
-        v-for="operador in operadoresVenezuela"
+        v-for="(operador, opvenindex) in operadoresVenezuela"
+        :key="opvenindex"
         class="col-12"
       >
         {{ operador.name }} {{ operador.last_name }}
@@ -342,7 +327,8 @@
               </th>
             </tr>
             <tr
-              v-for="venezuelan_account in operador.accounts"
+              v-for="(venezuelan_account,vacindex) in operador.accounts"
+              :key="vacindex"
               :class="{active:selectedvenezuelanAccount === venezuelan_account.id}"
             >
               <td>{{ venezuelan_account.bank.name }}</td>
@@ -372,6 +358,37 @@
         </button>
       </div>
     </div>
+    <div
+      id="modal"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalExtraInfo"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            {{ modalTitle }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <component
+              :is="modalComponent"
+              v-bind="propsOfComponent"
+              @registered="buscarCliente"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -384,7 +401,7 @@ export default {
       inputClientDisabled: true,
       agregarDisabled: true,
       operadoresVenezuela: [],
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT','RIF'],
       idn_type: '',
       idn: '',
       client: {},
@@ -395,9 +412,20 @@ export default {
       selectedvenezuelanAccount: '',
       selectedCurrency: '',
       currencies: [],
+      operator: null,
+      selectedOperatorAccount: '',
     };
   },
   computed: {
+    operatorAccounts() {
+      if (!this.operator) {
+        return [];
+      }
+      const accounts = this.operator.accounts
+        .filter(acc => acc.bank.currency.id === this.selectedCurrency.id);
+      accounts.forEach((acc) => { acc.label = acc.bank.name; });
+      return accounts;
+    },
     propsOfComponent() {
       const props = {};
       if (this.modalComponent === 'register-client') {
@@ -418,12 +446,16 @@ export default {
       this.buscarCliente();
     },
     selectedCurrency(val) {
+      this.selectedOperatorAccount = null;
       axios.get(`api/last_rate/${val.id}`).then((response) => {
         this.actualRate = response.data.amount;
       });
     },
   },
   created() {
+    axios.get('api/my_info').then(({ data }) => {
+      this.operator = data;
+    });
     axios.get('api/operadores-venezuela').then((response) => {
       this.operadoresVenezuela = response.data;
     });
@@ -466,20 +498,19 @@ export default {
     },
     buscarCliente() {
       $('#modal').modal('hide');
-      console.log('buscando');
       if (this.idn !== '' && this.idn_type !== '') {
         axios.get('api/user_data', {
           params: {
             idn_type: this.idn_type, idn: this.idn,
           },
         })
-          .then((response) => {
-            if (!response.data.length) {
+          .then(({ data }) => {
+            if (!data.length) {
               this.agregarDisabled = false;
               this.client = {};
             } else {
               this.agregarDisabled = true;
-              this.client = response.data[0];
+              [this.client] = data;
             }
           });
       }
@@ -487,6 +518,7 @@ export default {
     agregarTransaccion() {
       const payload = {
         to_account_id: this.selectedReceiverAccount.id,
+        operator_account_id: this.selectedOperatorAccount.id,
         from_account_id: this.selectedvenezuelanAccount,
         from_client_id: this.client.id,
         foreign_currency_id: this.selectedCurrency.id,
@@ -502,6 +534,7 @@ export default {
 };
 </script>
 
+<!--suppress CssUnusedSymbol -->
 <style scoped>
 tr.active{
     background:#bcdefa;

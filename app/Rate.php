@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Rate
  * @package App
+ * @method static Rate whereCurrencyId($foreign_currency_id)
+ * @method static Rate orderBy(string $string, string $string1)
+ * @method first()
  */
 class Rate extends Model
 {
