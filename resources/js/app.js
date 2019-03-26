@@ -9,7 +9,7 @@ import VueCurrencyFilter from 'vue-currency-filter';
 import store from './store';
 import Transactions from './Pages/Transactions/Transactions.vue';
 import TransactionsPending from './Pages/TransactionsPending.vue';
-
+import VeeValidate from 'vee-validate';
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -61,7 +61,7 @@ Vue.component('settings', require('./Pages/Settings/Settings.vue').default);
 Vue.component('my-profile', require('./Pages/MyProfile/MyProfile.vue').default);
 Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
 Vue.component('add-account', require('./components/addAccount.vue').default);
-
+Vue.use(VeeValidate);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

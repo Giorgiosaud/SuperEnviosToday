@@ -22,14 +22,14 @@
             v-model="account_type"
             :options="account_types"
         />
-        <!--TODO agregar tipo de cuenta para cuentas de venezuela (RECEPTOR)-->
         <label for="number">Número de Cuenta</label>
         <input
             id="number"
             v-model="number"
+            name="Numero de Cuenta"
             type="text"
             class="input-base"
-        <!--TODO Validar 20 digitos en cuenta venezolana-->
+            v-validate="'required|length:20'"
         >
 
         <button
