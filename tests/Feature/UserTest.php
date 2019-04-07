@@ -2,16 +2,13 @@
 
     namespace Tests\Feature;
 
+    use App\Currency;
     use App\Events\RegisteredOperator;
     use App\User;
     use Illuminate\Support\Facades\Event;
-    use Laravel\Passport\Passport;
     use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
 
-    use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     /**
      * Class UserTest
@@ -31,19 +28,9 @@
         {
             $this->disableExceptionHandling();
             factory(User::class, 10)->create();
-            $user = factory(User::class)->create([
-                'name' => 'Coordinador',
-                'idn' => '1',
-                'idn_type' => 'CI',
-                'password' => bcrypt('hidden'),
-            ]);
-            $user->toogleRole('coordinator');
-            Passport::actingAs(
-                $user,
-                ['create-servers']
-            );
-
-            $response = $this->get('/api/users');
+            $this->getJson('/api/users')->assertStatus(401);
+            $this->actingAsCoordinator();
+            $response = $this->get('/api/users')->assertStatus(200);
             $response->assertJsonCount(11, $key = 'data');
 
         }
@@ -53,18 +40,8 @@
          */
         public function rolesAPIWorks()
         {
-            $user = factory(User::class)->create([
-                'name' => 'Coordinador',
-                'idn' => '1',
-                'idn_type' => 'CI',
-                'password' => bcrypt('hidden'),
-            ]);
-            $user->toogleRole('coordinator');
-            Passport::actingAs(
-                $user,
-                ['create-servers']
-            );
-            $response = $this->get('/api/roles');
+            $this->actingAsCoordinator();
+            $response = $this->getJson('/api/roles');
             $response->assertJsonCount(5);
         }
 
@@ -74,20 +51,11 @@
         public function anVenezuelanOperatorListIsShown()
         {
             $users = factory(User::class, 20)->create();
+            /** @var User $users */
             foreach ($users as $user) {
                 $user->toogleRole('venezuelan_operator');
             }
-            $user = factory(User::class)->create([
-                'name' => 'Coordinador',
-                'idn' => '1',
-                'idn_type' => 'CI',
-                'password' => bcrypt('hidden'),
-            ]);
-            $user->toogleRole('coordinator');
-            Passport::actingAs(
-                $user,
-                ['create-servers']
-            );
+            $this->actingAsCoordinator();
             $response = $this->get('/api/operadores-venezuela');
             $response->assertJsonCount(20);
 
@@ -99,13 +67,20 @@
         public function CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators()
         {
             $this->actingAsCoordinator();
-            $this->getJson(route('venezuelan_operators'))->dump();
+            $users=factory(User::class, 30)->create();
+            /** @var User $users */
+            foreach ($users as $user){
+                $user->setRole('venezuelan_operator');
+            }
+            $this->getJson(route('venezuelan_operators'))
+                ->assertJsonCount(30);
+
         }
 
         /**
          * @test
          */
-        public function whenOperatorIsRegisteredThworEventRegisteredOperator()
+        public function whenOperatorIsRegisteredThrowEventRegisteredOperator()
         {
             $this->actingAsCoordinator();
             Event::fake();
@@ -123,6 +98,25 @@
                 "roles" => ["venezuelan_operator"],
             ]);
             Event::assertDispatched(RegisteredOperator::class);
+        }
+
+        /**
+         * @test
+         */
+        public function aClientUserIsPromotedAsCoordinatorAndHaveCashAccountsInAllCurrencies()
+        {
+            factory(Currency::class,4)->create();
+            $user = factory(User::class)->create();
+            $user->refresh();
+            $this->assertTrue($user->hasRole('client'));
+            $this->assertFalse($user->hasRole('coordinator'));
+            $user->setRole('coordinator');
+            $user->refresh();
+            $user->update(['name'=>'coordinato2r']);
+            $user->refresh();
+            $this->assertEquals($user->name,'coordinato2r');
+            $this->assertTrue($user->hasRole('coordinator'));
+            $this->assertCount(4,$user->accounts);
         }
     }
 

@@ -19,8 +19,14 @@
             //
         }
 
-        public function foreign_index(Currency $currency)
+        public function country_index(Currency $currency)
         {
+            return $currency->banks;
+        }
+
+        public function venezuelan_index()
+        {
+            $currency = Currency::whereName('Bolivar Soberano')->first();
             return $currency->banks;
         }
 
@@ -29,7 +35,7 @@
          *
          * @param \Illuminate\Http\Request $request
          *
-         * @return \Illuminate\Http\Response
+         * @return Bank
          */
         public function store(Request $request)
         {

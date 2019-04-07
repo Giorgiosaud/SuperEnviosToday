@@ -6,10 +6,12 @@ import 'vue-datetime/dist/vue-datetime.css';
 import { Settings } from 'luxon';
 import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
+import VeeValidate, { Validator } from 'vee-validate';
+import es from 'vee-validate/dist/locale/es';
 import store from './store';
 import Transactions from './Pages/Transactions/Transactions.vue';
 import TransactionsPending from './Pages/TransactionsPending.vue';
-import VeeValidate from 'vee-validate';
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -53,7 +55,7 @@ Vue.component('transactions', Transactions);
 Vue.component('transactions-pending', TransactionsPending);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
 Vue.component('register-member', require('./components/registerMember.vue').default);
-Vue.component('assign-foreign-account', require('./Pages/assignForeignAccount/assignForeignAccount.vue').default);
+Vue.component('assign-operators-account', require('./Pages/assignOperatorsAccount/assignOperatorsAccount.vue').default);
 Vue.component('register-client', require('./components/registerClient.vue').default);
 Vue.component('users-list', require('./components/usersList.vue').default);
 Vue.component('rate', require('./Pages/Rates/rate.vue').default);
@@ -61,7 +63,17 @@ Vue.component('settings', require('./Pages/Settings/Settings.vue').default);
 Vue.component('my-profile', require('./Pages/MyProfile/MyProfile.vue').default);
 Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
 Vue.component('add-account', require('./components/addAccount.vue').default);
-Vue.use(VeeValidate);
+
+Vue.use(VeeValidate, {
+  events: 'change|blur',
+  classes: true,
+  classNames: {
+    valid: 'border-green',
+    invalid: 'border-red',
+  },
+});
+Validator.localize('es', es);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

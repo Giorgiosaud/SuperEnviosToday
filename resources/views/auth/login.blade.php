@@ -6,20 +6,21 @@
             <form method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="{{ route('login') }}">
                 @csrf
                 <div class="mb-4">
-                    <label class="label-base" for="email">Seleccione Tipo de documento</label>
+                    <label class="label-base" for="idn_type">Seleccione Tipo de documento</label>
                     <select class="input-base {{ $errors->has('idn') ? ' border-red' : '' }}" name="idn_type"
                             id="idn_type" required>
                         <option value="PASSPORT">Pasaporte</option>
                         <option value="CI">CI</option>
                         <option value="DNI">DNI</option>
                         <option value="RUT">RUT</option>
+                        <option value="RIF">RIF</option>
                     </select>
                     @if ($errors->has('idn_type'))
                         <span class="error-base" role="alert"><strong>{{ $errors->first('idn_type') }}</strong></span>
                     @endif
                 </div>
                 <div class="mb-4">
-                    <label class="label-base" for="email">Número</label>
+                    <label class="label-base" for="idn">Número</label>
                     <input class="input-base {{ $errors->has('idn') ? ' border-red' : '' }}" type="text" id="idn"
                            name="idn" value="{{ old('idn') }}" required autofocus>
                     @if ($errors->has('idn'))

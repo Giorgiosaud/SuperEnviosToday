@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <h1>Transcaccion</h1>
+        <h1>Transcacción</h1>
       </div>
     </div>
     <div class="row">
@@ -20,12 +20,19 @@
         <v-select
           id="idn_type"
           v-model="idn_type"
+          v-validate="'required'"
           :searchable="false"
           :clearable="false"
           :options="idnTypes"
-          name="idn_type"
+          name="Tipo de Identificación"
           class="mb-3 input-base p-0"
         />
+        <span
+          class="error-base"
+          role="alert"
+        >
+          <strong>{{ errors.first('Tipo de Identificación') }}</strong>
+        </span>
       </div>
       <div class="col-6 col-md-4">
         <label
@@ -36,13 +43,20 @@
         <input
           id="idn"
           v-model="idn"
+          v-validate="'required'"
           type="text"
           class="input-base"
-          name="idn"
+          name="Número de Identificación"
           required
           autofocus
           @blur="buscarCliente"
         >
+        <span
+          class="error-base"
+          role="alert"
+        >
+          <strong>{{ errors.first('Número de Identificación') }}</strong>
+        </span>
       </div>
     </div>
     <div class="row">
@@ -183,7 +197,7 @@
         <button
           :disabled="!client.id"
           class="btn btn-primary"
-          @click="agregarCliente"
+          @click="agregarUsuarioReceptor"
         >
           Agregar Receptor
         </button>
@@ -252,13 +266,14 @@
       <div class="col-12">
         <label
           for="currency"
-          class="label-base bg-white"
+          class="label-base"
         >Seleccione Moneda:</label>
         <v-select
           id="currency"
           v-model="selectedCurrency"
           :searchable="false"
           :options="currencies"
+          :clearable="false"
           label="name"
           class="input-base"
         />
@@ -266,16 +281,19 @@
       <div class="col-12">
         <label
           for="foreign_account"
-          class="label-base bg-white"
-        >Seleccione Cuenta Receptor:</label>
+          class="label-base"
+        >Seleccione Cuenta Donde se recibio el dinero:</label>
         <v-select
           id="foreign_account"
           v-model="selectedOperatorAccount"
           :searchable="false"
+          :clearable="false"
           :options="operatorAccounts"
+          :disabled="!selectedCurrency"
           class="input-base"
         />
       </div>
+
       <label
         for="amount"
         class="label-base"
@@ -290,6 +308,34 @@
     <div class="row">
       <div class="col-12">
         <h3>Tasa Actual {{ actualRate | currency }}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <label for="anotherRate">¿Desea pedir autorizacion para utilizar otra tasa de cambio?
+          <input
+            id="anotherRate"
+            v-model="anotherRate"
+            type="checkbox"
+          >
+        </label>
+      </div>
+    </div>
+    <div
+      v-if="anotherRate"
+      class="row"
+    >
+      <div class="col-12">
+        <label
+          for="rate"
+          class="label-base"
+        >Ingrese una tasa sugerida</label>
+        <input
+          id="rate"
+          v-model="actualRate"
+          type="text"
+          class="input-base"
+        >
       </div>
     </div>
     <div class="row">
@@ -384,6 +430,7 @@
               :is="modalComponent"
               v-bind="propsOfComponent"
               @registered="buscarCliente"
+              @accountRegistered="cuentaAgregada"
             />
           </div>
         </div>
@@ -392,8 +439,13 @@
   </div>
 </template>
 <script>
+import addVenezuelanAccount from "../../components/addVenezuelanAccount";
+
 export default {
   name: 'Transactions',
+  components: {
+    addVenezuelanAccount,
+  },
   data() {
     return {
       amount: '',
@@ -401,8 +453,10 @@ export default {
       inputClientDisabled: true,
       agregarDisabled: true,
       operadoresVenezuela: [],
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT','RIF'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF'],
       idn_type: '',
+      anotherRate: false,
+      rate: '',
       idn: '',
       client: {},
       selectedReceiver: {},
@@ -410,44 +464,36 @@ export default {
       modalTitle: '',
       modalComponent: '',
       selectedvenezuelanAccount: '',
-      selectedCurrency: '',
+      selectedCurrency: null,
       currencies: [],
       operator: null,
       selectedOperatorAccount: '',
+      propsOfComponent: {},
     };
   },
   computed: {
     operatorAccounts() {
-      if (!this.operator) {
+      if (!this.operator || !this.selectedCurrency) {
         return [];
       }
       const accounts = this.operator.accounts
         .filter(acc => acc.bank.currency.id === this.selectedCurrency.id);
-      accounts.forEach((acc) => { acc.label = acc.bank.name; });
+      accounts.forEach((acc) => {
+        acc.label = acc.bank.name;
+      });
       return accounts;
-    },
-    propsOfComponent() {
-      const props = {};
-      if (this.modalComponent === 'register-client') {
-        if (this.client.id) {
-          props.clientParent = this.client.id;
-        } else {
-          props.idn_imported = this.idn;
-          props.idn_type_imported = this.idn_type;
-        }
-      } else {
-        props.client = this.selectedReceiver;
-      }
-      return props;
     },
   },
   watch: {
     idn_type() {
       this.buscarCliente();
     },
-    selectedCurrency(val) {
+    selectedReceiver() {
+      this.selectedReceiverAccount = null;
+    },
+    selectedCurrency(currency) {
       this.selectedOperatorAccount = null;
-      axios.get(`api/last_rate/${val.id}`).then((response) => {
+      axios.get(`api/last_rate/${currency.id}`).then((response) => {
         this.actualRate = response.data.amount;
       });
     },
@@ -470,6 +516,10 @@ export default {
     agregarCliente() {
       this.modalTitle = 'Agregar Cliente';
       this.modalComponent = 'register-client';
+      this.propsOfComponent = {
+        idnTypeImported: this.idn_type,
+        idnImported: this.idn,
+      };
       $('#modal').modal('show');
     },
     assignReceiver(receiver) {
@@ -488,18 +538,24 @@ export default {
     },
     agregarCuenta() {
       this.modalTitle = 'Agregar Cuenta';
-      this.modalComponent = 'add-account';
+      this.modalComponent = 'add-venezuelan-account';
+      this.propsOfComponent = {
+        client: this.selectedReceiver,
+      };
       $('#modal').modal('show');
     },
     agregarUsuarioReceptor() {
       this.modalTitle = 'Agregar Receptor';
       this.modalComponent = 'register-client';
+      this.propsOfComponent = {
+        clientParent: this.client.id,
+      };
       $('#modal').modal('show');
     },
     buscarCliente() {
       $('#modal').modal('hide');
       if (this.idn !== '' && this.idn_type !== '') {
-        axios.get('api/user_data', {
+        return axios.get('api/user_data', {
           params: {
             idn_type: this.idn_type, idn: this.idn,
           },
@@ -515,6 +571,12 @@ export default {
           });
       }
     },
+    cuentaAgregada() {
+      const selectedReceiverId = this.selectedReceiver.id;
+      this.buscarCliente().then(() => {
+        this.selectedReceiver = this.client.receivers.find(receiver => receiver.id === selectedReceiverId);
+      });
+    },
     agregarTransaccion() {
       const payload = {
         to_account_id: this.selectedReceiverAccount.id,
@@ -523,6 +585,7 @@ export default {
         from_client_id: this.client.id,
         foreign_currency_id: this.selectedCurrency.id,
         amount: this.amount,
+        rate: this.actualRate,
       };
       axios.post('api/add-transaction', payload)
         .then(() => {
@@ -536,10 +599,11 @@ export default {
 
 <!--suppress CssUnusedSymbol -->
 <style scoped>
-tr.active{
-    background:#bcdefa;
-}
-.modal-dialog{
-    max-width: 90%;
-}
+    tr.active {
+        background: #bcdefa;
+    }
+
+    .modal-dialog {
+        max-width: 90%;
+    }
 </style>

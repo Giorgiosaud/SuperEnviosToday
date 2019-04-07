@@ -3,23 +3,58 @@
 namespace App;
 
 use App\Observers\UserObserver;
-use Closure;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Carbon;
+use Laravel\Passport\Client;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Passport\Token;
 
 /**
  * Class User
+ *
  * @package App
- * @method static Collection paginate(int $qty)
- * @method static User where(string|array $column, string|null $operator , string $compare_value)
- * @method static User orWhere(string $column, string $operator, string $compare_value)
- * @method static User create($validated)
- *  @method static User whereIdn(array $only)
- * @method static User whereIdnType(array $only)
- * @method first()
- * @method static whereHas(string $string, Closure $param)
+ * @property int $id
+ * @property string $name
+ * @property string|null $last_name
+ * @property string $idn
+ * @property string $idn_type
+ * @property string|null $email
+ * @property string|null $address
+ * @property string|null $phone
+ * @property string|null $email_verified_at
+ * @property string $password
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Account[] $accounts
+ * @property-read Collection|Client[] $clients
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
+ * @property-read Collection|User[] $receivers
+ * @property-read Collection|Role[] $roles
+ * @property-read Collection|User[] $senders
+ * @property-read Collection|Token[] $tokens
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User query()
+ * @method static Builder|User whereAddress($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereIdn($value)
+ * @method static Builder|User whereIdnType($value)
+ * @method static Builder|User whereLastName($value)
+ * @method static Builder|User whereName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User wherePhone($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
@@ -48,6 +83,9 @@ class User extends Authenticatable
      */
     protected $with = ['roles','accounts'];
 
+    /**
+     *
+     */
     public static function boot()
     {
         parent::boot();
@@ -66,7 +104,9 @@ class User extends Authenticatable
      */
     public function toogleRole(String $roleName)
     {
-        return $this->roles()->toggle($roleName);
+        $this->roles()->toggle($roleName);
+        return $this->touch();
+
     }
 
     /**
@@ -74,17 +114,26 @@ class User extends Authenticatable
      */
     public function setRole(String $roleName)
     {
-        return $this->roles()->attach($roleName);
+        $actualRoles=$this->roles->pluck('name_id');
+        if(!$actualRoles->contains($roleName)){
+            $actualRoles->push($roleName);
+        }
+        $this->roles()->sync($actualRoles);
+        $this->touch();
+        return $this;
     }
 
 
     /**
      * @param $roles
-     * @return array
+     * @return User
      */
     public function syncRoles($roles)
     {
-        return $this->roles()->sync($roles);
+        $this->roles()->sync($roles);
+        $this->touch();
+        return $this;
+
     }
 
     /**

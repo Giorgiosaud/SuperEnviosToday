@@ -8,20 +8,18 @@
       <v-select
         id="idn_type"
         v-model="person.idn_type"
-        :class="{'border-red':hasInErrors('idn')}"
+        v-validate="'required'"
         :searchable="false"
         :clearable="false"
         :options="idnTypes"
-        name="idn_type"
+        name="Tipo de Identificación"
         class="mb-3 bg-white"
-        @blur="cleanError('idn_type')"
       />
       <span
-        v-if="hasInErrors('idn_type')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('idn_type') }}</strong>
+        <strong>{{ errors.first('Tipo de Identificación') }}</strong>
       </span>
       <label
         for="roles"
@@ -30,21 +28,18 @@
       <v-select
         id="roles"
         v-model="person.roles"
+        v-validate="'required'"
         :options="roles"
         class="bg-white"
         label="name"
         index="name_id"
         multiple
       />
-      <!--v-select label="name" index="name_id" multiple id="roles" name="roles" class="mb-3"
-                      :class="{'border-red':hasInErrors('role')}" :searchable="false" :clearable="false"
-                      :options='roles' v-model="person.roles" @blur="cleanError('role')"></v-select-->
       <span
-        v-if="hasInErrors('role')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('role') }}</strong>
+        <strong>{{ errors.first('role') }}</strong>
       </span>
       <label
         for="idn"
@@ -54,20 +49,17 @@
       <input
         id="idn"
         v-model="person.idn"
-        :class="{'border-red':hasInErrors('idn')}"
+        v-validate="'required'"
         type="text"
         class="input-base"
-        name="idn"
-        required
-        autofocus
-        @blur="cleanError('idn')"
+        name="Número de Identificación"
       >
       <span
-        v-if="hasInErrors('idn')"
+
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('idn') }}</strong>
+        <strong>{{ errors.first('Número de Identificación') }}</strong>
       </span>
       <label
         for="name"
@@ -77,21 +69,17 @@
       <input
         id="name"
         v-model="person.name"
-        :class="{'border-red':hasInErrors('name')}"
+        v-validate="'required'"
         type="text"
         class="input-base"
-        name="name"
-        required
-        autofocus
-        @blur="cleanError('name')"
+        name="Nombre"
       >
 
       <span
-        v-if="hasInErrors('name')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('name') }}</strong>
+        <strong>{{ errors.first('Nombre') }}</strong>
       </span>
       <label
         for="last_name"
@@ -101,21 +89,17 @@
       <input
         id="last_name"
         v-model="person.last_name"
-        :class="{'border-red':hasInErrors('last_name')}"
+        v-validate="'required'"
         type="text"
         class="input-base"
-        name="last_name"
-        required
-        autofocus
-        @blur="cleanError('last_name')"
+        name="Apellido"
       >
 
       <span
-        v-if="hasInErrors('last_name')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('last_name') }}</strong>
+        <strong>{{ errors.has('Apellido') }}</strong>
       </span>
 
       <label
@@ -126,21 +110,17 @@
       <input
         id="phone"
         v-model="person.phone"
-        :class="{'border-red':hasInErrors('phone')}"
+        v-validate="'required'"
         type="text"
         class="input-base"
-        name="phone"
-        required
-        autofocus
-        @blur="cleanError('phone')"
+        name="Teléfono"
       >
 
       <span
-        v-if="hasInErrors('phone')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('phone') }}</strong>
+        <strong>{{ errors.first('Teléfono') }}</strong>
       </span>
 
       <label
@@ -149,20 +129,18 @@
       >Email</label>
       <input
         id="email"
+        ref="email"
         v-model="person.email"
-        :class="{'border-red':hasInErrors('last_name')}"
+        v-validate="'required|email'"
         class="input-base"
         type="email"
-        name="email"
-        required
-        autofocus
+        name="Email"
       >
       <span
-        v-if="hasInErrors('email')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('email') }}</strong>
+        <strong>{{ errors.first('Email') }}</strong>
       </span>
 
       <label
@@ -172,19 +150,16 @@
       <input
         id="email_confirmation"
         v-model="person.email_confirmation"
-        :class="{'border-red':hasInErrors('email_confirmation')}"
+        v-validate="'required|email|confirmed:email'"
         class="input-base"
         type="email"
-        name="email"
-        required
-        autofocus
+        name="Email Confirmation"
       >
       <span
-        v-if="hasInErrors('email_confirmation')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('email_confirmation') }}</strong>
+        <strong>{{ errors.first('Email Confirmation') }}</strong>
       </span>
       <label
         for="address"
@@ -194,19 +169,16 @@
       <textarea
         id="address"
         v-model="person.address"
-        :class="{'border-red':hasInErrors('address')}"
+        v-validate="'required'"
         class="input-base"
-        required
-        autofocus
-        name="address"
+        name="Dirección"
       />
 
       <span
-        v-if="hasInErrors('address')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('address') }}</strong>
+        <strong>{{ errors.first('Dirección') }}</strong>
       </span>
       <label
         for="password"
@@ -215,19 +187,18 @@
 
       <input
         id="password"
+        ref="password"
         v-model="person.password"
-        :class="{'border-red':hasInErrors('password')}"
+        v-validate="'required|min:8'"
         type="password"
         class="input-base"
-        name="password"
-        required
+        name="clave"
       >
       <span
-        v-if="hasInErrors('password')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('password') }}</strong>
+        <strong>{{ errors.first('clave') }}</strong>
       </span>
 
       <label
@@ -238,39 +209,38 @@
       <input
         id="password_confirmation"
         v-model="person.password_confirmation"
-        :class="{'border-red':hasInErrors('password_confirmation')}"
+        v-validate="'required|confirmed:password'"
         type="password"
         class="input-base"
-        name="password_confirmation"
-        required
+        name="Confirmación de Clave"
       >
       <span
-        v-if="hasInErrors('password_confirmation')"
         class="error-base"
         role="alert"
       >
-        <strong>{{ getError('password_confirmation') }}</strong>
+        <strong>{{ errors.first('Confirmación de Clave') }}</strong>
       </span>
-
-      <button
-        type="button"
-        class="btn btn-primary mt-2"
-        @click.prevent="registerPerson"
-      >
-        Registrar
-      </button>
+    </div>
+    <div class="container">
+      <div class="w-full max-w-md mx-auto">
+        <button
+          type="button"
+          class="btn btn-primary mt-2"
+          :disabled="errors.any()"
+          @click.prevent="registerPerson"
+        >
+          Registrar
+        </button>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import Error from '../mixins/ErrorMixins';
 
 export default {
   name: 'RegisterMember',
-  mixins: [Error],
   data() {
     return {
-      errors: [],
       person: {
         idn: '',
         idn_type: '',
@@ -284,7 +254,7 @@ export default {
         address: '',
         roles: [],
       },
-      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT','RIF'],
+      idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF'],
       selectedRole: [],
       roles: [],
     };
@@ -316,10 +286,6 @@ export default {
             address: '',
             roles: [],
           };
-          this.errors = [];
-        })
-        .catch((error) => {
-          this.errors = error.response.data.errors;
         });
     },
     hasRole(role) {

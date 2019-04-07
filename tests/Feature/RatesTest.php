@@ -4,15 +4,9 @@
 
     use App\Currency;
     use App\Rate;
-    use App\User;
     use Carbon\Carbon;
-    use Laravel\Passport\Passport;
     use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
-
-    use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     /**
      * Class UserTest
@@ -28,7 +22,7 @@
         public function anyoneCanSeLastRate(){
             factory(Rate::class)->create(['since'=>Carbon::yesterday()]);
             $rate2=factory(Rate::class)->create(['amount'=>'199','since'=>Carbon::now()]);
-            $this->getJson(route('last_rate'))
+            $this->getJson(route('last_rate',$rate2->currency_id))
                 ->assertJson($rate2->toArray());
         }
         /**
