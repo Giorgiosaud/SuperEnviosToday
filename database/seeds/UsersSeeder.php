@@ -13,13 +13,13 @@ class UsersSeeder extends Seeder
     public function run()
     {
         $client = factory(User::class)->create([
-            'idn' => '123',
-            'idn_type' => 'PASSPORT',
+            'idn' => '17762267',
+            'idn_type' => 'CI',
             'password' => bcrypt('123'),
         ]);
         $receiver = factory(User::class)->create([
-            'idn' => '123',
-            'idn_type' => 'CI',
+            'idn' => 'J-09513132-7',
+            'idn_type' => 'RIF',
             'password' => bcrypt('123'),
         ]);
         $receiver->senders()->attach($client->id);
@@ -31,7 +31,7 @@ class UsersSeeder extends Seeder
             'email' => 'alejandro@ronpapas.com',
             'password' => bcrypt('Ronpapas'),
         ]);
-        $user->toogleRole('coordinator');
+        $user->setRole('coordinator');
         $user = factory(User::class)->create([
             'idn_type' => 'RUT',
             'idn' => '263215982',
@@ -41,21 +41,21 @@ class UsersSeeder extends Seeder
             'phone' => '+56952218734',
             'password' => bcrypt('17762267'),
         ]);
-        $user->toogleRole('coordinator');
+        $user->setRole('coordinator');
         $user = factory(User::class)->create([
             'idn_type' => 'RUT',
             'idn' => '123',
             'name' => 'Operador Chile ',
             'last_name' => 'Prueba'
         ]);
-        $user->toogleRole('foreign_operator');
+        $user->setRole('foreign_operator');
         $user = factory(User::class)->create([
             'idn_type' => 'RUT',
             'idn' => '19',
             'name' => 'Operador Venezuela ',
             'last_name' => 'Prueba'
         ]);
-        $user->toogleRole('venezuelan_operator');
+        $user->setRole('venezuelan_operator');
         factory(User::class)->create();
     }
 }

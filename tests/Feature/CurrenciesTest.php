@@ -3,14 +3,9 @@
     namespace Tests\Feature;
 
     use App\Currency;
-    use App\User;
-    use Laravel\Passport\Passport;
     use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
 
-    use Illuminate\Foundation\Testing\WithoutMiddleware;
-    use Illuminate\Foundation\Testing\DatabaseMigrations;
-    use Illuminate\Foundation\Testing\DatabaseTransactions;
 
     /**
      * Class UserTest
@@ -57,7 +52,7 @@
             $this->getJson(route('foreign_currencies'))
                 ->assertJsonCount(1);
             $curr = factory(Currency::class)->make();
-            $this->postJson(route('create_currency'), $curr->toArray())->dump();
+            $this->postJson(route('create_currency'), $curr->toArray());
             $this->getJson(route('currencies'))
             ->assertJsonCount(3);
             $this->getJson(route('foreign_currencies'))

@@ -133,4 +133,11 @@
                 $q->where('name_id','coordinator')->orWhere('name_id', 'foreign_operator');
             })->get();
         }
+        public function operators(){
+            return User::whereHas(
+                'roles', function ($q) {
+                /** @noinspection PhpUndefinedMethodInspection */
+                $q->where('name_id','coordinator')->orWhere('name_id', 'foreign_operator')->orWhere('name_id', 'venezuelan_operator');
+            })->get();
+        }
     }

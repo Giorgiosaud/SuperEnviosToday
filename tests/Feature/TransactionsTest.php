@@ -1,49 +1,29 @@
 <?php
 
-namespace Tests\Feature;
+    namespace Tests\Feature;
 
-use App\User;
-use Laravel\Passport\Passport;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
-/**
- * Class UserTest
- * @package Tests\Feature
- */
-class TransactionsTest extends TestCase
-{
-    use RefreshDatabase;
-
+    use Tests\TestCase;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
 
     /**
-     * A basic test example.
-     * @test
-     * @return void
+     * Class UserTest
+     * @package Tests\Feature
      */
-    public function aUsersAPIWORKS()
+    class TransactionsTest extends TestCase
     {
-        $this->disableExceptionHandling();
-        factory(Banks::class, 10)->create();
-        $user = factory(User::class)->create([
-            'name' => 'Coordinador',
-            'idn' => '1',
-            'idn_type' => 'CI',
-            'password' => bcrypt('hidden'),
-        ]);
-        $user->toogleRole('coordinator');
-        Passport::actingAs(
-            $user,
-            ['create-servers']
-        );
+        use RefreshDatabase;
 
-        $response = $this->get('/api/users');
-        $response->assertJsonCount(11, $key = 'data');
 
+        /**
+         * A basic test example.
+         * @test
+         * TODO
+         * @return void
+         */
+        public function actingAsAnyLoggedInCanSeeBanks()
+        {
+            $this->assertEquals(3, 3);
+
+        }
     }
-}
 

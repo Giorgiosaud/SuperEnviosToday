@@ -12,7 +12,7 @@ class UserObserver
     /**
      * Handle the user "created" event.
      *
-     * @param \App\User $user
+     * @param User $user
      *
      * @return void
      */
@@ -24,29 +24,38 @@ class UserObserver
     /**
      * Handle the user "updated" event.
      *
-     * @param \App\User $user
+     * @param User $user
      *
      * @return void
      */
-    public function updated(User $user)
+    public function saved(User $user)
     {
-
         if($user->hasRole('venezuelan_operator')){
             $currency=Currency::whereName('Bolivar Soberano')->first();
             $bank=Bank::whereName('Efectivo')->whereCurrencyId($currency->id)->first();
-            factory(\App\Account::class)->create([
+            factory(Account::class)->create([
                 'bank_id'=>$bank->id,
                 'user_id' => $user->id,
                 'is_operator_account' => true,
             ]);
         }
-        //
+        elseif ($user->hasRole('coordinator')||$user->hasRole('foreign_operator')){
+            $currencies=Currency::where('name','!=','Bolivar Soberano')->get();
+            foreach ($currencies as $currency){
+                $bank=Bank::whereName('Cash')->whereCurrencyId($currency->id)->first();
+                factory(Account::class)->create([
+                    'bank_id'=>$bank->id,
+                    'user_id' => $user->id,
+                    'is_operator_account' => true,
+                ]);
+            }
+        }
     }
 
     /**
      * Handle the user "deleted" event.
      *
-     * @param \App\User $user
+     * @param User $user
      *
      * @return void
      */
@@ -58,7 +67,7 @@ class UserObserver
     /**
      * Handle the user "restored" event.
      *
-     * @param \App\User $user
+     * @param User $user
      *
      * @return void
      */
@@ -70,7 +79,7 @@ class UserObserver
     /**
      * Handle the user "force deleted" event.
      *
-     * @param \App\User $user
+     * @param User $user
      *
      * @return void
      */

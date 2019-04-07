@@ -7,10 +7,6 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 /**
  * Class UserTest
  * @package Tests\Feature
@@ -40,7 +36,7 @@ class AccountsTest extends TestCase
             $user,
             ['create-servers']
         );
-
+        $user->refresh();
         $response = $this->get('/api/users');
         $response->assertJsonCount(11, $key = 'data');
 

@@ -44,7 +44,6 @@
                 'amount' => 'required|numeric'
             ]);
             $validData['emitter_operator'] = $request->user()->id;
-
             $validData['status'] = 'terminated';
             $validData['type'] = 'income';
             return Transaction::create($validData);
@@ -57,28 +56,31 @@
         public function normalstore(Request $request)
         {
             $validData = $request->validate([
-                'operator_account_id' => 'required|numeric',
-                'to_account_id' => 'required|numeric',
-                'from_account_id' => 'required|numeric',
-                'from_client_id' => 'required|numeric',//TODO ADD LIMIT TO ACCOUNTS IN DB
-                'amount' => 'required|numeric',
-                'foreign_currency_id' => 'required|numeric'
+                'foreign_account_id' => 'required|numeric|exists:accounts,id',
+                'receiver_account_id' => 'required|numeric|exists:accounts,id',
+                'client_id' => 'required|numeric|exists:users,id',
+                'venezuelan_operator_account_id' => 'required|numeric|exists:accounts,id',
+                'rate'=>'required|numeric',
+                'amount' => 'required|numeric'
             ]);
-            $rate = Rate::whereCurrencyId($validData['foreign_currency_id'])->orderBy('since', 'DESC')->first();
-            $transactionToOperator = [
-                'amount' => $validData['amount'],
-                'to_account_id' => $validData['operator_account_id'],
-                'from_client_id' => $validData['from_client_id'],
-                'foreign_currency_id' => $validData['from_client_id'],
-                'status' => 'confirmed',
-                'type' => 'income',
-            ];
-            $transactionToOperator = Transaction::create($transactionToOperator);
-            $validData['amount'] = $rate['amount'] * $validData['amount'];
-            $validData['transcaction_related'] = $transactionToOperator->id;
-            $validData['status'] = 'assigned';
-            //TODO agregar transaccion de impuesto por transferencia y calcularlo para deducirlo del monto a transferir (configurado desde settings)
+            // TODO analyze to make a pending for approoval transaction
+            if($this->isPredefinedRate($validData['rate'],$validData['foreign_currency_id'])){
+                //TODO make transaction confirmed
+                $validData->only(['foreign_account_id','client_id','rate','amount']);
+
+
+            }
+            else{
+                //TODO make transaction to confirm by a coordinator
+            }
+
             return Transaction::create($validData);
+        }
+
+        private function isPredefinedRate($rate,$currId)
+        {
+            $calculatedDate = Rate::whereCurrencyId($currId)->orderBy('since', 'DESC')->first();
+            return $calculatedDate===$rate;
         }
 
     }

@@ -17,7 +17,23 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         $this->seedMigrations();
+        $this->resetEvents();
+    }
 
+    private function resetEvents()
+    {
+        // Define the models that have event listeners.
+        $models = array('App\User');
+
+        // Reset their event listeners.
+        foreach ($models as $model) {
+
+            // Flush any existing listeners.
+            call_user_func(array($model, 'flushEventListeners'));
+
+            // Reregister them.
+            call_user_func(array($model, 'boot'));
+        }
     }
 
     protected function seedMigrations()
@@ -93,11 +109,13 @@ abstract class TestCase extends BaseTestCase
             'password' => bcrypt('hidden'),
         ]);
 
-        $user->toogleRole('coordinator');
+        $user->setRole('coordinator');
+
         Passport::actingAs(
             $user,
             ['create-servers']
         );
+        $user->refresh();
         return $user;
     }
     protected function disableExceptionHandling()

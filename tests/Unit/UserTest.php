@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\User;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -27,6 +28,7 @@ class UserTest extends TestCase
             'email' => 'A@be.com',
             'password' => bcrypt('LIN'),
         ]);
+        $user->refresh();
         $this->assertTrue($user->hasRole('client'));
     }
 
@@ -45,6 +47,7 @@ class UserTest extends TestCase
             'password' => bcrypt('hidden'),
         ]);
         $user->toogleRole('coordinator');
+        $user->refresh();
         $this->assertTrue($user->hasRole('coordinator'));
         $response = $this->post('login', ['idn_type' => 'CI', 'idn' => '111111', 'password' => 'hidden']);
         $response->assertRedirect('/home');
@@ -60,7 +63,7 @@ class UserTest extends TestCase
     public function aUserHaveMultiplesAccountsAsociated()
     {
         $user = factory('App\User')->create();
-        $accounts = factory('App\Account', 3)->create(['user_id' => $user->id]);
+        factory('App\Account', 3)->create(['user_id' => $user->id]);
         $this->assertCount(3, $user->accounts);
     }
 
@@ -96,7 +99,7 @@ class UserTest extends TestCase
         try {
             factory('App\User')->create(['idn'=>'123123','idn_type'=>'PASSPORT']);
             factory('App\User')->create(['idn'=>'123123','idn_type'=>'PASSPORT']);
-        } catch (\Exception $err) {
+        } catch (Exception $err) {
             $this->assertContains('Integrity constraint violation', $err->getMessage());
         }
     }

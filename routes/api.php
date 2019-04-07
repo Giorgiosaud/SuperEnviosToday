@@ -47,11 +47,15 @@
         Route::get('currencies', 'CurrencyController@index')->name('currencies');
         Route::get('foreign_currencies', 'CurrencyController@foreignIndex')->name('foreign_currencies');
         Route::get('foreign_operators','UserController@foreignOperators')->name('foreign_operators');
+        Route::get('operators','UserController@operators')->name('operators');
         Route::post('currencies', 'CurrencyController@store')->name('create_currency');
-        Route::get('banks', 'BankController@index');
-        Route::get('foreign_banks/{currency}', 'BankController@foreign_index')->name('foreign_banks');
+        //TODO TEST banks
+        Route::get('banks', 'BankController@index')->name('banks');
+        Route::get('country_banks/{currency}', 'BankController@country_index')->name('country_banks');
+        Route::get('venezuelan_banks', 'BankController@venezuelan_index')->name('venezuelan_banks');
         Route::post('banks', 'BankController@store');
         Route::post('accounts', 'AccountController@store');
+        Route::post('operator-account', 'AccountController@storeOperatorAccount');
         //TODO TEST and rename next two lines
         Route::post('transaction-to-venezuelan-operator', 'TransactionController@store');
 
