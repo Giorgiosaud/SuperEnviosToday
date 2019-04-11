@@ -307,6 +307,17 @@
     </div>
     <div class="row">
       <div class="col-12">
+        <vue-dropzone
+          id="dropzone"
+          ref="myVueDropzone"
+          v-model="dropImage1"
+          :options="dropzoneOptions"
+          @vdropzone-success="saveClientVoucher"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
         <h3>Tasa Actual {{ actualRate | currency }}</h3>
       </div>
     </div>
@@ -439,12 +450,16 @@
   </div>
 </template>
 <script>
-import addVenezuelanAccount from "../../components/addVenezuelanAccount";
+import vue2Dropzone from 'vue2-dropzone';
+import addVenezuelanAccount from '../../components/addVenezuelanAccount';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 
 export default {
   name: 'Transactions',
   components: {
     addVenezuelanAccount,
+    vueDropzone: vue2Dropzone,
+
   },
   data() {
     return {
@@ -469,6 +484,25 @@ export default {
       operator: null,
       selectedOperatorAccount: '',
       propsOfComponent: {},
+      dropzoneOptions: {
+        url: 'api/attachment',
+        thumbnailWidth: 150,
+        maxFilesize: 3,
+        acceptedFiles: 'image/*,application/pdf',
+        uploadMultiple: false,
+        maxFiles: 1,
+        dictDefaultMessage: 'Agregue archivo aqui',
+        dictFallbackMessage: 'Este explorador no soporta este uploader',
+        dictFileTooBig: 'Archivo muy pesado',
+        dictInvalidFileType: 'tipo de archivo invalido',
+        dictCancelUpload: 'Upload Cancelado',
+        dictRemoveFile: 'Archivo Borrado',
+        headers: {
+          Authorization: axios.defaults.headers.common.Authorization,
+        },
+      },
+      dropImage1: null,
+      clientTransactionAttachmentId: null,
     };
   },
   computed: {
@@ -510,6 +544,9 @@ export default {
     });
   },
   methods: {
+    saveClientVoucher(payload) {
+      this.clientTransactionAttachmentId = payload.xhr.response.id;
+    },
     assignVenezuelanAccount(account) {
       this.selectedvenezuelanAccount = account.id;
     },
@@ -574,7 +611,8 @@ export default {
     cuentaAgregada() {
       const selectedReceiverId = this.selectedReceiver.id;
       this.buscarCliente().then(() => {
-        this.selectedReceiver = this.client.receivers.find(receiver => receiver.id === selectedReceiverId);
+        this.selectedReceiver = this.client.receivers
+          .find(receiver => receiver.id === selectedReceiverId);
       });
     },
     agregarTransaccion() {
@@ -585,6 +623,7 @@ export default {
         from_client_id: this.client.id,
         foreign_currency_id: this.selectedCurrency.id,
         amount: this.amount,
+        clientTransactionAttachmentId: this.clientTransactionAttachmentId,
         rate: this.actualRate,
       };
       axios.post('api/add-transaction', payload)

@@ -2,6 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Account;
+use App\Transaction;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,10 +17,10 @@ class TransactionTest extends TestCase
      *
      * @test
      */
-    public function aTransactionMustHaveADestinationAccount()
+    public function aTransactionADestinationAccountCantBeNull()
     {
-        $transaction = factory('App\Transaction')->create();
-        $this->assertInstanceOf(\App\Account::class, $transaction->destinationAccount);
+        $this->expectException(QueryException::class);
+        factory('App\Transaction')->create(['to_account_id'=>null]);
     }
 
     /**
@@ -27,10 +30,9 @@ class TransactionTest extends TestCase
      */
     public function aTransactionShouldHaveAOriginAccount()
     {
-        $transaction = factory('App\Transaction')->create();
-        $this->assertTrue(
-            $transaction->originAccount instanceof \App\Account
-                || $transaction->originAccount === null
-        );
+        $transaction = factory(Transaction::class)->create(['from_account_id'=>factory(Account::class)->create()->id]);
+        $this->assertInstanceOf(Transaction::class,$transaction);
+        $transaction = factory(Transaction::class)->create(['from_account_id'=>null]);
+        $this->assertInstanceOf(Transaction::class,$transaction);
     }
 }

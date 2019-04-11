@@ -39,6 +39,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Transaction whereTransactionRelated($value)
  * @method static Builder|Transaction whereType($value)
  * @method static Builder|Transaction whereUpdatedAt($value)
+ * @property int|null $transcaction_related
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction whereTranscactionRelated($value)
+ * @mixin \Eloquent
  */
 class Transaction extends Model
 {
