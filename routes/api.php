@@ -27,6 +27,7 @@
         //TODO make test
         Route::get('user_data', 'UserController@userData');
         Route::post('add-transaction', 'TransactionController@normalstore');
+        Route::post('attachment','AttachmentController@save');
 
     });
     Route::group(['middleware' => ['auth:api', 'role:coordinator']], function () {

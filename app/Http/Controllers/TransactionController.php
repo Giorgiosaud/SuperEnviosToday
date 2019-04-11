@@ -43,7 +43,7 @@
                 'to_account_id' => 'required|numeric',
                 'amount' => 'required|numeric'
             ]);
-            $validData['emitter_operator'] = $request->user()->id;
+            $validData['user_id'] = $request->user()->id;
             $validData['status'] = 'terminated';
             $validData['type'] = 'income';
             return Transaction::create($validData);

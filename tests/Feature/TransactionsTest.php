@@ -2,6 +2,9 @@
 
     namespace Tests\Feature;
 
+    use App\Account;
+    use App\Role;
+    use App\User;
     use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -17,12 +20,18 @@
         /**
          * A basic test example.
          * @test
-         * TODO
          * @return void
          */
-        public function actingAsAnyLoggedInCanSeeBanks()
+        public function aCoordinatorCanAddFundsToVenezuelanOperator()
         {
-            $this->assertEquals(3, 3);
+            $this->actingAsCoordinator();
+            $venezuelan_operator=factory(User::class)->create();
+            $venezuelan_operator->setRole('venezuelan_operator');
+            $venezuelan_operator->fresh();
+            $venezuelan_account=factory(Account::class)->create(['user_id'=>$venezuelan_operator->id,'is_operator_account'=>true,'number'=>'123123']);
+            $reponse=$this->postJson('api/transaction-to-venezuelan-operator',["amount"=>"10000000000",'to_account_id'=>$venezuelan_account->id]);
+            $venezuelan_account->refresh();
+           $this->assertEquals( 1000000, $venezuelan_account->balance);
 
         }
     }

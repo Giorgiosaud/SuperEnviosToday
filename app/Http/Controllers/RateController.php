@@ -117,8 +117,7 @@
                 'amount' => $validated['amount'],
                 'since' => Carbon::parse($validated['since']),
             ]))
-                return $rate;
-            return response()->json(['status' => 500, 'message' => 'Successfully Edited']);;
+            return response()->json(['status' => 200, 'message' => 'Successfully Edited']);;
         }
 
         /**

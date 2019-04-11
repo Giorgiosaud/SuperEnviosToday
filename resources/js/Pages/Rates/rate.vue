@@ -14,7 +14,7 @@
           :labels="labels"
           :height="300"
           :colors="['light-blue']"
-          :data-sets="this.graphData"
+          :data-sets="graphData"
           title="CLP Bs"
           type="axis-mixed"
         />
@@ -82,7 +82,8 @@
             <thead>
               <tr>
                 <th
-                  v-for="header in headers"
+                  v-for="(header, headerId) in headers"
+                  :key="headerId"
                   class="text-left"
                 >
                   {{ header }}
@@ -90,9 +91,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="rate in selectedRates">
+              <tr
+                v-for="(rate,rateId) in selectedRates"
+                :key="rateId"
+              >
                 <td
-                  v-for="key in keysToShow"
+                  v-for="(key, keyId) in keysToShow"
+                  :key="keyId"
                   class="text-left"
                 >
                   <span v-if="key==='since'">
@@ -133,8 +138,7 @@
 </template>
 
 <script>
-import dateFns from 'date-fns';
-import { format, parse } from 'date-fns';
+import { format } from 'date-fns';
 
 export default {
   name: 'Rate',

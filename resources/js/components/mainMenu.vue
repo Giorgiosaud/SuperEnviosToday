@@ -1,4 +1,5 @@
 <script>
+import { debounce } from 'lodash';
 
 export default {
   name: 'MainMenu',
@@ -18,7 +19,7 @@ export default {
   },
   mounted() {
     this.openMenu = window.innerWidth > 768;
-    window.addEventListener('resize', _.debounce(() => {
+    window.addEventListener('resize', debounce(() => {
       this.openMenu = window.innerWidth > 768;
     }, 300));
   },

@@ -15,10 +15,9 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('account_id');
-            $table->unsignedInteger('related_transaction_id');
-            $table->bigInteger('rate')->nullable();
+            $table->unsignedInteger('from_account_id')->nullable();
+            $table->unsignedInteger('to_account_id');
+            $table->unsignedInteger('related_transaction_id')->nullable();
             $table->bigInteger('amount');
             $table->string('url_attachment')->nullable();
             $table->enum('status',['pending','assigned','in_progress','executed','confirmed','terminated'])->default('pending');
