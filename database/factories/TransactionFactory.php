@@ -1,8 +1,8 @@
 <?php
 
     use App\Account;
+    use App\Attachment;
     use App\Transaction;
-    use App\User;
     use Faker\Generator as Faker;
 
     if (isset($factory)) {
@@ -25,7 +25,9 @@
                     return factory(Transaction::class)->create()->id;
                 }]),
                 'amount' => $faker->numberBetween(0, 1000000),
-                'url_attachment' => $faker->imageUrl(),
+                'attachment_id' => $faker->randomElement([null, function () {
+                    return factory(Attachment::class)->create()->id;
+                }]),
                 'status' => $faker->randomElement(['pending', 'assigned', 'in_progress', 'executed', 'confirmed', 'terminated']),
                 'type' => $faker->randomElement(['income', 'outcome', 'cancelled', 'pqc']),
             ];

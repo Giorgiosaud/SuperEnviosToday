@@ -25,7 +25,7 @@
         {
             $this->getJson(route('currencies'))
                 ->assertStatus(401);
-            $this->actingAsChileanOperator();
+            $this->actingAsForeignOperator();
             $this->getJson(route('currencies'))
                 ->assertStatus(403);
             $this->actingAsVenezuelanOperator();

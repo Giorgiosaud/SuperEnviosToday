@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -39,13 +40,23 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Transaction whereTransactionRelated($value)
  * @method static Builder|Transaction whereType($value)
  * @method static Builder|Transaction whereUpdatedAt($value)
- * @property int|null $transcaction_related
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Transaction whereTranscactionRelated($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
+ * @property int|null $related_transaction_id
+ * @property string|null $url_attachment
+ * @method static Builder|Transaction whereRelatedTransactionId($value)
+ * @method static Builder|Transaction whereUrlAttachment($value)
  */
 class Transaction extends Model
 {
-    protected $fillable=['type','to_account_id','from_account_id','amount','from_client_id','to_receiver_id','emitter_operator','foreign_currency_id','status','emitter_operator'];
+    protected $fillable=[
+        'from_account_id',
+        'to_account_id',
+        'related_transaction_id',
+        'amount',
+        'url_attachment',
+        'status',
+        'type',
+    ];
     public function originAccount()
     {
         return $this->belongsTo(Account::class, 'from_account_id');

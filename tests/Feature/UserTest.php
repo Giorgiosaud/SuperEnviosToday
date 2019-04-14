@@ -13,11 +13,22 @@
     /**
      * Class UserTest
      * @package Tests\Feature
+     * @property User $user
      */
     class UserTest extends TestCase
     {
         use RefreshDatabase;
 
+        private $user;
+
+        /**
+         *
+         */
+        protected function createUser()
+        {
+            $this->user = factory(User::class)->create();
+            $this->user->refresh();
+        }
 
         /**
          * A basic test example.
@@ -26,7 +37,6 @@
          */
         public function aUsersAPIWORKS()
         {
-            $this->disableExceptionHandling();
             factory(User::class, 10)->create();
             $this->getJson('/api/users')->assertStatus(401);
             $this->actingAsCoordinator();
@@ -67,9 +77,9 @@
         public function CoordinatorAndChileanOperatorsCanSeeVenezuelanOperators()
         {
             $this->actingAsCoordinator();
-            $users=factory(User::class, 30)->create();
+            $users = factory(User::class, 30)->create();
             /** @var User $users */
-            foreach ($users as $user){
+            foreach ($users as $user) {
                 $user->setRole('venezuelan_operator');
             }
             $this->getJson(route('venezuelan_operators'))
@@ -105,18 +115,46 @@
          */
         public function aClientUserIsPromotedAsCoordinatorAndHaveCashAccountsInAllCurrencies()
         {
-            factory(Currency::class,4)->create();
-            $user = factory(User::class)->create();
-            $user->refresh();
-            $this->assertTrue($user->hasRole('client'));
-            $this->assertFalse($user->hasRole('coordinator'));
-            $user->setRole('coordinator');
-            $user->refresh();
-            $user->update(['name'=>'coordinato2r']);
-            $user->refresh();
-            $this->assertEquals($user->name,'coordinato2r');
-            $this->assertTrue($user->hasRole('coordinator'));
-            $this->assertCount(4,$user->accounts);
+            factory(Currency::class, 4)->create();
+            $this->createUser();
+            $this->user->refresh();
+            $this->assertTrue($this->user->hasRole('client'));
+            $this->assertFalse($this->user->hasRole('coordinator'));
+            $this->user->setRole('coordinator');
+            $this->user->refresh();
+            $this->user->update(['name' => 'coordinato2r']);
+            $this->user->refresh();
+            $this->assertEquals($this->user->name, 'coordinato2r');
+            $this->assertTrue($this->user->hasRole('coordinator'));
+            $this->assertCount(4, $this->user->accounts);
+        }
+
+        /**
+         * A basic test example.
+         * @test
+         * @return void
+         */
+        public function onlyACoordinatorOrForeignOperatorCanAskForclientData()
+        {
+            $this->createUser();
+            $query="api/user_data?idn=".$this->user->idn."&idn_type=".$this->user->idn_type;
+            $this->getJson($query)
+                ->assertStatus(401);
+            $this->actingAsCoordinator();
+            $this->getJson($query)
+            ->assertStatus(200);
+            $this->actingAsForeignOperator();
+            $this->getJson($query)
+            ->assertStatus(200);
+            $this->actingAsVenezuelanOperator();
+            $this->getJson($query)
+            ->assertStatus(403);
+            $this->actingAsClient();
+            $this->getJson($query)
+            ->assertStatus(403);
+            $this->actingAsReceiver();
+            $this->getJson($query)
+            ->assertStatus(403);
         }
     }
 

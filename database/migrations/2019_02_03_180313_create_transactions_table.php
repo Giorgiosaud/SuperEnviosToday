@@ -15,11 +15,12 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('client_id')->nullable();
             $table->unsignedInteger('from_account_id')->nullable();
             $table->unsignedInteger('to_account_id');
             $table->unsignedInteger('related_transaction_id')->nullable();
             $table->bigInteger('amount');
-            $table->string('url_attachment')->nullable();
+            $table->unsignedInteger('attachment_id')->nullable();
             $table->enum('status',['pending','assigned','in_progress','executed','confirmed','terminated'])->default('pending');
             $table->enum('type', ['income','outcome','cancelled','pqc'])->default('outcome');
             $table->timestamps();

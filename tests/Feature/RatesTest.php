@@ -5,8 +5,8 @@
     use App\Currency;
     use App\Rate;
     use Carbon\Carbon;
-    use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
+    use Tests\TestCase;
 
     /**
      * Class UserTest
@@ -14,6 +14,7 @@
      */
     class RatesTest extends TestCase
     {
+
         use RefreshDatabase;
 
         /**
@@ -35,7 +36,7 @@
             $this->actingAsClient();
             $this->get(route('rates'))
                 ->assertStatus(403);
-            $this->actingAsChileanOperator();
+            $this->actingAsForeignOperator();
             $this->get(route('rates'))
                 ->assertStatus(403);
             $this->actingAsVenezuelanOperator();
@@ -57,7 +58,7 @@
             $this->actingAsVenezuelanOperator();
             $this->post(route('create_rate'), $rate->toArray())
                 ->assertStatus(403);
-            $this->actingAsChileanOperator();
+            $this->actingAsForeignOperator();
             $this->post(route('create_rate'), $rate->toArray())
                 ->assertStatus(403);
         }
@@ -72,9 +73,11 @@
             $this->actingAsCoordinator();
             $response = $this->get(route('rates'));
             $response->assertJsonCount(0, $key = 'data');
-            $rate = factory(Rate::class)->make(['currency' => factory(Currency::class)->create()->toArray()]);
-            $this->post(route('create_rate'), $rate->toArray());
-            $response = $this->getJson(route('rates')); //$response->fresh()->dump();
+            $currency=factory(Currency::class)->create();
+            $rate = factory(Rate::class)->make();
+            $rate['currency']=$currency;
+            $this->postJson(route('create_rate'), $rate->toArray());
+            $response = $this->getJson(route('rates'));
             $response->assertJsonCount(1, $key = 'data');
         }
 

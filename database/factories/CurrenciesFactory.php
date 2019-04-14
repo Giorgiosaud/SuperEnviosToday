@@ -1,12 +1,14 @@
 <?php
 
-use App\Currency;
-use Faker\Generator as Faker;
+    use App\Currency;
+    use Faker\Generator as Faker;
 
-$factory->define(Currency::class, function (Faker $faker) {
-    return [
-        'name'         => $faker->currencyCode(),
-        'identificator'=> $faker->currencyCode(),
-        'sign'=> $faker->currencyCode(),
-    ];
-});
+    if (isset($factory)) {
+        $factory->define(Currency::class, function (Faker $faker) {
+            return [
+                'name' => $faker->name,
+                'identificator' => $faker->userName,
+                'sign' => $faker->slug,
+            ];
+        });
+    }
