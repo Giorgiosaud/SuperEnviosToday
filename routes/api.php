@@ -21,14 +21,17 @@
     Route::group(['middleware' => ['auth:api']], function () {
         Route::get('my_info', 'UserController@info');
         Route::patch('my_info', 'UserController@infoPatch');
+
     });
+    Route::group(['middleware' => ['auth:api', 'role:coordinator,foreign_operator,venezuelan_operator']], function () {
+        Route::post('attachment','AttachmentController@save');
+    });
+
     Route::group(['middleware' => ['auth:api', 'role:coordinator,foreign_operator']], function () {
         Route::get('operadores-venezuela', 'operatorsController@venezuelanIndex')->name('venezuelan_operators');
-        //TODO make test
         Route::get('user_data', 'UserController@userData');
-        Route::post('add-transaction', 'TransactionController@normalstore');
-        Route::post('attachment','AttachmentController@save');
-
+        Route::post('accounts', 'AccountController@store')->name('save_account');
+        Route::post('add-transaction', 'TransactionController@normalstore')->name('save_transaction');
     });
     Route::group(['middleware' => ['auth:api', 'role:coordinator']], function () {
         Route::get('valid', 'AuthController@isValid');
@@ -50,14 +53,10 @@
         Route::get('foreign_operators','UserController@foreignOperators')->name('foreign_operators');
         Route::get('operators','UserController@operators')->name('operators');
         Route::post('currencies', 'CurrencyController@store')->name('create_currency');
-        //TODO TEST banks
         Route::get('banks', 'BankController@index')->name('banks');
         Route::get('country_banks/{currency}', 'BankController@country_index')->name('country_banks');
         Route::get('venezuelan_banks', 'BankController@venezuelan_index')->name('venezuelan_banks');
-        Route::post('banks', 'BankController@store');
-        Route::post('accounts', 'AccountController@store');
-        Route::post('operator-account', 'AccountController@storeOperatorAccount');
-        //TODO TEST and rename next two lines
-        Route::post('transaction-to-venezuelan-operator', 'TransactionController@store');
-
+        Route::post('banks', 'BankController@store')->name('save_bank');
+        Route::post('operator-account', 'AccountController@storeOperatorAccount')->name('save_operator_account');
+        Route::post('add-money-venezuela', 'TransactionController@store')->name('add_money_to_venezuela');
     });

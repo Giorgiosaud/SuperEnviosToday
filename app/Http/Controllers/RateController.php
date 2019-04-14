@@ -2,10 +2,12 @@
 
     namespace App\Http\Controllers;
 
-    use App\Currency;
     use App\Rate;
     use Carbon\Carbon;
+    use Exception;
+    use Illuminate\Database\Eloquent\Model;
     use Illuminate\Http\Request;
+    use Illuminate\Http\Response;
 
     /**
      * Class RateController
@@ -16,7 +18,7 @@
         /**
          * Display a listing of the resource.
          *
-         * @return \Illuminate\Http\Response
+         * @return Response
          */
         public function index()
         {
@@ -34,30 +36,21 @@
         }
 
         /**
+         * @param $id
          * @return mixed
          */
-        public function lastRate(Request $request,$id)
+        public function lastRate($id)
         {
             return Rate::whereCurrencyId($id)->orderBy('since', 'DESC')->first();
         }
 
 
         /**
-         * Show the form for creating a new resource.
-         *
-         * @return \Illuminate\Http\Response
-         */
-        public function create()
-        {
-            //
-        }
-
-        /**
          * Store a newly created resource in storage.
          *
-         * @param \Illuminate\Http\Request $request
+         * @param Request $request
          *
-         * @return \Illuminate\Http\Response
+         * @return Rate|Model
          */
         public function store(Request $request)
         {
@@ -74,36 +67,12 @@
         }
 
         /**
-         * Display the specified resource.
-         *
-         * @param \App\Rate $rate
-         *
-         * @return \Illuminate\Http\Response
-         */
-        public function show(Rate $rate)
-        {
-            //
-        }
-
-        /**
-         * Show the form for editing the specified resource.
-         *
-         * @param \App\Rate $rate
-         *
-         * @return \Illuminate\Http\Response
-         */
-        public function edit(Rate $rate)
-        {
-            //
-        }
-
-        /**
          * Update the specified resource in storage.
          *
-         * @param \Illuminate\Http\Request $request
-         * @param \App\Rate $rate
+         * @param Request $request
+         * @param Rate $rate
          *
-         * @return Rate
+         * @return mixed
          */
         public function update(Request $request, Rate $rate)
         {
@@ -112,23 +81,21 @@
                 'since' => 'required|date',
                 'amount' => 'required|Numeric',
             ]);
-            if ($rate->update([
+            return $rate->update([
                 'currency_id' => $validated['currency']['id'],
                 'amount' => $validated['amount'],
                 'since' => Carbon::parse($validated['since']),
-            ]))
-            return response()->json(['status' => 200, 'message' => 'Successfully Edited']);;
+            ]);
         }
 
         /**
          * @param Rate $rate
-         * @return bool|null
-         * @throws \Exception
+         * @return mixed
+         * @throws Exception
          */
         public
         function destroy(Rate $rate)
         {
-            if ($rate->delete())
-                return response()->json(['message' => 'Successfully Deleted']);;
+            return $rate->delete();
         }
     }

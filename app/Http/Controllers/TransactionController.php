@@ -2,8 +2,12 @@
 
     namespace App\Http\Controllers;
 
+    use App\Account;
+    use App\PendingTransaction;
+    use App\PendingTransactions;
     use App\Rate;
     use App\Transaction;
+    use Carbon\Carbon;
     use Illuminate\Http\Request;
 
     class TransactionController extends Controller
@@ -56,31 +60,50 @@
         public function normalstore(Request $request)
         {
             $validData = $request->validate([
-                'foreign_account_id' => 'required|numeric|exists:accounts,id',
-                'receiver_account_id' => 'required|numeric|exists:accounts,id',
-                'client_id' => 'required|numeric|exists:users,id',
-                'venezuelan_operator_account_id' => 'required|numeric|exists:accounts,id',
-                'rate'=>'required|numeric',
-                'amount' => 'required|numeric'
+                'client_id' => 'required|exists:users,id',
+                'foreign_account_id' => 'required|exists:accounts,id',
+                'received_transaction_attachment_id' => 'exists:attachments,id',
+                'receiver_account_id' => 'required|exists:accounts,id',
+                'venezuelan_operator_account_id' => 'required|exists:accounts,id',
+                'rate' => 'numeric',
+                'amount' => 'required|numeric',
             ]);
-            // TODO analyze to make a pending for approoval transaction
-            if($this->isPredefinedRate($validData['rate'],$validData['foreign_currency_id'])){
-                //TODO make transaction confirmed
-                $validData->only(['foreign_account_id','client_id','rate','amount']);
-
-
+            $foreign_account = Account::find($validData['foreign_account_id']);
+            $currency = $foreign_account->bank->currency;
+            if (isset($validData['rate']) && $this->calculateRate($currency->id) !== $validData['rate']) {
+                if ($request->user()->hasRole('coordinator')) {
+                    $amountInBs = $validData['rate'] * $validData['amount'];
+                } else {
+                    $pending=PendingTransaction::create($validData);
+                    return $pending;
+                }
+            } else {
+                $amountInBs = $this->calculateRate($currency->id) * $validData['amount'];
             }
-            else{
-                //TODO make transaction to confirm by a coordinator
-            }
 
-            return Transaction::create($validData);
+            $incomeTransactionData = [
+                'client_id' => $validData['client_id'],
+                'to_account_id' => $validData['foreign_account_id'],
+                'amount' => $validData['amount'],
+                'attachment_id' => $validData['received_transaction_attachment_id'] ?? null,
+                'status' => 'confirmed',
+                'type' => 'income',
+            ];
+            $incomeTransaction = Transaction::create($incomeTransactionData);
+            $assignedTransactionData = [
+                'related_transaction_id' => $incomeTransaction->id,
+                'from_account_id' => $validData['venezuelan_operator_account_id'],
+                'to_account_id' => $validData['receiver_account_id'],
+                'amount' => $amountInBs,
+                'status' => 'assigned',
+                'type' => 'outcome',
+            ];
+            return Transaction::create($assignedTransactionData);
         }
 
-        private function isPredefinedRate($rate,$currId)
+        private function calculateRate($currId)
         {
-            $calculatedDate = Rate::whereCurrencyId($currId)->orderBy('since', 'DESC')->first();
-            return $calculatedDate===$rate;
+            return Rate::whereCurrencyId($currId)->where('since', '<=', Carbon::now())->orderBy('since', 'DESC')->first()->amount;
         }
 
     }

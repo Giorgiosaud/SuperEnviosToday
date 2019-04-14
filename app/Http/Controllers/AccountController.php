@@ -21,11 +21,9 @@
                 'bank_id' => 'required|numeric',
                 'number' => 'required|string',
                 'type' => 'string',
-                'is_operator_account' => 'required|boolean'
             ]);
             $account = Account::create($validInputs);
             return $account;
-            //
         }
 
         /**

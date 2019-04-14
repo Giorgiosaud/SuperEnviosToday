@@ -4,8 +4,6 @@ namespace Tests;
 
 use App\Role;
 use App\User;
-use Exception;
-use Illuminate\Foundation\Exceptions\Handler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Passport\Passport;
 
@@ -59,48 +57,6 @@ abstract class TestCase extends BaseTestCase
             'name'=>'Receptor'
         ]);
     }
-    protected function actingAsChileanOperator(){
-        $user = factory(User::class)->create([
-            'name' => 'Chilean Operator',
-            'idn' => '4',
-            'idn_type' => 'CI',
-            'password' => bcrypt('hidden'),
-        ]);
-        $user->toogleRole('foreign_operator');
-        Passport::actingAs(
-            $user,
-            ['create-servers']
-        );
-        return $user;
-    }
-    protected function actingAsVenezuelanOperator(){
-        $user = factory(User::class)->create([
-            'name' => 'Venezuelan Operator',
-            'idn' => '3',
-            'idn_type' => 'CI',
-            'password' => bcrypt('hidden'),
-        ]);
-        $user->toogleRole('venezuelan_operator');
-
-        Passport::actingAs(
-            $user,
-            ['create-servers']
-        );
-        return $user;
-    }
-    protected function actingAsClient(){
-        $user = factory(User::class)->create([
-            'name' => 'Client',
-            'idn' => '2',
-            'idn_type' => 'CI',
-            'password' => bcrypt('hidden'),
-        ]);
-        Passport::actingAs(
-            $user,
-            ['create-servers']
-        );
-        return $user;
-    }
     protected function actingAsCoordinator(){
         $user = factory(User::class)->create([
             'name' => 'Coordinador',
@@ -118,22 +74,72 @@ abstract class TestCase extends BaseTestCase
         $user->refresh();
         return $user;
     }
-    protected function disableExceptionHandling()
-    {
-        $this->app->instance(Handler::class, new class() extends Handler {
-            public function __construct()
-            {
-            }
+    protected function actingAsForeignOperator(){
+        $user = factory(User::class)->create([
+            'name' => 'Coordinator',
+            'idn' => '2',
+            'idn_type' => 'CI',
+            'password' => bcrypt('hidden'),
+        ]);
 
-            public function report(Exception $e)
-            {
-            }
+        $user->setRole('foreign_operator');
 
-            public function render($request, Exception $e)
-            {
-                throw $e;
-            }
-        }
+        Passport::actingAs(
+            $user,
+            ['create-servers']
         );
+        $user->refresh();
+        return $user;
+    }
+    protected function actingAsVenezuelanOperator(){
+        $user = factory(User::class)->create([
+            'name' => 'Venezuelan Operator',
+            'idn' => '3',
+            'idn_type' => 'CI',
+            'password' => bcrypt('hidden'),
+        ]);
+
+        $user->setRole('venezuelan_operator');
+
+        Passport::actingAs(
+            $user,
+            ['create-servers']
+        );
+        $user->refresh();
+        return $user;
+    }
+    protected function actingAsClient(){
+        $user = factory(User::class)->create([
+            'name' => 'Client',
+            'idn' => '4',
+            'idn_type' => 'CI',
+            'password' => bcrypt('hidden'),
+        ]);
+
+        $user->setRole('client');
+
+        Passport::actingAs(
+            $user,
+            ['create-servers']
+        );
+        $user->refresh();
+        return $user;
+    }
+    protected function actingAsReceiver(){
+        $user = factory(User::class)->create([
+            'name' => 'Receiver',
+            'idn' => '5',
+            'idn_type' => 'CI',
+            'password' => bcrypt('hidden'),
+        ]);
+
+        $user->setRole('receiver');
+
+        Passport::actingAs(
+            $user,
+            ['create-servers']
+        );
+        $user->refresh();
+        return $user;
     }
 }

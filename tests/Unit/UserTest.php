@@ -39,7 +39,6 @@ class UserTest extends TestCase
      */
     public function theCoordinatorCanLoginWithHisPassword()
     {
-        $this->disableExceptionHandling();
         $user = factory(User::class)->create([
             'name' => 'Coordinador',
             'idn' => '111111',
