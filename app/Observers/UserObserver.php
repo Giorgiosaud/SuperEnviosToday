@@ -42,7 +42,7 @@ class UserObserver
         elseif ($user->hasRole('coordinator')||$user->hasRole('foreign_operator')){
             $currencies=Currency::where('name','!=','Bolivar Soberano')->get();
             foreach ($currencies as $currency){
-                $bank=Bank::whereName('Cash')->whereCurrencyId($currency->id)->first();
+                $bank=Bank::whereName('Efectivo')->whereCurrencyId($currency->id)->first();
                 factory(Account::class)->create([
                     'bank_id'=>$bank->id,
                     'user_id' => $user->id,

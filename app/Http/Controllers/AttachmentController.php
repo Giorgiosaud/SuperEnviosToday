@@ -10,7 +10,7 @@
         public function save(Request $request)
         {
             $request->validate([
-                'file' => 'required|file|image',
+                'file' => 'required|file|mimes:jpeg,bmp,png,gif,svg,pdf',
             ]);
             $file = request()->file('file');
             $name = rand(1, 999) . $file->getClientOriginalName();

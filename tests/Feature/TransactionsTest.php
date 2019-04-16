@@ -52,6 +52,7 @@
             $this->venezuelan_account->refresh();
             $this->assertEquals(0, $this->venezuelan_account->balance);
         }
+
         /**
          * A basic test example.
          * @test
@@ -66,6 +67,7 @@
             $this->venezuelan_account->refresh();
             $this->assertEquals(0, $this->venezuelan_account->balance);
         }
+
         /**
          * A basic test example.
          * @test
@@ -80,6 +82,7 @@
             $this->venezuelan_account->refresh();
             $this->assertEquals(0, $this->venezuelan_account->balance);
         }
+
         /**
          * A basic test example.
          * @test
@@ -94,6 +97,7 @@
             $this->venezuelan_account->refresh();
             $this->assertEquals(0, $this->venezuelan_account->balance);
         }
+
         /**
          * A basic test example.
          * @test
@@ -121,68 +125,101 @@
          * @test
          * @return void
          */
-        public function onlyACoordinatorOrForeignOperatorCanMakeATransaction(): void {
+        public function onlyACoordinatorOrForeignOperatorCanMakeATransaction(): void
+        {
             $transaction = $this->defineTransactionData();
-            $this->postJson(route('save_transaction'),$transaction)
+            $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(401);
             $this->actingAsReceiver();
-            $this->postJson(route('save_transaction'),$transaction)
+            $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(403);
             $this->actingAsClient();
-            $this->postJson(route('save_transaction'),$transaction)
+            $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(403);
             $this->actingAsVenezuelanOperator();
-                $this->postJson(route('save_transaction'),$transaction)
-                    ->assertStatus(403);
-                $this->actingAsForeignOperator();
-            $this->postJson(route('save_transaction'),$transaction)
-                ->assertStatus(201);
+            $this->postJson(route('save_transaction'), $transaction)
+                ->assertStatus(403);
             $this->actingAsCoordinator();
-            $this->postJson(route('save_transaction'),$transaction)
+            $this->postJson(route('add_money_to_venezuela'), ["amount" => "10000000000", 'to_account_id' =>$transaction['venezuelan_operator_account_id']]);
+            $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(201);
+            $this->actingAsForeignOperator();
+            $this->postJson(route('save_transaction'), $transaction)
+                ->assertStatus(201);
+
 
         }
 
         /**
          * @test
          */
-        public function whenAnAllowedActorMakeANormalTransactionTwoTransactionsAreGenerated(): void {
+        public function aTransactionCanHaveManyTtransactionAttachments()
+        {
             $transaction = $this->defineTransactionData();
-            $this->actingAsForeignOperator();
-            $this->postJson(route('save_transaction'),$transaction)
+            $attachment=factory(Attachment::class)->create();
+            $transaction['received_transaction_attachment_ids']=[$attachment->id];
+        //    $transaction['client_id']=factory(User::class)->create()->id;
+            $this->actingAsCoordinator();
+            $this->postJson(route('add_money_to_venezuela'), ["amount" => "10000000000", 'to_account_id' =>$transaction['venezuelan_operator_account_id']]);
+            $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(201);
-            $transactions=Transaction::all();
-            $this->assertCount(2,$transactions);
-            $this->assertEquals('confirmed',$transactions->first()->status);
-            $this->assertEquals('assigned',$transactions->last()->status);
+            $transaction=Transaction::whereClientId($transaction['client_id'])->first();
+            $this->assertEquals($attachment->id,$transaction->attachments->first()->id);
         }
+
+        /**
+         * @test
+         */
+        public function whenAnAllowedActorMakeANormalTransactionTwoTransactionsAreGenerated(): void
+        {
+            $transaction = $this->defineTransactionData();
+            $this->actingAsCoordinator();
+            $this->postJson(route('add_money_to_venezuela'), ["amount" => "10000000000", 'to_account_id' =>$transaction['venezuelan_operator_account_id']]);
+
+            $this->actingAsForeignOperator();
+            $this->postJson(route('save_transaction'), $transaction)
+                ->assertStatus(201);
+            $transactions = Transaction::all();
+            $this->assertCount(3, $transactions);
+            $this->assertEquals('confirmed', $transactions[1]->status);
+            $this->assertEquals('assigned', $transactions->last()->status);
+        }
+
         /**
          * A basic test example.
          * @test
          * @return void
          */
-        public function aCoordinatorCanMakeATransactionWithCustomExchangeRate(): void {
+        public function aCoordinatorCanMakeATransactionWithCustomExchangeRate(): void
+        {
             $transaction = $this->defineTransactionData(false);
             $this->actingAsCoordinator();
-            $this->postJson(route('save_transaction'),$transaction)
+            $this->postJson(route('add_money_to_venezuela'), ["amount" => "100000000000", 'to_account_id' =>$transaction['venezuelan_operator_account_id']]);
+            $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(201);
-            $transactions=Transaction::all();
-            $this->assertCount(2,$transactions);
-            $this->assertEquals('confirmed',$transactions->first()->status);
-            $this->assertEquals('assigned',$transactions->last()->status);
-            $this->assertEquals(20000,$transactions->last()->amount);
+            $transactions = Transaction::all();
+            $this->assertCount(3, $transactions);
+            $this->assertEquals('confirmed', $transactions[1]->status);
+            $this->assertEquals('assigned', $transactions->last()->status);
+            $this->assertEquals(20000, $transactions->last()->amount);
         }
+
         /**
          * A basic test example.
          * @test
          * @return void
          */
-        public function ifAForeignOperatorCanMAbeATransactionWithCustomExchangeRateButItWillBeCreatedAsPendingUntilACoordinatorApprove(){
+        public function ifAForeignOperatorCanMAbeATransactionWithCustomExchangeRateButItWillBeCreatedAsPendingUntilACoordinatorApprove()
+        {
             $transaction = $this->defineTransactionData(false);
             $this->actingAsForeignOperator();
-            $this->postJson(route('save_transaction'),$transaction)
+            $this->postJson(route('add_money_to_venezuela'), ["amount" => "10000000000", 'to_account_id' =>$transaction['venezuelan_operator_account_id']]);
+            $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(201);
-            $this->assertCount(1,PendingTransaction::all());
+            $this->assertCount(1, PendingTransaction::all());
+
+        }
+        public function ifATransactionIsAssignedToVenezuelanAccountOutOfFundsItWillThrowAnError(){
 
         }
 
@@ -190,7 +227,7 @@
          * @param bool $normal
          * @return array
          */
-        protected function defineTransactionData($normal=true): array
+        protected function defineTransactionData($normal = true): array
         {
             $client = factory(User::class)->create();
             $operatorForeign = factory(User::class)->create();
@@ -213,11 +250,11 @@
                 'venezuelan_operator_account_id' => $operatorAccount->id,
                 'amount' => 10000
             ];
-            if(!$normal) {
-                $transaction['rate']=2;
+            if (!$normal) {
+                $transaction['rate'] = 2;
             }
             return $transaction;
-
         }
+
     }
 

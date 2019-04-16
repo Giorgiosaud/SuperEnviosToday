@@ -35,5 +35,8 @@
             'extension'
         ];
 
+        public function attachable(){
+            return $this->morphTo();
+        }
         //
     }

@@ -3,6 +3,8 @@
     namespace App\Http\Controllers;
 
     use App\Account;
+    use App\Attachment;
+    use App\Events\TransactionExcecuted;
     use App\PendingTransaction;
     use App\PendingTransactions;
     use App\Rate;
@@ -62,12 +64,14 @@
             $validData = $request->validate([
                 'client_id' => 'required|exists:users,id',
                 'foreign_account_id' => 'required|exists:accounts,id',
-                'received_transaction_attachment_id' => 'exists:attachments,id',
+                'received_transaction_attachment_ids.*' => 'numeric|exists:attachments,id',
                 'receiver_account_id' => 'required|exists:accounts,id',
                 'venezuelan_operator_account_id' => 'required|exists:accounts,id',
-                'rate' => 'numeric',
+                'rate' => 'nullable|numeric',
                 'amount' => 'required|numeric',
             ]);
+            $venezuelan_account=Account::find($validData['venezuelan_operator_account_id']);
+
             $foreign_account = Account::find($validData['foreign_account_id']);
             $currency = $foreign_account->bank->currency;
             if (isset($validData['rate']) && $this->calculateRate($currency->id) !== $validData['rate']) {
@@ -80,16 +84,23 @@
             } else {
                 $amountInBs = $this->calculateRate($currency->id) * $validData['amount'];
             }
-
+            if($amountInBs > $venezuelan_account->balance){
+                return abort(424,"No hay dinero disponible suficiente en la cuenta seleccionada");
+            }
             $incomeTransactionData = [
                 'client_id' => $validData['client_id'],
                 'to_account_id' => $validData['foreign_account_id'],
                 'amount' => $validData['amount'],
-                'attachment_id' => $validData['received_transaction_attachment_id'] ?? null,
                 'status' => 'confirmed',
                 'type' => 'income',
             ];
             $incomeTransaction = Transaction::create($incomeTransactionData);
+            if(isset($validData['received_transaction_attachment_ids'])) {
+                foreach ($validData['received_transaction_attachment_ids'] as $attachmentId){
+                    $attachment=Attachment::find($attachmentId);
+                    $incomeTransaction->attachments()->save($attachment);
+                }
+            }
             $assignedTransactionData = [
                 'related_transaction_id' => $incomeTransaction->id,
                 'from_account_id' => $validData['venezuelan_operator_account_id'],
@@ -98,6 +109,9 @@
                 'status' => 'assigned',
                 'type' => 'outcome',
             ];
+            event(new TransactionExcecuted(Account::find($validData['venezuelan_operator_account_id'])->owner));
+
+
             return Transaction::create($assignedTransactionData);
         }
 

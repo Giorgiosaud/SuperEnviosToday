@@ -1,18 +1,14 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div class="row client_data">
       <div class="col-12">
         <h1>Transcacción</h1>
       </div>
-    </div>
-    <div class="row">
       <div class="col-12">
         Datos del Cliente Emisor
         <hr>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-6">
         <label
           for="idn_type"
           class="label-base"
@@ -34,7 +30,7 @@
           <strong>{{ errors.first('Tipo de Identificación') }}</strong>
         </span>
       </div>
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-6">
         <label
           for="idn"
           class="label-base"
@@ -58,8 +54,6 @@
           <strong>{{ errors.first('Número de Identificación') }}</strong>
         </span>
       </div>
-    </div>
-    <div class="row">
       <div class="col-12">
         <button
           :disabled="agregarDisabled"
@@ -70,8 +64,8 @@
         </button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-6 col-md-4">
+    <div class="row client_details">
+      <div class="col-12 col-md-6 col-lg-4">
         <label
           for="name"
           class="label-base"
@@ -87,7 +81,7 @@
           autofocus
         >
       </div>
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-6 col-lg-4">
         <label
           for="last_name"
           class="label-base"
@@ -103,7 +97,7 @@
           autofocus
         >
       </div>
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-6 col-lg-4">
         <label
           for="phone"
           class="label-base"
@@ -120,7 +114,7 @@
           autofocus
         >
       </div>
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-6 col-lg-4">
         <label
           class="label-base"
           for="email"
@@ -136,7 +130,7 @@
           autofocus
         >
       </div>
-      <div class="col-6 col-md-4">
+      <div class="col-12 col-md-6 col-lg-4">
         <label
           for="address"
           class="label-base"
@@ -152,117 +146,11 @@
         >Dirección</textarea>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12">
-        <h2>Receptores Registrados para este cliente</h2>
-        <hr>
-      </div>
-    </div>
-    <div
-      v-if="client.receivers && client.receivers.length"
-      class="row"
-    >
-      <div class="table-responsive">
-        <table class="table">
-          <tr>
-            <th>Idn Type</th>
-            <th>Idn</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Accion</th>
-          </tr>
-          <tr
-            v-for="(receiver , receiverIndex) in client.receivers"
-            :key="receiverIndex"
-            :class="{active:selectedReceiver ===receiver}"
-          >
-            <td>{{ receiver.idn_type }}</td>
-            <td>{{ receiver.idn }}</td>
-            <td>{{ receiver.name }}</td>
-            <td>{{ receiver.last_name }}</td>
-            <td>
-              <button
-                class="btn btn-primary"
-                @click="assignReceiver(receiver)"
-              >
-                Seleccionar Receptor
-              </button>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <button
-          :disabled="!client.id"
-          class="btn btn-primary"
-          @click="agregarUsuarioReceptor"
-        >
-          Agregar Receptor
-        </button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <h2>Seleccione Cuenta o asocie una a este receptor</h2>
-        <hr>
-      </div>
-    </div>
-    <div
-      v-if="selectedReceiver.accounts && selectedReceiver.accounts.length"
-      class="row"
-    >
-      <div class="col-12">
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th>Tipo de Moneda</th>
-              <th>Nombre de Banco</th>
-              <th>Numero de Cuenta</th>
-              <th>Accion</th>
-            </tr>
-            <tr
-              v-for="account in selectedReceiver.accounts"
-              :key="account.id"
-              :class="{active:selectedReceiverAccount === account}"
-            >
-              <td>{{ account.bank.currency.name }}</td>
-              <td>{{ account.bank.name }}</td>
-              <td>{{ account.number }}</td>
-              <td>
-                <button
-                  class="btn btn-primary"
-                  @click="assignAccount(account)"
-                >
-                  Seleccionar Cuenta
-                </button>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <button
-          :disabled="!selectedReceiver.id"
-          class="btn btn-primary"
-          @click="agregarCuenta"
-        >
-          Agregar Cuenta
-        </button>
-      </div>
-    </div>
-    <hr>
-
-    <div class="row">
+    <div class="row transaction_details">
       <div class="col-12">
         <h2>Datos de la transacción</h2>
         <hr>
       </div>
-    </div>
-    <div class="row">
       <div class="col-12">
         <label
           for="currency"
@@ -293,35 +181,21 @@
           class="input-base"
         />
       </div>
-
-      <label
-        for="amount"
-        class="label-base"
-      >Ingrese un monto</label>
-      <input
-        id="amount"
-        v-model="amount"
-        type="text"
-        class="input-base"
-      >
-    </div>
-    <div class="row">
       <div class="col-12">
-        <vue-dropzone
-          id="dropzone"
-          ref="myVueDropzone"
-          v-model="dropImage1"
-          :options="dropzoneOptions"
-          @vdropzone-success="saveClientVoucher"
-        />
+        <label
+          for="amount"
+          class="label-base"
+        >Ingrese un monto</label>
+        <input
+          id="amount"
+          v-model="amount"
+          type="text"
+          class="input-base"
+        >
       </div>
-    </div>
-    <div class="row">
       <div class="col-12">
         <h3>Tasa Actual {{ actualRate | currency }}</h3>
       </div>
-    </div>
-    <div class="row">
       <div class="col-12">
         <label for="anotherRate">¿Desea pedir autorizacion para utilizar otra tasa de cambio?
           <input
@@ -331,36 +205,143 @@
           >
         </label>
       </div>
-    </div>
-    <div
-      v-if="anotherRate"
-      class="row"
-    >
-      <div class="col-12">
-        <label
-          for="rate"
-          class="label-base"
-        >Ingrese una tasa sugerida</label>
-        <input
-          id="rate"
-          v-model="actualRate"
-          type="text"
-          class="input-base"
-        >
-      </div>
-    </div>
-    <div class="row">
       <div class="col-12">
         <h3>Monto en Bs {{ actualRate * amount| currency }}</h3>
       </div>
+      <div class="col-12">
+        <vue-dropzone
+          id="dropzone"
+          ref="myVueDropzone"
+          v-model="dropImage1"
+          :options="dropzoneOptions"
+          :duplicate-check="true"
+          @vdropzone-success="saveClientVoucher"
+          @vdropzone-duplicate-file="alertDuplicateFile"
+          @vdropzone-error="errorSaveClientVoucher"
+        />
+      </div>
+      <div
+        v-if="anotherRate"
+        class="col-12"
+      >
+        <div class="col-12">
+          <label
+            for="rate"
+            class="label-base"
+          >Ingrese una tasa sugerida</label>
+          <input
+            id="rate"
+            v-model="actualRate"
+            type="text"
+            class="input-base"
+          >
+        </div>
+      </div>
     </div>
-    <div class="row">
+    <div class="row receivers">
+      <div class="col-12">
+        <h2>Receptores Registrados para este cliente</h2>
+        <hr>
+      </div>
+      <div
+        v-if="client.receivers && client.receivers.length"
+        class="col-12"
+      >
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th>Idn Type</th>
+              <th>Idn</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Accion</th>
+            </tr>
+            <tr
+              v-for="(receiver , receiverIndex) in client.receivers"
+              :key="receiverIndex"
+              :class="{active:selectedReceiver ===receiver}"
+            >
+              <td>{{ receiver.idn_type }}</td>
+              <td>{{ receiver.idn }}</td>
+              <td>{{ receiver.name }}</td>
+              <td>{{ receiver.last_name }}</td>
+              <td>
+                <button
+                  class="btn btn-primary"
+                  @click="assignReceiver(receiver)"
+                >
+                  Seleccionar Receptor
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-12">
+        <button
+          :disabled="!client.id"
+          class="btn btn-primary"
+          @click="agregarUsuarioReceptor"
+        >
+          Agregar Receptor
+        </button>
+      </div>
+    </div>
+    <div class="row receiver_account">
+      <div class="col-12">
+        <h2>Seleccione Cuenta o asocie una a este receptor</h2>
+        <hr>
+      </div>
+      <div
+        v-if="selectedReceiver.accounts && selectedReceiver.accounts.length"
+        class="col-12"
+      >
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table">
+              <tr>
+                <th>Tipo de Moneda</th>
+                <th>Nombre de Banco</th>
+                <th>Numero de Cuenta</th>
+                <th>Accion</th>
+              </tr>
+              <tr
+                v-for="account in selectedReceiver.accounts"
+                :key="account.id"
+                :class="{active:selectedReceiverAccount === account}"
+              >
+                <td>{{ account.bank.currency.name }}</td>
+                <td>{{ account.bank.name }}</td>
+                <td>{{ account.number }}</td>
+                <td>
+                  <button
+                    class="btn btn-primary"
+                    @click="assignAccount(account)"
+                  >
+                    Seleccionar Cuenta
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <button
+          :disabled="!selectedReceiver.id"
+          class="btn btn-primary"
+          @click="agregarCuenta"
+        >
+          Agregar Cuenta
+        </button>
+      </div>
+      <hr>
+    </div>
+    <div class="row operadores_venezuela">
       <div class="col-12">
         <h2>Operadores Venezuela Disponibles</h2>
         <hr>
       </div>
-    </div>
-    <div class="row">
       <div
         v-for="(operador, opvenindex) in operadoresVenezuela"
         :key="opvenindex"
@@ -390,7 +371,7 @@
             >
               <td>{{ venezuelan_account.bank.name }}</td>
               <td>{{ venezuelan_account.number }}</td>
-              <td>{{ venezuelan_account.TotalAmount|currency }}</td>
+              <td>{{ venezuelan_account.Balance|currency }}</td>
               <td>
                 <button
                   class="btn btn-primary"
@@ -404,7 +385,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row final_button_transaction">
       <div class="col-12">
         <button
           :disabled="!selectedReceiver.id"
@@ -484,28 +465,27 @@ export default {
       operator: null,
       selectedOperatorAccount: '',
       propsOfComponent: {},
-      dropzoneOptions: {
+      dropImage1: null,
+      clientTransactionAttachmentId: [],
+    };
+  },
+  computed: {
+    dropzoneOptions() {
+      return {
         url: 'api/attachment',
         thumbnailWidth: 150,
         maxFilesize: 3,
         acceptedFiles: 'image/*,application/pdf',
         uploadMultiple: false,
-        maxFiles: 1,
+        maxFiles: 3,
         dictDefaultMessage: 'Agregue archivo aqui',
         dictFallbackMessage: 'Este explorador no soporta este uploader',
         dictFileTooBig: 'Archivo muy pesado',
         dictInvalidFileType: 'tipo de archivo invalido',
         dictCancelUpload: 'Upload Cancelado',
         dictRemoveFile: 'Archivo Borrado',
-        headers: {
-          Authorization: axios.defaults.headers.common.Authorization,
-        },
-      },
-      dropImage1: null,
-      clientTransactionAttachmentId: null,
-    };
-  },
-  computed: {
+      };
+    },
     operatorAccounts() {
       if (!this.operator || !this.selectedCurrency) {
         return [];
@@ -513,7 +493,7 @@ export default {
       const accounts = this.operator.accounts
         .filter(acc => acc.bank.currency.id === this.selectedCurrency.id);
       accounts.forEach((acc) => {
-        acc.label = acc.bank.name;
+        acc.label = `${acc.bank.name} / ${acc.number}`;
       });
       return accounts;
     },
@@ -543,9 +523,21 @@ export default {
       this.currencies = data;
     });
   },
+  mounted() {
+    window.Echo.private('transaction-assigned')
+      .listen('TransactionExcecuted', (e) => {
+        console.log(e);
+      });
+  },
   methods: {
-    saveClientVoucher(payload) {
-      this.clientTransactionAttachmentId = payload.xhr.response.id;
+    saveClientVoucher(_, file) {
+      this.clientTransactionAttachmentId.push(file.id);
+    },
+    errorSaveClientVoucher(files) {
+      this.$refs.myVueDropzone.removeFile(files);
+    },
+    alertDuplicateFile() {
+      alert('archivo duplicado');
     },
     assignVenezuelanAccount(account) {
       this.selectedvenezuelanAccount = account.id;
@@ -617,14 +609,13 @@ export default {
     },
     agregarTransaccion() {
       const payload = {
-        to_account_id: this.selectedReceiverAccount.id,
-        operator_account_id: this.selectedOperatorAccount.id,
-        from_account_id: this.selectedvenezuelanAccount,
-        from_client_id: this.client.id,
-        foreign_currency_id: this.selectedCurrency.id,
+        client_id: this.client.id,
+        foreign_account_id: this.selectedOperatorAccount.id,
+        received_transaction_attachment_ids: this.clientTransactionAttachmentId,
+        receiver_account_id: this.selectedReceiverAccount.id,
+        venezuelan_operator_account_id: this.selectedvenezuelanAccount,
+        rate: this.rate,
         amount: this.amount,
-        clientTransactionAttachmentId: this.clientTransactionAttachmentId,
-        rate: this.actualRate,
       };
       axios.post('api/add-transaction', payload)
         .then(() => {

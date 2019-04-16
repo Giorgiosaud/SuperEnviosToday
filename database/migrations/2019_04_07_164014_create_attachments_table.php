@@ -18,6 +18,8 @@
                 $table->string('name');
                 $table->string('path');
                 $table->string('extension');
+                $table->unsignedInteger('attachable_id')->nullable();
+                $table->string('attachable_type')->nullable();
                 $table->timestamps();
             });
         }

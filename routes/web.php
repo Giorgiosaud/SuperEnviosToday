@@ -32,5 +32,5 @@
     });
 
     Auth::routes();
-
+    Broadcast::routes(['middleware' => ['auth:api']]);
     Route::get('/home', 'HomeController@index')->name('home');
