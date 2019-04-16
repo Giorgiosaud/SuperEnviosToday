@@ -70,7 +70,7 @@
             $this->actingAsVenezuelanOperator();
             $this->getJson(route('country_banks', $currency->id))->assertStatus(403);
             $this->actingAsForeignOperator();
-            $this->getJson(route('country_banks', $currency->id))->assertStatus(403);
+            $this->getJson(route('country_banks', $currency->id))->assertStatus(200);
             $this->actingAsCoordinator();
             $this->getJson(route('country_banks', $currency->id))->assertStatus(200);
         }

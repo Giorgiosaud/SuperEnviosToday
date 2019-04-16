@@ -12,7 +12,7 @@ window.$ = require('jquery');
 require('bootstrap');
 require('date-fns');
 require('axios');
-require('pusher-js');
+window.Pusher = require('pusher-js');
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the

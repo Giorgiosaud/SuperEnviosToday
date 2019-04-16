@@ -2,7 +2,10 @@
 
     namespace Tests\Feature;
 
+    use App\Account;
+    use App\Bank;
     use App\Currency;
+    use App\User;
     use Tests\TestCase;
     use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -57,6 +60,32 @@
             ->assertJsonCount(3);
             $this->getJson(route('foreign_currencies'))
               ->assertJsonCount(2);
+        }
+        /**
+         * @test
+         */
+        public function whenCurrencyIsCreatedABankWithSameCurrencyIsAlsoCreated(){
+            $this->withoutExceptionHandling();
+            $currency=factory(Currency::class)->create();
+            $this->assertEquals($currency->fresh(),Bank::first()->currency);
+        }
+        /**
+         * @test
+         */
+        public function allForeignAndCoordinatorsHaveACashAccountInAveryCurrencyOnCreated(){
+            $users=factory(User::class,10)->create();
+            $users[0]->setRole('coordinator');
+            $users[1]->setRole('foreign_operator');
+            $users[2]->setRole('foreign_operator');
+            factory(Currency::class)->create();
+
+            $users=User::all();
+            foreach ($users as $user){
+                if($user->hasRole('coordinator')|| $user->hasRole('foreign_operator')){
+                    $this->assertInstanceOf(Account::class,$user->accounts[0]);
+                    $this->assertEquals($user->accounts[0]->bank->id,Bank::first()->id);
+                }
+            }
         }
     }
 

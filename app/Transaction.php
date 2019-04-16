@@ -45,15 +45,16 @@ use Illuminate\Support\Carbon;
  * @property string|null $url_attachment
  * @method static Builder|Transaction whereRelatedTransactionId($value)
  * @method static Builder|Transaction whereUrlAttachment($value)
+ * @method static whereClientId()
  */
 class Transaction extends Model
 {
     protected $fillable=[
+        'client_id',
         'from_account_id',
         'to_account_id',
         'related_transaction_id',
         'amount',
-        'url_attachment',
         'status',
         'type',
     ];
@@ -73,5 +74,8 @@ class Transaction extends Model
     public function setAmountAttribute($value)
     {
         $this->attributes['amount']= $value*10000;
+    }
+    public function attachments(){
+        return  $this->morphMany(Attachment::class, 'attachable');
     }
 }

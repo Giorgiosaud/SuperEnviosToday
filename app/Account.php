@@ -48,22 +48,29 @@
         /**
          * @return \Illuminate\Database\Eloquent\Relations\HasMany
          */
-        public function transactions()
+        public function incomingTransactions()
         {
             return $this->hasMany(Transaction::class, 'to_account_id');
         }
-
         /**
          * @return \Illuminate\Database\Eloquent\Relations\HasMany
          */
         public function outgoingTransactions()
         {
-            return $this->transactions()->where('type', 'outcome');
+            return $this->hasMany(Transaction::class, 'from_account_id');
         }
 
-        public function incomingTransactions()
+        /**
+         * @return \Illuminate\Database\Eloquent\Relations\HasMany
+         */
+        public function outgoingTransactionsTyped()
         {
-            return $this->transactions()->where('type', 'income');
+            return $this->outgoingTransactions()->where('type', 'outcome');
+        }
+
+        public function incomingTransactionsTyped()
+        {
+            return $this->incomingTransactions()->where('type', 'income');
         }
 
         /**
@@ -71,7 +78,7 @@
          */
         public function getBalanceAttribute()
         {
-            return ($this->incomingTransactions->sum('amount') - $this->outgoingTransactions->sum('amount') )/ 10000;
+            return $this->incomingTransactionsTyped->sum('amount') - $this->outgoingTransactionsTyped->sum('amount') ;
         }
 
         /**

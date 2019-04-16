@@ -28,6 +28,8 @@
             'amount',
             'status'
         ];
-
+        public function attachments(){
+            return  $this->morphMany(Attachment::class, 'attachable');
+        }
         //
     }
