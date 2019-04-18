@@ -24,10 +24,12 @@
     // Privated Routes as Coordinator or Foreign Operator
     Route::group(['middleware'=>['auth:api','role:coordinator,foreign_operator']],function(){
         Route::get('country_banks/{currency}', 'BankController@country_index')->name('country_banks');
-        Route::get('operadores-venezuela', 'operatorsController@venezuelanIndex')->name('venezuelan_operators');
+        Route::get('operadores-venezuela', 'operatorsController@venezuelanIndex')->name('venezuelan_operators_api');
         Route::get('user_data', 'UserController@userData');
         Route::post('accounts', 'AccountController@store')->name('save_account');
         Route::post('add-transaction', 'TransactionController@normalstore')->name('save_transaction');
+        Route::get('foreign_currencies', 'CurrencyController@foreignIndex')->name('foreign_currencies');
+
     });
     // Privated Routes as Coordinator Foreign Operator or Venezuelan Operator
 
@@ -50,7 +52,6 @@
         Route::delete('rate/{rate}', 'RateController@destroy')->name('delete_rate');
         Route::patch('rate/{rate}', 'RateController@update')->name('edit_rate');
         Route::get('currencies', 'CurrencyController@index')->name('currencies');
-        Route::get('foreign_currencies', 'CurrencyController@foreignIndex')->name('foreign_currencies');
         Route::get('foreign_operators','UserController@foreignOperators')->name('foreign_operators');
         Route::get('operators','UserController@operators')->name('operators');
         Route::post('currencies', 'CurrencyController@store')->name('create_currency');
@@ -59,4 +60,8 @@
         Route::post('banks', 'BankController@store')->name('save_bank');
         Route::post('operator-account', 'AccountController@storeOperatorAccount')->name('save_operator_account');
         Route::post('add-money-venezuela', 'TransactionController@store')->name('add_money_to_venezuela');
+        //TODO settings test
+        Route::get('pending-transactions','PendingTransactionController@indexAPI')->name('all-pending-transactions');
+        Route::get('settings','SettingsController@all')->name('all-settings');
+        Route::post('setting_tax','SettingsController@setTax')->name('set-tax');
     });

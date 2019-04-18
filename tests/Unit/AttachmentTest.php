@@ -32,7 +32,7 @@
             ]);
             $allAttachmentsPost=Attachment::all();
             $this->assertEquals($allAttachmentsPost,$allAttachments);
-            $this->assertCount(0,$allAttachmentsPost);
+            $this->assertCount(1,$allAttachmentsPost);
         }
 
         /**
@@ -69,7 +69,7 @@
         public function addAttachmentAsClient()
         {
             $this->actingAsClient();
-            $this->tryToAddAttachment();
+            $this->addAttachment();
         }
 
         /**
@@ -78,7 +78,7 @@
         public function addAttachmentAsReceiver()
         {
             $this->actingAsReceiver();
-            $this->tryToAddAttachment();
+            $this->addAttachment();
         }
 
         /**
@@ -86,7 +86,7 @@
          **/
         public function addAttachmentAsGuess()
         {
-            $this->tryToAddAttachment();
+            $this->addAttachment();
         }
 
     }

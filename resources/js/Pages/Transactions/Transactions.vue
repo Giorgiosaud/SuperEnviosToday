@@ -208,18 +208,6 @@
       <div class="col-12">
         <h3>Monto en Bs {{ actualRate * amount| currency }}</h3>
       </div>
-      <div class="col-12">
-        <vue-dropzone
-          id="dropzone"
-          ref="myVueDropzone"
-          v-model="dropImage1"
-          :options="dropzoneOptions"
-          :duplicate-check="true"
-          @vdropzone-success="saveClientVoucher"
-          @vdropzone-duplicate-file="alertDuplicateFile"
-          @vdropzone-error="errorSaveClientVoucher"
-        />
-      </div>
       <div
         v-if="anotherRate"
         class="col-12"
@@ -236,6 +224,18 @@
             class="input-base"
           >
         </div>
+      </div>
+      <div class="col-12">
+        <vue-dropzone
+          id="dropzone"
+          ref="myVueDropzone"
+          v-model="dropImage1"
+          :options="dropzoneOptions"
+          :duplicate-check="true"
+          @vdropzone-success="saveClientVoucher"
+          @vdropzone-duplicate-file="alertDuplicateFile"
+          @vdropzone-error="errorSaveClientVoucher"
+        />
       </div>
     </div>
     <div class="row receivers">
@@ -340,6 +340,12 @@
     <div class="row operadores_venezuela">
       <div class="col-12">
         <h2>Operadores Venezuela Disponibles</h2>
+        <button
+          class="btn btn-primary"
+          @click="updateOperatorBalance"
+        >
+          Actualizar
+        </button>
         <hr>
       </div>
       <div
@@ -524,12 +530,18 @@ export default {
     });
   },
   mounted() {
-    window.Echo.private('transaction-assigned')
-      .listen('TransactionExcecuted', (e) => {
+    Echo.private('transaction-assigned')
+      .listen('TransactionExecuted', (e) => {
         console.log(e);
+        this.updateOperatorBalance();
       });
   },
   methods: {
+    updateOperatorBalance() {
+      axios.get('api/operadores-venezuela').then((response) => {
+        this.operadoresVenezuela = response.data;
+      });
+    },
     saveClientVoucher(_, file) {
       this.clientTransactionAttachmentId.push(file.id);
     },
@@ -614,7 +626,7 @@ export default {
         received_transaction_attachment_ids: this.clientTransactionAttachmentId,
         receiver_account_id: this.selectedReceiverAccount.id,
         venezuelan_operator_account_id: this.selectedvenezuelanAccount,
-        rate: this.rate,
+        rate: this.actualRate,
         amount: this.amount,
       };
       axios.post('api/add-transaction', payload)

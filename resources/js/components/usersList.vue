@@ -287,6 +287,7 @@ export default {
       maxPagination: 4,
       query: '',
       last_page: '',
+      selectedUser: null,
       selectedOperator: null,
       current_page: '',
       idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF'],
@@ -372,10 +373,9 @@ export default {
     },
     editUser(user) {
       this.selectedUser = user;
-      this.selectedOperator.roles = this.selectedOperator.roles.map(role => role.name_id);
     },
     guardarUsuario() {
-      window.axios.patch(`api/user/${this.selectedOperator.id}`, this.selectedOperator)
+      window.axios.patch(`api/user/${this.selectedUser.id}`, this.selectedUser)
         .then((response) => {
           console.log(response);
         });

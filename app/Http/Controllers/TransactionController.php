@@ -4,10 +4,11 @@
 
     use App\Account;
     use App\Attachment;
-    use App\Events\TransactionExcecuted;
+    use App\Events\PendingTransactionAwaiting;
+    use App\Events\TransactionExecuted;
     use App\PendingTransaction;
-    use App\PendingTransactions;
     use App\Rate;
+    use App\Setting;
     use App\Transaction;
     use Carbon\Carbon;
     use Illuminate\Http\Request;
@@ -52,6 +53,7 @@
             $validData['user_id'] = $request->user()->id;
             $validData['status'] = 'terminated';
             $validData['type'] = 'income';
+            broadcast(new TransactionExecuted($request->user(),'made transaction'))->toOthers();
             return Transaction::create($validData);
         }
 
@@ -79,6 +81,7 @@
                     $amountInBs = $validData['rate'] * $validData['amount'];
                 } else {
                     $pending=PendingTransaction::create($validData);
+                    broadcast(new PendingTransactionAwaiting($request->user()))->toOthers();
                     return $pending;
                 }
             } else {
@@ -109,10 +112,24 @@
                 'status' => 'assigned',
                 'type' => 'outcome',
             ];
-            event(new TransactionExcecuted(Account::find($validData['venezuelan_operator_account_id'])->owner));
+            Transaction::create($assignedTransactionData);
+            $set = Setting::where('key','venezuelanBankTax')->first();
+            $taxVal=(float) str_replace(',','.',$set->value);
+            if($taxVal!==0) {
+                $amountTax = $amountInBs * $taxVal / 100;
+                $venezuelanTax = [
+                    'related_transaction_id' => $incomeTransaction->id,
+                    'from_account_id' => null,
+                    'to_account_id' => $validData['venezuelan_operator_account_id'],
+                    'amount' => $amountTax,
+                    'status' => 'terminated',
+                    'type' => 'outcome',
+                ];
+                Transaction::create($venezuelanTax);
+            }
+            broadcast(new TransactionExecuted($request->user(),'made transaction'))->toOthers();
+            return response('All transactions created',201);
 
-
-            return Transaction::create($assignedTransactionData);
         }
 
         private function calculateRate($currId)
