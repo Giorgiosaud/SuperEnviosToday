@@ -6,6 +6,7 @@
     use App\Attachment;
     use App\PendingTransaction;
     use App\Rate;
+    use App\Setting;
     use App\Transaction;
     use App\User;
     use Carbon\Carbon;
@@ -32,10 +33,9 @@
         {
             $this->actingAsCoordinator();
             $this->addVenezuelanOperatorAndAccount();
-            $this->postJson(route('add_money_to_venezuela'), ["amount" => "10000000000", 'to_account_id' => $this->venezuelan_account->id]);
+            $this->postJson(route('add_money_to_venezuela'), ["amount" => "1000000", 'to_account_id' => $this->venezuelan_account->id]);
             $this->venezuelan_account->refresh();
             $this->assertEquals(1000000, $this->venezuelan_account->balance);
-
         }
 
         /**
@@ -45,6 +45,7 @@
          */
         public function aForgeinOperatorCantAddFundsToVenezuelanOperator()
         {
+
             $this->actingAsForeignOperator();
             $this->addVenezuelanOperatorAndAccount();
             $this->postJson(route('add_money_to_venezuela'), ["amount" => "10000000000", 'to_account_id' => $this->venezuelan_account->id])
@@ -127,6 +128,7 @@
          */
         public function onlyACoordinatorOrForeignOperatorCanMakeATransaction(): void
         {
+            factory(Setting::class)->create(['key'=>'venezuelanBankTax','value'=>"2"]);
             $transaction = $this->defineTransactionData();
             $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(401);
@@ -174,15 +176,15 @@
         {
             $transaction = $this->defineTransactionData();
             $this->actingAsCoordinator();
-            $this->postJson(route('add_money_to_venezuela'), ["amount" => "10000000000", 'to_account_id' =>$transaction['venezuelan_operator_account_id']]);
+            $this->postJson(route('add_money_to_venezuela'), ["amount" => "1000000", 'to_account_id' =>$transaction['venezuelan_operator_account_id']]);
 
             $this->actingAsForeignOperator();
             $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(201);
             $transactions = Transaction::all();
-            $this->assertCount(3, $transactions);
+            $this->assertCount(4, $transactions);
             $this->assertEquals('confirmed', $transactions[1]->status);
-            $this->assertEquals('assigned', $transactions->last()->status);
+            $this->assertEquals('assigned', $transactions[2]->status);
         }
 
         /**
@@ -198,10 +200,10 @@
             $this->postJson(route('save_transaction'), $transaction)
                 ->assertStatus(201);
             $transactions = Transaction::all();
-            $this->assertCount(3, $transactions);
+            $this->assertCount(4, $transactions);
             $this->assertEquals('confirmed', $transactions[1]->status);
-            $this->assertEquals('assigned', $transactions->last()->status);
-            $this->assertEquals(20000, $transactions->last()->amount);
+            $this->assertEquals('assigned', $transactions[2]->status);
+            $this->assertEquals(20000, $transactions[2]->amount);
         }
 
         /**

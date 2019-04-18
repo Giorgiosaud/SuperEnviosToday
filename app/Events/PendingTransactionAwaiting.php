@@ -10,21 +10,19 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TransactionExcecuted
+class PendingTransactionAwaiting implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $venezuelan_operator;
-    public $message;
+    public $user;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($venezuelan_operator)
+    public function __construct($user)
     {
-        $this->venezuelan_operator= $venezuelan_operator;
-        $this->message  = "{$venezuelan_operator} tiene una nueva transaccion";
+        $this->user=$user;
+        //
     }
 
     /**
@@ -34,7 +32,6 @@ class TransactionExcecuted
      */
     public function broadcastOn()
     {
-        //return new Channel('transaction-assigned');
-        return new PrivateChannel('transaction-assigned');
+        return new PrivateChannel('pending-transaction');
     }
 }

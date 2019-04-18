@@ -28,8 +28,24 @@
             'amount',
             'status'
         ];
-        public function attachments(){
-            return  $this->morphMany(Attachment::class, 'attachable');
+
+        public function attachments()
+        {
+            return $this->morphMany(Attachment::class, 'attachable');
+        }
+
+        public function client()
+        {
+            return $this->belongsTo(User::class, 'client_id');
+        }
+
+        public function receiver_account()
+        {
+            return $this->belongsTo(Account::class, 'receiver_account_id');
+        }
+        public function operator_account()
+        {
+            return $this->belongsTo(Account::class, 'venezuelan_operator_account_id');
         }
         //
     }

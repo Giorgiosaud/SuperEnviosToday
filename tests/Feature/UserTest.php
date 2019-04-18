@@ -82,7 +82,7 @@
             foreach ($users as $user) {
                 $user->setRole('venezuelan_operator');
             }
-            $this->getJson(route('venezuelan_operators'))
+            $this->getJson(route('venezuelan_operators_api'))
                 ->assertJsonCount(30);
 
         }

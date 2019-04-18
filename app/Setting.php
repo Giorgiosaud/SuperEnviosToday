@@ -22,5 +22,6 @@ use Illuminate\Support\Carbon;
  */
 class Setting extends Model
 {
+    protected $fillable=['key','value'];
     //
 }

@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\Account;
 use App\Bank;
 use App\Currency;
-use App\Role;
 use App\User;
 
 class CurrencyObserver

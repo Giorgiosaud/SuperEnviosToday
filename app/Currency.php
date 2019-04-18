@@ -33,11 +33,19 @@ use Illuminate\Support\Carbon;
 class Currency extends Model
 {
     protected $fillable=['name','identificator','sign'];
+
+    /**
+     *
+     */
     public static function boot()
     {
         parent::boot();
         Currency::observe(new CurrencyObserver());
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function banks(){
         return $this->hasMany(Bank::class);
     }

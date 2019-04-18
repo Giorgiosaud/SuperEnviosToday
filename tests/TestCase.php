@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Role;
+use App\Setting;
 use App\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Passport\Passport;
@@ -16,6 +17,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
         $this->seedMigrations();
         $this->resetEvents();
+        factory(Setting::class)->create(['key'=>'venezuelanBankTax','value'=>"2"]);
+        factory(Setting::class)->create(['key'=>'status','value'=>"1"]);
     }
 
     private function resetEvents()

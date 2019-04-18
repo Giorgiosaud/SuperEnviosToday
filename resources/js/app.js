@@ -10,7 +10,6 @@ import VeeValidate, { Validator } from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
 import store from './store';
 import Transactions from './Pages/Transactions/Transactions.vue';
-import TransactionsPending from './Pages/TransactionsPending.vue';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -52,7 +51,6 @@ Vue.use(
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('v-select', vSelect);
 Vue.component('transactions', Transactions);
-Vue.component('transactions-pending', TransactionsPending);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
 Vue.component('register-member', require('./components/registerMember.vue').default);
 Vue.component('assign-operators-account', require('./Pages/assignOperatorsAccount/assignOperatorsAccount.vue').default);
@@ -63,6 +61,7 @@ Vue.component('settings', require('./Pages/Settings/Settings.vue').default);
 Vue.component('my-profile', require('./Pages/MyProfile/MyProfile.vue').default);
 Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
 Vue.component('add-account', require('./components/addAccount.vue').default);
+Vue.component('pending-transactions', require('./Pages/PendingTransactions/PendingTransactions.vue').default);
 
 Vue.use(VeeValidate, {
   events: 'change|blur',

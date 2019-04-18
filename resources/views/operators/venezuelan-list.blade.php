@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <pending-transactions/>
+  venezeulan list
+
+
 @endsection
+

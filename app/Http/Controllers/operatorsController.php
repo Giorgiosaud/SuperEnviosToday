@@ -12,7 +12,10 @@
         {
             return view('coordinator.addFundsToOperator');
         }
+        public function venezuelanList(){
+            return view('operators.venezuelan-list');
 
+        }
         public function venezuelanIndex()
         {
             return Role::whereName('Operador Venezolano')

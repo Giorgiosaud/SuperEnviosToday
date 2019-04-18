@@ -54,6 +54,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="coordinator-dropdown">
                                     <a class="dropdown-item" href="{{route('users')}}">Listar Usuarios</a>
+                                    <a class="dropdown-item" href="{{route('pending_operations')}}">Operaciones Pendientes</a>
                                     <a class="dropdown-item" href="{{route('registerOperator')}}">Registrar
                                         Operador</a>
                                     <div class="dropdown-divider"></div>
@@ -61,6 +62,7 @@
                                         a Operador </a>
                                     <a class="dropdown-item" href="{{route('addFoundsToVenezuelanOperator')}}">Agregar
                                         Fondos a Operador Venezuela</a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{route('rate')}}">Definir Tasa</a>
                                     <a class="dropdown-item" href="{{route('settings')}}">Settings</a>
                                 </div>
@@ -73,9 +75,11 @@
                                     Acciones de Operador Chile
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="operator-dropdown">
+                                    <a class="dropdown-item" href="{{route('chilean_pending_transactions')}}">Mis Transacciones Pendientes</a>
+
                                     <a class="dropdown-item" href="{{route('chilean_transactions')}}">Registrar
                                         Transacción</a>
-                                    <a class="dropdown-item" href="#">Listar Operadores Venezuela y saldos
+                                    <a class="dropdown-item" href="{{route('venezuelan_operators')}}">Listar Operadores Venezuela y saldos
                                         disponibles</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{route('chilean_pending_transactions')}}">Listar mis
@@ -92,7 +96,7 @@
                                     Acciones de Operador Venezuela
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="operator-dropdown">
-                                    <a class="dropdown-item" href="#">Mis Transacciones</a>
+                                    <a class="dropdown-item" href="{{route('venezuelan_transactions')}}">Mis Transacciones</a>
                                 </div>
                             </li>
                         @endif
