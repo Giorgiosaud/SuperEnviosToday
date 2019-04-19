@@ -273,11 +273,6 @@ export default {
               this.person.address = '';
               $('#modal').modal('hide');
               this.$emit('registered');
-            })
-            .catch((error) => {
-              if (this.errors) {
-                this.errors = error.response.data.errors;
-              }
             });
         }
       });

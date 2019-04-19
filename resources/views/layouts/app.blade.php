@@ -39,11 +39,7 @@
                     @guest
                         <li class="nav-item">
                             <a class="nav-link"
-                               href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ route('register') }}">{{ __('Register') }}</a>
+                               href="{{ route('login') }}">{{ __('Ingresar al sistema') }}</a>
                         </li>
                     @else
                         @if(Auth::user()->hasRole('coordinator'))
