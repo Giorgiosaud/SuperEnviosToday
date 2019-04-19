@@ -29,11 +29,15 @@
         Route::post('accounts', 'AccountController@store')->name('save_account');
         Route::post('add-transaction', 'TransactionController@normalstore')->name('save_transaction');
         Route::get('foreign_currencies', 'CurrencyController@foreignIndex')->name('foreign_currencies');
+        Route::get('my-pending-transactions','PendingTransactionController@myPendingTransactionsAPI')->name('my-pending-transactions');
+        Route::get('my-transactions','TransactionController@myTransactionsAPI')->name('my-transactions');
 
     });
     // Privated Routes as Coordinator Foreign Operator or Venezuelan Operator
 
-    Route::group(['middleware' => ['auth:api', 'role:coordinator,foreign_operator,venezuelan_operator']], function () {
+    Route::group(['middleware' => ['auth:api', 'role:coordinator,venezuelan_operator']], function () {
+        //TODO venezuelan upload attachment and make transaction to receiver
+
     });
     // Privated Routes as Coordinator
     Route::group(['middleware' => ['auth:api', 'role:coordinator']], function () {
@@ -60,9 +64,11 @@
         Route::post('banks', 'BankController@store')->name('save_bank');
         Route::post('operator-account', 'AccountController@storeOperatorAccount')->name('save_operator_account');
         Route::post('add-money-venezuela', 'TransactionController@store')->name('add_money_to_venezuela');
-        //TODO settings test
+        //TODO test no next functionalities
         Route::get('pending-transactions','PendingTransactionController@indexAPI')->name('all-pending-transactions');
-        Route::get('my-pending-transactions','PendingTransactionController@myTransactionsAPI')->name('my-pending-transactions');
         Route::get('settings','SettingsController@all')->name('all-settings');
         Route::post('setting_tax','SettingsController@setTax')->name('set-tax');
+        Route::patch('approve-transaction/{pendingTransaction}','PendingTransactionController@approveAPI')->name('approve-transaction');
+        Route::patch('reject-transaction/{pendingTransaction}','PendingTransactionController@rejectAPI')->name('approve-transaction');
     });
+//TODO make all existent test pass

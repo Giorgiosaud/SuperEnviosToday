@@ -71,20 +71,21 @@
                                     Acciones de Operador Chile
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="operator-dropdown">
-                                    <a class="dropdown-item" href="{{route('chilean_transactions')}}">Registrar
+                                    <a class="dropdown-item" href="{{route('make_transaction')}}">Registrar
                                         Transacción</a>
-                                    <a class="dropdown-item" href="{{route('chilean_pending_transactions')}}">Mis Transacciones Pendientes</a>
                                     <a class="dropdown-item" href="{{route('venezuelan_operators')}}">Listar Operadores Venezuela y saldos
                                         disponibles</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{route('chilean_pending_transactions')}}">Listar mis
+                                    <a class="dropdown-item" href="{{route('chilean_transactions')}}">Mis
                                         Transacciones
-                                        pendientes</a>
+                                        </a>
+                                    <a class="dropdown-item" href="{{route('chilean_pending_transactions')}}">Mis Transacciones Pendientes</a>
+
                                 </div>
                             </li>
                         @endif
 
-                        @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('foreign_operator')||Auth::user()->hasRole('coordinator'))
+                        @if(Auth::user()->hasRole('venezuelan_operator')||Auth::user()->hasRole('coordinator'))
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="operator-dropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -101,8 +102,8 @@
                                 {{ Auth::user()->email }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="operator-dropdown">
-                                <a class="dropdown-item" href="profile">My
-                                    Profile</a>
+                                <!--a class="dropdown-item" href="profile">My
+                                    Profile</a-->
                                 <a class="dropdown-item" @click.prevent="logout">
                                     {{ __('Logout') }}</a>
                             </div>

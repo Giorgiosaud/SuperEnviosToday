@@ -87,13 +87,30 @@
                   v-else-if="key==='action'"
                   class="row"
                 >
-                  <button class="btn btn-primary">
-                    Aprobar
-                  </button>
-                  <button class="btn btn-danger">
-                    Rechazar
-                  </button>
+                  <div v-if="transaction.status==='pending'">
+                    <button
+                      class="btn btn-primary"
+                      :disabled="onChangeState"
+                      @click="approveTransation(transaction)"
+                    >
+                      Aprobar
+                    </button>
+                    <button
+                      class="btn btn-danger"
+                      :disabled="onChangeState"
+                      @click="rejectTransation(transaction)"
+                    >
+                      Rechazar
+                    </button>
+                  </div>
+                  <span v-else-if="transaction.status==='aprooved'">
+                    Aprobada
+                  </span>
+                  <span v-else>
+                    Rechazada
+                  </span>
                 </div>
+
                 <span v-else>
                   {{ transaction[key] | currency }}
                 </span>
@@ -117,6 +134,7 @@ export default {
       loading: true,
       empty: false,
       transactions: [],
+      onChangeState: false,
       headers: [
         'Identificación cliente', 'Nombre Cliente', 'Operador Extranjero', 'Operador Venezuela', 'Banco Operador Venezuela', 'Banco Receptor', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Acción',
       ],
@@ -158,11 +176,14 @@ export default {
   methods: {
     getPendingTransactions() {
       this.loading = true;
+      this.onChangeState = false;
       return axios.get('/api/pending-transactions')
         .then((response) => {
           this.empty = response.data.data.length === 0;
           this.setData(response.data);
           this.loading = false;
+        }).finally(() => {
+          this.onChangeState = false;
         });
     },
     setData(data) {
@@ -170,6 +191,24 @@ export default {
       this.last_page = data.last_page;
       this.current_page = data.current_page;
       this.response = data;
+    },
+    approveTransation(transaction) {
+      this.onChangeState = true;
+      axios.patch(`api/approve-transaction/${transaction.id}`).then(() => {
+        alert('ok');
+        this.getPendingTransactions();
+      }).finally(() => {
+        this.onChangeState = false;
+      });
+    },
+    rejectTransation(transaction) {
+      this.onChangeState = true;
+      axios.patch(`api/reject-transaction/${transaction.id}`).then(() => {
+        alert('ok');
+        this.getPendingTransactions();
+      }).finally(() => {
+        this.onChangeState = false;
+      });
     },
   },
 };

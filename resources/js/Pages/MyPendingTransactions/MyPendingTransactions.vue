@@ -67,6 +67,9 @@
                 <span v-else-if="key==='name'">
                   {{ transaction.client.name }} {{ transaction.client.last_name }}
                 </span>
+                <span v-else-if="key==='foreign_operator'">
+                  {{ transaction.foreign_account.owner.name }}
+                </span>
                 <span v-else-if="key==='receiver_bank'">
                   {{ transaction.receiver_account.bank.name }}
                 </span>
@@ -84,13 +87,17 @@
                   v-else-if="key==='action'"
                   class="row"
                 >
-                  <button class="btn btn-primary">
-                    Aprobar
-                  </button>
-                  <button class="btn btn-danger">
-                    Rechazar
-                  </button>
+                  <span v-if="transaction.status==='pending'">
+                    Pendiente
+                  </span>
+                  <span v-else-if="transaction.status==='aprooved'">
+                    Aprobada
+                  </span>
+                  <span v-else>
+                    Rechazada
+                  </span>
                 </div>
+
                 <span v-else>
                   {{ transaction[key] | currency }}
                 </span>
@@ -104,6 +111,8 @@
 </template>
 
 <script>
+import { debounce } from 'lodash';
+
 export default {
   name: 'PendingTransactions',
   data() {
@@ -113,16 +122,35 @@ export default {
       empty: false,
       transactions: [],
       headers: [
-        'Identificacion cliente', 'Nombre Cliente', 'Banco Receptor', 'Operador Venezuela', 'Banco Operador Venezuela', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Accion',
+        'Identificación cliente', 'Nombre Cliente', 'Operador Extranjero', 'Operador Venezuela', 'Banco Operador Venezuela', 'Banco Receptor', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Acción',
       ],
       keysToShow: [
-        'idn', 'name', 'receiver_bank', 'operator_venezuela', 'operator_bank', 'rate', 'amount', 'calculated_amount', 'action',
+        'idn', 'name', 'foreign_operator', 'operator_venezuela', 'operator_bank', 'receiver_bank', 'rate', 'amount', 'calculated_amount', 'action',
       ],
       pendingTransactions: [],
     };
   },
   created() {
     this.getPendingTransactions();
+  },
+  watch: {
+    query: debounce(function getUsers() {
+      if (this.query.length > 0) {
+        this.loading = true;
+        axios.get('/api/my-pending-transactions', {
+          params: {
+            q: this.query,
+          },
+
+        }).then((response) => {
+          this.setData(response.data);
+          this.loading = false;
+          this.empty = response.data.data.length === 0;
+        });
+      } else {
+        this.getPendingTransactions();
+      }
+    }, 400),
   },
   mounted() {
     Echo.private('pending-transaction')
@@ -146,6 +174,12 @@ export default {
       this.last_page = data.last_page;
       this.current_page = data.current_page;
       this.response = data;
+    },
+    approveTransation(transaction) {
+      axios.patch(`api/approve-transaction/${transaction.id}`).then(() => {
+        alert('ok');
+        this.getPendingTransactions();
+      });
     },
   },
 };
