@@ -3,10 +3,10 @@ import vSelect from 'vue-select';
 import Datetime from 'vue-datetime';
 import VueFrappe from 'vue2-frappe';
 import 'vue-datetime/dist/vue-datetime.css';
-import { Settings } from 'luxon';
+import {Settings} from 'luxon';
 import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
-import VeeValidate, { Validator } from 'vee-validate';
+import VeeValidate, {Validator} from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
 import store from './store';
 import MakeTransaction from './Pages/MakeTransactions/MakeTransaction';
@@ -65,6 +65,7 @@ Vue.component('pending-transactions', require('./Pages/PendingTransactions/Pendi
 Vue.component('my-pending-transactions', require('./Pages/MyPendingTransactions/MyPendingTransactions.vue').default);
 Vue.component('venezuelan-accounts', require('./Pages/VenezuelanAccounts/VenezuelanAccounts').default);
 Vue.component('list-transactions', require('./Pages/ListTransactions/ListTransactions').default);
+Vue.component('venezuelan-transactions', require('./Pages/VenezuelanTransactions/VenezuelanTransactions').default);
 
 Vue.use(VeeValidate, {
   events: 'change|blur',
