@@ -17,7 +17,7 @@
     Route::middleware(['auth'])->group(function () {
         Route::get('/profile', 'UserController@myProfile')->name('user_profile');
     });
-    Route::middleware(['auth', 'role:venezuelan_operator,foreign_operator,coordinator'])->group(function () {
+    Route::middleware(['auth', 'role:venezuelan_operator,coordinator'])->group(function () {
         Route::get('venezuelan_transactions', 'VenezuelanTransactionController@index')->name('venezuelan_transactions');
     });
     Route::middleware(['auth', 'role:foreign_operator,coordinator'])->group(function () {

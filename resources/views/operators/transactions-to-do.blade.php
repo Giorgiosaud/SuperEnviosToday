@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    venezeulan list TODO
-
-
+    <venezuelan-transactions/>
 @endsection
 
