@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<register-client :errors="{{$errors}}" >
-</register-client>
+    <register-client/>
 @endsection

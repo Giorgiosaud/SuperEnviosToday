@@ -15189,6 +15189,10 @@
         {
         }
 
+        /**
+         * @method static App\User user()
+         */
+
         class Auth extends \Illuminate\Support\Facades\Auth
         {
         }
