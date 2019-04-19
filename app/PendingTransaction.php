@@ -38,7 +38,9 @@
         {
             return $this->belongsTo(User::class, 'client_id');
         }
-
+        public function foreign_account(){
+            return $this->belongsTo(Account::class, 'foreign_account_id');
+        }
         public function receiver_account()
         {
             return $this->belongsTo(Account::class, 'receiver_account_id');

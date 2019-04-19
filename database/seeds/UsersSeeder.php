@@ -24,15 +24,6 @@ class UsersSeeder extends Seeder
         ]);
         $receiver->senders()->attach($client->id);
         $user = factory(User::class)->create([
-            'name' => 'Alejandro',
-            'idn' => '123123123',
-            'idn_type' => 'PASSPORT',
-            'last_name' => 'Ronpapas',
-            'email' => 'alejandro@ronpapas.com',
-            'password' => bcrypt('Ronpapas'),
-        ]);
-        $user->setRole('coordinator');
-        $user = factory(User::class)->create([
             'idn_type' => 'RUT',
             'idn' => '263215982',
             'name' => 'Jorge',
@@ -46,16 +37,18 @@ class UsersSeeder extends Seeder
             'idn_type' => 'RUT',
             'idn' => '123',
             'name' => 'Operador Chile ',
-            'last_name' => 'Prueba'
+            'last_name' => 'Prueba',
+            'password' => bcrypt('secret'),
+
         ]);
         $user->setRole('foreign_operator');
         $user = factory(User::class)->create([
-            'idn_type' => 'RUT',
+            'idn_type' => 'CI',
             'idn' => '19',
-            'name' => 'Operador Venezuela ',
-            'last_name' => 'Prueba'
+            'name' => 'Operador Venezuela Name',
+            'last_name' => 'Last Name',
+            'password' => bcrypt('secret'),
         ]);
         $user->setRole('venezuelan_operator');
-        factory(User::class)->create();
     }
 }

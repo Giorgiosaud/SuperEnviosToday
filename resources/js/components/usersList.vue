@@ -18,7 +18,21 @@
       </div>
     </div>
     <div class="container">
-      <div class="table-responsive">
+      <div
+        v-if="loading"
+        class="w-100 d-flex align-center justify-content-center"
+      >
+        <div class="loading">
+          <div /><div /><div /><div />
+        </div>
+      </div>
+      <div v-else-if="empty">
+        No hay usuarios para listar
+      </div>
+      <div
+        v-else
+        class="table-responsive"
+      >
         <table class="table">
           <thead>
             <tr>
@@ -153,20 +167,12 @@
                 for="roles"
                 class="label-base"
               >Roles</label>
-              <select
-                id="roles"
+              <v-select
                 v-model="selectedUser.roles"
-                class="mb-3 form-control"
-                multiple
-              >
-                <option
-                  v-for="(role,roleId) in roles"
-                  :key="roleId"
-                  :value="role.name_id"
-                >
-                  {{ role.name }}
-                </option>
-              </select>
+                :options="roles"
+                :multiple="true"
+                label="name"
+              />
             </div>
             <label
               for="idn"
@@ -278,6 +284,8 @@ export default {
     return {
       users: [],
       roles: [],
+      loading: true,
+      empty: false,
       headers: [
         'Identificacion', 'Nombre', 'Apellido', 'E-Mail', 'Teléfono', 'Direccion',
       ],
@@ -311,19 +319,20 @@ export default {
   },
   watch: {
     query: debounce(function getUsers() {
-      if (this.query.length >= 2) {
-        window.axios.get('/api/users', {
+      if (this.query.length > 0) {
+        this.loading = true;
+        axios.get('/api/users', {
           params: {
             q: this.query,
           },
 
         }).then((response) => {
           this.setData(response.data);
+          this.loading = false;
+          this.empty = response.data.data.length === 0;
         });
       } else {
-        window.axios.get('/api/users').then((response) => {
-          this.setData(response.data);
-        });
+        this.getUsers();
       }
     }, 400),
   },
@@ -348,7 +357,7 @@ export default {
       this.response = data;
     },
     gotoUsersPage(page) {
-      window.axios.get('/api/users', { params: { page, q: this.query } }).then((response) => {
+      axios.get('/api/users', { params: { page, q: this.query } }).then((response) => {
         this.setData(response.data);
       });
     },
@@ -359,12 +368,15 @@ export default {
       this.gotoUsersPage(parseInt(this.current_page, 10) + 1);
     },
     getUsers() {
-      window.axios.get('/api/users').then((response) => {
+      this.loading = true;
+      axios.get('/api/users').then((response) => {
+        this.loading = false;
+        this.empty = response.data.data.length === 0;
         this.setData(response.data);
       });
     },
     getFullRolesList() {
-      window.axios.get('/api/roles').then((response) => {
+      axios.get('/api/roles').then((response) => {
         this.roles = response.data;
         /* .map(role => {
                     return {value: role.name_id, label: role.name}
@@ -375,9 +387,9 @@ export default {
       this.selectedUser = user;
     },
     guardarUsuario() {
-      window.axios.patch(`api/user/${this.selectedUser.id}`, this.selectedUser)
+      axios.patch(`api/user/${this.selectedUser.id}`, this.selectedUser)
         .then((response) => {
-          console.log(response);
+          alert(response.data.message);
         });
     },
   },

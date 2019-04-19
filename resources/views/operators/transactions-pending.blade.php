@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <pending-transactions/>
+    <my-pending-transactions/>
 @endsection

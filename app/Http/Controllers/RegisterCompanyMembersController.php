@@ -55,7 +55,10 @@
                 $user->setRole($role);
             }
             event(new RegisteredOperator($user));
-            return $user;
+            return response([
+                'success' => true,
+                'message' => 'Se creo el usuario'
+            ], 201);
 
         }
 

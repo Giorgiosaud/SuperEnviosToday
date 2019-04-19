@@ -99,7 +99,7 @@
         class="error-base"
         role="alert"
       >
-        <strong>{{ errors.has('Apellido') }}</strong>
+        <strong>{{ errors.first('Apellido') }}</strong>
       </span>
 
       <label
@@ -272,7 +272,7 @@ export default {
     registerPerson() {
       axios.post('/api/registerMember', this.person)
         .then((response) => {
-          alert(response);
+          alert(response.data.message);
           this.person = {
             idn: '',
             idn_type: '',

@@ -18,12 +18,12 @@
         Route::get('/profile', 'UserController@myProfile')->name('user_profile');
     });
     Route::middleware(['auth', 'role:venezuelan_operator,foreign_operator,coordinator'])->group(function () {
-Route::get('venezuelan_transactions','VenezuelanTransactionController@index')->name('venezuelan_transactions');
+        Route::get('venezuelan_transactions', 'VenezuelanTransactionController@index')->name('venezuelan_transactions');
     });
-        Route::middleware(['auth', 'role:foreign_operator,coordinator'])->group(function () {
+    Route::middleware(['auth', 'role:foreign_operator,coordinator'])->group(function () {
         Route::get('/transactions', 'TransactionController@index')->name('chilean_transactions');
-            Route::get('/transactions/pending', 'PendingTransactionController@myTransactions')->name('chilean_pending_transactions');
-            Route::get('/venezuelan_operators', 'operatorsController@venezuelanList')->name('venezuelan_operators');
+        Route::get('/transactions/pending', 'PendingTransactionController@myTransactions')->name('chilean_pending_transactions');
+        Route::get('/venezuelan_operators', 'operatorsController@venezuelanList')->name('venezuelan_operators');
     });
     Route::middleware(['auth', 'role:coordinator'])->group(function () {
         Route::get('/createMember', 'RegisterCompanyMembersController@create')->name('registerOperator');
@@ -32,7 +32,7 @@ Route::get('venezuelan_transactions','VenezuelanTransactionController@index')->n
         Route::get('/rate', 'RateController@index')->name('rate');
         Route::get('/settings', 'SettingsController@index')->name('settings');
         Route::get('/add_funds', 'operatorsController@index')->name('addFoundsToVenezuelanOperator');
-        Route::get('/pending_operations', 'PendingTransactionController@index')->name('pending_operations');
+        Route::get('/pending_transactions', 'PendingTransactionController@index')->name('pending_operations');
 
     });
 

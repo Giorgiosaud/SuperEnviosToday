@@ -62,6 +62,7 @@ Vue.component('my-profile', require('./Pages/MyProfile/MyProfile.vue').default);
 Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
 Vue.component('add-account', require('./components/addAccount.vue').default);
 Vue.component('pending-transactions', require('./Pages/PendingTransactions/PendingTransactions.vue').default);
+Vue.component('my-pending-transactions', require('./Pages/MyPendingTransactions/MyPendingTransactions.vue').default);
 
 Vue.use(VeeValidate, {
   events: 'change|blur',

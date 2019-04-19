@@ -203,6 +203,7 @@ export default {
         number: this.newAccountNumber,
       }).then(() => {
         this.selectedOperator = null;
+
         this.getAccounts();
       });
       this.closeAddAccount();
@@ -213,7 +214,7 @@ export default {
       this.newAccountNumber = '';
     },
     addFunds() {
-      window.axios.post('api/transaction-to-venezuelan-operator', {
+      window.axios.post('api/add-money-venezuela', {
         to_account_id: this.selectedAccount.id,
         amount: this.amount,
       }).then(() => {
