@@ -78,4 +78,8 @@ class Transaction extends Model
     public function attachments(){
         return  $this->morphMany(Attachment::class, 'attachable');
     }
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id');
+    }
 }

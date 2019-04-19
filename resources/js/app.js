@@ -9,7 +9,7 @@ import VueCurrencyFilter from 'vue-currency-filter';
 import VeeValidate, { Validator } from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
 import store from './store';
-import Transactions from './Pages/Transactions/Transactions.vue';
+import MakeTransaction from './Pages/MakeTransactions/MakeTransaction';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -31,7 +31,7 @@ Vue.use(VueFrappe);
 Vue.use(
   VueCurrencyFilter,
   {
-    symbol: ' Bs',
+    symbol: ' ',
     thousandsSeparator: '.',
     fractionCount: 2,
     fractionSeparator: ',',
@@ -50,7 +50,7 @@ Vue.use(
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('v-select', vSelect);
-Vue.component('transactions', Transactions);
+Vue.component('make-transaction', MakeTransaction);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
 Vue.component('register-member', require('./components/registerMember.vue').default);
 Vue.component('assign-operators-account', require('./Pages/assignOperatorsAccount/assignOperatorsAccount.vue').default);
@@ -63,6 +63,8 @@ Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
 Vue.component('add-account', require('./components/addAccount.vue').default);
 Vue.component('pending-transactions', require('./Pages/PendingTransactions/PendingTransactions.vue').default);
 Vue.component('my-pending-transactions', require('./Pages/MyPendingTransactions/MyPendingTransactions.vue').default);
+Vue.component('venezuelan-accounts', require('./Pages/VenezuelanAccounts/VenezuelanAccounts').default);
+Vue.component('list-transactions', require('./Pages/ListTransactions/ListTransactions').default);
 
 Vue.use(VeeValidate, {
   events: 'change|blur',

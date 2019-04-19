@@ -19,6 +19,6 @@
     });
 
     Broadcast::channel('pending-transaction', function () {
-        return Auth::user()->hasRole('coordinator');
+        return Auth::user()->hasRole('coordinator') | Auth::user()->hasRole('foreign_operator');
         //->hasRole('coordinator');
     });
