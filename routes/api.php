@@ -62,6 +62,7 @@
         Route::post('add-money-venezuela', 'TransactionController@store')->name('add_money_to_venezuela');
         //TODO settings test
         Route::get('pending-transactions','PendingTransactionController@indexAPI')->name('all-pending-transactions');
+        Route::get('my-pending-transactions','PendingTransactionController@myTransactionsAPI')->name('my-pending-transactions');
         Route::get('settings','SettingsController@all')->name('all-settings');
         Route::post('setting_tax','SettingsController@setTax')->name('set-tax');
     });

@@ -63,10 +63,10 @@
             /** @noinspection PhpUndefinedMethodInspection */
             if (Auth::user()->hasRole('coordinator')) {
                 $user->update($validated);
-                $user->syncRoles($request->only('roles')['roles']);
+                $user->syncRoles(collect($request->roles)->pluck('name_id'));
                 return response([
                     'success' => true,
-                    'message' => 'Changes'
+                    'message' => 'Se actualizarón los datos'
                 ], 202);
             }
             return response([

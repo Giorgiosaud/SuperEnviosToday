@@ -71,10 +71,9 @@
                                     Acciones de Operador Chile
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="operator-dropdown">
-                                    <a class="dropdown-item" href="{{route('chilean_pending_transactions')}}">Mis Transacciones Pendientes</a>
-
                                     <a class="dropdown-item" href="{{route('chilean_transactions')}}">Registrar
                                         Transacción</a>
+                                    <a class="dropdown-item" href="{{route('chilean_pending_transactions')}}">Mis Transacciones Pendientes</a>
                                     <a class="dropdown-item" href="{{route('venezuelan_operators')}}">Listar Operadores Venezuela y saldos
                                         disponibles</a>
                                     <div class="dropdown-divider"></div>

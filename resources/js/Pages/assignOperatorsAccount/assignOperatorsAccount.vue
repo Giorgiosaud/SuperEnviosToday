@@ -154,7 +154,10 @@ export default {
       })
         .then(() => {
           alert('cuenta añadida exitosamente');
-          window.location.reload();
+          this.selectedOperator = null;
+          this.selectedCurrency = null;
+          this.selectedBank = null;
+          this.number = '';
         });
     },
     getForgeinUsers() {

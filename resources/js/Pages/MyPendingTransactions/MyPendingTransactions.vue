@@ -67,9 +67,6 @@
                 <span v-else-if="key==='name'">
                   {{ transaction.client.name }} {{ transaction.client.last_name }}
                 </span>
-                <span v-else-if="key==='foreign_operator'">
-                  {{ transaction.foreign_account.owner.name }}
-                </span>
                 <span v-else-if="key==='receiver_bank'">
                   {{ transaction.receiver_account.bank.name }}
                 </span>
@@ -107,8 +104,6 @@
 </template>
 
 <script>
-import { debounce } from 'lodash';
-
 export default {
   name: 'PendingTransactions',
   data() {
@@ -118,35 +113,16 @@ export default {
       empty: false,
       transactions: [],
       headers: [
-        'Identificación cliente', 'Nombre Cliente', 'Operador Extranjero', 'Operador Venezuela', 'Banco Operador Venezuela', 'Banco Receptor', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Acción',
+        'Identificacion cliente', 'Nombre Cliente', 'Banco Receptor', 'Operador Venezuela', 'Banco Operador Venezuela', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Accion',
       ],
       keysToShow: [
-        'idn', 'name', 'foreign_operator', 'operator_venezuela', 'operator_bank', 'receiver_bank', 'rate', 'amount', 'calculated_amount', 'action',
+        'idn', 'name', 'receiver_bank', 'operator_venezuela', 'operator_bank', 'rate', 'amount', 'calculated_amount', 'action',
       ],
       pendingTransactions: [],
     };
   },
   created() {
     this.getPendingTransactions();
-  },
-  watch: {
-    query: debounce(function getUsers() {
-      if (this.query.length > 0) {
-        this.loading = true;
-        axios.get('/api/pending-transactions', {
-          params: {
-            q: this.query,
-          },
-
-        }).then((response) => {
-          this.setData(response.data);
-          this.loading = false;
-          this.empty = response.data.data.length === 0;
-        });
-      } else {
-        this.getPendingTransactions();
-      }
-    }, 400),
   },
   mounted() {
     Echo.private('pending-transaction')
@@ -158,7 +134,7 @@ export default {
   methods: {
     getPendingTransactions() {
       this.loading = true;
-      return axios.get('/api/pending-transactions')
+      return axios.get('/api/my-pending-transactions')
         .then((response) => {
           this.empty = response.data.data.length === 0;
           this.setData(response.data);

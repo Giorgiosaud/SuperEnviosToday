@@ -64,7 +64,18 @@
         </button>
       </div>
     </div>
-    <div class="row client_details">
+    <div
+      v-if="loadingClientData"
+      class="w-100 d-flex align-center justify-content-center"
+    >
+      <div class="loading">
+        <div /><div /><div /><div />
+      </div>
+    </div>
+    <div
+      v-else
+      class="row client_details"
+    >
       <div class="col-12 col-md-6 col-lg-4">
         <label
           for="name"
@@ -454,6 +465,7 @@ export default {
       actualRate: 0,
       inputClientDisabled: true,
       agregarDisabled: true,
+      loadingClientData: false,
       operadoresVenezuela: [],
       idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF'],
       idn_type: '',
@@ -596,6 +608,7 @@ export default {
     buscarCliente() {
       $('#modal').modal('hide');
       if (this.idn !== '' && this.idn_type !== '') {
+        this.loadingClientData = true;
         return axios.get('api/user_data', {
           params: {
             idn_type: this.idn_type, idn: this.idn,
@@ -609,6 +622,8 @@ export default {
               this.agregarDisabled = true;
               [this.client] = data;
             }
+          }).finally(() => {
+            this.loadingClientData = false;
           });
       }
     },
