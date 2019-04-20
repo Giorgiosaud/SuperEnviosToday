@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+    use Illuminate\Database\Migrations\Migration;
+    use Illuminate\Database\Schema\Blueprint;
+    use Illuminate\Support\Facades\Schema;
 
-class CreateTransactionsTable extends Migration
+    class CreateTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,6 +19,7 @@ class CreateTransactionsTable extends Migration
             $table->unsignedInteger('from_account_id')->nullable();
             $table->unsignedInteger('to_account_id');
             $table->unsignedInteger('related_transaction_id')->nullable();
+            $table->unsignedInteger('transaction_number')->nullable();
             $table->bigInteger('amount');
             $table->enum('status',['pending','assigned','in_progress','executed','confirmed','terminated'])->default('pending');
             $table->enum('type', ['income','outcome','cancelled','pqc'])->default('outcome');

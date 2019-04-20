@@ -448,11 +448,11 @@
   </div>
 </template>
 <script>
-import vue2Dropzone from 'vue2-dropzone';
-import addVenezuelanAccount from '../../components/addVenezuelanAccount';
-import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+    import vue2Dropzone from 'vue2-dropzone';
+    import addVenezuelanAccount from '../../components/addVenezuelanAccount';
+    import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 
-export default {
+    export default {
   name: 'Transactions',
   components: {
     addVenezuelanAccount,
@@ -560,10 +560,8 @@ export default {
     errorSaveClientVoucher(files) {
       this.$refs.myVueDropzone.removeFile(files);
     },
-    alertDuplicateFile() {
-      alert('archivo duplicado');
-    },
-    assignVenezuelanAccount(account) {
+
+      assignVenezuelanAccount(account) {
       this.selectedvenezuelanAccount = account.id;
     },
     agregarCliente() {

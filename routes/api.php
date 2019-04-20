@@ -37,7 +37,8 @@
 
     Route::group(['middleware' => ['auth:api', 'role:coordinator,venezuelan_operator']], function () {
         //TODO venezuelan upload attachment and make transaction to receiver
-
+        Route::get('my-venezuelan-transactions', 'TransactionController@venezuelanTransactionsAPI')->name('venezuelan_transactions');
+        Route::patch('transaction/{transaction}', 'TransactionController@venezuelanTransactionsConfirmationAPI')->name('confirm_venezuelan_transaction');
     });
     // Privated Routes as Coordinator
     Route::group(['middleware' => ['auth:api', 'role:coordinator']], function () {
