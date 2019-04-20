@@ -105,10 +105,10 @@ export default {
       myTransactions: [],
       loading: true,
       headers: [
-        'Identificación cliente', 'Nombre Cliente', 'Nombre Destino', 'Banco Destino', 'Monto', 'Estado',
+          'Identificación cliente', 'Nombre Cliente', 'Nombre Destino', 'Banco Destino', 'Monto', 'Estado', 'Fecha de Apertura',
       ],
       keysToShow: [
-        'idn', 'name', 'operator_destination', 'bank_destination', 'amount', 'status','created_at'
+          'idn', 'name', 'operator_destination', 'bank_destination', 'amount', 'status', 'created_at',
       ],
     };
   },
