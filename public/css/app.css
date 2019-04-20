@@ -11377,6 +11377,120 @@ input.vdatetime-input {
   box-shadow: 0 0 0 3px rgba(52, 144, 220, .5);
 }
 
+.loading {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.loading div {
+    position: absolute;
+    top: 27px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #4dc0b5;
+    -webkit-animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.loading div:nth-child(1) {
+    left: 6px;
+    -webkit-animation: loading1 .6s infinite;
+    animation: loading1 .6s infinite;
+}
+
+.loading div:nth-child(2) {
+    left: 6px;
+    -webkit-animation: loading2 .6s infinite;
+    animation: loading2 .6s infinite;
+}
+
+.loading div:nth-child(3) {
+    left: 26px;
+    -webkit-animation: loading2 .6s infinite;
+    animation: loading2 .6s infinite;
+}
+
+.loading div:nth-child(4) {
+    left: 45px;
+    -webkit-animation: loading3 .6s infinite;
+    animation: loading3 .6s infinite;
+}
+
+@-webkit-keyframes loading1 {
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes loading1 {
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes loading3 {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+}
+
+@keyframes loading3 {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+}
+
+@-webkit-keyframes loading2 {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+
+    100% {
+        -webkit-transform: translate(19px, 0);
+        transform: translate(19px, 0);
+    }
+}
+
+@keyframes loading2 {
+    0% {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+
+    100% {
+        -webkit-transform: translate(19px, 0);
+        transform: translate(19px, 0);
+    }
+}
+
 .list-reset {
   list-style: none;
   padding: 0;
