@@ -4,16 +4,13 @@
 
     use App\Account;
     use App\Attachment;
-    use App\Events\PendingTransactionAwaiting;
     use App\Events\TransactionExecuted;
     use App\Http\Requests\CreateTransaction;
-    use App\PendingTransaction;
-    use App\Rate;
+    use App\Role;
     use App\Services\CreateTransactionService;
-    use App\Setting;
     use App\Transaction;
-    use Carbon\Carbon;
     use Illuminate\Http\Request;
+    use Illuminate\Http\Response;
 
     class TransactionController extends Controller
     {
@@ -22,7 +19,7 @@
          *
          * Display a listing of the resource.
          *
-         * @return \Illuminate\Http\Response
+         * @return Response
          */
         public function index()
         {
@@ -33,7 +30,7 @@
         /**
          * Show the form for creating a new resource.
          *
-         * @return \Illuminate\Http\Response
+         * @return Response
          */
         public function pending()
         {
@@ -43,9 +40,9 @@
         /**
          * Store a newly created resource in storage.
          *
-         * @param \Illuminate\Http\Request $request
+         * @param Request $request
          *
-         * @return \Illuminate\Http\Response
+         * @return Response
          */
         public function store(Request $request)
         {
@@ -82,13 +79,42 @@
                     ->whereIn('to_account_id', $accountsId);
             })->get();
             $mainTransactionsIds = $mainTransactions->pluck('id');
-            return Transaction::with(['client','destinationAccount.owner','destinationAccount.bank.currency'])
+            return Transaction::with(['client', 'destinationAccount.owner', 'destinationAccount.bank.currency'])
                 ->where(function ($q) use ($accountsId) {
                     return $q->where('related_transaction_id', null)
                         ->whereIn('to_account_id', $accountsId);
                 })->orWhereIn('related_transaction_id', $mainTransactionsIds)
                 ->orderBy('created_at', 'desc')
                 ->paginate($limit);
+        }
+
+        public function venezuelanTransactionsAPI(Request $request)
+        {
+            $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+            if ($request->user()->hasRole('coordinator')) {
+                $usersId = Role::find('venezuelan_operator')->users->pluck('id');
+                $accountsId = Account::whereIn('user_id', $usersId)->get();
+            } else {
+                $accountsId = $request->user()->accounts->pluck('id');
+            }
+            $transactions = Transaction::with(['destinationAccount.owner', 'relatedTransaction.destinationAccount.owner', 'originAccount'])->whereIn('from_account_id', $accountsId)->paginate($limit);
+
+            return $transactions;
+        }
+
+        public function venezuelanTransactionsConfirmationAPI(Request $request, Transaction $transaction)
+        {
+            $validated = $request->validate([
+                'attachments.*' => 'numeric',
+                'transactionNumber' => 'required|numeric']);
+            foreach ($validated['attachments'] as $attachment) {
+                $a = Attachment::find($attachment);
+                $transaction->attachments()->save($a);
+            }
+            $transaction['transaction_number'] = $validated['transactionNumber'];
+            $transaction['status'] = 'executed';
+            $transaction->save();
+            return $transaction;
         }
 
     }

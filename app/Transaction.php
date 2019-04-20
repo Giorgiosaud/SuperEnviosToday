@@ -54,6 +54,7 @@ class Transaction extends Model
         'from_account_id',
         'to_account_id',
         'related_transaction_id',
+        'transaction_number',
         'amount',
         'status',
         'type',
@@ -81,5 +82,11 @@ class Transaction extends Model
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');
+    }
+
+    public function relatedTransaction()
+    {
+        return $this->belongsTo(Transaction::class, 'related_transaction_id');
+
     }
 }
