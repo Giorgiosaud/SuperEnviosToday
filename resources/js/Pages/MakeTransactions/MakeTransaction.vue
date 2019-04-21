@@ -453,7 +453,7 @@
     import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 
     export default {
-  name: 'Transactions',
+        name: 'MakeTransactions',
   components: {
     addVenezuelanAccount,
     vueDropzone: vue2Dropzone,
@@ -560,7 +560,9 @@
     errorSaveClientVoucher(files) {
       this.$refs.myVueDropzone.removeFile(files);
     },
-
+      alertDuplicateFile() {
+          alert('archivo duplicado');
+      },
       assignVenezuelanAccount(account) {
       this.selectedvenezuelanAccount = account.id;
     },

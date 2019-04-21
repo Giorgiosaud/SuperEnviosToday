@@ -4,23 +4,24 @@
 
     use App\Account;
     use Illuminate\Http\Request;
+    use Illuminate\Http\Response;
 
     class AccountController extends Controller
     {
         /**
          * Store a newly created resource in storage.
          *
-         * @param \Illuminate\Http\Request $request
+         * @param Request $request
          *
-         * @return \Illuminate\Http\Response
+         * @return Response
          */
         public function store(Request $request)
         {
             $validInputs = $request->validate([
                 'user_id' => 'required|numeric',
                 'bank_id' => 'required|numeric',
+                'type' => 'in:corriente,ahorro',
                 'number' => 'required|string',
-                'type' => 'string',
             ]);
             $account = Account::create($validInputs);
             return $account;

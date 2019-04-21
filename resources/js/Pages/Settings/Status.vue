@@ -15,7 +15,7 @@
 
 <script>
     export default {
-        name: 'Banks',
+        name: 'Status',
         data() {
             return {
                 bankName: '',

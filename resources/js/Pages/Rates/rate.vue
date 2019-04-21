@@ -138,9 +138,9 @@
 </template>
 
 <script>
-import { format } from 'date-fns';
+    import {format, parse} from 'date-fns';
 
-export default {
+    export default {
   name: 'Rate',
   data() {
     return {
@@ -191,7 +191,7 @@ export default {
           chartType: 'line',
           values: this.selectedRates.map(rate => rate.amount).reverse(),
         }],
-        labels: this.labels.map(lab => dateFns.parse(lab)).reverse(),
+          labels: this.labels.map(lab => parse(lab)).reverse(),
         tooltipOptions: {
           formatTooltipX: d => (`${d}`).toUpperCase(),
           formatTooltipY: d => `${d} Bs`,
@@ -223,10 +223,8 @@ export default {
     },
 
   },
-  watch: {
-    updatedData(val) {
-      if (this.$refs.graph) this.$refs.graph.update(val);
-    },
+        updated() {
+            if (this.$refs.graph) this.$refs.graph.update(this.updatedData);
   },
   created() {
     this.getRates();

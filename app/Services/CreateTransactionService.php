@@ -14,7 +14,6 @@
     use App\Setting;
     use App\Transaction;
     use Carbon\Carbon;
-    use Illuminate\Http\Request;
 
     class CreateTransactionService
     {
@@ -22,6 +21,7 @@
          * @param CreateTransaction $request
          */
         public function make(CreateTransaction $request){
+            //TODO verify if a transactoin with the same amount is already made and return confirmation
             $venezuelan_account=Account::find($request->venezuelan_operator_account_id);
             $foreign_account = Account::find($request->foreign_account_id);
             $currency = $foreign_account->bank->currency;
@@ -84,7 +84,12 @@
         }
         private function calculateRate($currId)
         {
-            return Rate::whereCurrencyId($currId)->where('since', '<=', Carbon::now())->orderBy('since', 'DESC')->first()->amount;
+            $rate = Rate::whereCurrencyId($currId)->where('since', '<=', Carbon::now())->orderBy('since', 'DESC')->first();
+            if ($rate) {
+                return $rate->amount;
+            } else {
+                return 0;
+            }
         }
 
     }

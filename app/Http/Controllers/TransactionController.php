@@ -102,10 +102,22 @@
             return $transactions;
         }
 
+        public function venezuelanTransactionsCountAPI(Request $request)
+        {
+            if ($request->user()->hasRole('coordinator')) {
+                $usersId = Role::find('venezuelan_operator')->users->pluck('id');
+                $accountsId = Account::whereIn('user_id', $usersId)->get();
+            } else {
+                $accountsId = $request->user()->accounts->pluck('id');
+            }
+            return Transaction::with(['destinationAccount.owner', 'relatedTransaction.destinationAccount.owner', 'originAccount'])->whereIn('from_account_id', $accountsId)->where('status', '!=', 'executed')->count();
+
+        }
+
         public function venezuelanTransactionsConfirmationAPI(Request $request, Transaction $transaction)
         {
             $validated = $request->validate([
-                'attachments.*' => 'numeric',
+                'attachments.*' => 'required|numeric',
                 'transactionNumber' => 'required|numeric']);
             foreach ($validated['attachments'] as $attachment) {
                 $a = Attachment::find($attachment);
@@ -117,4 +129,10 @@
             return $transaction;
         }
 
+        public function venezuelanTransactionsInProgressAPI(Transaction $transaction)
+        {
+            $transaction['status'] = 'in_progress';
+            $transaction->save();
+            return $transaction;
+        }
     }
