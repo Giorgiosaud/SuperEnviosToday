@@ -14,12 +14,13 @@
     Route::post('deploy', 'UtilController@deploy');
     Route::get('last_rate/{id}', 'RateController@lastRate')->name('last_rate');
     Route::post('attachment','AttachmentController@save');
+    Route::get('logout', 'AuthController@logout');
 
     // Privated Routes Only Auth
     Route::group(['middleware' => ['auth:api']], function () {
         Route::get('my_info', 'UserController@info');
         Route::patch('my_info', 'UserController@infoPatch');
-
+        Route::get('venezuelan_banks', 'BankController@venezuelan_index')->name('venezuelan_banks');
     });
     // Privated Routes as Coordinator or Foreign Operator
     Route::group(['middleware'=>['auth:api','role:coordinator,foreign_operator']],function(){
@@ -32,18 +33,21 @@
         Route::get('my-pending-transactions','PendingTransactionController@myPendingTransactionsAPI')->name('my-pending-transactions');
         Route::get('my-transactions','TransactionController@myTransactionsAPI')->name('my-transactions');
 
+
     });
     // Privated Routes as Coordinator Foreign Operator or Venezuelan Operator
 
     Route::group(['middleware' => ['auth:api', 'role:coordinator,venezuelan_operator']], function () {
         //TODO venezuelan upload attachment and make transaction to receiver
         Route::get('my-venezuelan-transactions', 'TransactionController@venezuelanTransactionsAPI')->name('venezuelan_transactions');
+        Route::get('my-transactions-count', 'TransactionController@venezuelanTransactionsCountAPI')->name('venezuelan_transactions');
+
+        Route::patch('transaction/in-progress/{transaction}', 'TransactionController@venezuelanTransactionsInProgressAPI')->name('venezuelan_transaction_in_progress');
         Route::patch('transaction/{transaction}', 'TransactionController@venezuelanTransactionsConfirmationAPI')->name('confirm_venezuelan_transaction');
     });
     // Privated Routes as Coordinator
     Route::group(['middleware' => ['auth:api', 'role:coordinator']], function () {
         Route::get('valid', 'AuthController@isValid');
-        Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');
         Route::patch('user/{user}', 'UserController@patch');
         Route::get('users', 'UserController@apiIndex');
@@ -59,9 +63,8 @@
         Route::get('currencies', 'CurrencyController@index')->name('currencies');
         Route::get('foreign_operators','UserController@foreignOperators')->name('foreign_operators');
         Route::get('operators','UserController@operators')->name('operators');
-        Route::post('currencies', 'CurrencyController@store')->name('create_currency');
+        Route::post('currency', 'CurrencyController@store')->name('create_currency');
         Route::get('banks', 'BankController@index')->name('banks');
-        Route::get('venezuelan_banks', 'BankController@venezuelan_index')->name('venezuelan_banks');
         Route::post('banks', 'BankController@store')->name('save_bank');
         Route::post('operator-account', 'AccountController@storeOperatorAccount')->name('save_operator_account');
         Route::post('add-money-venezuela', 'TransactionController@store')->name('add_money_to_venezuela');

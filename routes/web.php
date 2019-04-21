@@ -25,6 +25,7 @@
         Route::get('/transactions/status', 'TransactionController@list')->name('chilean_transactions');
         Route::get('/transactions/pending', 'PendingTransactionController@myTransactions')->name('chilean_pending_transactions');
         Route::get('/venezuelan_operators', 'operatorsController@venezuelanList')->name('venezuelan_operators');
+        //TODO create foreign operator list
     });
     Route::middleware(['auth', 'role:coordinator'])->group(function () {
         Route::get('/createMember', 'RegisterCompanyMembersController@create')->name('registerOperator');

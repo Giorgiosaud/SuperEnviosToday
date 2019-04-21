@@ -27,37 +27,55 @@
         <label
           for="name"
           class="label-base bg-white"
-        >Ingrese nombre de banco:</label>
+        >Ingrese nombre de moneda:</label>
         <input
-          id="name"
-          v-model="name"
-          type="text"
-          class="input-base"
+            id="name"
+            v-model="name"
+            name="Nombre de moneda"
+            type="text"
+            v-validate="'required'"
+            class="input-base"
         >
+          <span
+              class="text-danger"
+              v-if="errors.has('Nombre de moneda')"
+          >{{ errors.first('Nombre de moneda') }}</span>
       </div>
       <div class="col-12">
         <label
           for="identificator"
           class="label-base bg-white"
-        >Ingrese nombre de banco:</label>
+        >Ingrese Identificador:</label>
         <input
-          id="identificator"
-          v-model="identificator"
-          type="text"
-          class="input-base"
+            id="identificator"
+            v-model="identificator"
+            name="Identificador"
+            v-validate="'required'"
+            type="text"
+            class="input-base"
         >
+          <span
+              class="text-danger"
+              v-if="errors.has('Identificador')"
+          >{{ errors.first('Identificador') }}</span>
       </div>
       <div class="col-12">
         <label
           for="sign"
           class="label-base bg-white"
-        >Ingrese nombre de banco:</label>
+        >Ingrese Signo:</label>
         <input
-          id="sign"
-          v-model="sign"
-          type="text"
-          class="input-base"
+            id="sign"
+            v-model="sign"
+            name="Signo"
+            v-validate="'required'"
+            type="text"
+            class="input-base"
         >
+          <span
+              class="text-danger"
+              v-if="errors.has('Signo')"
+          >{{ errors.first('Signo') }}</span>
       </div>
       <div class="col-12">
         <button
@@ -88,13 +106,17 @@ export default {
   },
   methods: {
     createCurrency() {
-      this.$store.dispatch('settings/CREATE_NEW_CURRENCY', {
-        name: this.name,
-        identificator: this.identificator,
-        sign: this.sign,
-      }).then(() => {
-        this.bankName = '';
-        this.selectedCurrency = '';
+        this.$validator.validate().then((valid) => {
+            if (valid) {
+                this.$store.dispatch('settings/CREATE_NEW_CURRENCY', {
+                    name: this.name,
+                    identificator: this.identificator,
+                    sign: this.sign,
+                }).then(() => {
+                    this.bankName = '';
+                    this.selectedCurrency = '';
+                });
+            }
       });
     },
   },

@@ -65,20 +65,20 @@
                       {{ transaction.destination_account.bank.name }} /
                       {{ transaction.destination_account.bank.currency.name }}
                     </span>
-                    <span v-else-if="key==='status'&& transaction.status==='confirmed'">
+                      <span v-else-if="key==='status' && transaction.status==='confirmed'">
                       Confirmada
                     </span>
-                    <span v-else-if="key==='status'&& transaction.status==='assigned'">
+                      <span v-else-if="key==='status' && transaction.status==='assigned'">
                       Asignada
                     </span>
-                    <span v-else-if="key==='status'&& transaction.status==='terminated'">
+                      <span v-else-if="key==='status' && transaction.status==='terminated'">
                       Terminada
                     </span>
-                    <span v-else-if="key==='status'&& transaction.status==='in_progress'">
+                      <span v-else-if="key==='status' && transaction.status==='in_progress'">
                       En Progreso
                     </span>
-                    <span v-else-if="key==='status'&& transaction.status==='executed'">
-                      Ejecutada
+                      <span v-else-if="key==='status' && transaction.status==='executed'">
+                      Ejecutada{{ key }}
                     </span>
                       <span v-else-if="key==='created_at'">
                       {{ transaction[key] }}
@@ -103,6 +103,7 @@ export default {
   data() {
     return {
       myTransactions: [],
+        myTransactionsCount: 0,
       loading: true,
       headers: [
           'Identificación cliente', 'Nombre Cliente', 'Nombre Destino', 'Banco Destino', 'Monto', 'Estado', 'Fecha de Apertura',

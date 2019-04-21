@@ -2,9 +2,9 @@
     <div>
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-3">
+                <div class="col-12">
                     <h1>
-                        Mis Transacciones
+                        Mis Transacciones({{ myTransactionsCount }})
                     </h1>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                                     >
                       <button class="btn btn-primary">Ver mas y completar</button>
                     </span>
-                                    <span v-else>Ejecutada</spanv>
+                                    <span v-else-if="key==='action' && transaction.status==='executed'">Ejecutada</span>
                     </span>
                                 </td>
                             </tr>
@@ -196,7 +196,7 @@
                     </div>
                     <div class="modal-footer">
                         <button
-                            :disabled="transactionNumber.length===0"
+                            :disabled="transactionNumber.length===0 || transactionAttachments.length===0"
                             @click="confirmarTransferencia"
                             class="btn btn-primary"
                         >
@@ -206,7 +206,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 
@@ -227,6 +226,7 @@
                 dropImage1: null,
                 selectedTransaction: null,
                 transactionNumber: '',
+                myTransactionsCount: 0,
                 transactionAttachments: [],
                 headers: [
                     'Identificación Receptor', 'Nombre Receptor', 'Nombre Operador Foraneo', 'Banco Operador Venezuela', 'Banco Receptor', 'Monto', 'Acción',
@@ -263,13 +263,20 @@
         },
         created() {
             this.getVenezuelanTransactions();
+            this.getTransactionsCount();
         },
         methods: {
+            getTransactionsCount() {
+                axios.get('/api/my-transactions-count').then((response) => {
+                    this.myTransactionsCount = response.data;
+                });
+            },
             confirmarTransferencia() {
                 axios.patch(`api/transaction/${this.selectedTransaction.id}`, {
                     attachments: this.transactionAttachments,
                     transactionNumber: this.transactionNumber,
                 }).then(() => {
+                    this.myTransactionsCount = this.myTransactionsCount - 1;
                     this.getVenezuelanTransactions();
                     $('#modal').modal('hide');
                 })
@@ -281,6 +288,7 @@
             },
             selectTransaction(transaction) {
                 this.selectedTransaction = transaction;
+                axios.patch(`api/transaction/in-progress/${transaction.id}`);
                 $('#modal').modal('show');
             },
             saveClientVoucher(_, file) {
