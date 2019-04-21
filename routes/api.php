@@ -15,6 +15,7 @@
     Route::get('last_rate/{id}', 'RateController@lastRate')->name('last_rate');
     Route::post('attachment','AttachmentController@save');
     Route::get('logout', 'AuthController@logout');
+    Route::post('registerClient', 'RegisterCompanyMembersController@saveClient');
 
     // Privated Routes Only Auth
     Route::group(['middleware' => ['auth:api']], function () {
@@ -53,7 +54,6 @@
         Route::get('users', 'UserController@apiIndex');
         Route::get('roles', 'RolesController@index');
         Route::post('registerMember', 'RegisterCompanyMembersController@save');
-        Route::post('registerClient', 'RegisterCompanyMembersController@saveClient');
         Route::post('login', 'AuthController@login');
         Route::post('signup', 'AuthController@signup');
         Route::get('rates', 'RateController@allRates')->name('rates');
