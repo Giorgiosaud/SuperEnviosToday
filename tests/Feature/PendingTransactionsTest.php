@@ -66,6 +66,11 @@
          */
         public function onlyACoordinatorCanApproveAPendingTransaction()
         {
+            $this->actingAsCoordinator();
+            $pt = factory(PendingTransaction::class)->create(['status' => 'pending']);
+            $this->patchJson("api/approve-transaction/$pt->id");
+            $pt->refresh();
+            $this->assertEquals('aprooved', $pt->status);
 
         }
 
@@ -74,6 +79,10 @@
          */
         public function onlyACoordinatorCanCancelAPendingTransaction()
         {
-
+            $this->actingAsCoordinator();
+            $pt = factory(PendingTransaction::class)->create(['status' => 'pending']);
+            $this->patchJson("api/reject-transaction/$pt->id");
+            $pt->refresh();
+            $this->assertEquals('rejected', $pt->status);
         }
     }
