@@ -84,7 +84,8 @@
                                     >
                       <button class="btn btn-primary">Ver mas y completar</button>
                     </span>
-                                    <span v-else-if="key==='action' && transaction.status==='executed'">Ejecutada</span>
+                                    <span v-else-if="key==='action' && transaction.status==='executed'">
+                      Ejecutada
                     </span>
                                 </td>
                             </tr>
