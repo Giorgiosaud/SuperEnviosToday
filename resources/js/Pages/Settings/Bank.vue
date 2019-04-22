@@ -30,12 +30,12 @@
           class="label-base bg-white"
         >Ingrese nombre de banco:</label>
         <input
+            class="input-base"
             id="bank-name"
-            v-model="bankName"
             name="Nombre de Banco"
             type="text"
+            v-model="bankName"
             v-validate="'required'"
-            class="input-base"
         >
           <span
               class="text-danger"
@@ -48,13 +48,13 @@
           class="label-base bg-white"
         >Seleccione Moneda:</label>
         <v-select
-            id="currency"
-            v-model="selectedCurrency"
-            name="Tipo de Moneda"
-            :searchable="false"
             :options="currencies"
-            label="name"
+            :searchable="false"
             class="input-base"
+            id="currency"
+            label="name"
+            name="Tipo de Moneda"
+            v-model="selectedCurrency"
             v-validate="'required'"
         />
           <span

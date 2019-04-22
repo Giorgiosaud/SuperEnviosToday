@@ -20,7 +20,7 @@
                                 <select
                                     id="idn_type"
                                     class="form-control{{ $errors->has('idn_type') ? ' is-invalid' : '' }}"
-                                    name="idn_type" value="{{ $idn_type ?? old('idn_type') }}" required autofocus>
+                                    name="idn_type" required autofocus>
                                     <option value="CI">CI</option>
                                     <option value="RUT">RUT</option>
                                     <option value="PASSPORT">PASSPORT</option>
