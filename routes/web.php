@@ -13,6 +13,7 @@
     Route::get('/', function () {
         return view('welcome');
     });
+    Auth::routes();
     Route::get('/access_token', 'AuthController@getToken');
     Route::middleware(['auth'])->group(function () {
         Route::get('/profile', 'UserController@myProfile')->name('user_profile');
@@ -35,9 +36,9 @@
         Route::get('/settings', 'SettingsController@index')->name('settings');
         Route::get('/add_funds', 'operatorsController@index')->name('addFoundsToVenezuelanOperator');
         Route::get('/pending_transactions', 'PendingTransactionController@index')->name('pending_operations');
+        Route::get('/foreign_operators', 'operatorsController@foreignList')->name('foreign_operators');
 
     });
 
-    Auth::routes();
 
     Route::get('/home', 'HomeController@index')->name('home');

@@ -16,9 +16,21 @@
             return view('operators.venezuelan-list');
 
         }
+        public function foreignList(){
+            return view('operators.foreign-list');
+
+        }
         public function venezuelanIndex()
         {
             return Role::whereName('Operador Venezolano')
+                ->first()
+                ->users()
+                ->with('accounts')
+                ->get();
+        }
+        public function foreignIndex()
+        {
+            return Role::whereName('Operador Extranjero')
                 ->first()
                 ->users()
                 ->with('accounts')

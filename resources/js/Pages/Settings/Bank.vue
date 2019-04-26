@@ -30,17 +30,17 @@
           class="label-base bg-white"
         >Ingrese nombre de banco:</label>
         <input
-            class="input-base"
-            id="bank-name"
-            name="Nombre de Banco"
-            type="text"
-            v-model="bankName"
-            v-validate="'required'"
+          id="bank-name"
+          v-model="bankName"
+          v-validate="'required'"
+          class="input-base"
+          name="Nombre de Banco"
+          type="text"
         >
-          <span
-              class="text-danger"
-              v-if="errors.has('Nombre de Banco')"
-          >{{ errors.first('Nombre de Banco') }}</span>
+        <span
+          v-if="errors.has('Nombre de Banco')"
+          class="text-danger"
+        >{{ errors.first('Nombre de Banco') }}</span>
       </div>
       <div class="col-12">
         <label
@@ -48,19 +48,19 @@
           class="label-base bg-white"
         >Seleccione Moneda:</label>
         <v-select
-            :options="currencies"
-            :searchable="false"
-            class="input-base"
-            id="currency"
-            label="name"
-            name="Tipo de Moneda"
-            v-model="selectedCurrency"
-            v-validate="'required'"
+          id="currency"
+          v-model="selectedCurrency"
+          v-validate="'required'"
+          :options="currencies"
+          :searchable="false"
+          class="input-base"
+          label="name"
+          name="Tipo de Moneda"
         />
-          <span
-              class="text-danger"
-              v-if="errors.has('Tipo de Moneda')"
-          >{{ errors.first('Tipo de Moneda') }}</span>
+        <span
+          v-if="errors.has('Tipo de Moneda')"
+          class="text-danger"
+        >{{ errors.first('Tipo de Moneda') }}</span>
       </div>
       <div class="col-12">
         <button
@@ -93,16 +93,16 @@ export default {
   },
   methods: {
     createBank() {
-        this.$validator.validate().then((valid) => {
-            if (valid) {
-                this.$store.dispatch('settings/CREATE_NEW_BANK', {
-                    name: this.bankName,
-                    currency_id: this.selectedCurrency.id,
-                }).then(() => {
-                    this.bankName = '';
-                    this.selectedCurrency = '';
-                });
-            }
+      this.$validator.validate().then((valid) => {
+        if (valid) {
+          this.$store.dispatch('settings/CREATE_NEW_BANK', {
+            name: this.bankName,
+            currency_id: this.selectedCurrency.id,
+          }).then(() => {
+            this.bankName = '';
+            this.selectedCurrency = '';
+          });
+        }
       });
     },
   },

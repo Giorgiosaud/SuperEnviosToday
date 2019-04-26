@@ -64,6 +64,7 @@ Vue.component('add-account', require('./components/addAccount.vue').default);
 Vue.component('pending-transactions', require('./Pages/PendingTransactions/PendingTransactions.vue').default);
 Vue.component('my-pending-transactions', require('./Pages/MyPendingTransactions/MyPendingTransactions.vue').default);
 Vue.component('venezuelan-accounts', require('./Pages/VenezuelanAccounts/VenezuelanAccounts').default);
+Vue.component('foreigns-accounts', require('./Pages/ForeignsAccounts/foreignsAccounts').default);
 Vue.component('list-transactions', require('./Pages/ListTransactions/ListTransactions').default);
 Vue.component('venezuelan-transactions', require('./Pages/VenezuelanTransactions/VenezuelanTransactions').default);
 
