@@ -83960,6 +83960,22 @@ var render = function() {
               label: "name",
               name: "Usuario"
             },
+            scopedSlots: _vm._u([
+              {
+                key: "option",
+                fn: function(option) {
+                  return [
+                    _vm._v(
+                      "\n          " +
+                        _vm._s(option.name) +
+                        " " +
+                        _vm._s(option.last_name) +
+                        "\n        "
+                    )
+                  ]
+                }
+              }
+            ]),
             model: {
               value: _vm.selectedOperator,
               callback: function($$v) {
@@ -84000,21 +84016,6 @@ var render = function() {
               disabled: _vm.disableCurrencySelector,
               label: "name"
             },
-            scopedSlots: _vm._u([
-              {
-                key: "option",
-                fn: function(option) {
-                  return [
-                    _vm._v(
-                      "\n              " +
-                        _vm._s(option.name) +
-                        _vm._s(option.last_name) +
-                        "\n          "
-                    )
-                  ]
-                }
-              }
-            ]),
             model: {
               value: _vm.selectedCurrency,
               callback: function($$v) {

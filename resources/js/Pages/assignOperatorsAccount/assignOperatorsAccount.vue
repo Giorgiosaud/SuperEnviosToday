@@ -14,7 +14,14 @@
           :clearable="false"
           label="name"
           name="Usuario"
-        />
+        >
+          <template
+            slot="option"
+            slot-scope="option"
+          >
+            {{ option.name }} {{ option.last_name }}
+          </template>
+        </v-select>
         <span
           class="error-base"
           role="alert"
@@ -32,14 +39,7 @@
           :clearable="false"
           :disabled="disableCurrencySelector"
           label="name"
-        >
-            <template
-                slot="option"
-                slot-scope="option"
-            >
-                {{ option.name }}{{ option.last_name }}
-            </template>
-        </v-select>
+        />
         <span
           class="error-base"
           role="alert"
@@ -95,11 +95,11 @@
 </template>
 
 <script>
-    /* eslint-disable no-alert */
+/* eslint-disable no-alert */
 
-    import axios from 'axios';
+import axios from 'axios';
 
-    export default {
+export default {
   name: 'AssignOperatorAccount',
   data() {
     return {
@@ -129,7 +129,7 @@
     selectedOperator(val) {
       if (val.roles.length === 1) {
         if (val.roles.some(role => role.name_id === 'venezuelan_operator')) {
-            this.selectedCurrency = this.currencies.find(curr => curr.identificator === 'BsS');
+          this.selectedCurrency = this.currencies.find(curr => curr.identificator === 'BsS');
           this.disableCurrencySelector = true;
         } else {
           this.disableCurrencySelector = false;
