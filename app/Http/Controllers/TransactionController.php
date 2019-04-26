@@ -135,4 +135,11 @@
             $transaction->save();
             return $transaction;
         }
+        public function addTransaction(){
+
+        }
+        public function listTransactions(){
+            return view('coordinator.addTransactions');
+
+        }
     }
