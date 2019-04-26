@@ -3,7 +3,7 @@
     use App\Currency;
     use Illuminate\Database\Seeder;
 
-class CurrencySeeder extends Seeder
+    class CurrencySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class CurrencySeeder extends Seeder
     public function run()
     {
         factory(Currency::class)->create([
-            'name'=>'Bolivar Soberano',
+            'name' => 'Bolivares Soberanos',
             'identificator'=>'Bs',
             'sign'=>'Bs S.',
         ]);

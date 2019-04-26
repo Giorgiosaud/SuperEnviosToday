@@ -4,8 +4,13 @@
 
     use App\Http\Requests\UserRequest;
     use App\User;
+    use Illuminate\Contracts\Auth\Authenticatable;
+    use Illuminate\Contracts\Routing\ResponseFactory;
+    use Illuminate\Contracts\View\Factory;
     use Illuminate\Http\Request;
+    use Illuminate\Http\Response;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\View\View;
 
     /**
      * Class UserController
@@ -14,7 +19,7 @@
     class UserController extends Controller
     {
         /**
-         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+         * @return Factory|View
          */
         public function index()
         {
@@ -56,8 +61,8 @@
             $validated = $request->validated();
             /** @noinspection PhpUndefinedMethodInspection */
             /** @noinspection PhpUndefinedFieldInspection */
-            if (Auth::user()->hasRole('coordinator') && Auth::user()->id === $user->id) {
-                $roles = $request->only('roles')['roles'];
+            if (Auth::user()->id === $user->id && !in_array('coordinator', $request->roles)) {
+                $roles = $request->roles;
                 array_push($roles, 'coordinator');
             }
             /** @noinspection PhpUndefinedMethodInspection */
@@ -86,7 +91,7 @@
         }
 
         /**
-         * @return \Illuminate\Contracts\Auth\Authenticatable|null
+         * @return Authenticatable|null
          */
         public function info()
         {
@@ -95,7 +100,7 @@
 
         /**
          * @param Request $request
-         * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+         * @return ResponseFactory|Response
          */
         public function infoPatch(Request $request)
         {

@@ -31,7 +31,7 @@ class UserObserver
     public function saved(User $user)
     {
         if($user->hasRole('venezuelan_operator')){
-            $currency=Currency::whereName('Bolivar Soberano')->first();
+            $currency = Currency::whereName('Bolivares Soberanos')->first();
             $bank=Bank::whereName('Efectivo')->whereCurrencyId($currency->id)->first();
             factory(Account::class)->create([
                 'bank_id'=>$bank->id,
@@ -40,7 +40,7 @@ class UserObserver
             ]);
         }
         elseif ($user->hasRole('coordinator')||$user->hasRole('foreign_operator')){
-            $currencies=Currency::where('name','!=','Bolivar Soberano')->get();
+            $currencies = Currency::where('name', '!=', 'Bolivares Soberanos')->get();
             foreach ($currencies as $currency){
                 $bank=Bank::whereName('Efectivo')->whereCurrencyId($currency->id)->first();
                 factory(Account::class)->create([
