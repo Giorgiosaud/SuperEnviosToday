@@ -4792,7 +4792,7 @@ __webpack_require__.r(__webpack_exports__);
           return role.name_id === 'venezuelan_operator';
         })) {
           this.selectedCurrency = this.currencies.find(function (curr) {
-            return curr.identificator === 'Bs';
+            return curr.identificator === 'BsS';
           });
           this.disableCurrencySelector = true;
         } else {
