@@ -59,6 +59,11 @@
                                     <a class="dropdown-item" href="{{route('addFoundsToVenezuelanOperator')}}">Agregar
                                         Fondos a Operador Venezuela</a>
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{route('foreign_operators')}}">Listar Operadores Extrangero y saldos
+                                        disponibles</a>
+                                    <a class="dropdown-item" href="{{route('venezuelan_operators')}}">Listar Operadores Venezuela y saldos
+                                        disponibles</a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{route('rate')}}">Definir Tasa</a>
                                     <a class="dropdown-item" href="{{route('settings')}}">Settings</a>
                                 </div>
