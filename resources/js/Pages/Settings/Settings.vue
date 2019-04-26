@@ -77,6 +77,7 @@ export default {
       this.$store.dispatch('settings/GET_BANKS');
     },
   },
+    //TODO seleccione la moneda base
 };
 </script>
 
