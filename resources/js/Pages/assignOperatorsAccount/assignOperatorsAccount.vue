@@ -129,7 +129,7 @@
     selectedOperator(val) {
       if (val.roles.length === 1) {
         if (val.roles.some(role => role.name_id === 'venezuelan_operator')) {
-          this.selectedCurrency = this.currencies.find(curr => curr.identificator === 'Bs');
+            this.selectedCurrency = this.currencies.find(curr => curr.identificator === 'BsS');
           this.disableCurrencySelector = true;
         } else {
           this.disableCurrencySelector = false;
