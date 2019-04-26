@@ -17,7 +17,7 @@
         :key="opvenindex"
         class="col-12"
       >
-        {{ operador.name }} {{ operador.last_name }}
+        <h3>{{ operador.name }} {{ operador.last_name }}</h3>
         <div class="table-responsive">
           <table class="table">
             <tr>
