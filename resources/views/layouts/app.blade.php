@@ -66,7 +66,7 @@
                                         disponibles</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{route('rate')}}">Definir Tasa</a>
-                                    <a class="dropdown-item" href="{{route('settings')}}">Settings</a>
+                                    <a class="dropdown-item" href="{{route('settings')}}">Configuraciones</a>
                                 </div>
                             </li>
                         @endif
