@@ -37,7 +37,8 @@
         Route::get('/add_funds', 'operatorsController@index')->name('addFoundsToVenezuelanOperator');
         Route::get('/pending_transactions', 'PendingTransactionController@index')->name('pending_operations');
         Route::get('/foreign_operators', 'operatorsController@foreignList')->name('foreign_operators');
-
+        Route::get('/coordinator_transaction', 'TransactionController@addTransaction')->name('coordinator_transaction');
+        Route::get('/list_transaction', 'TransactionController@listTransactions')->name('transactions_list');
     });
 
 
