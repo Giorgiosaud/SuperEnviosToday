@@ -20,7 +20,7 @@
          */
         public function aVenezuelanBanksListCanBeExtractedInOneQuery()
         {
-            $currency = factory(Currency::class)->create(['name' => 'Bolivar Soberano']);
+            $currency = factory(Currency::class)->create(['name' => 'Bolivares Soberanos']);
             factory(Bank::class, 4)->create([
                 'currency_id' => $currency->id
             ]);
