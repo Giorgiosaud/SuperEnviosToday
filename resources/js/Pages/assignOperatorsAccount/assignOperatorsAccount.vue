@@ -32,7 +32,14 @@
           :clearable="false"
           :disabled="disableCurrencySelector"
           label="name"
-        />
+        >
+            <template
+                slot="option"
+                slot-scope="option"
+            >
+                {{ option.name }}{{ option.last_name }}
+            </template>
+        </v-select>
         <span
           class="error-base"
           role="alert"
@@ -88,11 +95,11 @@
 </template>
 
 <script>
-/* eslint-disable no-alert */
+    /* eslint-disable no-alert */
 
-import axios from 'axios';
+    import axios from 'axios';
 
-export default {
+    export default {
   name: 'AssignOperatorAccount',
   data() {
     return {
