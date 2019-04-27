@@ -49,5 +49,15 @@
         {
             return $this->belongsTo(Account::class, 'venezuelan_operator_account_id');
         }
+
+        public function getRateAttribute($value)
+        {
+            return $value / 10000;
+        }
+
+        public function setRateAttribute($value)
+        {
+            $this->attributes['rate'] = $value * 10000;
+        }
         //
     }

@@ -29,6 +29,7 @@
                 if ($request->user()->hasRole('coordinator')) {
                     $amountInBs = $request->rate * $request->amount;
                 } else {
+                    echo $request->rate;
                     $pending=PendingTransaction::create($request->all());
                     broadcast(new PendingTransactionAwaiting($request->user()))->toOthers();
                     return $pending;

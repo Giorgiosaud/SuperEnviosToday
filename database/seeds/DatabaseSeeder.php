@@ -13,12 +13,12 @@
     {
         $this->call(SettingsSeeder::class);
         $this->call(RoleSeeder::class);
-        //     $this->call(UsersSeeder::class);
-        //    $this->call(CurrencySeeder::class);
-        //    $this->call(BankSeeder::class);
-        //   $this->call(RateSeeder::class);
-        //   $this->call(AccountsSeeder::class);
-        //  $this->call(TransactionsSeeder::class);
+        $this->call(UsersSeeder::class);
+        $this->call(CurrencySeeder::class);
+        $this->call(BankSeeder::class);
+        $this->call(RateSeeder::class);
+        $this->call(AccountsSeeder::class);
+        $this->call(TransactionsSeeder::class);
 
     }
 }
