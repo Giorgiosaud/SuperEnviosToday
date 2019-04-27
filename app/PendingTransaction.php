@@ -59,5 +59,15 @@
         {
             $this->attributes['rate'] = $value * 10000;
         }
+
+        public function getAmountAttribute($value)
+        {
+            return $value / 10000;
+        }
+
+        public function setAmountAttribute($value)
+        {
+            $this->attributes['amount'] = $value * 10000;
+        }
         //
     }
