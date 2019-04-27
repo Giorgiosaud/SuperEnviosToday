@@ -16,7 +16,7 @@
             $name = rand(1, 999) . $file->getClientOriginalName();
             $path = "/uploads/" . date("Y") . '/' . date("m") . "/" . $name;
             $file->storeAs('uploads/' . date("Y") . '/' . date("m") . '/', $name, ['disk' => 'public']);
-            return Attachment::create(['name' => $name, 'path' => "storage/$path", 'extension' => $file->getClientOriginalExtension()]);
+          return Attachment::create(['name' => $name, 'path' => "/storage$path", 'extension' => $file->getClientOriginalExtension()]);
             //
         }
     }

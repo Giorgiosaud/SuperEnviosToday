@@ -82,7 +82,7 @@
                                     <a class="dropdown-item" href="{{route('venezuelan_operators')}}">Listar Operadores Venezuela y saldos
                                         disponibles</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{route('chilean_transactions')}}">Mis
+                                    <a class="dropdown-item" href="{{route('my_transactions')}}">Mis
                                         Transacciones
                                         </a>
                                     <a class="dropdown-item" href="{{route('chilean_pending_transactions')}}">Mis Transacciones Pendientes</a>

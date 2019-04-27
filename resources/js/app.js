@@ -3,13 +3,13 @@ import vSelect from 'vue-select';
 import Datetime from 'vue-datetime';
 import VueFrappe from 'vue2-frappe';
 import 'vue-datetime/dist/vue-datetime.css';
-import {Settings} from 'luxon';
+import { Settings } from 'luxon';
 import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
-import VeeValidate, {Validator} from 'vee-validate';
+import VeeValidate, { Validator } from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
 import store from './store';
-import MakeTransaction from './Pages/MakeTransactions/MakeTransaction';
+import MakeTransaction from './Pages/MakeTransactions/MakeTransaction.vue';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -63,10 +63,11 @@ Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
 Vue.component('add-account', require('./components/addAccount.vue').default);
 Vue.component('pending-transactions', require('./Pages/PendingTransactions/PendingTransactions.vue').default);
 Vue.component('my-pending-transactions', require('./Pages/MyPendingTransactions/MyPendingTransactions.vue').default);
-Vue.component('venezuelan-accounts', require('./Pages/VenezuelanAccounts/VenezuelanAccounts').default);
-Vue.component('foreigns-accounts', require('./Pages/ForeignsAccounts/foreignsAccounts').default);
-Vue.component('list-transactions', require('./Pages/ListTransactions/ListTransactions').default);
-Vue.component('venezuelan-transactions', require('./Pages/VenezuelanTransactions/VenezuelanTransactions').default);
+Vue.component('venezuelan-accounts', require('./Pages/VenezuelanAccounts/VenezuelanAccounts.vue').default);
+Vue.component('foreigns-accounts', require('./Pages/ForeignsAccounts/foreignsAccounts.vue').default);
+Vue.component('list-transactions', require('./Pages/ListTransactions/ListTransactions.vue').default);
+Vue.component('my-transactions', require('./Pages/MyTransactions/MyTransactions.vue').default);
+Vue.component('venezuelan-transactions', require('./Pages/VenezuelanTransactions/VenezuelanTransactions.vue').default);
 
 Vue.use(VeeValidate, {
   events: 'change|blur',

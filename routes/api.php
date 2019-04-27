@@ -33,7 +33,7 @@
         Route::get('foreign_currencies', 'CurrencyController@foreignIndex')->name('foreign_currencies');
         Route::get('my-pending-transactions','PendingTransactionController@myPendingTransactionsAPI')->name('my-pending-transactions');
         Route::get('my-transactions','TransactionController@myTransactionsAPI')->name('my-transactions');
-
+      Route::patch('finish-transaction/{transaction}', 'TransactionController@finishTransaction')->name('finish-transaction');
 
     });
     // Privated Routes as Coordinator Foreign Operator or Venezuelan Operator
@@ -73,6 +73,6 @@
         Route::get('settings','SettingsController@all')->name('all-settings');
         Route::post('setting_tax','SettingsController@setTax')->name('set-tax');
         Route::patch('approve-transaction/{pendingTransaction}','PendingTransactionController@approveAPI')->name('approve-transaction');
-        Route::patch('reject-transaction/{pendingTransaction}','PendingTransactionController@rejectAPI')->name('approve-transaction');
+      Route::patch('reject-transaction/{pendingTransaction}', 'PendingTransactionController@rejectAPI')->name('approve-pending-transaction');
     });
 //TODO make all existent test pass
