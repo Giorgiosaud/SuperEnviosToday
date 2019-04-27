@@ -90,7 +90,7 @@
       } else {
         $accountsId = $request->user()->accounts->pluck('id');
       }
-      $transactions = Transaction::with(['destinationAccount.owner', 'relatedTransaction.destinationAccount.owner', 'originAccount'])->whereIn('from_account_id', $accountsId)->paginate($limit);
+      $transactions = Transaction::with(['destinationAccount.owner', 'relatedTransactions.destinationAccount.owner', 'originAccount'])->whereIn('from_account_id', $accountsId)->paginate($limit);
 
       return $transactions;
     }
@@ -102,7 +102,7 @@
       } else {
         $accountsId = $request->user()->accounts->pluck('id');
       }
-      return Transaction::with(['destinationAccount.owner', 'relatedTransaction.destinationAccount.owner', 'originAccount'])->whereIn('from_account_id', $accountsId)->where('status', '!=', 'executed')->count();
+      return Transaction::with(['destinationAccount.owner', 'relatedTransactions.destinationAccount.owner', 'originAccount'])->whereIn('from_account_id', $accountsId)->where('status', '!=', 'executed')->count();
 
     }
 
