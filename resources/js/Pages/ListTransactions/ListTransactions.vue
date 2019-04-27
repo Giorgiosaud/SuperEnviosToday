@@ -78,7 +78,7 @@
                       En Progreso
                     </span>
                       <span v-else-if="key==='status' && transaction.status==='executed'">
-                      Ejecutada{{ key }}
+                      Ejecutada
                     </span>
                       <span v-else-if="key==='created_at'">
                       {{ transaction[key] }}
