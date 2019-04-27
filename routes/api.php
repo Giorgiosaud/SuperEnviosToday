@@ -74,5 +74,7 @@
         Route::post('setting_tax','SettingsController@setTax')->name('set-tax');
         Route::patch('approve-transaction/{pendingTransaction}','PendingTransactionController@approveAPI')->name('approve-transaction');
       Route::patch('reject-transaction/{pendingTransaction}', 'PendingTransactionController@rejectAPI')->name('approve-pending-transaction');
+      Route::get('all-transactions','TransactionController@allTransactionsAPI')->name('my-transactions');
+
     });
 //TODO make all existent test pass

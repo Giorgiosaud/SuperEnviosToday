@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-12 col-md-3">
           <h1>
-            Mis Transacciones Relacionadas
+            Listado de Transacciones
           </h1>
         </div>
       </div>
@@ -54,10 +54,13 @@
                     v-for="(key, keyIndex) in keysToShow"
                     :key="keyIndex"
                   >
-                    <span v-if="key==='idn'">
+                    <span v-if="key==='operator'">
+                      {{ operatorOfTransaction(transaction) }}
+                    </span>
+                    <span v-if="key==='idn' && transaction.client">
                       {{ transaction.client.idn_type }} - {{ transaction.client.idn }}
                     </span>
-                    <span v-else-if="key==='name'">
+                    <span v-else-if="key==='name' && transaction.client">
                       {{ transaction.client.name }} {{ transaction.client.last_name }}
                     </span>
                     <span v-else-if="key==='operator_destination'">
@@ -86,14 +89,14 @@
                     <span v-else-if="key==='created_at'">
                       {{ transaction[key] }}
                     </span>
+                    <span v-else-if="key==='amount'">
+                      {{ transaction[key]|currency }}
+                    </span>
                     <span v-else-if="key==='action'">
                       <button
                         class="btn btn-primary"
                         @click="seeTransaction(transaction)"
                       >Ver Transacción</button>
-                    </span>
-                    <span v-else>
-                      {{ transaction[key] | currency }}
                     </span>
                   </td>
                 </tr>
@@ -147,7 +150,7 @@
                   {{ selectedTransaction.client.idn }}
                   <br>
                   Monto: {{ selectedTransaction.amount|currency }} {{
-                  selectedTransaction.destination_account.bank.currency.identificator }}
+                    selectedTransaction.destination_account.bank.currency.identificator }}
                   <br>
                 </div>
                 <div
@@ -176,10 +179,10 @@
                   {{ venezuelanTransaction.destination_account.owner.idn }}
                   <br>
                   Monto: {{ venezuelanTransaction.amount|currency }} {{
-                  venezuelanTransaction.destination_account.bank.currency.identificator }}
+                    venezuelanTransaction.destination_account.bank.currency.identificator }}
                   <br>
                   Impuesto Bancario: {{ venezuelanTax.amount|currency }} {{
-                  venezuelanTransaction.destination_account.bank.currency.identificator }}
+                    venezuelanTransaction.destination_account.bank.currency.identificator }}
                   <br>
                   Tasa de cambio {{ venezuelanTransaction.amount/selectedTransaction.amount|currency }}
                   <hr>
@@ -236,14 +239,15 @@ export default {
       myTransactionsCount: 0,
       loading: true,
       headers: [
-        'Identificación cliente', 'Nombre Cliente', 'Nombre Destino', 'Banco Destino', 'Monto', 'Estado', 'Fecha de Apertura', 'Ver Transacción',
+        'Identificacion operador', 'Identificación cliente', 'Nombre Cliente', 'Nombre Destino', 'Banco Destino', 'Monto', 'Estado', 'Fecha de Apertura', 'Ver Transacción',
       ],
       keysToShow: [
-        'idn', 'name', 'operator_destination', 'bank_destination', 'amount', 'status', 'created_at', 'action',
+        'operator', 'idn', 'name', 'operator_destination', 'bank_destination', 'amount', 'status', 'created_at', 'action',
       ],
     };
   },
   computed: {
+
     venezuelanTransaction() {
       if (this.selectedTransaction) {
         return this.selectedTransaction.related_transactions
@@ -263,6 +267,9 @@ export default {
     this.getTransactions();
   },
   methods: {
+    operatorOfTransaction(transaction) {
+      return transaction.destination_account.owner.name+ ' '+transaction.destination_account.owner.last_name;
+    },
     seeTransaction(transaction) {
       // TODO SEE TRANSACTION
       this.selectedTransaction = transaction;
@@ -279,7 +286,7 @@ export default {
     },
     getTransactions() {
       this.loading = true;
-      axios.get('/api/my-transactions').then((response) => {
+      axios.get('/api/all-transactions').then((response) => {
         this.myTransactions = response.data.data;
         this.loading = false;
         this.empty = this.myTransactions.length === 0;

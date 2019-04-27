@@ -65,6 +65,8 @@
                                     <a class="dropdown-item" href="{{route('venezuelan_operators')}}">Listar Operadores Venezuela y saldos
                                         disponibles</a>
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{route('transactions_list')}}">Listar Transacciones</a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{route('rate')}}">Definir Tasa</a>
                                     <a class="dropdown-item" href="{{route('settings')}}">Configuraciones</a>
                                 </div>
