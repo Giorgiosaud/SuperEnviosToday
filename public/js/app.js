@@ -2717,6 +2717,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2770,6 +2773,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         dictCancelUpload: 'Upload Cancelado',
         dictRemoveFile: 'Archivo Borrado'
       };
+    },
+    relatedRateInt: function relatedRateInt() {
+      return parseInt(this.actualRate.replace(',', '.'), 10);
     },
     operatorAccounts: function operatorAccounts() {
       var _this = this;
@@ -5188,6 +5194,7 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+//
 //
 //
 //
@@ -81744,8 +81751,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "loading" }, [
       _c("div"),
+      _vm._v(" "),
       _c("div"),
+      _vm._v(" "),
       _c("div"),
+      _vm._v(" "),
       _c("div")
     ])
   },
@@ -84701,7 +84711,12 @@ var render = function() {
               ],
               ref: "email",
               staticClass: "input-base",
-              attrs: { id: "email", type: "email", name: "Email" },
+              attrs: {
+                autocomplete: "false",
+                id: "email",
+                name: "Email",
+                type: "email"
+              },
               domProps: { value: _vm.person.email },
               on: {
                 input: function($event) {
