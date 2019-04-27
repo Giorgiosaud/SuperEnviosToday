@@ -80818,9 +80818,7 @@ var render = function() {
                                 transaction.status === "executed"
                               ? _c("span", [
                                   _vm._v(
-                                    "\n                    Ejecutada" +
-                                      _vm._s(key) +
-                                      "\n                  "
+                                      "\n                    Ejecutada\n                  "
                                   )
                                 ])
                               : key === "created_at"
