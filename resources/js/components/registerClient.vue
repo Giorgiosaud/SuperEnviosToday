@@ -118,14 +118,14 @@
             for="email"
           >Email</label>
           <input
-              autocomplete="false"
-              class="input-base"
-              id="email"
-              name="Email"
-              ref="email"
-              type="email"
-              v-model="person.email"
-              v-validate="'required|email'"
+            id="email"
+            ref="email"
+            v-model="person.email"
+            v-validate="'required|email'"
+            autocomplete="false"
+            class="input-base"
+            name="Email"
+            type="email"
           >
           <span
             class="error-base"
