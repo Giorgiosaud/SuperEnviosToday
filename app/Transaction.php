@@ -91,4 +91,8 @@ class Transaction extends Model
     {
       return $this->hasMany(Transaction::class, 'related_transaction_id');
     }
+  public function parentTransaction()
+  {
+    return $this->belongsTo(Transaction::class, 'related_transaction_id');
+  }
 }
