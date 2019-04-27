@@ -64,9 +64,9 @@
                       {{ transaction.destination_account.owner.name }}
                       {{ transaction.destination_account.owner.last_name }}
                     </span>
-                    <span v-if="transaction.related_transaction && key==='foreign_operator'">
-                      {{ transaction.related_transaction.destination_account.owner.name }}
-                      {{ transaction.related_transaction.destination_account.owner.last_name }}
+                    <span v-if="key==='foreign_operator'">
+                      {{ transaction.parent_transaction.destination_account.owner.name }}
+                      {{ transaction.parent_transaction.destination_account.owner.last_name }}
                     </span>
                     <span v-if="key==='operator_venezuela_bank'">
                       {{ transaction.origin_account.bank.name }}
