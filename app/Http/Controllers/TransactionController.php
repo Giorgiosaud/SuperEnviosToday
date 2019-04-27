@@ -74,16 +74,11 @@
 
             $user = $request->user();
             $accountsId = $user->accounts->pluck('id');
-            $mainTransactions = Transaction::where(function ($q) use ($accountsId) {
-                return $q->where('related_transaction_id', null)
-                    ->whereIn('to_account_id', $accountsId);
-            })->get();
-            $mainTransactionsIds = $mainTransactions->pluck('id');
-            return Transaction::with(['client', 'destinationAccount.owner', 'destinationAccount.bank.currency'])
+          return Transaction::with(['client', 'destinationAccount.owner', 'destinationAccount.bank.currency', 'relatedTransactions.client', 'relatedTransactions.destinationAccount.owner', 'relatedTransactions.destinationAccount.bank.currency', 'relatedTransactions.originAccount.owner', 'relatedTransactions.originAccount.bank.currency'])
+            ->where('related_transaction_id', null)
                 ->where(function ($q) use ($accountsId) {
-                    return $q->where('related_transaction_id', null)
-                        ->whereIn('to_account_id', $accountsId);
-                })->orWhereIn('related_transaction_id', $mainTransactionsIds)
+                  return $q->whereIn('to_account_id', $accountsId);
+                })
                 ->orderBy('created_at', 'desc')
                 ->paginate($limit);
         }
@@ -135,11 +130,19 @@
             $transaction->save();
             return $transaction;
         }
-        public function addTransaction(){
+
+      public function addTransaction() {
 
         }
-        public function listTransactions(){
+
+      public function listTransactions() {
             return view('coordinator.addTransactions');
 
         }
+
+      public function finishTransaction(Transaction $transaction) {
+        $transaction->status = 'terminated';
+        $transaction->save();
+        return $transaction;
+      }
     }

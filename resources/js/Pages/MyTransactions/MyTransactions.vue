@@ -147,7 +147,7 @@
                   {{ selectedTransaction.client.idn }}
                   <br>
                   Monto: {{ selectedTransaction.amount|currency }} {{
-                    selectedTransaction.destination_account.bank.currency.identificator }}
+                  selectedTransaction.destination_account.bank.currency.identificator }}
                   <br>
                 </div>
                 <div
@@ -176,10 +176,10 @@
                   {{ venezuelanTransaction.destination_account.owner.idn }}
                   <br>
                   Monto: {{ venezuelanTransaction.amount|currency }} {{
-                    venezuelanTransaction.destination_account.bank.currency.identificator }}
+                  venezuelanTransaction.destination_account.bank.currency.identificator }}
                   <br>
                   Impuesto Bancario: {{ venezuelanTax.amount|currency }} {{
-                    venezuelanTransaction.destination_account.bank.currency.identificator }}
+                  venezuelanTransaction.destination_account.bank.currency.identificator }}
                   <br>
                   Tasa de cambio {{ venezuelanTransaction.amount/selectedTransaction.amount|currency }}
                   <hr>

@@ -59,6 +59,9 @@ class Transaction extends Model
         'status',
         'type',
     ];
+
+  protected $with = ['attachments'];
+
     public function originAccount()
     {
         return $this->belongsTo(Account::class, 'from_account_id');
@@ -84,9 +87,8 @@ class Transaction extends Model
         return $this->belongsTo(User::class, 'client_id');
     }
 
-    public function relatedTransaction()
+  public function relatedTransactions()
     {
-        return $this->belongsTo(Transaction::class, 'related_transaction_id');
-
+      return $this->hasMany(Transaction::class, 'related_transaction_id');
     }
 }

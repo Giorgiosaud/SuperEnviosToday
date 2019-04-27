@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <list-transactions />
+  <my-transactions />
 
 @endsection
