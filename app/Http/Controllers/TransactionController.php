@@ -46,7 +46,7 @@
         'to_account_id' => 'required|numeric',
         'amount' => 'required|numeric'
       ]);
-      $validData['user_id'] = $request->user()->id;
+      $validData['client_id'] = $request->user()->id;
       $validData['status'] = 'terminated';
       $validData['type'] = 'income';
       broadcast(new TransactionExecuted($request->user(), 'made transaction'))->toOthers();
@@ -75,7 +75,13 @@
         ->orderBy('created_at', 'desc')
         ->paginate($limit);
     }
-
+    public function allTransactionsAPI(Request $request) {
+      $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+      return Transaction::with(['client', 'destinationAccount.owner', 'destinationAccount.bank.currency', 'relatedTransactions.client', 'relatedTransactions.destinationAccount.owner', 'relatedTransactions.destinationAccount.bank.currency', 'relatedTransactions.originAccount.owner', 'relatedTransactions.originAccount.bank.currency'])
+        ->where('related_transaction_id', null)
+        ->orderBy('created_at', 'desc')
+        ->paginate($limit);
+    }
     public function venezuelanTransactionsAPI(Request $request) {
       $limit = $request->has('perPage') ? $request->get('perPage') : 20;
       if ($request->user()->hasRole('coordinator')) {
