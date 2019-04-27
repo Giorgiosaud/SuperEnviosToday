@@ -69,7 +69,10 @@
       class="w-100 d-flex align-center justify-content-center"
     >
       <div class="loading">
-        <div /><div /><div /><div />
+          <div/>
+          <div/>
+          <div/>
+          <div/>
       </div>
     </div>
     <div
@@ -504,6 +507,9 @@
         dictRemoveFile: 'Archivo Borrado',
       };
     },
+      relatedRateInt() {
+          return parseInt(this.actualRate.replace(',', '.'), 10);
+      },
     operatorAccounts() {
       if (!this.operator || !this.selectedCurrency) {
         return [];
@@ -526,7 +532,10 @@
     selectedCurrency(currency) {
       this.selectedOperatorAccount = null;
       axios.get(`api/last_rate/${currency.id}`).then((response) => {
-        this.actualRate = response.data.amount;
+          this.actualRate
+
+
+              = response.data.amount;
       });
     },
   },
