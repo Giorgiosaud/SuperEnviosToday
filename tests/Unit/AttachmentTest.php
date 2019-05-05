@@ -20,7 +20,7 @@
             ]);
             $attachment = Attachment::where('name', 'LIKE', '%avatar%')->get();
             $this->assertCount(1, $attachment);
-            $path = $attachment->first()->path;
+            $path = str_replace('storage', '',$attachment->first()->path);
             Storage::disk('public')->assertExists($path);
 
         }
