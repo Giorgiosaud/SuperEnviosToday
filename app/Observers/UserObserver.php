@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Observers;
+  namespace App\Observers;
 
-use App\Account;
-use App\Bank;
-use App\Currency;
-use App\User;
+  use App\Account;
+  use App\Bank;
+  use App\Currency;
+  use App\User;
 
-class UserObserver
-{
+  class UserObserver {
     /**
      * Handle the user "created" event.
      *
@@ -16,9 +15,8 @@ class UserObserver
      *
      * @return void
      */
-    public function created(User $user)
-    {
-        return $user->setRole('client');
+    public function created(User $user) {
+      return $user->setRole('client');
     }
 
     /**
@@ -28,28 +26,28 @@ class UserObserver
      *
      * @return void
      */
-    public function saved(User $user)
-    {
-        if($user->hasRole('venezuelan_operator')){
-            $currency = Currency::whereName('Bolivares Soberanos')->first();
-            $bank=Bank::whereName('Efectivo')->whereCurrencyId($currency->id)->first();
+    public function saved(User $user) {
+      if ($user->accounts->count() === 0) {
+        if ($user->hasRole('venezuelan_operator')) {
+          $currency = Currency::whereName('Bolivares Soberanos')->first();
+          $bank = Bank::whereName('Efectivo')->whereCurrencyId($currency->id)->first();
+          factory(Account::class)->create([
+            'bank_id' => $bank->id,
+            'user_id' => $user->id,
+            'is_operator_account' => true,
+          ]);
+        } elseif ($user->hasRole('coordinator') || $user->hasRole('foreign_operator')) {
+          $currencies = Currency::where('name', '!=', 'Bolivares Soberanos')->get();
+          foreach ($currencies as $currency) {
+            $bank = Bank::whereName('Efectivo')->whereCurrencyId($currency->id)->first();
             factory(Account::class)->create([
-                'bank_id'=>$bank->id,
-                'user_id' => $user->id,
-                'is_operator_account' => true,
+              'bank_id' => $bank->id,
+              'user_id' => $user->id,
+              'is_operator_account' => true,
             ]);
+          }
         }
-        elseif ($user->hasRole('coordinator')||$user->hasRole('foreign_operator')){
-            $currencies = Currency::where('name', '!=', 'Bolivares Soberanos')->get();
-            foreach ($currencies as $currency){
-                $bank=Bank::whereName('Efectivo')->whereCurrencyId($currency->id)->first();
-                factory(Account::class)->create([
-                    'bank_id'=>$bank->id,
-                    'user_id' => $user->id,
-                    'is_operator_account' => true,
-                ]);
-            }
-        }
+      }
     }
 
     /**
@@ -59,9 +57,8 @@ class UserObserver
      *
      * @return void
      */
-    public function deleted(User $user)
-    {
-        //
+    public function deleted(User $user) {
+      //
     }
 
     /**
@@ -71,9 +68,8 @@ class UserObserver
      *
      * @return void
      */
-    public function restored(User $user)
-    {
-        //
+    public function restored(User $user) {
+      //
     }
 
     /**
@@ -83,8 +79,7 @@ class UserObserver
      *
      * @return void
      */
-    public function forceDeleted(User $user)
-    {
-        //
+    public function forceDeleted(User $user) {
+      //
     }
-}
+  }

@@ -55,14 +55,15 @@ class UserTest extends TestCase
     }
 
     /**
-     * A user can have accounts asociated.
+     * A user can have accounts associated.
      *
      * @test
      */
-    public function aUserHaveMultiplesAccountsAsociated()
+    public function aUserHaveMultiplesAccountsAssociated()
     {
         $user = factory('App\User')->create();
         factory('App\Account', 3)->create(['user_id' => $user->id]);
+        $user->refresh();
         $this->assertCount(3, $user->accounts);
     }
 
