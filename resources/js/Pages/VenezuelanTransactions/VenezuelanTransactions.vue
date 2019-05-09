@@ -131,24 +131,24 @@
                   v-if="selectedTransaction"
                   class="col-12 col-md-6"
                 >
-                  <div class="row">
+                  <div class="col-12">
                     Identificacion: {{ selectedTransaction.destination_account.owner.idn_type }} -
                     {{ selectedTransaction.destination_account.owner.idn }}
                   </div>
 
-                  <div class="row">
+                  <div class="col-12">
                     Nombre: {{ selectedTransaction.destination_account.owner.name }}
                   </div>
-                  <div class="row">
+                  <div class="col-12">
                     Apellido(s): {{ selectedTransaction.destination_account.owner.last_name }}
                   </div>
-                  <div class="row">
+                  <div class="col-12">
                     Telefono: {{ selectedTransaction.destination_account.owner.phone }}
                   </div>
-                  <div class="row">
+                  <div class="col-12">
                     Email:{{ selectedTransaction.destination_account.owner.email }}
                   </div>
-                  <div class="row">
+                  <div class="col-12">
                     Direccion:{{ selectedTransaction.destination_account.owner.address }}
                   </div>
                 </div>
