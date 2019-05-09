@@ -129,7 +129,7 @@
               <div class="row">
                 <div
                   v-if="selectedTransaction"
-                  class="col-6"
+                  class="col-12 col-md-6"
                 >
                   <div class="row">
                     Identificacion: {{ selectedTransaction.destination_account.owner.idn_type }} -
@@ -152,7 +152,7 @@
                     Direccion:{{ selectedTransaction.destination_account.owner.address }}
                   </div>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-md-6">
                   <div class="col-12">
                     Banco: {{ selectedTransaction.destination_account.bank.name }}
                   </div>
