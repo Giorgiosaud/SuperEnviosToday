@@ -68,6 +68,7 @@ Vue.component('foreigns-accounts', require('./Pages/ForeignsAccounts/foreignsAcc
 Vue.component('list-transactions', require('./Pages/ListTransactions/ListTransactions.vue').default);
 Vue.component('my-transactions', require('./Pages/MyTransactions/MyTransactions.vue').default);
 Vue.component('venezuelan-transactions', require('./Pages/VenezuelanTransactions/VenezuelanTransactions.vue').default);
+Vue.component('fix-transaction', require('./Pages/FixTransaction/FixTransaction.vue').default);
 
 Vue.use(VeeValidate, {
   events: 'change|blur',
