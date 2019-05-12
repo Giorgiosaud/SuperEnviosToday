@@ -39,7 +39,7 @@
                 <label class="label-base">
                     <input class="mr-2 leading-tight" type="checkbox" name="remember"
                            id="remember" {{ old('remember') ? 'checked' : '' }}> <span class="text-sm">
-            {{ __('Remember Me') }}
+            {{ __('Mantenerme Conectado') }}
         </span></label>
                 <div class="flex items-center justify-between">
                     <button class="btn-primary" type="submit">
