@@ -114,7 +114,7 @@
                                 <a class="dropdown-item" href="{{route('change_password')}}">Cambio de contraseña</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" @click.prevent="logout">
-                                    {{ __('Logout') }}</a>
+                                    {{ __('Cerrar Sesión') }}</a>
                             </div>
                         </li>
                     @endguest
