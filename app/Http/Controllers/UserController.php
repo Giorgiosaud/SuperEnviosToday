@@ -4,13 +4,16 @@
 
     use App\Http\Requests\UserRequest;
     use App\User;
+    use Illuminate\Auth\Events\PasswordReset;
     use Illuminate\Contracts\Auth\Authenticatable;
     use Illuminate\Contracts\Routing\ResponseFactory;
     use Illuminate\Contracts\View\Factory;
     use Illuminate\Http\Request;
     use Illuminate\Http\Response;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Str;
     use Illuminate\View\View;
+    use Illuminate\Support\Facades\Hash;
 
     /**
      * Class UserController
@@ -90,7 +93,33 @@
             return view('auth.profile');
         }
 
-        /**
+      /**
+       * @return Factory|View
+       */
+      public function changePassword()
+      {
+
+        return view('auth.passwords.change');
+      }
+
+      /**
+       * @param Request $request
+       */
+      public function updatePassword(Request $request) {
+        $request->validate([
+          'password' => 'required|confirmed|min:6',
+        ]);
+        $user=$request->user();
+        $user->password = Hash::make($request->password);
+        $user->setRememberToken(Str::random(60));
+        $user->save();
+        event(new PasswordReset($user));
+        return redirect()->back()
+          ->withInput($request->only('idn'))
+          ->with('success','Cambio de Contraseña Exitoso');
+      }
+
+      /**
          * @return Authenticatable|null
          */
         public function info()

@@ -110,8 +110,8 @@
                                 {{ Auth::user()->email }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="operator-dropdown">
-                                <!--a class="dropdown-item" href="profile">My
-                                    Profile</a-->
+                                <a class="dropdown-item" href="{{route('change_password')}}">Cambio de contraseña</a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" @click.prevent="logout">
                                     {{ __('Logout') }}</a>
                             </div>

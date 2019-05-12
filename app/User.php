@@ -4,6 +4,7 @@ namespace App;
 
 use App\Observers\UserObserver;
 use Eloquent;
+use App\Contracts\CanResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -59,7 +60,7 @@ use Laravel\Passport\Token;
  * @method static Builder|User whereUpdatedAt($value)
  * @mixin Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
     use HasApiTokens, Notifiable;
 
@@ -168,4 +169,16 @@ class User extends Authenticatable
     public function senders(){
         return $this->belongsToMany(User::class,'users_receivers','receiver_id','user_id')->withTimestamps();
     }
+
+  /**
+   * Get the e-mail address where password reset links are sent.
+   *
+   * @return array
+   */
+  public function getDataFromUserForToken() {
+    return [
+      'idn'=>$this->idn,
+      'idn_type'=>$this->idn_type,
+    ];
+  }
 }

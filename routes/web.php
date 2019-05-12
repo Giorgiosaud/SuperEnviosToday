@@ -16,7 +16,10 @@
     Auth::routes();
     Route::get('/access_token', 'AuthController@getToken');
     Route::middleware(['auth'])->group(function () {
+
         Route::get('/profile', 'UserController@myProfile')->name('user_profile');
+      Route::get('/change_password', 'UserController@changePassword')->name('change_password');
+      Route::post('/update_password', 'UserController@updatePassword')->name('update_password');
     });
     Route::middleware(['auth', 'role:venezuelan_operator,coordinator'])->group(function () {
         Route::get('venezuelan_transactions', 'VenezuelanTransactionController@index')->name('venezuelan_transactions');

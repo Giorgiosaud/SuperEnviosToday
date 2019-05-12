@@ -29,6 +29,7 @@
                                 <option value="RUT" @if(old('idn_type')=='RUT') selected @endif>RUT</option>
                                 <option value="PASSPORT" @if(old('idn_type')=='PASSPORT') selected @endif>PASSPORT</option>
                                 <option value="DNI" @if(old('idn_type')=='DNI') selected @endif>DNI</option>
+                                <option value="RIF" @if(old('idn_type')=='RIF') selected @endif>RIF</option>
                             </select>
                         </div>
                     </div>
