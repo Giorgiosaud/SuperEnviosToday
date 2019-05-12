@@ -41,7 +41,8 @@
         Route::get('/pending_transactions', 'PendingTransactionController@index')->name('pending_operations');
         Route::get('/foreign_operators', 'operatorsController@foreignList')->name('foreign_operators');
         Route::get('/coordinator_transaction', 'TransactionController@addTransaction')->name('coordinator_transaction');
-        Route::get('/list_transaction', 'TransactionController@listTransactions')->name('transactions_list');
+      Route::get('/list_transaction', 'TransactionController@listTransactions')->name('transactions_list');
+      Route::get('/fix_transaction', 'TransactionController@fixTransaction')->name('transactions_fix');
     });
 
 

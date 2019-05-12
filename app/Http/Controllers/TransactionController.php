@@ -75,6 +75,7 @@
         ->orderBy('created_at', 'desc')
         ->paginate($limit);
     }
+
     public function allTransactionsAPI(Request $request) {
       $limit = $request->has('perPage') ? $request->get('perPage') : 20;
       return Transaction::with(['client', 'destinationAccount.owner', 'destinationAccount.bank.currency', 'relatedTransactions.client', 'relatedTransactions.destinationAccount.owner', 'relatedTransactions.destinationAccount.bank.currency', 'relatedTransactions.originAccount.owner', 'relatedTransactions.originAccount.bank.currency'])
@@ -82,6 +83,7 @@
         ->orderBy('created_at', 'desc')
         ->paginate($limit);
     }
+
     public function venezuelanTransactionsAPI(Request $request) {
       $limit = $request->has('perPage') ? $request->get('perPage') : 20;
       if ($request->user()->hasRole('coordinator')) {
@@ -139,5 +141,19 @@
       $transaction->status = 'terminated';
       $transaction->save();
       return $transaction;
+    }
+
+    public function fixTransaction() {
+      return view('coordinator.fixTransactions');
+    }
+
+    public function adjustTransaction(Request $request) {
+      $validated = $request->validate([
+        "to_account_id" => 'required|numeric',
+        "type" => 'required|string|in:income,outcome',
+        "amount" => 'required|numeric'
+      ]);
+      $validated['status'] = 'terminated';
+      return Transaction::create($validated);
     }
   }

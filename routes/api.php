@@ -75,6 +75,7 @@
         Route::patch('approve-transaction/{pendingTransaction}','PendingTransactionController@approveAPI')->name('approve-transaction');
       Route::patch('reject-transaction/{pendingTransaction}', 'PendingTransactionController@rejectAPI')->name('approve-pending-transaction');
       Route::get('all-transactions','TransactionController@allTransactionsAPI')->name('my-transactions');
+      Route::post('adjust-transaction','TransactionController@adjustTransaction')->name('adjust-transaction');
 
     });
 //TODO make all existent test pass
