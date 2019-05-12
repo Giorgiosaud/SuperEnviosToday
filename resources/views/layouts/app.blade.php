@@ -5,10 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-<<<<<<< HEAD
-=======
-
->>>>>>> cae4c848da4b2b6aa0c27cb1c7f44e127596f31a
     <title>{{ config('app.name', 'Super Envios Today') }}</title>
 
     <!-- Scripts -->
