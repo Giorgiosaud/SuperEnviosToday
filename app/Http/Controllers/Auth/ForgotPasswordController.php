@@ -86,7 +86,7 @@ class ForgotPasswordController extends Controller
      */
     public function broker()
     {
-        return Password::broker('super-envios-password-broker');
+        return Password::broker();
     }
     
     /**

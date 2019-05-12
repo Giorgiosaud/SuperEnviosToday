@@ -5,26 +5,34 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
                 <div class="card-body">
+                    @if (session('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
 
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group row">
-                            <label for="idn_type" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
+                            <label for="idn_type" class="col-md-4 col-form-label text-md-right">{{ __('Tipo de Identificacion') }}</label>
 
                             <div class="col-md-6">
                                 <select
                                     id="idn_type"
                                     class="form-control{{ $errors->has('idn_type') ? ' is-invalid' : '' }}"
                                     name="idn_type" required autofocus>
-                                    <option value="CI">CI</option>
-                                    <option value="RUT">RUT</option>
-                                    <option value="PASSPORT">PASSPORT</option>
-                                    <option value="DNI">DNI</option>
+                                    <option value="CI"  @if(old('idn_type')=='CI') selected @endif>CI</option>
+                                    <option value="RUT" @if(old('idn_type')=='RUT') selected @endif>RUT</option>
+                                    <option value="PASSPORT" @if(old('idn_type')=='PASSPORT') selected @endif>PASSPORT</option>
+                                    <option value="DNI" @if(old('idn_type')=='DNI') selected @endif>DNI</option>
+                                    <option value="RIF" @if(old('idn_type')=='RIF') selected @endif>RIF</option>
                                 </select>
                                 @if ($errors->has('idn_type'))
                                     <span class="invalid-feedback" role="alert">
