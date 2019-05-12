@@ -44,7 +44,7 @@
                 <div class="flex items-center justify-between">
                     <button class="btn-primary" type="submit">
                         {{--  --}}
-                        {{ __('Login') }}
+                        {{ __('Iniciar Sesión') }}
                     </button>
                     <a class="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker"
                        href="{{ route('password.request') }}">{{ __('¿Olvidó su clave?') }}</a>
