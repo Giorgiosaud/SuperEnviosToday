@@ -17,6 +17,7 @@ class CreateBanksTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('currency_id');
             $table->string('name');
+            $table->string('currency_id');
             $table->timestamps();
         });
     }
