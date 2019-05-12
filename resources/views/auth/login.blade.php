@@ -47,7 +47,7 @@
                         {{ __('Login') }}
                     </button>
                     <a class="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker"
-                       href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
+                       href="{{ route('password.request') }}">{{ __('¿Olvidó su clave?') }}</a>
                 </div>
             </form>
             <p class="text-center text-grey text-xs">
