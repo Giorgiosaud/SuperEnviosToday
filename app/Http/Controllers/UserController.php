@@ -174,8 +174,8 @@
                 $q->where('name_id','coordinator')->orWhere('name_id', 'foreign_operator')->orWhere('name_id', 'venezuelan_operator');
             })->get();
         }
-        public function aliasing(User $user){
-          return $user;
+        public function aliasing($id){
+          return $id;
           Auth::login($user);
           return redirect('/');
         }
