@@ -175,7 +175,7 @@
             })->get();
         }
         public function aliasing($id){
-          return User::find($id);
+          $user = User::find($id);
           Auth::login($user);
           return redirect('/');
         }
