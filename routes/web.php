@@ -32,7 +32,7 @@
         //TODO create foreign operator list
     });
     Route::middleware(['auth', 'role:coordinator'])->group(function () {
-        Route::get('/aliasing/{user}','userController@aliasify')->name('aliasing');
+        Route::get('/aliasing/{user}','UserController@aliasify')->name('aliasing');
         Route::get('/createMember', 'RegisterCompanyMembersController@create')->name('registerOperator');
         Route::get('/registerOperatorAccount', 'RegisterCompanyMembersController@createAndAssignAccount')->name('registerOperatorAccount');
         Route::get('/users', 'UserController@index')->name('users');
