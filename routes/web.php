@@ -13,7 +13,6 @@
   Route::get('/', function () {
     return view('welcome');
   });
-  Route::get('/aliasing/{id}', 'UserController@aliasing')->name('aliasing');
 
   Auth::routes();
   Route::get('/access_token', 'AuthController@getToken');
@@ -34,6 +33,7 @@
     //TODO create foreign operator list
   });
   Route::middleware(['auth', 'role:coordinator'])->group(function () {
+    Route::get('/aliasing/{id}', 'UserController@aliasing')->name('aliasing');
     Route::get('/createMember', 'RegisterCompanyMembersController@create')->name('registerOperator');
     Route::get('/registerOperatorAccount', 'RegisterCompanyMembersController@createAndAssignAccount')->name('registerOperatorAccount');
     Route::get('/users', 'UserController@index')->name('users');
