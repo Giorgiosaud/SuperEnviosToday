@@ -138,9 +138,9 @@
 </template>
 
 <script>
-    import {format, parse} from 'date-fns';
+import { format, parse } from 'date-fns';
 
-    export default {
+export default {
   name: 'Rate',
   data() {
     return {
@@ -191,7 +191,7 @@
           chartType: 'line',
           values: this.selectedRates.map(rate => rate.amount).reverse(),
         }],
-          labels: this.labels.map(lab => parse(lab)).reverse(),
+        labels: this.labels.map(lab => parse(lab)).reverse(),
         tooltipOptions: {
           formatTooltipX: d => (`${d}`).toUpperCase(),
           formatTooltipY: d => `${d} Bs`,
@@ -212,6 +212,9 @@
         values: [25, 40, 30, 35, 8, 52, 17, -4],
       }];
     },
+    since2() {
+      return parse(this.since).toLocaleString();
+    },
     labels() {
       if (this.selectedRates) {
         return this.selectedRates.map(rate => rate.since);
@@ -223,8 +226,8 @@
     },
 
   },
-        updated() {
-            if (this.$refs.graph) this.$refs.graph.update(this.updatedData);
+  updated() {
+    if (this.$refs.graph) this.$refs.graph.update(this.updatedData);
   },
   created() {
     this.getRates();
@@ -235,7 +238,7 @@
     editRate(rate) {
       this.rateId = rate.id;
       this.newRate = rate.amount.toString().replace(',', '').replace('.', ',');
-      this.since = format(rate.since, 'DD-MM-YYYY hh:mm');
+      this.since = parse(rate.since, 'DD-MM-YYYY hh:mm');
       this.selectedCurrency = this.currencies.find(curr => curr.id === rate.currency_id);
     },
     removeRate(rate) {
@@ -252,7 +255,7 @@
     setNewRate() {
       if (!this.rateId) {
         axios.post('api/rate', {
-          since: this.since,
+          since: this.since2,
           amount: this.rateValue,
           currency: this.selectedCurrency,
         })
@@ -264,7 +267,7 @@
           });
       } else {
         axios.patch(`api/rate/${this.rateId}`, {
-          since: this.since,
+          since: this.since2.toLocaleString(),
           amount: this.rateValue,
           currency: this.selectedCurrency,
         })
