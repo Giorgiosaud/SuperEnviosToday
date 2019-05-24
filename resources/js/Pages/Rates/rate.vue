@@ -49,19 +49,17 @@
               class="input-base bg-white"
             >
           </div>
-          <div class="col-4">
+          <div class="col-7">
             <label
               for="since"
               class="label-base bg-white"
             >Aplicar desde:</label>
-            <datetime
+            <input
               id="since"
               v-model="since"
-              :flow="['date', 'time']"
+              type="datetime-local"
               class="input-base"
-              type="datetime"
-              format="dd-MM-yyyy hh:mm"
-            />
+            >
           </div>
         </div>
         <div class="row">
@@ -138,7 +136,7 @@
 </template>
 
 <script>
-import { format, parse } from 'date-fns';
+import { format, parse, subHours } from 'date-fns';
 
 export default {
   name: 'Rate',
@@ -213,7 +211,7 @@ export default {
       }];
     },
     since2() {
-      return parse(this.since).toLocaleString();
+      return subHours(parse(this.since), 4);
     },
     labels() {
       if (this.selectedRates) {
@@ -267,7 +265,7 @@ export default {
           });
       } else {
         axios.patch(`api/rate/${this.rateId}`, {
-          since: this.since2.toLocaleString(),
+          since: this.since2,
           amount: this.rateValue,
           currency: this.selectedCurrency,
         })
@@ -295,7 +293,7 @@ export default {
 </script>
 
 <style scoped>
-    .btn-primary:disabled {
-        background-color: gray;
-    }
+.btn-primary:disabled {
+  background-color: gray;
+}
 </style>
