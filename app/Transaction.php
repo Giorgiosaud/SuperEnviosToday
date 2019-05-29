@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use App\User;
 
 /**
  * App\Transaction
@@ -49,9 +50,11 @@ use Illuminate\Support\Carbon;
  */
 class Transaction extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'client_id',
+        'from_user_id',
         'from_account_id',
+        'to_user_id',
         'to_account_id',
         'related_transaction_id',
         'transaction_number',
@@ -60,26 +63,34 @@ class Transaction extends Model
         'type',
     ];
 
-  protected $with = ['attachments'];
+    protected $with = ['attachments'];
 
     public function originAccount()
     {
         return $this->belongsTo(Account::class, 'from_account_id');
     }
-
+    public function fromUser()
+    {
+        return $this->belongsTo(User::class, 'from_user_id');
+    }
     public function destinationAccount()
     {
         return $this->belongsTo(Account::class, 'to_account_id');
     }
+    public function toUser()
+    {
+        return $this->belongsTo(User::class, 'to_user_id');
+    }
     public function getAmountAttribute($value)
     {
-        return $value/10000;
+        return $value / 10000;
     }
     public function setAmountAttribute($value)
     {
-        $this->attributes['amount']= $value*10000;
+        $this->attributes['amount'] = $value * 10000;
     }
-    public function attachments(){
+    public function attachments()
+    {
         return  $this->morphMany(Attachment::class, 'attachable');
     }
     public function client()
@@ -87,12 +98,12 @@ class Transaction extends Model
         return $this->belongsTo(User::class, 'client_id');
     }
 
-  public function relatedTransactions()
+    public function relatedTransactions()
     {
-      return $this->hasMany(Transaction::class, 'related_transaction_id');
+        return $this->hasMany(Transaction::class, 'related_transaction_id');
     }
-  public function parentTransaction()
-  {
-    return $this->belongsTo(Transaction::class, 'related_transaction_id');
-  }
+    public function parentTransaction()
+    {
+        return $this->belongsTo(Transaction::class, 'related_transaction_id');
+    }
 }

@@ -57,16 +57,16 @@
                     :key="keyIndex"
                   >
                     <span v-if="key==='receiverIdn'">
-                      {{ transaction.destination_account.owner.idn_type }} -
-                      {{ transaction.destination_account.owner.idn }}
+                      {{ transaction.to_user.idn_type }} -
+                      {{ transaction.to_user.idn }}
                     </span>
                     <span v-if="key==='receiverName'">
-                      {{ transaction.destination_account.owner.name }}
-                      {{ transaction.destination_account.owner.last_name }}
+                      {{ transaction.to_user.name }}
+                      {{ transaction.to_user.last_name }}
                     </span>
                     <span v-if="key==='foreign_operator'">
-                      {{ transaction.parent_transaction.destination_account.owner.name }}
-                      {{ transaction.parent_transaction.destination_account.owner.last_name }}
+                      {{ transaction.parent_transaction.to_user.name }}
+                      {{ transaction.parent_transaction.to_user.last_name }}
                     </span>
                     <span v-if="key==='operator_venezuela_bank'">
                       {{ transaction.origin_account.bank.name }}
@@ -132,24 +132,24 @@
                   class="col-12 col-md-6"
                 >
                   <div class="col-12">
-                    Identificacion: {{ selectedTransaction.destination_account.owner.idn_type }} -
-                    {{ selectedTransaction.destination_account.owner.idn }}
+                    Identificacion: {{ selectedTransaction.to_user.idn_type }} -
+                    {{ selectedTransaction.to_user.idn }}
                   </div>
 
                   <div class="col-12">
-                    Nombre: {{ selectedTransaction.destination_account.owner.name }}
+                    Nombre: {{ selectedTransaction.to_user.name }}
                   </div>
                   <div class="col-12">
-                    Apellido(s): {{ selectedTransaction.destination_account.owner.last_name }}
+                    Apellido(s): {{ selectedTransaction.to_user.last_name }}
                   </div>
                   <div class="col-12">
-                    Telefono: {{ selectedTransaction.destination_account.owner.phone }}
+                    Telefono: {{ selectedTransaction.to_user.phone }}
                   </div>
                   <div class="col-12">
-                    Email:{{ selectedTransaction.destination_account.owner.email }}
+                    Email:{{ selectedTransaction.to_user.email }}
                   </div>
                   <div class="col-12">
-                    Direccion:{{ selectedTransaction.destination_account.owner.address }}
+                    Direccion:{{ selectedTransaction.to_user.address }}
                   </div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -318,5 +318,4 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>
