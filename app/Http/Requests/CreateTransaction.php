@@ -33,6 +33,8 @@ class CreateTransaction extends FormRequest
             'received_transaction_attachment_ids.*' => 'numeric|exists:attachments,id',
             'receiver_account_id' => 'required|exists:accounts,id',
             'venezuelan_operator_account_id' => 'required|exists:accounts,id',
+            'venezuelan_operator_id' => 'required|exists:users,id',
+            'receiver_user_id' => 'required|exists:users,id',
             'rate' => 'nullable|numeric',
             'amount' => 'required|numeric',
         ];

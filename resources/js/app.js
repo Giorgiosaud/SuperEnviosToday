@@ -53,7 +53,7 @@ Vue.component('v-select', vSelect);
 Vue.component('make-transaction', MakeTransaction);
 Vue.component('main-menu', require('./components/mainMenu.vue').default);
 Vue.component('register-member', require('./components/registerMember.vue').default);
-Vue.component('assign-operators-account', require('./Pages/assignOperatorsAccount/assignOperatorsAccount.vue').default);
+Vue.component('add-operator-account', require('./Pages/addOperatorAccount/addOperatorAccount.vue').default);
 Vue.component('register-client', require('./components/registerClient.vue').default);
 Vue.component('users-list', require('./components/usersList.vue').default);
 Vue.component('rate', require('./Pages/Rates/rate.vue').default);
@@ -69,6 +69,7 @@ Vue.component('list-transactions', require('./Pages/ListTransactions/ListTransac
 Vue.component('my-transactions', require('./Pages/MyTransactions/MyTransactions.vue').default);
 Vue.component('venezuelan-transactions', require('./Pages/VenezuelanTransactions/VenezuelanTransactions.vue').default);
 Vue.component('fix-transaction', require('./Pages/FixTransaction/FixTransaction.vue').default);
+Vue.component('asociate-operator-account', require('./Pages/asociateOperatorAccount/asociateOperatorAccount.vue').default);
 
 Vue.use(VeeValidate, {
   events: 'change|blur',

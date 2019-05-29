@@ -1,5 +1,5 @@
 <?php
-  /*
+/*
   |--------------------------------------------------------------------------
   | Web Routes
   |--------------------------------------------------------------------------
@@ -10,32 +10,33 @@
   |
    */
 
-  Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
-  });
+});
 
-  Auth::routes();
-  Route::get('/access_token', 'AuthController@getToken');
-  Route::middleware(['auth'])->group(function () {
+Auth::routes();
+Route::get('/access_token', 'AuthController@getToken');
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile', 'UserController@myProfile')->name('user_profile');
     Route::get('/change_password', 'UserController@changePassword')->name('change_password');
     Route::post('/update_password', 'UserController@updatePassword')->name('update_password');
-  });
-  Route::middleware(['auth', 'role:venezuelan_operator,coordinator'])->group(function () {
+});
+Route::middleware(['auth', 'role:venezuelan_operator,coordinator'])->group(function () {
     Route::get('venezuelan_transactions', 'VenezuelanTransactionController@index')->name('venezuelan_transactions');
-  });
-  Route::middleware(['auth', 'role:foreign_operator,coordinator'])->group(function () {
+});
+Route::middleware(['auth', 'role:foreign_operator,coordinator'])->group(function () {
     Route::get('/transactions', 'TransactionController@index')->name('make_transaction');
     Route::get('/transactions/status', 'TransactionController@list')->name('my_transactions');
     Route::get('/transactions/pending', 'PendingTransactionController@myTransactions')->name('chilean_pending_transactions');
     Route::get('/venezuelan_operators', 'operatorsController@venezuelanList')->name('venezuelan_operators');
     //TODO create foreign operator list
-  });
-  Route::middleware(['auth', 'role:coordinator'])->group(function () {
+});
+Route::middleware(['auth', 'role:coordinator'])->group(function () {
     Route::get('/aliasing/{id}', 'UserController@aliasing')->name('aliasing');
     Route::get('/createMember', 'RegisterCompanyMembersController@create')->name('registerOperator');
     Route::get('/registerOperatorAccount', 'RegisterCompanyMembersController@createAndAssignAccount')->name('registerOperatorAccount');
+    Route::get('/assignOperatorAccount', 'RegisterCompanyMembersController@assignOperatorAccount')->name('assignOperatorAccount');
     Route::get('/users', 'UserController@index')->name('users');
     Route::get('/rate', 'RateController@index')->name('rate');
     Route::get('/settings', 'SettingsController@index')->name('settings');
@@ -45,7 +46,7 @@
     Route::get('/coordinator_transaction', 'TransactionController@addTransaction')->name('coordinator_transaction');
     Route::get('/list_transaction', 'TransactionController@listTransactions')->name('transactions_list');
     Route::get('/fix_transaction', 'TransactionController@fixTransaction')->name('transactions_fix');
-  });
+});
 
 
-  Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');

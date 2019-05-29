@@ -99,7 +99,7 @@
                   class="text-left"
                 >
                   <span v-if="key==='since'">
-                    {{ format(rate[key],'DD-MM-YYYY hh:mm:ss') }}
+                    {{ format(rate[key],'DD-MM-YYYY HH:mm A') }}
                   </span>
                   <span v-else-if="key==='amount'">
                     {{ rate[key]|currency }}

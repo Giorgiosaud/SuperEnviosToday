@@ -35,7 +35,7 @@
         v-model="selectedAccount"
         :options="accounts"
         :disabled="!selectedOperator"
-        :get-option-label="selectedAccountLabel"
+        label="number"
         class="col-12 p-0"
       >
         <template
@@ -104,10 +104,17 @@
           <div class="modal-body">
             <div class="container">
               <div class="row">
+                <label
+                  for="selector-banco-venezuela"
+                  class="label-base"
+                >Seleccione Banco</label>
                 <v-select
-                  id="selector-operador-venezuela"
+                  id="selector-banco-venezuela"
                   v-model="selectedBank"
+                  v-validate="'required'"
+                  data-vv-scope="new-account"
                   :options="banks"
+                  name="banco"
                   class="col-12 p-0"
                   index="id"
                   label="name"
@@ -122,12 +129,32 @@
               </div>
               <div class="row">
                 <label
+                  for="selector-operador-venezuela"
+                  class="label-base"
+                >Tipo de cuenta</label>
+                <v-select
+                  id="selector-operador-venezuela"
+                  v-model="selectedType"
+                  v-validate="'required'"
+                  name="tipo de cuenta"
+                  data-vv-scope="new-account"
+                  :options="types"
+                  class="col-12 p-0"
+                  index="id"
+                  label="name"
+                />
+              </div>
+              <div class="row">
+                <label
                   for="accountNumber"
                   class="label-base"
-                >Account Number</label>
+                >Numero de cuenta</label>
                 <input
                   id="accountNumber"
                   v-model="newAccountNumber"
+                  v-validate="'length:20'"
+                  name="numero de cuenta"
+                  data-vv-scope="new-account"
                   type="text"
                   class="input-base"
                 >
@@ -169,6 +196,11 @@ export default {
       selectedAccount: null,
       newAccountNumber: '',
       amount: '',
+      selectedType: null,
+      types: [
+        { id: 'corriente', name: 'Corriente' },
+        { id: 'ahorro', name: 'Ahorro' },
+      ],
     };
   },
   computed: {
@@ -192,21 +224,25 @@ export default {
       });
     },
     showAddAccountModal() {
-      this.getBanks();
+      this.getVenezuelanBanks();
       $('#addAccountModal').modal('show');
     },
     addAccount() {
-      window.axios.post('api/accounts', {
-        user_id: this.selectedOperator.id,
-        is_operator_account: true,
-        bank_id: this.selectedBank,
-        number: this.newAccountNumber,
-      }).then(() => {
-        this.selectedOperator = null;
+      this.$validator.validateAll('new-account').then((result) => {
+        if (result) {
+          window.axios.post('api/accounts', {
+            user_id: this.selectedOperator.id,
+            is_operator_account: true,
+            bank_id: this.selectedBank,
+            number: this.newAccountNumber,
+          }).then(() => {
+            this.selectedOperator = null;
 
-        this.getAccounts();
+            this.getAccounts();
+          });
+          this.closeAddAccount();
+        }
       });
-      this.closeAddAccount();
     },
     closeAddAccount() {
       $('#addAccountModal').modal('hide');
@@ -216,6 +252,7 @@ export default {
     addFunds() {
       window.axios.post('api/add-money-venezuela', {
         to_account_id: this.selectedAccount.id,
+        to_user_id: this.selectedOperator.id,
         amount: this.amount,
       }).then(() => {
         this.amount = '';
@@ -224,8 +261,8 @@ export default {
         alert('monto añadido exitosamente');
       });
     },
-    getBanks() {
-      window.axios.get('api/banks').then((response) => {
+    getVenezuelanBanks() {
+      window.axios.get('api/venezuelan_banks').then((response) => {
         this.banks = response.data;
       });
     },
@@ -234,5 +271,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

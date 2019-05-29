@@ -129,13 +129,13 @@ export default {
     accounts() {
       if (this.selectedOperator) {
         return this.selectedOperator.accounts
-          .filter(account => account.bank.currency === this.selectedCurrency);
+          .filter(account => account.bank.currency.name === this.selectedCurrency);
       }
       return [];
     },
     currencies() {
       if (this.selectedOperator) {
-        return Array.from(new Set(this.selectedOperator.accounts.map(acc => acc.bank.currency)));
+        return [...new Set(this.selectedOperator.accounts.map(acc => acc.bank.currency.name))];
       }
       return [];
     },
@@ -163,6 +163,7 @@ export default {
     addTransaction() {
       window.axios.post('api/adjust-transaction', {
         to_account_id: this.selectedAccount.id,
+        to_user_id: this.selectedOperator.id,
         type: this.selectedTransactionType,
         amount: this.amount,
       }).then(() => {
@@ -179,5 +180,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
