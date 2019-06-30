@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <assign-operators-account>
-    </assign-operators-account>
+    <asociate-operator-account>
+    </asociate-operator-account>
 @endsection

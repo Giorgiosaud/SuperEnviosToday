@@ -22,4 +22,5 @@ mix.js('resources/js/app.js', 'public/js')
   .styles([
     'public/css/sass.css',
     'public/css/stylus.css',
-  ], 'public/css/app.css');
+  ], 'public/css/app.css')
+  .version();
