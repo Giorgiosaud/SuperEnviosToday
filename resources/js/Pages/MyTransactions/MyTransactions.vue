@@ -61,8 +61,8 @@
                       {{ transaction.client.name }} {{ transaction.client.last_name }}
                     </span>
                     <span v-else-if="key==='operator_destination'">
-                      {{ transaction.destination_account.owner.name }}
-                      {{ transaction.destination_account.owner.last_name }}
+                      {{ transaction.related_transactions[0].to_user.name }}
+                      {{ transaction.related_transactions[0].to_user.last_name }}
                     </span>
                     <span v-else-if="key==='bank_destination'">
                       {{ transaction.destination_account.bank.name }} /
@@ -119,7 +119,7 @@
           class="modal-content"
         >
           <div class="modal-header">
-            Ver detalles y completar Transaccion #{{ selectedTransaction.id }}
+            Ver detalles y completar Transaccion #{{ selectedTransaction.id }} status: {{ venezuelanTransaction.status }}
             <button
               aria-label="Close"
               class="close"
@@ -147,7 +147,7 @@
                   {{ selectedTransaction.client.idn }}
                   <br>
                   Monto: {{ selectedTransaction.amount|currency }} {{
-                  selectedTransaction.destination_account.bank.currency.identificator }}
+                    selectedTransaction.destination_account.bank.currency.identificator }}
                   <br>
                 </div>
                 <div
@@ -169,17 +169,19 @@
                   class="col-12"
                 >
                   <h3>Transaccion Venezuela</h3>
-                  Nombre del Receptor: {{ venezuelanTransaction.destination_account.owner.name }}
-                  {{ venezuelanTransaction.destination_account.owner.last_name }}
+                  Nombre del Operador venezuela: {{ venezuelanTransaction.from_user.name }} {{ venezuelanTransaction.from_user.last_name }}
+                  </br>
+                  Nombre del Receptor: {{ venezuelanTransaction.to_user.name }}
+                  {{ venezuelanTransaction.to_user.last_name }}
                   <br>
-                  Identificacion: {{ venezuelanTransaction.destination_account.owner.idn_type }} -
-                  {{ venezuelanTransaction.destination_account.owner.idn }}
+                  Identificacion: {{ venezuelanTransaction.to_user.idn_type }} -
+                  {{ venezuelanTransaction.to_user.idn }}
                   <br>
                   Monto: {{ venezuelanTransaction.amount|currency }} {{
-                  venezuelanTransaction.destination_account.bank.currency.identificator }}
+                    venezuelanTransaction.destination_account.bank.currency.identificator }}
                   <br>
                   Impuesto Bancario: {{ venezuelanTax.amount|currency }} {{
-                  venezuelanTransaction.destination_account.bank.currency.identificator }}
+                    venezuelanTransaction.destination_account.bank.currency.identificator }}
                   <br>
                   Tasa de cambio {{ venezuelanTransaction.amount/selectedTransaction.amount|currency }}
                   <hr>
@@ -213,7 +215,7 @@
               Cerrar
             </button>
             <button
-              :disabled="selectedTransaction.status==='terminated'"
+              :disabled="venezuelanTransaction.status!=='executed'"
               class="btn btn-primary"
               @click="confirmarTransferencia"
             >
@@ -275,6 +277,7 @@ export default {
       axios.patch(`/api/finish-transaction/${this.selectedTransaction.id}`)
         .then(() => {
           $('#modal').modal('hide');
+          this.getTransactions();
         });
     },
     getTransactions() {
@@ -290,5 +293,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

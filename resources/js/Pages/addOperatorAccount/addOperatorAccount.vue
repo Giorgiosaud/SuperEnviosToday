@@ -1,34 +1,9 @@
 <template>
   <div class="container">
     <div class="row">
-      <h1>Agregar Cuentas a Operadores</h1>
+      <h1>Agregar Cuentas</h1>
     </div>
     <div class="row">
-      <div class="col-12">
-        <label for="currencyId">Seleccione el Operador</label>
-
-        <v-select
-          v-model="selectedOperator"
-          v-validate="'required'"
-          :options="foreign_users"
-          :clearable="false"
-          label="name"
-          name="Usuario"
-        >
-          <template
-            slot="option"
-            slot-scope="option"
-          >
-            {{ option.name }} {{ option.last_name }}
-          </template>
-        </v-select>
-        <span
-          class="error-base"
-          role="alert"
-        >
-          <strong>{{ errors.first('Usuario') }}</strong>
-        </span>
-      </div>
       <div class="col-12">
         <label for="currencyId">Seleccione el tipo de moneda</label>
         <v-select
@@ -63,6 +38,18 @@
         >
           <strong>{{ errors.first('Banco') }}</strong>
         </span>
+      </div>
+      <div
+        v-if="selectedCurrency && selectedCurrency.identificator==='BsS'"
+        class="col-12"
+      >
+        <label for="bankId">Seleccione el Tipo de Cuenta</label>
+        <v-select
+          id="bankId"
+          v-model="selectedAccountType"
+          :options="['ahorro','corriente']"
+          name="Tipo de Cuenta"
+        />
       </div>
       <div class="col-12">
         <label for="number">Número de Cuenta</label>
@@ -100,17 +87,15 @@
 import axios from 'axios';
 
 export default {
-  name: 'AssignOperatorAccount',
+  name: 'AddOperatorAccount',
   data() {
     return {
-      selectedOperator: null,
-      foreign_users: [],
+      selectedAccountType: null,
       banks: [],
       currencies: [],
       selectedCurrency: null,
       selectedBank: null,
       number: '',
-      disableCurrencySelector: false,
     };
   },
   computed: {
@@ -126,20 +111,9 @@ export default {
       this.getBanks(val.id);
       this.selectedBank = null;
     },
-    selectedOperator(val) {
-      if (val.roles.length === 1) {
-        if (val.roles.some(role => role.name_id === 'venezuelan_operator')) {
-          this.selectedCurrency = this.currencies.find(curr => curr.identificator === 'BsS');
-          this.disableCurrencySelector = true;
-        } else {
-          this.disableCurrencySelector = false;
-        }
-      }
-    },
   },
 
   created() {
-    this.getForgeinUsers();
     this.getCurrencies();
   },
   methods: {
@@ -154,9 +128,9 @@ export default {
       });
     },
     addAccount() {
-      axios.post('api/operator-account', {
-        user_id: this.selectedOperator.id,
+      axios.post('api/add-account', {
         bank_id: this.selectedBank.id,
+        type: this.selectedAccountType,
         number: this.number,
       })
         .then(() => {
@@ -164,18 +138,10 @@ export default {
           this.selectedOperator = null;
           this.selectedCurrency = null;
           this.selectedBank = null;
+          this.selectedAccountType = null;
           this.number = '';
         });
-    },
-    getForgeinUsers() {
-      axios.get('api/operators').then(({ data }) => {
-        this.foreign_users = data;
-      });
     },
   },
 };
 </script>
-
-<style scoped>
-
-</style>
