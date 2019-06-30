@@ -69,10 +69,10 @@
       class="w-100 d-flex align-center justify-content-center"
     >
       <div class="loading">
-          <div/>
-          <div/>
-          <div/>
-          <div/>
+        <div />
+        <div />
+        <div />
+        <div />
       </div>
     </div>
     <div
@@ -395,7 +395,7 @@
               <td>
                 <button
                   class="btn btn-primary"
-                  @click="assignVenezuelanAccount(venezuelan_account)"
+                  @click="assignVenezuelanAccount(venezuelan_account,operador)"
                 >
                   Seleccionar Cuenta Venezuela
                 </button>
@@ -451,12 +451,12 @@
   </div>
 </template>
 <script>
-    import vue2Dropzone from 'vue2-dropzone';
-    import addVenezuelanAccount from '../../components/addVenezuelanAccount';
-    import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import vue2Dropzone from 'vue2-dropzone';
+import addVenezuelanAccount from '../../components/addVenezuelanAccount';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 
-    export default {
-        name: 'MakeTransactions',
+export default {
+  name: 'MakeTransactions',
   components: {
     addVenezuelanAccount,
     vueDropzone: vue2Dropzone,
@@ -488,6 +488,7 @@
       propsOfComponent: {},
       dropImage1: null,
       clientTransactionAttachmentId: [],
+      selectedvenezuelanOperator: null,
     };
   },
   computed: {
@@ -507,9 +508,9 @@
         dictRemoveFile: 'Archivo Borrado',
       };
     },
-      relatedRateInt() {
-          return parseInt(this.actualRate.replace(',', '.'), 10);
-      },
+    relatedRateInt() {
+      return parseInt(this.actualRate.replace(',', '.'), 10);
+    },
     operatorAccounts() {
       if (!this.operator || !this.selectedCurrency) {
         return [];
@@ -532,10 +533,7 @@
     selectedCurrency(currency) {
       this.selectedOperatorAccount = null;
       axios.get(`api/last_rate/${currency.id}`).then((response) => {
-          this.actualRate
-
-
-              = response.data.amount;
+        this.actualRate = response.data.amount;
       });
     },
   },
@@ -569,11 +567,12 @@
     errorSaveClientVoucher(files) {
       this.$refs.myVueDropzone.removeFile(files);
     },
-      alertDuplicateFile() {
-          alert('archivo duplicado');
-      },
-      assignVenezuelanAccount(account) {
+    alertDuplicateFile() {
+      alert('archivo duplicado');
+    },
+    assignVenezuelanAccount(account, operador) {
       this.selectedvenezuelanAccount = account.id;
+      this.selectedvenezuelanOperator = operador.id;
     },
     agregarCliente() {
       this.modalTitle = 'Agregar Cliente';
@@ -650,13 +649,29 @@
         received_transaction_attachment_ids: this.clientTransactionAttachmentId,
         receiver_account_id: this.selectedReceiverAccount.id,
         venezuelan_operator_account_id: this.selectedvenezuelanAccount,
+        venezuelan_operator_id: this.selectedvenezuelanOperator,
+        receiver_user_id: this.selectedReceiver.id,
         rate: this.actualRate,
         amount: this.amount,
       };
-      axios.post('api/add-transaction', payload)
-        .then(() => {
-          alert('transaction ok');
-          window.location.reload();
+      axios.get('api/is-repeated-transaction', { params: payload })
+        .then((response) => {
+          let answer = true;
+          if (response.data.isRepeated) {
+            answer = confirm('ya hay una transaccion parecida ¿quiere repetirla?');
+          }
+          if (!answer) {
+            alert('transaccion cancelada');
+            return window.location.reload();
+          }
+          axios.post('api/add-transaction', payload)
+            .then(() => {
+              alert('transaccion realizada ok');
+              window.location.reload();
+            })
+            .catch((err) => {
+              alert(err.response.data.message);
+            });
         });
     },
   },
@@ -665,11 +680,11 @@
 
 <!--suppress CssUnusedSymbol -->
 <style scoped>
-    tr.active {
-        background: #bcdefa;
-    }
+tr.active {
+  background: #bcdefa;
+}
 
-    .modal-dialog {
-        max-width: 90%;
-    }
+.modal-dialog {
+  max-width: 90%;
+}
 </style>

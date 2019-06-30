@@ -5,7 +5,7 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
-            <div class="card-header">{{ __('Reset Password') }}</div>
+            <div class="card-header">{{ __('Reinciiar Contraseña') }}</div>
 
             <div class="card-body">
                 @if (session('status'))
@@ -18,7 +18,7 @@
                     @csrf
 
                     <div class="form-group row">
-                        <label for="idn_type" class="col-md-4 col-form-label text-md-right">{{ __('Identification Type') }}</label>
+                        <label for="idn_type" class="col-md-4 col-form-label text-md-right">{{ __('Tipo de Identificación') }}</label>
 
                         <div class="col-md-6">
                             <select
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="idn" class="col-md-4 col-form-label text-md-right">{{ __('Identification Number') }}</label>
+                        <label for="idn" class="col-md-4 col-form-label text-md-right">{{ __('Número de Identificación') }}</label>
 
                         <div class="col-md-6">
                             <input id="idn" type="idn" class="form-control{{ ($errors->has('idn_type') || $errors->has('idn') )? ' is-invalid' : '' }}" name="idn" value="{{ old('idn') }}" required>
@@ -50,7 +50,7 @@
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
                             <button type="submit" class="btn btn-primary">
-                                {{ __('Send Password Reset Link') }}
+                                {{ __('Enviar link de reinicio al correo') }}
                             </button>
                         </div>
                     </div>

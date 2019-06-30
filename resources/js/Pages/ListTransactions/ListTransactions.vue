@@ -63,9 +63,9 @@
                     <span v-else-if="key==='name' && transaction.client">
                       {{ transaction.client.name }} {{ transaction.client.last_name }}
                     </span>
-                    <span v-else-if="key==='operator_destination'">
-                      {{ transaction.destination_account.owner.name }}
-                      {{ transaction.destination_account.owner.last_name }}
+                    <span v-else-if="key==='operator_destination' && transaction.related_transactions[0]">
+                      {{ transaction.related_transactions[0].to_user.name }}
+                      {{ transaction.related_transactions[0].to_user.last_name }}
                     </span>
                     <span v-else-if="key==='bank_destination'">
                       {{ transaction.destination_account.bank.name }} /
@@ -172,11 +172,11 @@
                   class="col-12"
                 >
                   <h3>Transaccion Venezuela</h3>
-                  Nombre del Receptor: {{ venezuelanTransaction.destination_account.owner.name }}
-                  {{ venezuelanTransaction.destination_account.owner.last_name }}
+                  Nombre del Receptor: {{ venezuelanTransaction.to_user.name }}
+                  {{ venezuelanTransaction.to_user.last_name }}
                   <br>
-                  Identificacion: {{ venezuelanTransaction.destination_account.owner.idn_type }} -
-                  {{ venezuelanTransaction.destination_account.owner.idn }}
+                  Identificacion: {{ venezuelanTransaction.to_user.idn_type }} -
+                  {{ venezuelanTransaction.to_user.idn }}
                   <br>
                   Monto: {{ venezuelanTransaction.amount|currency }} {{
                     venezuelanTransaction.destination_account.bank.currency.identificator }}
@@ -268,7 +268,7 @@ export default {
   },
   methods: {
     operatorOfTransaction(transaction) {
-      return transaction.destination_account.owner.name+ ' '+transaction.destination_account.owner.last_name;
+      return `${transaction.to_user.name} ${transaction.to_user.last_name}`;
     },
     seeTransaction(transaction) {
       // TODO SEE TRANSACTION
@@ -297,5 +297,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

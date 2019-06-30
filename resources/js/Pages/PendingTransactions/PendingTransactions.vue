@@ -68,13 +68,13 @@
                   {{ transaction.client.name }} {{ transaction.client.last_name }}
                 </span>
                 <span v-else-if="key==='foreign_operator'">
-                  {{ transaction.foreign_account.owner.name }}
+                  {{ transaction.foreign_operator.name }} {{ transaction.foreign_operator.last_name }}
                 </span>
                 <span v-else-if="key==='receiver_bank'">
                   {{ transaction.receiver_account.bank.name }}
                 </span>
                 <span v-else-if="key==='operator_venezuela'">
-                  {{ transaction.operator_account.owner.name }}
+                  {{ transaction.venezuelan_operator.name }} {{ transaction.venezuelan_operator.last_name }}
                 </span>
 
                 <span v-else-if="key==='operator_bank'">
@@ -215,5 +215,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

@@ -4,6 +4,8 @@
 
   use App\Account;
   use App\Attachment;
+  use App\Bank;
+  use App\Currency;
   use App\PendingTransaction;
   use App\Rate;
   use App\Setting;
@@ -251,5 +253,35 @@
       return $transaction;
     }
 
+    /**
+     * @test
+     */
+    public function aTransactionIsMakeAndAcceptedBecauseRateIsSameOfActual(){
+      $this->withoutExceptionHandling();
+      $currencyBase=factory(Currency::class)->create(['identificator'=>'Bs']);
+      $client=factory(User::class)->create();
+      $vzlaBank=factory(Bank::class)->create(['currency_id'=>$currencyBase]);
+      $foreignUser=$this->actingAsForeignOperator();
+      $acc=factory(Account::class)->create(['user_id'=>$foreignUser->id]);
+      $receiveracc=factory(Account::class)->create(['bank_id'=>$vzlaBank->id]);
+      $rate=factory(Rate::class)->create(['currency_id'=>$acc->bank->currency->id]);
+
+      $venezuelanOp=factory(User::class)->create();
+      $venezuelanOp->setRole('venezuelan_operator');
+      $vopacc=factory(Account::class)->create(['user_id'=>$venezuelanOp->id,'bank_id'=>$vzlaBank->id]);
+      factory(Transaction::class)->create(['to_account_id'=>$vopacc->id,'amount'=>100000000000000000,'type'=>'income','status'=>'terminated']);
+
+      $this->postJson(route('save_transaction'),[
+        'amount'=> "10000",
+        'client_id'=> $client->id,
+        'foreign_account_id'=> $acc->id,
+        'rate'=> $rate->amount,
+        'received_transaction_attachment_ids'=> [],
+        'receiver_account_id'=> $receiveracc->id,
+        'venezuelan_operator_account_id'=> $vopacc->id])
+        ->assertStatus(201);
+
+
+    }
   }
 
