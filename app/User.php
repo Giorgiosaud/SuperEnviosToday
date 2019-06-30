@@ -85,7 +85,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * @var array
      */
-    protected $with = ['roles','accounts'];
+    protected $with = ['roles', 'accounts'];
 
     /**
      *
@@ -110,7 +110,6 @@ class User extends Authenticatable implements CanResetPassword
     {
         $this->roles()->toggle($roleName);
         return $this->touch();
-
     }
 
     /**
@@ -118,8 +117,8 @@ class User extends Authenticatable implements CanResetPassword
      */
     public function setRole(String $roleName)
     {
-        $actualRoles=$this->roles->pluck('name_id');
-        if(!$actualRoles->contains($roleName)){
+        $actualRoles = $this->roles->pluck('name_id');
+        if (!$actualRoles->contains($roleName)) {
             $actualRoles->push($roleName);
         }
         $this->roles()->sync($actualRoles);
@@ -137,7 +136,6 @@ class User extends Authenticatable implements CanResetPassword
         $this->roles()->sync($roles);
         $this->touch();
         return $this;
-
     }
 
     /**
@@ -151,34 +149,44 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * @return HasMany
      */
-    public function accounts()
+    public function accountsOld()
     {
         return $this->hasMany(Account::class);
     }
-
     /**
-     * @return BelongsToMany
+     * @return HasMany
      */
-    public function receivers(){
-        return $this->belongsToMany(User::class,'users_receivers','user_id','receiver_id')->withTimestamps();
+    public function accounts()
+    {
+        return $this->belongsToMany(Account::class);
     }
 
     /**
      * @return BelongsToMany
      */
-    public function senders(){
-        return $this->belongsToMany(User::class,'users_receivers','receiver_id','user_id')->withTimestamps();
+    public function receivers()
+    {
+        return $this->belongsToMany(User::class, 'users_receivers', 'user_id', 'receiver_id')->withTimestamps();
     }
 
-  /**
-   * Get the e-mail address where password reset links are sent.
-   *
-   * @return array
-   */
-  public function getDataFromUserForToken() {
-    return [
-      'idn'=>$this->idn,
-      'idn_type'=>$this->idn_type,
-    ];
-  }
+    /**
+     * @return BelongsToMany
+     */
+    public function senders()
+    {
+        return $this->belongsToMany(User::class, 'users_receivers', 'receiver_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * Get the e-mail address where password reset links are sent.
+     *
+     * @return array
+     */
+    public function getDataFromUserForToken()
+    {
+        return [
+            'idn' => $this->idn,
+            'idn_type' => $this->idn_type,
+        ];
+    }
 }

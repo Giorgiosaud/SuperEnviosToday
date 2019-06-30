@@ -115,6 +115,9 @@ export default {
       })
         .then(() => {
           this.$emit('accountRegistered');
+          this.account_bank_id = '';
+          this.account_type = '';
+          this.number = '';
         });
     },
   },
@@ -124,5 +127,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

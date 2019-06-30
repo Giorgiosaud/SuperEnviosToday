@@ -39,15 +39,15 @@
                 <label class="label-base">
                     <input class="mr-2 leading-tight" type="checkbox" name="remember"
                            id="remember" {{ old('remember') ? 'checked' : '' }}> <span class="text-sm">
-            {{ __('Remember Me') }}
+            {{ __('Mantenerme Conectado') }}
         </span></label>
                 <div class="flex items-center justify-between">
                     <button class="btn-primary" type="submit">
                         {{--  --}}
-                        {{ __('Login') }}
+                        {{ __('Iniciar Sesión') }}
                     </button>
                     <a class="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker"
-                       href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
+                       href="{{ route('password.request') }}">{{ __('¿Olvidó su clave?') }}</a>
                 </div>
             </form>
             <p class="text-center text-grey text-xs">
