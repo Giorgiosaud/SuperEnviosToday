@@ -14,7 +14,7 @@
         public function run()
         {
             Transaction::flushEventListeners();
-            
+
             $venezuelan_operator = Role::find('venezuelan_operator')->users->first();
             factory(Transaction::class)->create([
                 'to_account_id' => $venezuelan_operator->accounts->first()->id,
