@@ -3,15 +3,15 @@
 namespace Tests\Feature;
 
 use App\Account;
-  use App\Transaction;
-  use App\User;
-  use Illuminate\Foundation\Testing\RefreshDatabase;
-  use Laravel\Passport\Passport;
-  use Tests\TestCase;
+use App\Transaction;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
-  /**
-   * Class UserTest.
-   */
+/**
+ * Class UserTest.
+ */
   class AccountsTest extends TestCase
   {
       use RefreshDatabase;
