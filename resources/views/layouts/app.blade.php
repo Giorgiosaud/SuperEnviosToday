@@ -54,8 +54,7 @@
                                 <a class="dropdown-item" href="{{route('registerOperator')}}">Registrar
                                     Operador</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{route('registerOperatorAccount')}}">Agregar Cuenta
-                                    para Operador </a>
+                                <a class="dropdown-item" href="{{route('registerOperatorAccount')}}">Agregar Cuenta</a>
                                     <a class="dropdown-item" href="{{route('assignOperatorAccount')}}">Asignar Operador a cuenta</a>
                                 <a class="dropdown-item" href="{{route('addFoundsToVenezuelanOperator')}}">Agregar
                                     Fondos a Operador Venezuela</a>
