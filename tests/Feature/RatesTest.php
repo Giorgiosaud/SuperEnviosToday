@@ -3,14 +3,14 @@
 namespace Tests\Feature;
 
 use App\Currency;
-    use App\Rate;
-    use Carbon\Carbon;
-    use Illuminate\Foundation\Testing\RefreshDatabase;
-    use Tests\TestCase;
+use App\Rate;
+use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-    /**
-     * Class UserTest.
-     */
+/**
+ * Class UserTest.
+ */
     class RatesTest extends TestCase
     {
         use RefreshDatabase;

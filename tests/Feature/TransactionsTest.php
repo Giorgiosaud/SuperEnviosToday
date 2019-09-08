@@ -3,23 +3,23 @@
 namespace Tests\Feature;
 
 use App\Account;
-  use App\Attachment;
-  use App\Bank;
-  use App\Currency;
-  use App\PendingTransaction;
-  use App\Rate;
-  use App\Setting;
-  use App\Transaction;
-  use App\User;
-  use Carbon\Carbon;
-  use Illuminate\Foundation\Testing\RefreshDatabase;
-  use Tests\TestCase;
+use App\Attachment;
+use App\Bank;
+use App\Currency;
+use App\PendingTransaction;
+use App\Rate;
+use App\Setting;
+use App\Transaction;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-  /**
-   * Class UserTest.
-   *
-   * @property Account $venezuelan_account
-   */
+/**
+ * Class UserTest.
+ *
+ * @property Account $venezuelan_account
+ */
   class TransactionsTest extends TestCase
   {
       use RefreshDatabase;
