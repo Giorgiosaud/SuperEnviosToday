@@ -38,6 +38,7 @@
           :options="currencies"
           :clearable="false"
           label="name"
+          name="currency_id"
         />
         <span
           class="error-base"

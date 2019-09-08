@@ -33,6 +33,7 @@
         class="bg-white"
         label="name"
         index="name_id"
+        name="name_id"
         multiple
       />
       <span

@@ -10,9 +10,9 @@
           id="currencyId"
           v-model="selectedCurrency"
           v-validate="'required'"
+          name="currency_id"
           :options="currencies"
           :clearable="false"
-          :disabled="disableCurrencySelector"
           label="name"
         />
         <span
