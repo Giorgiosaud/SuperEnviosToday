@@ -34,6 +34,5 @@ class RemoveUserIdFromAccountsTable extends Migration
         Schema::table('accounts', function (Blueprint $table) {
             $table->unsignedInteger('user_id')->nullable();
         });
-        
     }
 }
