@@ -397,7 +397,7 @@
               </th>
             </tr>
             <tr
-              v-for="(venezuelan_account,vacindex) in operador.accounts"
+              v-for="(venezuelan_account,vacindex) in venezuelanAccountsFrom(operador.accounts)"
               :key="vacindex"
               :class="{active:selectedvenezuelanAccount === venezuelan_account.id}"
             >
@@ -569,6 +569,9 @@ export default {
       });
   },
   methods: {
+    venezuelanAccountsFrom(accounts) {
+      return accounts.filter(acc => acc.bank.currency.name.indexOf('Bolivares') !== -1);
+    },
     updateOperatorBalance() {
       axios.get('api/operadores-venezuela').then((response) => {
         this.operadoresVenezuela = response.data;

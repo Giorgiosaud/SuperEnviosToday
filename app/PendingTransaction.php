@@ -29,6 +29,7 @@ class PendingTransaction extends Model
         'venezuelan_operator_account_id',
         'rate',
         'amount',
+        'transaction_number',
         'status',
     ];
 

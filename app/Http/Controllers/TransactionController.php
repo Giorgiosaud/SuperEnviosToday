@@ -192,6 +192,10 @@ class TransactionController extends Controller
 
     public function isRepeated(Request $request)
     {
+        $transactionSameNumber= Transaction::where(['transaction_number' => $request->transaction_number])->first();
+        if($transactionSameNumber){
+            return ['isRepeated' => true];
+        }
         $transactionTodayAndSameAmountAndUser = Transaction::whereDate('created_at', Carbon::today())->where(['from_user_id' => $request->client_id, 'amount' => $request->amount * 10000])->first();
         if (!$transactionTodayAndSameAmountAndUser) {
             return ['isRepeated' => false];
@@ -205,10 +209,7 @@ class TransactionController extends Controller
         if (!$transactionWithamountTransactionIdReceiverAccount) {
             return ['isRepeated' => false];
        }
-        $transactionSameNumber= Transaction::where(['transaction_number' => $request->transaction_number])->first();
-        if (!$transactionSameNumber) {
-            return ['isRepeated' => false];
-        }
+        
         return ['isRepeated' => true];
     }
 }
