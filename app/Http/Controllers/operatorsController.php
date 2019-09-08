@@ -1,10 +1,8 @@
 <?php
 
-    namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
-    use App\Role;
-    use App\User;
-    use Illuminate\Http\Request;
+use App\Role;
 
     class operatorsController extends Controller
     {
@@ -12,14 +10,17 @@
         {
             return view('coordinator.addFundsToOperator');
         }
-        public function venezuelanList(){
+
+        public function venezuelanList()
+        {
             return view('operators.venezuelan-list');
-
         }
-        public function foreignList(){
+
+        public function foreignList()
+        {
             return view('operators.foreign-list');
-
         }
+
         public function venezuelanIndex()
         {
             return Role::whereName('Operador Venezolano')
@@ -28,6 +29,7 @@
                 ->with('accounts')
                 ->get();
         }
+
         public function foreignIndex()
         {
             return Role::whereName('Operador Extranjero')
@@ -36,5 +38,6 @@
                 ->with('accounts')
                 ->get();
         }
+
         //
     }

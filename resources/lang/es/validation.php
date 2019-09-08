@@ -13,7 +13,6 @@ return [
     |
     */
 
-
     'accepted'              => 'El campo :attribute debe ser aceptado.',
     'active_url'            => 'El campo :attribute no es una URL válida.',
     'after'                 => 'El campo :attribute debe ser una fecha después de :date.',
@@ -63,7 +62,7 @@ return [
     'ipv4'                  => 'El campo :attribute debe ser una dirección IPv4 válida.',
     'ipv6'                  => 'El campo :attribute debe ser una dirección IPv6 válida.',
     'json'                  => 'El campo :attribute debe ser una cadena JSON válida.',
-    'lt'                   => [
+    'lt'                    => [
         'numeric' => 'El campo :attribute debe ser menor que :max.',
         'file'    => 'El campo :attribute debe ser menor que :max kilobytes.',
         'string'  => 'El campo :attribute debe ser menor que :max caracteres.',
@@ -112,10 +111,10 @@ return [
     'string'                => 'El campo :attribute debe ser una cadena.',
     'timezone'              => 'El campo :attribute debe ser una zona válida.',
     'unique'                => 'El campo :attribute ya ha sido tomado.',
-    'uploaded'              => 'El campo :attribute no ha podido ser cargado.', 
+    'uploaded'              => 'El campo :attribute no ha podido ser cargado.',
     'url'                   => 'El formato de :attribute es inválido.',
     'uuid'                  => 'El :attribute debe ser un UUID valido.',
-    
+
     /*
     |--------------------------------------------------------------------------
     | Validación del idioma personalizado
@@ -145,5 +144,5 @@ return [
     */
 
     'attributes' => [],
-    
+
 ];

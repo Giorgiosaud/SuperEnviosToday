@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:api', 'role:coordinator,foreign_operator']]
     Route::get('user_data', 'UserController@userData');
     Route::post('accounts', 'AccountController@store')->name('save_account');
     Route::post('add-transaction', 'TransactionController@normalstore')->name('save_transaction');
-    Route::get('is-repeated-transaction', 'TransactionController@isRepeated')->name('is_repeated_transaction');;
+    Route::get('is-repeated-transaction', 'TransactionController@isRepeated')->name('is_repeated_transaction');
 
     Route::get('foreign_currencies', 'CurrencyController@foreignIndex')->name('foreign_currencies');
     Route::get('my-pending-transactions', 'PendingTransactionController@myPendingTransactionsAPI')->name('my-pending-transactions');

@@ -13,10 +13,10 @@ return [
     |
     */
 
-    'Name' => 'Nombre',
-    'E-Mail Address'=>'E-Mail Address',
-    'Email'=>'E-Mail',
-    'Password'=>'Password',
-    'Confirm Password'=>'Confirm Password',
-    'DNI'=>'RUT/DNI/Cedula',
+    'Name'            => 'Nombre',
+    'E-Mail Address'  => 'E-Mail Address',
+    'Email'           => 'E-Mail',
+    'Password'        => 'Password',
+    'Confirm Password'=> 'Confirm Password',
+    'DNI'             => 'RUT/DNI/Cedula',
 ];

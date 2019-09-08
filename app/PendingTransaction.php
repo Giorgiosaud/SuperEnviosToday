@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\PendingTransaction
+ * App\PendingTransaction.
  *
  * @method static Builder|PendingTransaction newModelQuery()
  * @method static Builder|PendingTransaction newQuery()
@@ -29,7 +29,7 @@ class PendingTransaction extends Model
         'venezuelan_operator_account_id',
         'rate',
         'amount',
-        'status'
+        'status',
     ];
 
     public function attachments()
@@ -41,14 +41,17 @@ class PendingTransaction extends Model
     {
         return $this->belongsTo(User::class, 'client_id');
     }
+
     public function receiver()
     {
         return $this->belongsTo(User::class, 'receiver_id');
     }
+
     public function venezuelanOperator()
     {
         return $this->belongsTo(User::class, 'venezuelan_operator_id');
     }
+
     public function foreignOperator()
     {
         return $this->belongsTo(User::class, 'foreign_id');
@@ -58,10 +61,12 @@ class PendingTransaction extends Model
     {
         return $this->belongsTo(Account::class, 'foreign_account_id');
     }
+
     public function receiver_account()
     {
         return $this->belongsTo(Account::class, 'receiver_account_id');
     }
+
     public function operator_account()
     {
         return $this->belongsTo(Account::class, 'venezuelan_operator_account_id');
@@ -86,5 +91,6 @@ class PendingTransaction extends Model
     {
         $this->attributes['amount'] = $value * 10000;
     }
+
     //
 }

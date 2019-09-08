@@ -1,12 +1,12 @@
 <?php
 
-    namespace Tests\Unit;
+namespace Tests\Unit;
 
-    use App\Attachment;
+use App\Attachment;
     use Illuminate\Foundation\Testing\RefreshDatabase;
-    use Tests\TestCase;
     use Illuminate\Http\UploadedFile;
     use Illuminate\Support\Facades\Storage;
+    use Tests\TestCase;
 
     class AttachmentTest extends TestCase
     {
@@ -16,23 +16,24 @@
         {
             Storage::fake('public');
             $this->postJson('api/attachment', [
-                'file' => UploadedFile::fake()->image('avatar2.jpg')
+                'file' => UploadedFile::fake()->image('avatar2.jpg'),
             ]);
             $attachment = Attachment::where('name', 'LIKE', '%avatar%')->get();
             $this->assertCount(1, $attachment);
-            $path = str_replace('storage', '',$attachment->first()->path);
+            $path = str_replace('storage', '', $attachment->first()->path);
             Storage::disk('public')->assertExists($path);
-
         }
-        public function tryToAddAttachment(){
+
+        public function tryToAddAttachment()
+        {
             Storage::fake('public');
-            $allAttachments=Attachment::all();
+            $allAttachments = Attachment::all();
             $this->postJson('api/attachment', [
-                'file' => UploadedFile::fake()->image('avatar2.jpg')
+                'file' => UploadedFile::fake()->image('avatar2.jpg'),
             ]);
-            $allAttachmentsPost=Attachment::all();
-            $this->assertEquals($allAttachmentsPost,$allAttachments);
-            $this->assertCount(1,$allAttachmentsPost);
+            $allAttachmentsPost = Attachment::all();
+            $this->assertEquals($allAttachmentsPost, $allAttachments);
+            $this->assertCount(1, $allAttachmentsPost);
         }
 
         /**
@@ -42,7 +43,6 @@
         {
             $this->actingAsCoordinator();
             $this->addAttachment();
-
         }
 
         /**
@@ -88,5 +88,4 @@
         {
             $this->addAttachment();
         }
-
     }
