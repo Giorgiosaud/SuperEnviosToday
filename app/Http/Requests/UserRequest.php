@@ -24,13 +24,13 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => ['required', 'string', 'max:255'],
+            'name'          => ['required', 'string', 'max:255'],
             'last_name'     => ['required', 'string', 'max:255'],
-            'idn'     => ['required', 'string', 'max:255'],
-            'idn_type'     => ['required', 'in:CI,PASSPORT,RUT,DNI'],
-            'phone'     => ['string'],
-            'address'     => ['string'],
-            'email'    => [ 'string', 'email', 'max:255'],
+            'idn'           => ['required', 'string', 'max:255'],
+            'idn_type'      => ['required', 'in:CI,PASSPORT,RUT,DNI'],
+            'phone'         => ['string'],
+            'address'       => ['string'],
+            'email'         => ['string', 'email', 'max:255'],
         ];
     }
 }

@@ -1,18 +1,17 @@
 <?php
 
-    namespace Tests\Feature;
+namespace Tests\Feature;
 
-    use App\Currency;
+use App\Currency;
     use App\Events\RegisteredOperator;
     use App\User;
+    use Illuminate\Foundation\Testing\RefreshDatabase;
     use Illuminate\Support\Facades\Event;
     use Tests\TestCase;
-    use Illuminate\Foundation\Testing\RefreshDatabase;
-
 
     /**
-     * Class UserTest
-     * @package Tests\Feature
+     * Class UserTest.
+     *
      * @property User $user
      */
     class UserTest extends TestCase
@@ -21,9 +20,6 @@
 
         private $user;
 
-        /**
-         *
-         */
         protected function createUser()
         {
             $this->user = factory(User::class)->create();
@@ -32,7 +28,9 @@
 
         /**
          * A basic test example.
+         *
          * @test
+         *
          * @return void
          */
         public function aUsersAPIWORKS()
@@ -42,7 +40,6 @@
             $this->actingAsCoordinator();
             $response = $this->get('/api/users')->assertStatus(200);
             $response->assertJsonCount(11, $key = 'data');
-
         }
 
         /**
@@ -68,7 +65,6 @@
             $this->actingAsCoordinator();
             $response = $this->get('/api/operadores-venezuela');
             $response->assertJsonCount(20);
-
         }
 
         /**
@@ -84,7 +80,6 @@
             }
             $this->getJson(route('venezuelan_operators_api'))
                 ->assertJsonCount(30);
-
         }
 
         /**
@@ -95,17 +90,17 @@
             $this->actingAsCoordinator();
             Event::fake();
             $this->postJson('api/registerMember', [
-                "address" => "avenida",
-                "email" => "jorgelsaud@gmail.com",
-                "email_confirmation" => "jorgelsaud@gmail.com",
-                "idn" => "263215982",
-                "idn_type" => "CI",
-                "last_name" => "bruces",
-                "name" => "Dea",
-                "password" => "123123123",
-                "password_confirmation" => "123123123",
-                "phone" => "123123123",
-                "roles" => ["venezuelan_operator"],
+                'address'               => 'avenida',
+                'email'                 => 'jorgelsaud@gmail.com',
+                'email_confirmation'    => 'jorgelsaud@gmail.com',
+                'idn'                   => '263215982',
+                'idn_type'              => 'CI',
+                'last_name'             => 'bruces',
+                'name'                  => 'Dea',
+                'password'              => '123123123',
+                'password_confirmation' => '123123123',
+                'phone'                 => '123123123',
+                'roles'                 => ['venezuelan_operator'],
             ]);
             Event::assertDispatched(RegisteredOperator::class);
         }
@@ -131,13 +126,15 @@
 
         /**
          * A basic test example.
+         *
          * @test
+         *
          * @return void
          */
         public function onlyACoordinatorOrForeignOperatorCanAskForclientData()
         {
             $this->createUser();
-            $query="api/user_data?idn=".$this->user->idn."&idn_type=".$this->user->idn_type;
+            $query = 'api/user_data?idn='.$this->user->idn.'&idn_type='.$this->user->idn_type;
             $this->getJson($query)
                 ->assertStatus(401);
             $this->actingAsCoordinator();
@@ -157,4 +154,3 @@
             ->assertStatus(403);
         }
     }
-

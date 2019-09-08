@@ -2,15 +2,12 @@
 
 namespace App\Scopes;
 
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 
-
 /**
- * Class RateOrderScope.php
- * @package App\Scopes
+ * Class RateOrderScope.php.
  */
 class RateOrderScope implements Scope
 {
@@ -25,6 +22,7 @@ class RateOrderScope implements Scope
 
     /**
      * RateOrderScope.php constructor.
+     *
      * @param $column
      * @param string $direction
      */
@@ -36,7 +34,7 @@ class RateOrderScope implements Scope
 
     /**
      * @param Builder $builder
-     * @param Model $model
+     * @param Model   $model
      */
     public function apply(Builder $builder, Model $model)
     {

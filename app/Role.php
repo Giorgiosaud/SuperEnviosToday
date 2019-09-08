@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Role
+ * App\Role.
  *
  * @method static create(array $array)
  * @method static find(string $string)
+ *
  * @property string $name_id
  * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection|User[] $users
+ *
  * @method static Builder|Role newModelQuery()
  * @method static Builder|Role newQuery()
  * @method static Builder|Role query()
@@ -28,7 +30,7 @@ use Illuminate\Support\Carbon;
  */
 class Role extends Model
 {
-    protected $fillable = ['name_id','name'];
+    protected $fillable = ['name_id', 'name'];
     protected $primaryKey = 'name_id';
     public $incrementing = false;
 

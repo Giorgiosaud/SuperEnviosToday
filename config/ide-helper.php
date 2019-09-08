@@ -1,6 +1,6 @@
 <?php
 
-    return array(
+    return [
 
         /*
         |--------------------------------------------------------------------------
@@ -12,7 +12,7 @@
         */
 
         'filename' => '_ide_helper',
-        'format' => 'php',
+        'format'   => 'php',
 
         'meta_filename' => '.phpstorm.meta.php',
 
@@ -65,9 +65,9 @@
 
         'include_helpers' => false,
 
-        'helper_files' => array(
-            base_path() . '/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
-        ),
+        'helper_files' => [
+            base_path().'/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -79,10 +79,9 @@
         |
         */
 
-        'model_locations' => array(
+        'model_locations' => [
             'app',
-        ),
-
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -93,23 +92,23 @@
         |
         */
 
-        'extra' => array(
-            'Eloquent' => array('Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'),
-            'Session' => array('Illuminate\Session\Store'),
-        ),
+        'extra' => [
+            'Eloquent' => ['Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'],
+            'Session'  => ['Illuminate\Session\Store'],
+        ],
 
-        'magic' => array(
-            'Log' => array(
-                'debug' => 'Monolog\Logger::addDebug',
-                'info' => 'Monolog\Logger::addInfo',
-                'notice' => 'Monolog\Logger::addNotice',
-                'warning' => 'Monolog\Logger::addWarning',
-                'error' => 'Monolog\Logger::addError',
-                'critical' => 'Monolog\Logger::addCritical',
-                'alert' => 'Monolog\Logger::addAlert',
+        'magic' => [
+            'Log' => [
+                'debug'     => 'Monolog\Logger::addDebug',
+                'info'      => 'Monolog\Logger::addInfo',
+                'notice'    => 'Monolog\Logger::addNotice',
+                'warning'   => 'Monolog\Logger::addWarning',
+                'error'     => 'Monolog\Logger::addError',
+                'critical'  => 'Monolog\Logger::addCritical',
+                'alert'     => 'Monolog\Logger::addAlert',
                 'emergency' => 'Monolog\Logger::addEmergency',
-            )
-        ),
+            ],
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -121,7 +120,7 @@
         |
         */
 
-        'interfaces' => array(),
+        'interfaces' => [],
 
         /*
         |--------------------------------------------------------------------------
@@ -149,7 +148,7 @@
         |  ),
         |
         */
-        'custom_db_types' => array(),
+        'custom_db_types' => [],
 
         /*
          |--------------------------------------------------------------------------
@@ -185,10 +184,10 @@
         | Cast the given "real type" to the given "type".
         |
         */
-        'type_overrides' => array(
+        'type_overrides' => [
             'integer' => 'int',
             'boolean' => 'bool',
-        ),
+        ],
 
         /*
         |--------------------------------------------------------------------------
@@ -201,4 +200,4 @@
         */
         'include_class_docblocks' => false,
 
-    );
+    ];

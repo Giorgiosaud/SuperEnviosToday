@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
 /**
- * @property integer venezuelan_operator_account_id
+ * @property int venezuelan_operator_account_id
  */
 class CreateTransaction extends FormRequest
 {
@@ -28,15 +28,15 @@ class CreateTransaction extends FormRequest
     public function rules()
     {
         return [
-            'client_id' => 'required|exists:users,id',
-            'foreign_account_id' => 'required|exists:accounts,id',
+            'client_id'                             => 'required|exists:users,id',
+            'foreign_account_id'                    => 'required|exists:accounts,id',
             'received_transaction_attachment_ids.*' => 'numeric|exists:attachments,id',
-            'receiver_account_id' => 'required|exists:accounts,id',
-            'venezuelan_operator_account_id' => 'required|exists:accounts,id',
-            'venezuelan_operator_id' => 'required|exists:users,id',
-            'receiver_user_id' => 'required|exists:users,id',
-            'rate' => 'nullable|numeric',
-            'amount' => 'required|numeric',
+            'receiver_account_id'                   => 'required|exists:accounts,id',
+            'venezuelan_operator_account_id'        => 'required|exists:accounts,id',
+            'venezuelan_operator_id'                => 'required|exists:users,id',
+            'receiver_user_id'                      => 'required|exists:users,id',
+            'rate'                                  => 'nullable|numeric',
+            'amount'                                => 'required|numeric',
         ];
     }
 }
