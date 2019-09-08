@@ -3072,6 +3072,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3107,7 +3119,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       propsOfComponent: {},
       dropImage1: null,
       clientTransactionAttachmentId: [],
-      selectedvenezuelanOperator: null
+      selectedvenezuelanOperator: null,
+      transactionNumber: null
     };
   },
   computed: {
@@ -3187,6 +3200,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     });
   },
   methods: {
+    venezuelanAccountsFrom: function venezuelanAccountsFrom(accounts) {
+      return accounts.filter(function (acc) {
+        return acc.bank.currency.name.indexOf('Bolivares') !== -1;
+      });
+    },
     updateOperatorBalance: function updateOperatorBalance() {
       var _this5 = this;
 
@@ -3297,6 +3315,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         venezuelan_operator_account_id: this.selectedvenezuelanAccount,
         venezuelan_operator_id: this.selectedvenezuelanOperator,
         receiver_user_id: this.selectedReceiver.id,
+        transaction_number: this.transactionNumber,
         rate: this.actualRate,
         amount: this.amount
       };
@@ -3306,7 +3325,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         var answer = true;
 
         if (response.data.isRepeated) {
-          answer = confirm('ya hay una transaccion parecida ¿quiere repetirla?');
+          answer = confirm('ya hay una transaccion parecida ¿quiere repetirla?, revise bien el numero de transaccion entrante ya que puede que sea repetido');
         }
 
         if (!answer) {
@@ -3921,6 +3940,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'MyTransactions',
   data: function data() {
@@ -4135,7 +4163,7 @@ __webpack_require__.r(__webpack_exports__);
       empty: false,
       transactions: [],
       onChangeState: false,
-      headers: ['Identificación cliente', 'Nombre Cliente', 'Operador Extranjero', 'Operador Venezuela', 'Banco Operador Venezuela', 'Banco Receptor', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Acción'],
+      headers: ['Identificación cliente', 'Nombre Cliente', 'Operador Extranjero', 'Operador Venezuela', 'Banco Operador Venezuela', 'Banco Receptor / cuenta - numero de transacción', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Acción'],
       keysToShow: ['idn', 'name', 'foreign_operator', 'operator_venezuela', 'operator_bank', 'receiver_bank', 'rate', 'amount', 'calculated_amount', 'action'],
       pendingTransactions: []
     };
@@ -4187,6 +4215,11 @@ __webpack_require__.r(__webpack_exports__);
         _this3.loading = false;
       })["finally"](function () {
         _this3.onChangeState = false;
+      });
+    },
+    foreignAccount: function foreignAccount(transaction) {
+      return transaction.foreign_operator.accounts.find(function (acc) {
+        return acc.id === transaction.foreign_account_id;
       });
     },
     setData: function setData(data) {
@@ -83231,7 +83264,35 @@ var render = function() {
           })
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12" }, [
+        _c("label", { staticClass: "label-base", attrs: { for: "rate" } }, [
+          _vm._v("Ingrese numero de referencia")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.transactionNumber,
+              expression: "transactionNumber"
+            }
+          ],
+          staticClass: "input-base",
+          attrs: { id: "rate", type: "text" },
+          domProps: { value: _vm.transactionNumber },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.transactionNumber = $event.target.value
+            }
+          }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row receivers" }, [
@@ -83416,59 +83477,59 @@ var render = function() {
                 [
                   _vm._m(8, true),
                   _vm._v(" "),
-                  _vm._l(operador.accounts, function(
-                    venezuelan_account,
-                    vacindex
-                  ) {
-                    return _c(
-                      "tr",
-                      {
-                        key: vacindex,
-                        class: {
-                          active:
-                            _vm.selectedvenezuelanAccount ===
-                            venezuelan_account.id
-                        }
-                      },
-                      [
-                        _c("td", [
-                          _vm._v(_vm._s(venezuelan_account.bank.name))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(venezuelan_account.number))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(
-                            _vm._s(
-                              _vm._f("currency")(venezuelan_account.Balance)
-                            )
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary",
-                              on: {
-                                click: function($event) {
-                                  return _vm.assignVenezuelanAccount(
-                                    venezuelan_account,
-                                    operador
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                Seleccionar Cuenta Venezuela\n              "
+                  _vm._l(
+                    _vm.venezuelanAccountsFrom(operador.accounts),
+                    function(venezuelan_account, vacindex) {
+                      return _c(
+                        "tr",
+                        {
+                          key: vacindex,
+                          class: {
+                            active:
+                              _vm.selectedvenezuelanAccount ===
+                              venezuelan_account.id
+                          }
+                        },
+                        [
+                          _c("td", [
+                            _vm._v(_vm._s(venezuelan_account.bank.name))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(venezuelan_account.number))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(
+                                _vm._f("currency")(venezuelan_account.Balance)
                               )
-                            ]
-                          )
-                        ])
-                      ]
-                    )
-                  })
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.assignVenezuelanAccount(
+                                      venezuelan_account,
+                                      operador
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                Seleccionar Cuenta Venezuela\n              "
+                                )
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    }
+                  )
                 ],
                 2
               )
@@ -84162,167 +84223,183 @@ var render = function() {
               [_c("h2", [_vm._v("no hay operaciones pendientes")])]
             )
           : _c("div", { staticClass: "container" }, [
-              _c("div", { staticClass: "table-responsive" }, [
-                _c("table", { staticClass: "table" }, [
-                  _c("thead", [
-                    _c(
-                      "tr",
-                      _vm._l(_vm.headers, function(header, headerIndex) {
-                        return _c(
-                          "th",
-                          { key: headerIndex, staticClass: "text-left" },
-                          [
-                            _vm._v(
-                              "\n                  " +
-                                _vm._s(header) +
-                                "\n                "
+              _vm.myTransactions.length
+                ? _c("div", { staticClass: "table-responsive" }, [
+                    _c("table", { staticClass: "table" }, [
+                      _c("thead", [
+                        _c(
+                          "tr",
+                          _vm._l(_vm.headers, function(header, headerIndex) {
+                            return _c(
+                              "th",
+                              { key: headerIndex, staticClass: "text-left" },
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(header) +
+                                    "\n                "
+                                )
+                              ]
                             )
-                          ]
+                          }),
+                          0
                         )
-                      }),
-                      0
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.myTransactions, function(
-                      transaction,
-                      transactionKey
-                    ) {
-                      return _c(
-                        "tr",
-                        { key: transactionKey },
-                        _vm._l(_vm.keysToShow, function(key, keyIndex) {
-                          return _c("td", { key: keyIndex }, [
-                            key === "idn"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    " +
-                                      _vm._s(transaction.client.idn_type) +
-                                      " - " +
-                                      _vm._s(transaction.client.idn) +
-                                      "\n                  "
-                                  )
-                                ])
-                              : key === "name"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    " +
-                                      _vm._s(transaction.client.name) +
-                                      " " +
-                                      _vm._s(transaction.client.last_name) +
-                                      "\n                  "
-                                  )
-                                ])
-                              : key === "operator_destination"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    " +
-                                      _vm._s(
-                                        transaction.related_transactions[0]
-                                          .to_user.name
-                                      ) +
-                                      "\n                    " +
-                                      _vm._s(
-                                        transaction.related_transactions[0]
-                                          .to_user.last_name
-                                      ) +
-                                      "\n                  "
-                                  )
-                                ])
-                              : key === "bank_destination"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    " +
-                                      _vm._s(
-                                        transaction.destination_account.bank
-                                          .name
-                                      ) +
-                                      " /\n                    " +
-                                      _vm._s(
-                                        transaction.destination_account.bank
-                                          .currency.name
-                                      ) +
-                                      "\n                  "
-                                  )
-                                ])
-                              : key === "status" &&
-                                transaction.status === "confirmed"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    Confirmada\n                  "
-                                  )
-                                ])
-                              : key === "status" &&
-                                transaction.status === "assigned"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    Asignada\n                  "
-                                  )
-                                ])
-                              : key === "status" &&
-                                transaction.status === "terminated"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    Terminada\n                  "
-                                  )
-                                ])
-                              : key === "status" &&
-                                transaction.status === "in_progress"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    En Progreso\n                  "
-                                  )
-                                ])
-                              : key === "status" &&
-                                transaction.status === "executed"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    Ejecutada\n                  "
-                                  )
-                                ])
-                              : key === "created_at"
-                              ? _c("span", [
-                                  _vm._v(
-                                    "\n                    " +
-                                      _vm._s(transaction[key]) +
-                                      "\n                  "
-                                  )
-                                ])
-                              : key === "action"
-                              ? _c("span", [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-primary",
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.seeTransaction(transaction)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Ver Transacción")]
-                                  )
-                                ])
-                              : _c("span", [
-                                  _vm._v(
-                                    "\n                    " +
-                                      _vm._s(
-                                        _vm._f("currency")(transaction[key])
-                                      ) +
-                                      "\n                  "
-                                  )
-                                ])
-                          ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.myTransactions, function(
+                          transaction,
+                          transactionKey
+                        ) {
+                          return _c(
+                            "tr",
+                            { key: transactionKey },
+                            _vm._l(_vm.keysToShow, function(key, keyIndex) {
+                              return _c("td", { key: keyIndex }, [
+                                key === "idn"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(transaction.client.idn_type) +
+                                          " - " +
+                                          _vm._s(transaction.client.idn) +
+                                          "\n                  "
+                                      )
+                                    ])
+                                  : key === "name"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(transaction.client.name) +
+                                          " " +
+                                          _vm._s(transaction.client.last_name) +
+                                          "\n                  "
+                                      )
+                                    ])
+                                  : key === "operator_destination" &&
+                                    transaction.related_transactions.length
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            transaction.related_transactions[0]
+                                              .to_user.name
+                                          ) +
+                                          "\n                    " +
+                                          _vm._s(
+                                            transaction.related_transactions[0]
+                                              .to_user.last_name
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ])
+                                  : key === "operator_destination"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            transaction.destination_account
+                                              .number
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ])
+                                  : key === "bank_destination"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            transaction.destination_account.bank
+                                              .name
+                                          ) +
+                                          " /\n                    " +
+                                          _vm._s(
+                                            transaction.destination_account.bank
+                                              .currency.name
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ])
+                                  : key === "status" &&
+                                    transaction.status === "confirmed"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    Confirmada\n                  "
+                                      )
+                                    ])
+                                  : key === "status" &&
+                                    transaction.status === "assigned"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    Asignada\n                  "
+                                      )
+                                    ])
+                                  : key === "status" &&
+                                    transaction.status === "terminated"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    Terminada\n                  "
+                                      )
+                                    ])
+                                  : key === "status" &&
+                                    transaction.status === "in_progress"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    En Progreso\n                  "
+                                      )
+                                    ])
+                                  : key === "status" &&
+                                    transaction.status === "executed"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    Ejecutada\n                  "
+                                      )
+                                    ])
+                                  : key === "created_at"
+                                  ? _c("span", [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(transaction[key]) +
+                                          "\n                  "
+                                      )
+                                    ])
+                                  : key === "action"
+                                  ? _c("span", [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-primary",
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.seeTransaction(
+                                                transaction
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Ver Transacción")]
+                                      )
+                                    ])
+                                  : _c("span", [
+                                      _vm._v(
+                                        "\n                    " +
+                                          _vm._s(
+                                            _vm._f("currency")(transaction[key])
+                                          ) +
+                                          "\n                  "
+                                      )
+                                    ])
+                              ])
+                            }),
+                            0
+                          )
                         }),
                         0
                       )
-                    }),
-                    0
-                  )
-                ])
-              ])
+                    ])
+                  ])
+                : _vm._e()
             ])
       ])
     ]),
@@ -84347,10 +84424,18 @@ var render = function() {
                   _vm._v(
                     "\n          Ver detalles y completar Transaccion #" +
                       _vm._s(_vm.selectedTransaction.id) +
-                      " status: " +
-                      _vm._s(_vm.venezuelanTransaction.status) +
                       "\n          "
                   ),
+                  _vm.venezuelanTransaction
+                    ? _c("span", [
+                        _vm._v(
+                          "\n            status: " +
+                            _vm._s(_vm.venezuelanTransaction.status) +
+                            "\n          "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _vm._m(2)
                 ]),
                 _vm._v(" "),
@@ -84391,7 +84476,12 @@ var render = function() {
                             ) +
                             "\n                "
                         ),
-                        _c("br")
+                        _c("br"),
+                        _vm._v(
+                          "\n                Id Transacción: " +
+                            _vm._s(_vm.selectedTransaction.transaction_number) +
+                            "\n              "
+                        )
                       ]),
                       _vm._v(" "),
                       _vm.selectedTransaction.attachments.length
@@ -84549,18 +84639,20 @@ var render = function() {
                       [_vm._v("\n            Cerrar\n          ")]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: {
-                          disabled:
-                            _vm.venezuelanTransaction.status !== "executed"
-                        },
-                        on: { click: _vm.confirmarTransferencia }
-                      },
-                      [_vm._v("\n            Confirmar\n          ")]
-                    )
+                    _vm.venezuelanTransaction
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: {
+                              disabled:
+                                _vm.venezuelanTransaction.status !== "executed"
+                            },
+                            on: { click: _vm.confirmarTransferencia }
+                          },
+                          [_vm._v("\n            Confirmar\n          ")]
+                        )
+                      : _vm._e()
                   ]
                 )
               ])
@@ -84759,8 +84851,14 @@ var render = function() {
                               _vm._v(
                                 "\n                " +
                                   _vm._s(
-                                    transaction.receiver_account.bank.name
+                                    _vm.foreignAccount(transaction).bank.name
                                   ) +
+                                  " / " +
+                                  _vm._s(
+                                    _vm.foreignAccount(transaction).number
+                                  ) +
+                                  " - " +
+                                  _vm._s(transaction.transaction_number) +
                                   "\n              "
                               )
                             ])

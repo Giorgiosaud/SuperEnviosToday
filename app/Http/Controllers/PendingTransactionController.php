@@ -43,7 +43,9 @@ class PendingTransactionController extends Controller
                 ->paginate($limit);
         }
 
-        return PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator', 'receiver_account', 'operator_account'])->paginate($limit);
+        return PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator', 'receiver_account', 'operator_account'])
+        ->orderBy('created_at', 'desc')
+        ->paginate($limit);
     }
 
     public function myTransactions()

@@ -32,6 +32,7 @@ class CreateTransactionService
                 $ptData['foreign_id'] = $request->user()->id;
                 $ptData['receiver_id'] = $request->receiver_user_id;
                 $ptData['venezuelan_operator_id'] = $request->venezuelan_operator_id;
+                $ptData['transaction_number'] = $request->transaction_number;
                 $pending = PendingTransaction::create($ptData);
                 broadcast(new PendingTransactionAwaiting($request->user()))->toOthers();
                 if (isset($request->received_transaction_attachment_ids)) {
@@ -53,6 +54,7 @@ class CreateTransactionService
             'client_id'     => $request->client_id,
             'from_user_id'  => $request->client_id,
             'to_account_id' => $request->foreign_account_id,
+            'transaction_number'  => $request->transaction_number,
             'to_user_id'    => $request->user()->id,
             'amount'        => $request->amount,
             'status'        => 'confirmed',

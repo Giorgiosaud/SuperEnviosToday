@@ -251,6 +251,18 @@
           @vdropzone-error="errorSaveClientVoucher"
         />
       </div>
+      <div class="col-12">
+        <label
+          for="rate"
+          class="label-base"
+        >Ingrese numero de referencia</label>
+        <input
+          id="rate"
+          v-model="transactionNumber"
+          type="text"
+          class="input-base"
+        >
+      </div>
     </div>
     <div class="row receivers">
       <div class="col-12">
@@ -385,7 +397,7 @@
               </th>
             </tr>
             <tr
-              v-for="(venezuelan_account,vacindex) in operador.accounts"
+              v-for="(venezuelan_account,vacindex) in venezuelanAccountsFrom(operador.accounts)"
               :key="vacindex"
               :class="{active:selectedvenezuelanAccount === venezuelan_account.id}"
             >
@@ -489,6 +501,7 @@ export default {
       dropImage1: null,
       clientTransactionAttachmentId: [],
       selectedvenezuelanOperator: null,
+      transactionNumber: null,
     };
   },
   computed: {
@@ -556,6 +569,9 @@ export default {
       });
   },
   methods: {
+    venezuelanAccountsFrom(accounts) {
+      return accounts.filter(acc => acc.bank.currency.name.indexOf('Bolivares') !== -1);
+    },
     updateOperatorBalance() {
       axios.get('api/operadores-venezuela').then((response) => {
         this.operadoresVenezuela = response.data;
@@ -651,6 +667,7 @@ export default {
         venezuelan_operator_account_id: this.selectedvenezuelanAccount,
         venezuelan_operator_id: this.selectedvenezuelanOperator,
         receiver_user_id: this.selectedReceiver.id,
+        transaction_number: this.transactionNumber,
         rate: this.actualRate,
         amount: this.amount,
       };
@@ -658,7 +675,7 @@ export default {
         .then((response) => {
           let answer = true;
           if (response.data.isRepeated) {
-            answer = confirm('ya hay una transaccion parecida ¿quiere repetirla?');
+            answer = confirm('ya hay una transaccion parecida ¿quiere repetirla?, revise bien el numero de transaccion entrante ya que puede que sea repetido');
           }
           if (!answer) {
             alert('transaccion cancelada');
