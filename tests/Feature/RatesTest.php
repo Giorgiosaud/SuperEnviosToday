@@ -1,34 +1,36 @@
 <?php
 
-    namespace Tests\Feature;
+namespace Tests\Feature;
 
-    use App\Currency;
+use App\Currency;
     use App\Rate;
     use Carbon\Carbon;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Tests\TestCase;
 
     /**
-     * Class UserTest
-     * @package Tests\Feature
+     * Class UserTest.
      */
     class RatesTest extends TestCase
     {
-
         use RefreshDatabase;
 
         /**
          * @test
          */
-        public function anyoneCanSeLastRate(){
+        public function anyoneCanSeLastRate()
+        {
             factory(Rate::class)->create(['since'=>Carbon::yesterday()]);
-            $rate2=factory(Rate::class)->create(['amount'=>'199','since'=>Carbon::now()]);
-            $this->getJson(route('last_rate',$rate2->currency_id))
+            $rate2 = factory(Rate::class)->create(['amount'=>'199', 'since'=>Carbon::now()]);
+            $this->getJson(route('last_rate', $rate2->currency_id))
                 ->assertJson($rate2->toArray());
         }
+
         /**
          * A basic test example.
+         *
          * @test
+         *
          * @return void
          */
         public function aNonCordinatorCantSeeRates()
@@ -46,7 +48,9 @@
 
         /**
          * A basic test example.
+         *
          * @test
+         *
          * @return void
          */
         public function aClientCantAddRates()
@@ -65,7 +69,9 @@
 
         /**
          * A basic test example.
+         *
          * @test
+         *
          * @return void
          */
         public function aCoordinatorCanAddRates()
@@ -73,13 +79,11 @@
             $this->actingAsCoordinator();
             $response = $this->get(route('rates'));
             $response->assertJsonCount(0, $key = 'data');
-            $currency=factory(Currency::class)->create();
+            $currency = factory(Currency::class)->create();
             $rate = factory(Rate::class)->make();
-            $rate['currency']=$currency;
+            $rate['currency'] = $currency;
             $this->postJson(route('create_rate'), $rate->toArray());
             $response = $this->getJson(route('rates'));
             $response->assertJsonCount(1, $key = 'data');
         }
-
     }
-

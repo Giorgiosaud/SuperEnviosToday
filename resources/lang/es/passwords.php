@@ -17,6 +17,6 @@ return [
     'reset'    => 'Su clave fue reiniciada!',
     'sent'     => '¡Le hemos enviado el link de reset de su clave a su email!',
     'token'    => 'Este token de reinicio es invalido.',
-    'user'     => "No pudimos encontrar un usuario con esa direccion de correo.",
+    'user'     => 'No pudimos encontrar un usuario con esa direccion de correo.',
 
 ];

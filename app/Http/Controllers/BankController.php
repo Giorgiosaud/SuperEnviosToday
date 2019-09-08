@@ -1,8 +1,8 @@
 <?php
 
-    namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
-    use App\Bank;
+use App\Bank;
     use App\Currency;
     use Illuminate\Database\Eloquent\Collection;
     use Illuminate\Http\Request;
@@ -28,6 +28,7 @@
         public function venezuelan_index()
         {
             $currency = Currency::whereName('Bolivares Soberanos')->first();
+
             return $currency->banks;
         }
 
@@ -41,13 +42,12 @@
         public function store(Request $request)
         {
             $validated = $request->validate([
-                'name' => 'required',
-                'currency_id' => 'required'
+                'name'        => 'required',
+                'currency_id' => 'required',
             ]);
             $bank = Bank::create($validated);
+
             return $bank;
             //
         }
-
-
     }

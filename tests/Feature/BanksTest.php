@@ -1,15 +1,14 @@
 <?php
 
-    namespace Tests\Feature;
+namespace Tests\Feature;
 
-    use App\Bank;
+use App\Bank;
     use App\Currency;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Tests\TestCase;
 
     /**
-     * Class UserTest
-     * @package Tests\Feature
+     * Class UserTest.
      */
     class BanksTest extends TestCase
     {
@@ -22,7 +21,7 @@
         {
             $currency = factory(Currency::class)->create(['name' => 'Bolivares Soberanos']);
             factory(Bank::class, 4)->create([
-                'currency_id' => $currency->id
+                'currency_id' => $currency->id,
             ]);
             $this->getJson(route('venezuelan_banks'))->assertStatus(401);
             $this->actingAsReceiver();
@@ -82,7 +81,7 @@
         {
             $currency = factory(Currency::class)->create();
             $bankArray = ['name' => 'Banco Prueba',
-                'currency_id' => $currency->id
+                'currency_id'    => $currency->id,
             ];
             $this->postJson(route('save_bank'), $bankArray)->assertStatus(401);
             $this->actingAsReceiver();
@@ -97,4 +96,3 @@
             $this->postJson(route('save_bank'), $bankArray)->assertStatus(201);
         }
     }
-

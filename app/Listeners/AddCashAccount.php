@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\RegisteredOperator;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class AddCashAccount
 {
@@ -21,7 +19,8 @@ class AddCashAccount
     /**
      * Handle the event.
      *
-     * @param  RegisteredOperator  $event
+     * @param RegisteredOperator $event
+     *
      * @return void
      */
     public function handle(RegisteredOperator $event)

@@ -1,25 +1,27 @@
 <?php
 
-    namespace App;
+namespace App;
 
-    use Eloquent;
+use Eloquent;
     use Illuminate\Database\Eloquent\Builder;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Support\Carbon;
 
     /**
-     * App\Attachment
+     * App\Attachment.
      *
      * @method static Builder|Attachment newModelQuery()
      * @method static Builder|Attachment newQuery()
      * @method static Builder|Attachment query()
      * @mixin Eloquent
+     *
      * @property int $id
      * @property string $file_name
      * @property string $path
      * @property string $file_extension
      * @property Carbon|null $created_at
      * @property Carbon|null $updated_at
+     *
      * @method static Builder|Attachment whereCreatedAt($value)
      * @method static Builder|Attachment whereFileExtension($value)
      * @method static Builder|Attachment whereFileName($value)
@@ -32,11 +34,13 @@
         protected $fillable = [
             'name',
             'path',
-            'extension'
+            'extension',
         ];
 
-        public function attachable(){
+        public function attachable()
+        {
             return $this->morphTo();
         }
+
         //
     }

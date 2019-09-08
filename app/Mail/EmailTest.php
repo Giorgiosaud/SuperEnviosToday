@@ -1,8 +1,8 @@
 <?php
 
-    namespace App\Mail;
+namespace App\Mail;
 
-    use Illuminate\Bus\Queueable;
+use Illuminate\Bus\Queueable;
     use Illuminate\Mail\Mailable;
     use Illuminate\Queue\SerializesModels;
 
