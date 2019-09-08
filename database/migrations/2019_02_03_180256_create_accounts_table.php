@@ -17,9 +17,9 @@ class CreateAccountsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('bank_id');
             $table->unsignedInteger('user_id');
-            $table->enum('type',['corriente','ahorro'])->nullable();
+            $table->enum('type', ['corriente', 'ahorro'])->nullable();
             $table->string('number');
-            $table->unique(['number','bank_id']);
+            $table->unique(['number', 'bank_id']);
             $table->boolean('is_operator_account')->default(false);
             $table->timestamps();
         });

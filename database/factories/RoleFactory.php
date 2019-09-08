@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Role::class, function (Faker $faker) {
     return [
-        'name'=>$faker->name,
-        'name_id'=>$faker->userName,
+        'name'   => $faker->name,
+        'name_id'=> $faker->userName,
     ];
 });

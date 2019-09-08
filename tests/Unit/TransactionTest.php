@@ -31,8 +31,8 @@ class TransactionTest extends TestCase
     public function aTransactionShouldHaveAOriginAccount()
     {
         $transaction = factory(Transaction::class)->create(['from_account_id'=>factory(Account::class)->create()->id]);
-        $this->assertInstanceOf(Transaction::class,$transaction);
+        $this->assertInstanceOf(Transaction::class, $transaction);
         $transaction = factory(Transaction::class)->create(['from_account_id'=>null]);
-        $this->assertInstanceOf(Transaction::class,$transaction);
+        $this->assertInstanceOf(Transaction::class, $transaction);
     }
 }

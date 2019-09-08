@@ -2,9 +2,9 @@
 
 namespace App;
 
+use App\Contracts\CanResetPassword;
 use App\Observers\UserObserver;
 use Eloquent;
-use App\Contracts\CanResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,9 +19,8 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Token;
 
 /**
- * Class User
+ * Class User.
  *
- * @package App
  * @property int $id
  * @property string $name
  * @property string|null $last_name
@@ -42,6 +41,7 @@ use Laravel\Passport\Token;
  * @property-read Collection|Role[] $roles
  * @property-read Collection|User[] $senders
  * @property-read Collection|Token[] $tokens
+ *
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
@@ -70,7 +70,7 @@ class User extends Authenticatable implements CanResetPassword
      * @var array
      */
     protected $fillable = [
-        'idn', 'idn_type', 'name', 'last_name', 'email', 'password', 'address', 'phone'
+        'idn', 'idn_type', 'name', 'last_name', 'email', 'password', 'address', 'phone',
     ];
 
     /**
@@ -79,7 +79,7 @@ class User extends Authenticatable implements CanResetPassword
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'pivot'
+        'password', 'remember_token', 'pivot',
     ];
 
     /**
@@ -87,14 +87,12 @@ class User extends Authenticatable implements CanResetPassword
      */
     protected $with = ['roles', 'accounts'];
 
-    /**
-     *
-     */
     public static function boot()
     {
         parent::boot();
-        User::observe(new UserObserver);
+        self::observe(new UserObserver());
     }
+
     /**
      * The roles that belong to the user.
      */
@@ -106,16 +104,17 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Toogle role to user.
      */
-    public function toogleRole(String $roleName)
+    public function toogleRole(string $roleName)
     {
         $this->roles()->toggle($roleName);
+
         return $this->touch();
     }
 
     /**
      * Set role to user.
      */
-    public function setRole(String $roleName)
+    public function setRole(string $roleName)
     {
         $actualRoles = $this->roles->pluck('name_id');
         if (!$actualRoles->contains($roleName)) {
@@ -123,25 +122,27 @@ class User extends Authenticatable implements CanResetPassword
         }
         $this->roles()->sync($actualRoles);
         $this->touch();
+
         return $this;
     }
 
-
     /**
      * @param $roles
+     *
      * @return User
      */
     public function syncRoles($roles)
     {
         $this->roles()->sync($roles);
         $this->touch();
+
         return $this;
     }
 
     /**
      * Check if user Have Role Assigned.
      */
-    public function hasRole(String $roleName)
+    public function hasRole(string $roleName)
     {
         return $this->roles->pluck('name_id')->contains($roleName);
     }
@@ -153,6 +154,7 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasMany(Account::class);
     }
+
     /**
      * @return HasMany
      */
@@ -166,7 +168,7 @@ class User extends Authenticatable implements CanResetPassword
      */
     public function receivers()
     {
-        return $this->belongsToMany(User::class, 'users_receivers', 'user_id', 'receiver_id')->withTimestamps();
+        return $this->belongsToMany(self::class, 'users_receivers', 'user_id', 'receiver_id')->withTimestamps();
     }
 
     /**
@@ -174,7 +176,7 @@ class User extends Authenticatable implements CanResetPassword
      */
     public function senders()
     {
-        return $this->belongsToMany(User::class, 'users_receivers', 'receiver_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(self::class, 'users_receivers', 'receiver_id', 'user_id')->withTimestamps();
     }
 
     /**
@@ -185,7 +187,7 @@ class User extends Authenticatable implements CanResetPassword
     public function getDataFromUserForToken()
     {
         return [
-            'idn' => $this->idn,
+            'idn'      => $this->idn,
             'idn_type' => $this->idn_type,
         ];
     }
