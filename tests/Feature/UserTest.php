@@ -3,17 +3,17 @@
 namespace Tests\Feature;
 
 use App\Currency;
-    use App\Events\RegisteredOperator;
-    use App\User;
-    use Illuminate\Foundation\Testing\RefreshDatabase;
-    use Illuminate\Support\Facades\Event;
-    use Tests\TestCase;
+use App\Events\RegisteredOperator;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
-    /**
-     * Class UserTest.
-     *
-     * @property User $user
-     */
+/**
+ * Class UserTest.
+ *
+ * @property User $user
+ */
     class UserTest extends TestCase
     {
         use RefreshDatabase;
