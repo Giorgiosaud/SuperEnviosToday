@@ -192,16 +192,24 @@ class TransactionController extends Controller
 
     public function isRepeated(Request $request)
     {
-        $transaction1 = Transaction::whereDate('created_at', Carbon::today())->where(['from_user_id' => $request->client_id, 'amount' => $request->amount * 10000])->first();
-        if (!$transaction1) {
+        $transactionSameNumber= Transaction::where(['transaction_number' => $request->transaction_number])->first();
+        if($transactionSameNumber){
+            return ['isRepeated' => true];
+        }
+        $transactionTodayAndSameAmountAndUser = Transaction::whereDate('created_at', Carbon::today())->where(['from_user_id' => $request->client_id, 'amount' => $request->amount * 10000])->first();
+        if (!$transactionTodayAndSameAmountAndUser) {
             return ['isRepeated' => false];
         }
-        $transaction2 = Transaction::whereDate('created_at', Carbon::today())->where(['to_account_id' => $request->receiver_account_id, 'related_transaction_id' => $transaction1->id, 'amount' => $request->rate * $request->amount * 10000])->first();
+        $transactionWithamountTransactionIdReceiverAccount = Transaction::whereDate('created_at', Carbon::today())->where([
+            'to_account_id' => $request->receiver_account_id, 
+            'related_transaction_id' => $transactionTodayAndSameAmountAndUser->id, 
+            'amount' => $request->rate * $request->amount * 10000
+            ])->first();
 
-        if (!$transaction2) {
+        if (!$transactionWithamountTransactionIdReceiverAccount) {
             return ['isRepeated' => false];
-        }
-
+       }
+        
         return ['isRepeated' => true];
     }
 }

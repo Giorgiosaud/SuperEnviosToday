@@ -71,7 +71,7 @@
                   {{ transaction.foreign_operator.name }} {{ transaction.foreign_operator.last_name }}
                 </span>
                 <span v-else-if="key==='receiver_bank'">
-                  {{ transaction.receiver_account.bank.name }}
+                  {{ foreignAccount(transaction).bank.name }} / {{ foreignAccount(transaction).number }} - {{ transaction.transaction_number }}
                 </span>
                 <span v-else-if="key==='operator_venezuela'">
                   {{ transaction.venezuelan_operator.name }} {{ transaction.venezuelan_operator.last_name }}
@@ -136,7 +136,7 @@ export default {
       transactions: [],
       onChangeState: false,
       headers: [
-        'Identificación cliente', 'Nombre Cliente', 'Operador Extranjero', 'Operador Venezuela', 'Banco Operador Venezuela', 'Banco Receptor', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Acción',
+        'Identificación cliente', 'Nombre Cliente', 'Operador Extranjero', 'Operador Venezuela', 'Banco Operador Venezuela', 'Banco Receptor / cuenta - numero de transacción', 'Tasa Sugerida', 'Monto', 'Monto Calculado', 'Acción',
       ],
       keysToShow: [
         'idn', 'name', 'foreign_operator', 'operator_venezuela', 'operator_bank', 'receiver_bank', 'rate', 'amount', 'calculated_amount', 'action',
@@ -185,6 +185,9 @@ export default {
         }).finally(() => {
           this.onChangeState = false;
         });
+    },
+    foreignAccount(transaction) {
+      return transaction.foreign_operator.accounts.find(acc => acc.id === transaction.foreign_account_id);
     },
     setData(data) {
       this.transactions = data.data;
