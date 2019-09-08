@@ -14,20 +14,19 @@
     |
      */
 
-
-    /** @global \Faker\Generator $factory */
+    /* @global \Faker\Generator $factory */
 
     $factory->define(App\User::class, function (Faker $faker) {
         return [
-            'name' => $faker->name,
-            'last_name' => $faker->lastName,
-            'email' => $faker->email,
-            'idn' => $faker->unique()->numberBetween(1000000, 30000000),
-            'idn_type' => $faker->randomElement(['DNI', 'RUT', 'CI', 'PASSPORT', 'RIF']),
+            'name'              => $faker->name,
+            'last_name'         => $faker->lastName,
+            'email'             => $faker->email,
+            'idn'               => $faker->unique()->numberBetween(1000000, 30000000),
+            'idn_type'          => $faker->randomElement(['DNI', 'RUT', 'CI', 'PASSPORT', 'RIF']),
             'email_verified_at' => now(),
-            'password' => bcrypt('secret'),
-            'address' => $faker->address(),
-            'phone' => $faker->e164PhoneNumber(),
-            'remember_token' => Str::random(10),
+            'password'          => bcrypt('secret'),
+            'address'           => $faker->address(),
+            'phone'             => $faker->e164PhoneNumber(),
+            'remember_token'    => Str::random(10),
         ];
     });

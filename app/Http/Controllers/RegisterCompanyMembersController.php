@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Class RegisterCompanyMembersController
- * @package App\Http\Controllers
+ * Class RegisterCompanyMembersController.
  */
 class RegisterCompanyMembersController extends Controller
 {
@@ -29,26 +28,29 @@ class RegisterCompanyMembersController extends Controller
     {
         return view('auth.addOperatorAccount');
     }
+
     public function assignOperatorAccount()
     {
         return view('auth.assignAccounts');
     }
+
     /**
      * @param Request $request
+     *
      * @return mixed
      */
     public function save(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|email|confirmed',
-            'address' => 'required|string',
-            'phone' => 'required|string|min:9',
-            'idn' => 'required',
-            'idn_type' => 'required|in:PASSPORT,RUT,CI,DNI',
-            'name' => 'required',
-            'password' => 'required|string|min:6|confirmed|',
+            'email'     => 'required|email|confirmed',
+            'address'   => 'required|string',
+            'phone'     => 'required|string|min:9',
+            'idn'       => 'required',
+            'idn_type'  => 'required|in:PASSPORT,RUT,CI,DNI',
+            'name'      => 'required',
+            'password'  => 'required|string|min:6|confirmed|',
             'last_name' => 'required',
-            'roles' => 'required',
+            'roles'     => 'required',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
@@ -57,27 +59,29 @@ class RegisterCompanyMembersController extends Controller
             $user->setRole($role);
         }
         event(new RegisteredOperator($user));
+
         return response([
             'success' => true,
-            'message' => 'Se creo el usuario'
+            'message' => 'Se creo el usuario',
         ], 201);
     }
 
     /**
      * @param Request $request
+     *
      * @return mixed
      */
     public function saveClient(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|email|confirmed',
-            'address' => 'required|string',
-            'phone' => 'required|string|min:9',
-            'idn' => 'required',
-            'idn_type' => 'required|in:PASSPORT,RUT,CI,DNI',
-            'name' => 'required',
-            'last_name' => 'required',
-            'relatedSender' => 'numeric'
+            'email'         => 'required|email|confirmed',
+            'address'       => 'required|string',
+            'phone'         => 'required|string|min:9',
+            'idn'           => 'required',
+            'idn_type'      => 'required|in:PASSPORT,RUT,CI,DNI',
+            'name'          => 'required',
+            'last_name'     => 'required',
+            'relatedSender' => 'numeric',
         ]);
 
         $validated['password'] = Hash::make('secret');
@@ -91,6 +95,7 @@ class RegisterCompanyMembersController extends Controller
         }
         event(new Registered($user));
         $user->setRole('receiver');
+
         return $user;
     }
 }

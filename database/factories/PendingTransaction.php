@@ -20,7 +20,7 @@
                 'venezuelan_operator_account_id' => function () {
                     return factory(Account::class)->create()->id;
                 },
-                'rate' => $faker->randomFloat(4, 4, 5),
+                'rate'   => $faker->randomFloat(4, 4, 5),
                 'amount' => $faker->numberBetween(0, 1000000),
                 'status' => $faker->randomElement(['pending', 'aprooved', 'rejected']),
             ];

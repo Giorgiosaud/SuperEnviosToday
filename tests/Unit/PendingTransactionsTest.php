@@ -3,12 +3,13 @@
 namespace Tests\Unit;
 
 use App\PendingTransaction;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PendingTransactionsTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -16,7 +17,7 @@ class PendingTransactionsTest extends TestCase
      */
     public function aPendingTransactionJustCreatedShouldBeOfStatusPending()
     {
-        $pendingTransaction=factory(PendingTransaction::class)->create();
-        $this->assertInstanceOf(PendingTransaction::class,$pendingTransaction);
+        $pendingTransaction = factory(PendingTransaction::class)->create();
+        $this->assertInstanceOf(PendingTransaction::class, $pendingTransaction);
     }
 }
