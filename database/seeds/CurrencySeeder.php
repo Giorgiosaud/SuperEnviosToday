@@ -12,6 +12,8 @@
          */
         public function run()
         {
+            Currency::flushEventListeners();
+
             factory(Currency::class)->create([
             'name'         => 'Bolivares Soberanos',
             'identificator'=> 'Bs',

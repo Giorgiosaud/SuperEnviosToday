@@ -15,7 +15,7 @@ class AddUserIdToTransactionsTable extends Migration
     {
         Schema::table('transactions', function (Blueprint $table) {
             $table->unsignedInteger('from_user_id')->nullable();
-            $table->unsignedInteger('to_user_id');
+            $table->unsignedInteger('to_user_id')->nullable();
         });
     }
 
