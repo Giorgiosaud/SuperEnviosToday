@@ -3072,6 +3072,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3107,7 +3119,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       propsOfComponent: {},
       dropImage1: null,
       clientTransactionAttachmentId: [],
-      selectedvenezuelanOperator: null
+      selectedvenezuelanOperator: null,
+      transactionNumber: null
     };
   },
   computed: {
@@ -3297,6 +3310,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         venezuelan_operator_account_id: this.selectedvenezuelanAccount,
         venezuelan_operator_id: this.selectedvenezuelanOperator,
         receiver_user_id: this.selectedReceiver.id,
+        transaction_number: this.transactionNumber,
         rate: this.actualRate,
         amount: this.amount
       };
@@ -3306,7 +3320,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         var answer = true;
 
         if (response.data.isRepeated) {
-          answer = confirm('ya hay una transaccion parecida ¿quiere repetirla?');
+          answer = confirm('ya hay una transaccion parecida ¿quiere repetirla?, revise bien el numero de transaccion entrante ya que puede que sea repetido');
         }
 
         if (!answer) {
@@ -83231,7 +83245,35 @@ var render = function() {
           })
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-12" }, [
+        _c("label", { staticClass: "label-base", attrs: { for: "rate" } }, [
+          _vm._v("Ingrese numero de referencia")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.transactionNumber,
+              expression: "transactionNumber"
+            }
+          ],
+          staticClass: "input-base",
+          attrs: { id: "rate", type: "text" },
+          domProps: { value: _vm.transactionNumber },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.transactionNumber = $event.target.value
+            }
+          }
+        })
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row receivers" }, [
