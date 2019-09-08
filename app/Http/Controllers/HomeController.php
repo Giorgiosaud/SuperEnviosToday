@@ -2,10 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Broadcast;
-use Illuminate\Http\Request;
-
-
 class HomeController extends Controller
 {
     /**
@@ -17,6 +13,7 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
+
     /**
      * Show the application dashboard.
      *

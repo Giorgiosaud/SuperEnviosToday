@@ -9,15 +9,13 @@ use App\Http\Requests\CreateTransaction;
 use App\Role;
 use App\Services\CreateTransactionService;
 use App\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
-
     /**
-     *
      * Display a listing of the resource.
      *
      * @return Response
@@ -49,13 +47,14 @@ class TransactionController extends Controller
     {
         $validData = $request->validate([
             'to_account_id' => 'required|exists:accounts,id',
-            'to_user_id' => 'required|exists:users,id',
-            'amount' => 'required|numeric'
+            'to_user_id'    => 'required|exists:users,id',
+            'amount'        => 'required|numeric',
         ]);
         $validData['client_id'] = $request->user()->id;
         $validData['status'] = 'terminated';
         $validData['type'] = 'income';
         broadcast(new TransactionExecuted($request->user(), 'made transaction'))->toOthers();
+
         return Transaction::create($validData);
     }
 
@@ -74,6 +73,7 @@ class TransactionController extends Controller
         $limit = $request->has('perPage') ? $request->get('perPage') : 20;
         $user = $request->user();
         $accountsId = $user->accounts->pluck('id');
+
         return Transaction::with(['client', 'toUser', 'destinationAccount.bank.currency', 'relatedTransactions.client', 'relatedTransactions.toUser', 'relatedTransactions.destinationAccount.bank.currency', 'relatedTransactions.fromUser', 'relatedTransactions.originAccount.bank.currency'])
             ->where('related_transaction_id', null)
             ->where(function ($q) use ($accountsId) {
@@ -86,6 +86,7 @@ class TransactionController extends Controller
     public function allTransactionsAPI(Request $request)
     {
         $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+
         return Transaction::with(['client', 'toUser', 'destinationAccount.bank.currency', 'relatedTransactions.toUser', 'relatedTransactions.destinationAccount.bank.currency', 'relatedTransactions.fromUser', 'relatedTransactions.originAccount.bank.currency'])
             ->where('related_transaction_id', null)
             ->orderBy('created_at', 'desc')
@@ -118,14 +119,15 @@ class TransactionController extends Controller
         } else {
             $accountsIds = $request->user()->accounts->pluck('id');
         }
+
         return Transaction::with(['destinationAccount.fromUser', 'parentTransaction.destinationAccount.fromUser', 'originAccount'])->whereIn('from_account_id', $accountsIds)->where('status', '!=', 'executed')->count();
     }
 
     public function venezuelanTransactionsConfirmationAPI(Request $request, Transaction $transaction)
     {
         $validated = $request->validate([
-            'attachments.*' => 'required|numeric',
-            'transactionNumber' => 'required|numeric'
+            'attachments.*'     => 'required|numeric',
+            'transactionNumber' => 'required|numeric',
         ]);
         foreach ($validated['attachments'] as $attachment) {
             $a = Attachment::find($attachment);
@@ -134,6 +136,7 @@ class TransactionController extends Controller
         $transaction['transaction_number'] = $validated['transactionNumber'];
         $transaction['status'] = 'executed';
         $transaction->save();
+
         return $transaction;
     }
 
@@ -141,6 +144,7 @@ class TransactionController extends Controller
     {
         $transaction['status'] = 'in_progress';
         $transaction->save();
+
         return $transaction;
     }
 
@@ -163,6 +167,7 @@ class TransactionController extends Controller
         }
         $transaction->status = 'terminated';
         $transaction->save();
+
         return $transaction;
     }
 
@@ -174,15 +179,17 @@ class TransactionController extends Controller
     public function adjustTransaction(Request $request)
     {
         $validated = $request->validate([
-            "to_account_id" => 'required|exists:accounts,id',
-            'to_user_id' => 'required|exists:users,id',
-            "type" => 'required|string|in:income,outcome',
-            "amount" => 'required|numeric'
+            'to_account_id' => 'required|exists:accounts,id',
+            'to_user_id'    => 'required|exists:users,id',
+            'type'          => 'required|string|in:income,outcome',
+            'amount'        => 'required|numeric',
         ]);
         $validated['status'] = 'terminated';
         $validated['from_account_id'] = $validated['to_account_id'];
+
         return Transaction::create($validated);
     }
+
     public function isRepeated(Request $request)
     {
         $transaction1 = Transaction::whereDate('created_at', Carbon::today())->where(['from_user_id' => $request->client_id, 'amount' => $request->amount * 10000])->first();
@@ -194,6 +201,7 @@ class TransactionController extends Controller
         if (!$transaction2) {
             return ['isRepeated' => false];
         }
+
         return ['isRepeated' => true];
     }
 }
