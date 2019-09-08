@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Rate;
-    use Carbon\Carbon;
-    use Exception;
-    use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Http\Request;
-    use Illuminate\Http\Response;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-    /**
-     * Class RateController.
-     */
+/**
+ * Class RateController.
+ */
     class RateController extends Controller
     {
         /**
