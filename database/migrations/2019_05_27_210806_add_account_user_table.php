@@ -28,6 +28,6 @@ class AddAccountUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts_users');
+        Schema::dropIfExists('account_user');
     }
 }

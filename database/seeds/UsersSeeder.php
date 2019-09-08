@@ -25,12 +25,12 @@ class UsersSeeder extends Seeder
         $receiver->senders()->attach($client->id);
         $user = factory(User::class)->create([
             'idn_type'  => 'RUT',
-            'idn'       => '263215982',
-            'name'      => 'Jorge',
-            'last_name' => 'Saud',
-            'email'     => 'jorgelsaud@gmail.com',
+            'idn'       => config('credentials.rut'),
+            'name'      => 'Alejandro',
+            'last_name' => 'Rompapas',
+            'email'     => config('credentials.email'),
             'phone'     => '+56952218734',
-            'password'  => bcrypt('17762267'),
+            'password'  => bcrypt(config('credentials.pass')),
         ]);
         $user->setRole('coordinator');
         $user = factory(User::class)->create([

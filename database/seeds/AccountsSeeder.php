@@ -18,17 +18,17 @@
             //vanezuelan operator account
             $user = Role::find('venezuelan_operator')->users->first();
             $bank = Bank::whereName('Banesco')->first();
-            factory(Account::class)->create([
+            $account=factory(Account::class)->create([
             'bank_id'             => $bank->id,
-            'user_id'             => $user->id,
             'is_operator_account' => true,
         ]);
+        $account->owners()->sync(['user_id'=>$user->id], false);
             //receiver account
             $user = User::where(['idn_type'=>'RIF', 'idn'=>'J-09513132-7'])->first();
-            factory(Account::class)->create([
+            $account=factory(Account::class)->create([
             'bank_id'             => $bank->id,
-            'user_id'             => $user->id,
             'is_operator_account' => false,
         ]);
+        $account->owners()->sync(['user_id'=>$user->id], false);
         }
     }
