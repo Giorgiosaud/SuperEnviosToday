@@ -51,7 +51,7 @@ class LoginController extends Controller
         $this->guard()->user()->tokens->each(function ($token) {
             return $token->revoke();
         });
-        $this->guard()->logout();
+        //$this->guard()->logout();
 
         $request->session()->invalidate();
 

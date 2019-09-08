@@ -6049,7 +6049,7 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       sessionStorage.clear();
       localStorage.clear();
-      axios.post('/logout').then(function () {
+      axios.post('/logout')["finally"](function () {
         window.location.href = '/';
       });
     },
