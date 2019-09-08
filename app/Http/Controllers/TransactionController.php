@@ -180,6 +180,7 @@ class TransactionController extends Controller
             "amount" => 'required|numeric'
         ]);
         $validated['status'] = 'terminated';
+        $validated['from_account_id'] = $validated['to_account_id'];
         return Transaction::create($validated);
     }
     public function isRepeated(Request $request)
