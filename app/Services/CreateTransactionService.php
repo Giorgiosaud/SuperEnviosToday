@@ -51,14 +51,14 @@ class CreateTransactionService
             return abort(424, 'No hay dinero disponible suficiente en la cuenta seleccionada');
         }
         $incomeTransactionData = [
-            'client_id'     => $request->client_id,
-            'from_user_id'  => $request->client_id,
-            'to_account_id' => $request->foreign_account_id,
+            'client_id'           => $request->client_id,
+            'from_user_id'        => $request->client_id,
+            'to_account_id'       => $request->foreign_account_id,
             'transaction_number'  => $request->transaction_number,
-            'to_user_id'    => $request->user()->id,
-            'amount'        => $request->amount,
-            'status'        => 'confirmed',
-            'type'          => 'income',
+            'to_user_id'          => $request->user()->id,
+            'amount'              => $request->amount,
+            'status'              => 'confirmed',
+            'type'                => 'income',
         ];
         $incomeTransaction = Transaction::create($incomeTransactionData);
         if (isset($request->received_transaction_attachment_ids)) {
