@@ -8,6 +8,7 @@ $factory->define(App\Bank::class, function (Faker $faker) {
 
         'currency_id' => function () {
             $currency = factory(\App\Currency::class)->create();
+
             return $currency->id;
         },
     ];
