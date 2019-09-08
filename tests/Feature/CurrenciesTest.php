@@ -3,15 +3,15 @@
 namespace Tests\Feature;
 
 use App\Account;
-    use App\Bank;
-    use App\Currency;
-    use App\User;
-    use Illuminate\Foundation\Testing\RefreshDatabase;
-    use Tests\TestCase;
+use App\Bank;
+use App\Currency;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-    /**
-     * Class UserTest.
-     */
+/**
+ * Class UserTest.
+ */
     class CurrenciesTest extends TestCase
     {
         use RefreshDatabase;
