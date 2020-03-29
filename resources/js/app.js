@@ -1,0 +1,109 @@
+import vco from 'v-click-outside';
+import vSelect from 'vue-select';
+import Datetime from 'vue-datetime';
+import VueFrappe from 'vue2-frappe';
+import 'vue-datetime/dist/vue-datetime.css';
+import 'material-icons/css/material-icons.css';
+import { Settings } from 'luxon';
+import Vue from 'vue';
+import VueCurrencyFilter from 'vue-currency-filter';
+import VeeValidate, { Validator } from 'vee-validate';
+import es from 'vee-validate/dist/locale/es';
+import Toasted from 'vue-toasted';
+import store from './store';
+import MakeTransaction from './Pages/MakeTransactions/MakeTransaction.vue';
+// You need a specific loader for CSS files
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+require('./bootstrap');
+
+// window.Vue = Vue;
+
+const _ = require('lodash');
+
+
+Vue.use(vco);
+
+Settings.defaultLocale = 'es';
+Vue.use(Datetime);
+Vue.use(VueFrappe);
+Vue.use(Toasted);
+
+Vue.use(Datetime);
+Vue.use(
+  VueCurrencyFilter,
+  {
+    symbol: ' ',
+    thousandsSeparator: '.',
+    fractionCount: 2,
+    fractionSeparator: ',',
+    symbolPosition: 'front',
+    symbolSpacing: true,
+  },
+);
+Vue.component('pagination', require('laravel-vue-pagination'));
+
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
+
+// const files = require.context('./', true, /\.vue$/i)
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.component('v-select', vSelect);
+Vue.component('make-transaction', MakeTransaction);
+Vue.component('main-menu', require('./components/mainMenu.vue').default);
+Vue.component('register-member', require('./components/registerMember.vue').default);
+Vue.component('add-operator-account', require('./Pages/addOperatorAccount/addOperatorAccount.vue').default);
+Vue.component('register-client', require('./components/registerClient.vue').default);
+Vue.component('users-list', require('./components/usersList.vue').default);
+Vue.component('rate', require('./Pages/Rates/rate.vue').default);
+Vue.component('settings', require('./Pages/Settings/Settings.vue').default);
+Vue.component('my-profile', require('./Pages/MyProfile/MyProfile.vue').default);
+Vue.component('add-funds', require('./Pages/AddFunds/AddFunds.vue').default);
+Vue.component('add-account', require('./components/addAccount.vue').default);
+Vue.component('pending-transactions', require('./Pages/PendingTransactions/PendingTransactions.vue').default);
+Vue.component('my-pending-transactions', require('./Pages/MyPendingTransactions/MyPendingTransactions.vue').default);
+Vue.component('venezuelan-accounts', require('./Pages/VenezuelanAccounts/VenezuelanAccounts.vue').default);
+Vue.component('foreigns-accounts', require('./Pages/ForeignsAccounts/foreignsAccounts.vue').default);
+Vue.component('list-transactions', require('./Pages/ListTransactions/ListTransactions.vue').default);
+Vue.component('my-transactions', require('./Pages/MyTransactions/MyTransactions.vue').default);
+Vue.component('venezuelan-transactions', require('./Pages/VenezuelanTransactions/VenezuelanTransactions.vue').default);
+Vue.component('fix-transaction', require('./Pages/FixTransaction/FixTransaction.vue').default);
+Vue.component('asociate-operator-account', require('./Pages/asociateOperatorAccount/asociateOperatorAccount.vue').default);
+
+Vue.use(VeeValidate, {
+  events: 'change|blur',
+  classes: true,
+  classNames: {
+    valid: 'border-green',
+    invalid: 'border-red',
+  },
+});
+Validator.localize('es', es);
+
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+const app = new Vue({
+  el: '#app',
+  store,
+  mounted() {
+    this.$store.commit('globals/SET_SCREEN_WIDTH', window.innerWidth);
+    window.addEventListener('resize', _.debounce(() => {
+      this.$store.commit('globals/SET_SCREEN_WIDTH', window.innerWidth);
+    }, 500));
+  },
+});
+export default app;
