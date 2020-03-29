@@ -20,7 +20,6 @@ class CreateTransactionService
      */
     public function make(CreateTransaction $request)
     {
-        //TODO VALIDATE and verify if a transaction with the same amount is already made and return confirmation
         $venezuelan_account = Account::find($request->venezuelan_operator_account_id);
         $foreign_account = Account::find($request->foreign_account_id);
         $currency = $foreign_account->bank->currency;

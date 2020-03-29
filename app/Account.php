@@ -17,7 +17,6 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int $bank_id
- * @property int $user_id
  * @property string|null $type
  * @property string $number
  * @property int $is_operator_account
@@ -39,7 +38,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Account whereNumber($value)
  * @method static Builder|Account whereType($value)
  * @method static Builder|Account whereUpdatedAt($value)
- * @method static Builder|Account whereUserId($value)
  * @mixin Eloquent
  *
  * @property-read mixed $balance
@@ -49,7 +47,7 @@ class Account extends Model
 {
     protected $with = ['bank'];
     protected $fillable = ['bank_id', 'is_operator_account', 'number', 'type'];
-    protected $appends = ['Balance'];
+    //protected $appends = ['Balance'];
 
     /**
      * @return HasMany
@@ -65,6 +63,14 @@ class Account extends Model
     public function outgoingTransactions()
     {
         return $this->hasMany(Transaction::class, 'from_account_id');
+    }
+
+      /**
+     * @return HasMany
+     */
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, ['from_account_id','to_account_id']);
     }
 
     /**
@@ -86,14 +92,6 @@ class Account extends Model
     public function getBalanceAttribute()
     {
         return $this->incomingTransactionsTyped->sum('amount') - $this->outgoingTransactionsTyped->sum('amount');
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function owner()
-    {
-        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

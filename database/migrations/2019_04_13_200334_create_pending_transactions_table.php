@@ -20,8 +20,8 @@
                 $table->unsignedInteger('received_transaction_attachment_id')->nullable();
                 $table->unsignedInteger('receiver_account_id');
                 $table->unsignedInteger('venezuelan_operator_account_id');
-                $table->unsignedInteger('rate');
-                $table->unsignedInteger('amount');
+                $table->text('rate');
+                $table->text('amount');
                 $table->enum('status', ['pending', 'aprooved', 'rejected'])->default('pending');
                 $table->timestamps();
             });

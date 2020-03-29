@@ -11,7 +11,8 @@
         "axios": true,
         "process": true,
         "$": true,
-        "window": true
+        "window": true,
+        "Echo":true
     },
     "extends": [
         "airbnb-base",

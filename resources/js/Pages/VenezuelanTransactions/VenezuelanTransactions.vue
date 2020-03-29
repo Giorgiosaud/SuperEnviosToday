@@ -49,8 +49,7 @@
                 <tr
                   v-for="(transaction, transactionKey) in venezuelanTransactions"
                   :key="transactionKey"
-                  :class="{'bg-success':transaction.status==='executed'||
-                    transaction.status==='completed'}"
+                  :class="{'bg-success':transaction.status!=='assigned' && transaction.status!=='in_progress'}"
                 >
                   <td
                     v-for="(key, keyIndex) in keysToShow"
@@ -60,13 +59,13 @@
                       {{ transaction.to_user.idn_type }} -
                       {{ transaction.to_user.idn }}
                     </span>
-                    <span v-if="key==='receiverName'">
+                    <span v-if="key==='receiverName' && transaction.from_user">
                       {{ transaction.to_user.name }}
                       {{ transaction.to_user.last_name }}
                     </span>
-                    <span v-if="key==='foreign_operator'">
-                      {{ transaction.parent_transaction.to_user.name }}
-                      {{ transaction.parent_transaction.to_user.last_name }}
+                    <span v-if="key==='foreign_operator' && transaction.from_user">
+                      {{ transaction.from_user.name }}
+                      {{ transaction.from_user.last_name }}
                     </span>
                     <span v-if="key==='operator_venezuela_bank'">
                       {{ transaction.origin_account.bank.name }}
@@ -78,13 +77,12 @@
                       {{ transaction.amount|currency }}
                     </span>
                     <span
-                      v-if="key==='action' && transaction.status!=='executed'&&
-                        transaction.status!=='completed'"
+                      v-if="key==='action' && (transaction.status==='assigned'||transaction.status==='in_progress')"
                       @click="selectTransaction(transaction)"
                     >
                       <button class="btn btn-primary">Ver mas y completar</button>
                     </span>
-                    <span v-else-if="key==='action' && transaction.status==='executed'">
+                    <span v-else-if="key==='action' && transaction.status!=='assigned' && transaction.status!=='in_progress'">
                       Ejecutada
                     </span>
                   </td>
@@ -92,6 +90,10 @@
               </tbody>
             </table>
           </div>
+          <pagination
+            v-if="venezuelanTransactions.length"
+            :data="query"
+            @pagination-change-page="getVenezuelanTransactionsByPage"></pagination>
         </div>
       </div>
     </div>
@@ -243,6 +245,7 @@ export default {
   computed: {
     dropzoneOptions() {
       return {
+        query: {},
         url: 'api/attachment',
         thumbnailWidth: 150,
         maxFilesize: 3,
@@ -264,6 +267,24 @@ export default {
       this.transactionNumber = '';
       this.transactionAttachments = [];
     });
+    Echo.private('transaction-assigned')
+      .listen('TransactionExecuted', (e) => {
+        console.log(e);
+        this.$toasted.show(
+          'Hay una nueva transaccion refresca !!', {
+            keepOnHover: true,
+            className: 'bg-success',
+            duration: 9000,
+            onClick: () => {
+              window.location.reload();
+            },
+            icon: {
+              name: 'check',
+              after: true,
+            },
+          },
+        );
+      });
   },
   created() {
     this.getVenezuelanTransactions();
@@ -307,6 +328,17 @@ export default {
     getVenezuelanTransactions() {
       this.loading = true;
       axios.get('api/my-venezuelan-transactions').then((response) => {
+        this.query = response.data;
+        this.venezuelanTransactions = response.data.data;
+        this.empty = response.data.data === 0;
+      }).finally(() => {
+        this.loading = false;
+      });
+    },
+    getVenezuelanTransactionsByPage(page = 1) {
+      this.loading = true;
+      axios.get(`api/my-venezuelan-transactions?page=${page}`).then((response) => {
+        this.query = response.data;
         this.venezuelanTransactions = response.data.data;
         this.empty = response.data.data === 0;
       }).finally(() => {

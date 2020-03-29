@@ -118,6 +118,10 @@
             </tr>
           </tbody>
         </table>
+        <pagination
+            v-if="query.length"
+            limit="0"
+            :data="query" @pagination-change-page="getPendingTransactionsPaginated"></pagination>
       </div>
     </div>
   </div>
@@ -186,8 +190,18 @@ export default {
           this.onChangeState = false;
         });
     },
+    getPendingTransactionsPaginated(page = 1) {
+      this.loading = true;
+      axios.get(`/api/pending-transactions?page=${page}`)
+        .then((response) => {
+          this.myTransactions = response.data.data;
+          this.query = response.data;
+          this.loading = false;
+          this.empty = this.myTransactions.length === 0;
+        });
+    },
     foreignAccount(transaction) {
-      return transaction.foreign_operator.accounts.find(acc => acc.id === transaction.foreign_account_id);
+      return transaction.foreign_operator.accounts.find(acc => acc.id == transaction.foreign_account_id);
     },
     setData(data) {
       this.transactions = data.data;

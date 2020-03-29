@@ -92,7 +92,7 @@
             <strong>{{ errors.first('Apellido') }}</strong>
           </span>
         </div>
-        <div class="col-12">
+        <div class="col-12" v-if="!clientParent">
           <label
             for="phone"
             class="label-base"
@@ -112,7 +112,10 @@
             <strong>{{ errors.first('Telefono') }}</strong>
           </span>
         </div>
-        <div class="col-12">
+        <div
+          v-if="!clientParent"
+          class="col-12"
+        >
           <label
             class="label-base"
             for="email"
@@ -134,12 +137,16 @@
             <strong>{{ errors.first('Email') }}</strong>
           </span>
         </div>
-        <div class="col-12">
+        <div
+          v-if="!clientParent"
+          class="col-12"
+        >
           <label
             class="label-base"
             for="email_confirmation"
           >Confirmacion de Email</label>
           <input
+
             id="email_confirmation"
             v-model="person.email_confirmation"
             v-validate="'required|email|confirmed:email'"
@@ -155,7 +162,10 @@
             <strong>{{ errors.first('Confirmacion de Email') }}</strong>
           </span>
         </div>
-        <div class="col-12">
+        <!--div
+          v-if="!clientParent"
+          class="col-12"
+        >
           <label
             for="address"
             class="label-base"
@@ -175,7 +185,7 @@
           >
             <strong>{{ errors.first('Dirección') }}</strong>
           </span>
-        </div>
+        </div-->
         <div class="col-12">
           <button
             type="button"
@@ -205,6 +215,18 @@ export default {
       type: Number,
       default: null,
     },
+    clientEmail: {
+      type: String,
+      default: 'receiver@mock.com',
+    },
+    clientAddress: {
+      type: String,
+      default: 'Venezuela',
+    },
+    clientPhone: {
+      type: String,
+      default: '123123123',
+    },
   },
   data() {
     return {
@@ -215,7 +237,7 @@ export default {
         last_name: '',
         email: '',
         phone: '',
-        address: '',
+        address: 'removido',
       },
       idnTypes: ['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF'],
       selectedRole: [],
@@ -262,6 +284,10 @@ export default {
         if (valid) {
           if (this.clientParent) {
             this.person.relatedSender = this.clientParent;
+            this.person.email = this.clientEmail;
+            this.person.email_confirmation = this.clientEmail;
+            this.person.address = this.clientAddress;
+            this.person.phone = this.clientPhone;
           }
           axios.post('/api/registerClient', this.person)
             .then(() => {
@@ -270,8 +296,8 @@ export default {
               this.person.name = '';
               this.person.last_name = '';
               this.person.email = '';
-              this.person.phone = '';
-              this.person.address = '';
+              // this.person.phone = '';
+              // this.person.address = ' removido';
               $('#modal').modal('hide');
               this.$emit('registered');
             });

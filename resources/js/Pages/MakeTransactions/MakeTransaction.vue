@@ -399,7 +399,7 @@
             <tr
               v-for="(venezuelan_account,vacindex) in venezuelanAccountsFrom(operador.accounts)"
               :key="vacindex"
-              :class="{active:selectedvenezuelanAccount === venezuelan_account.id}"
+              :class="{active:selectedvenezuelanAccount == venezuelan_account.id}"
             >
               <td>{{ venezuelan_account.bank.name }}</td>
               <td>{{ venezuelan_account.number }}</td>
@@ -529,7 +529,7 @@ export default {
         return [];
       }
       const accounts = this.operator.accounts
-        .filter(acc => acc.bank.currency.id === this.selectedCurrency.id);
+        .filter(acc => acc.bank.currency.id == this.selectedCurrency.id);
       accounts.forEach((acc) => {
         acc.label = `${acc.bank.name} / ${acc.number}`;
       });
@@ -626,6 +626,8 @@ export default {
       this.modalComponent = 'register-client';
       this.propsOfComponent = {
         clientParent: this.client.id,
+        clientEmail: this.client.email,
+        clientAddress: this.client.address,
       };
       $('#modal').modal('show');
     },
@@ -655,7 +657,7 @@ export default {
       const selectedReceiverId = this.selectedReceiver.id;
       this.buscarCliente().then(() => {
         this.selectedReceiver = this.client.receivers
-          .find(receiver => receiver.id === selectedReceiverId);
+          .find(receiver => receiver.id == selectedReceiverId);
       });
     },
     agregarTransaccion() {
