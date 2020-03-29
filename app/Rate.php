@@ -34,7 +34,8 @@ use Illuminate\Support\Carbon;
 class Rate extends Model
 {
     protected $casts = [
-        'since' => 'datetime:Y-m-d h:i:s',
+        'since' => 'datetime',
+        'amount'=>'integer'
     ];
     protected $fillable = ['currency_id', 'amount', 'since'];
 
@@ -45,7 +46,7 @@ class Rate extends Model
 
     public function setAmountAttribute($value)
     {
-        $this->attributes['amount'] = $value * 10000;
+        $this->attributes['amount'] = strval($value * 10000);
     }
 
     protected static function boot()

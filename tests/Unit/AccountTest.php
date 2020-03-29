@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class AccountTest extends TestCase
@@ -14,10 +15,10 @@ class AccountTest extends TestCase
      *
      * @test
      */
-    public function anAccountMustHaveOwner()
+    public function anAccountCanHaveManyOwners()
     {
         $account = factory('App\Account')->create();
-        $this->assertInstanceOf(\App\User::class, $account->owner);
+        $this->assertInstanceOf(Collection::class, $account->owners);
     }
 
     /**

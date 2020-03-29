@@ -34,6 +34,5 @@ class TransactionExecuted implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel('transaction-assigned');
-        //return new PrivateChannel('transaction-assigned');
     }
 }

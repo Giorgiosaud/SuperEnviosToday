@@ -3,13 +3,16 @@ import vSelect from 'vue-select';
 import Datetime from 'vue-datetime';
 import VueFrappe from 'vue2-frappe';
 import 'vue-datetime/dist/vue-datetime.css';
+import 'material-icons/css/material-icons.css';
 import { Settings } from 'luxon';
 import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
 import VeeValidate, { Validator } from 'vee-validate';
 import es from 'vee-validate/dist/locale/es';
+import Toasted from 'vue-toasted';
 import store from './store';
 import MakeTransaction from './Pages/MakeTransactions/MakeTransaction.vue';
+// You need a specific loader for CSS files
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -23,11 +26,15 @@ require('./bootstrap');
 
 const _ = require('lodash');
 
+
 Vue.use(vco);
 
 Settings.defaultLocale = 'es';
 Vue.use(Datetime);
 Vue.use(VueFrappe);
+Vue.use(Toasted);
+
+Vue.use(Datetime);
 Vue.use(
   VueCurrencyFilter,
   {
@@ -39,6 +46,8 @@ Vue.use(
     symbolSpacing: true,
   },
 );
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

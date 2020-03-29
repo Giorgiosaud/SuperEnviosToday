@@ -54,12 +54,13 @@
               for="since"
               class="label-base bg-white"
             >Aplicar desde:</label>
-            <input
-              id="since"
+            <datetime
               v-model="since"
-              type="datetime-local"
+              type="datetime"
+              value-zone="local"
+              zone="local"
               class="input-base"
-            >
+            />
           </div>
         </div>
         <div class="row">
@@ -158,7 +159,7 @@ export default {
       if (!this.selectedCurrency) {
         return null;
       }
-      return this.rates.filter(rate => rate.currency_id === this.selectedCurrency.id);
+      return this.rates.filter(rate => rate.currency_id == this.selectedCurrency.id);
     },
     isDisabledSend() {
       return this.selectedCurrency === null || this.since === '' || this.newRate === '';
@@ -237,13 +238,13 @@ export default {
       this.rateId = rate.id;
       this.newRate = rate.amount.toString().replace(',', '').replace('.', ',');
       this.since = parse(rate.since, 'DD-MM-YYYY hh:mm');
-      this.selectedCurrency = this.currencies.find(curr => curr.id === rate.currency_id);
+      this.selectedCurrency = this.currencies.find(curr => curr.id == rate.currency_id);
     },
     removeRate(rate) {
       const $result = confirm('quieres borrar esta Tasa');
       if ($result) {
         window.axios.delete(`api/rate/${rate.id}`);
-        const index = this.rates.findIndex(rat => rat.id === rate.id);
+        const index = this.rates.findIndex(rat => rat.id == rate.id);
         this.rates.splice(index, 1);
       }
     },
@@ -253,7 +254,7 @@ export default {
     setNewRate() {
       if (!this.rateId) {
         axios.post('api/rate', {
-          since: this.since2,
+          since: this.since,
           amount: this.rateValue,
           currency: this.selectedCurrency,
         })
@@ -265,7 +266,7 @@ export default {
           });
       } else {
         axios.patch(`api/rate/${this.rateId}`, {
-          since: this.since2,
+          since: this.since,
           amount: this.rateValue,
           currency: this.selectedCurrency,
         })

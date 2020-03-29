@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\User;
+use App\Account;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -61,9 +62,28 @@ class UserTest extends TestCase
     public function aUserHaveMultiplesAccountsAssociated()
     {
         $user = factory('App\User')->create();
-        factory('App\Account', 3)->create(['user_id' => $user->id]);
+        $bank=factory('App\Bank')->create();
+        $account=factory('App\Account')->make();
+        $userAccount=[
+            'user_id' => $user->id,
+            'bank_id' => $bank->id,
+            'type'    => $account->type,
+            'number'    => $account->number,
+        ];
+        $account=factory('App\Account')->make();
+        
+        $this->postJson(route('save_account'), $userAccount)->assertStatus(401);
+        $this->actingAsForeignOperator();
+        $this->postJson(route('save_account'), $userAccount)->assertStatus(201);
+        $userAccount=[
+            'user_id' => $user->id,
+            'bank_id' => $bank->id,
+            'type'    => $account->type,
+            'number'    => $account->number,
+        ];
+        $this->postJson(route('save_account'), $userAccount)->assertStatus(201);
         $user->refresh();
-        $this->assertCount(3, $user->accounts);
+        $this->assertCount(2,$user->accounts);
     }
 
     /**

@@ -156,22 +156,22 @@ export default {
   },
   computed: {
     accountsFiltered() {
-      if (this.selectedBank) { return this.accounts.filter(acc => acc.bank.id === this.selectedBank.id); }
+      if (this.selectedBank) { return this.accounts.filter(acc => acc.bank.id == this.selectedBank.id); }
       return [];
     },
     banks() {
-      if (this.selectedCurrency) {
+      if (this.selectedCurrency && this.selectedCurrency.id) {
         return [...new Set(this.accounts.map(acc => acc.bank)
-          .filter(bank => bank.currency_id === this.selectedCurrency.id)
+          .filter(bank => bank.currency_id == this.selectedCurrency.id)
           .map(bank => bank.id))]
-          .map(id => this.accounts.find(acc => acc.bank.id === id).bank);
+          .map(id => this.accounts.find(acc => acc.bank.id == id).bank);
       }
       return [];
     },
     currencies() {
       return [...new Set(this.accounts.map(acc => acc.bank.currency.id))]
         .map(id => this.accounts
-          .find(acc => acc.bank.currency.id === id).bank.currency);
+          .find(acc => acc.bank.currency.id == id).bank.currency);
     },
   },
   created() {

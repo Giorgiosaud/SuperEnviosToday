@@ -33,6 +33,8 @@ class PendingTransaction extends Model
         'status',
     ];
 
+    protected $casts=['amount'=>'integer','rate'=>'integer'];
+
     public function attachments()
     {
         return $this->morphMany(Attachment::class, 'attachable');
@@ -80,7 +82,7 @@ class PendingTransaction extends Model
 
     public function setRateAttribute($value)
     {
-        $this->attributes['rate'] = $value * 10000;
+        $this->attributes['rate'] = strval($value * 10000);
     }
 
     public function getAmountAttribute($value)
@@ -90,7 +92,7 @@ class PendingTransaction extends Model
 
     public function setAmountAttribute($value)
     {
-        $this->attributes['amount'] = $value * 10000;
+        $this->attributes['amount'] = strval($value * 10000);
     }
 
     //

@@ -54,7 +54,6 @@ class TransactionController extends Controller
         $validData['status'] = 'terminated';
         $validData['type'] = 'income';
         broadcast(new TransactionExecuted($request->user(), 'made transaction'))->toOthers();
-
         return Transaction::create($validData);
     }
 
@@ -70,32 +69,47 @@ class TransactionController extends Controller
 
     public function myTransactionsAPI(Request $request)
     {
-        $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+        $limit = $request->has('perPage') ? $request->get('perPage') : 10;
         $user = $request->user();
         $accountsId = $user->accounts->pluck('id');
-
-        return Transaction::with(['client', 'toUser', 'destinationAccount.bank.currency', 'relatedTransactions.client', 'relatedTransactions.toUser', 'relatedTransactions.destinationAccount.bank.currency', 'relatedTransactions.fromUser', 'relatedTransactions.originAccount.bank.currency'])
+        $date=$request->date;
+        if($date){
+          $date=Carbon::parse($date)->format('Y-m-d');
+          $nextDate=Carbon::parse($date)->addDay()->format('Y-m-d');
+          return Transaction::with(['client', 'toUser', 'destinationAccount.bank', 'relatedTransactions.client', 'relatedTransactions.toUser', 'relatedTransactions.destinationAccount.bank', 'relatedTransactions.fromUser', 'relatedTransactions.originAccount.bank'])
             ->where('related_transaction_id', null)
+            ->where('created_at','>=',$date)
+            ->where('created_at','<',$nextDate)
             ->where(function ($q) use ($accountsId) {
                 return $q->whereIn('to_account_id', $accountsId);
             })
+            ->orderByRaw('FIELD(status, "assigned","in_progress","executed","confirmed","terminated")')
+            ->orderBy('created_at', 'desc')
+            ->paginate($limit);
+        }
+        return Transaction::with(['client', 'toUser', 'destinationAccount.bank', 'relatedTransactions.client', 'relatedTransactions.toUser', 'relatedTransactions.destinationAccount.bank', 'relatedTransactions.fromUser', 'relatedTransactions.originAccount.bank'])
+            ->where('related_transaction_id', null)
+            ->where('to_account_id','<>',null)
+            ->whereIn('to_account_id', $accountsId)
+            ->orderByRaw('FIELD(status, "assigned","in_progress","executed","confirmed","terminated")')
             ->orderBy('created_at', 'desc')
             ->paginate($limit);
     }
 
     public function allTransactionsAPI(Request $request)
     {
-        $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+        $limit = $request->has('perPage') ? $request->get('perPage') : 10;
 
         return Transaction::with(['client', 'toUser', 'destinationAccount.bank.currency', 'relatedTransactions.toUser', 'relatedTransactions.destinationAccount.bank.currency', 'relatedTransactions.fromUser', 'relatedTransactions.originAccount.bank.currency'])
             ->where('related_transaction_id', null)
+            ->orderByRaw('FIELD(status, "assigned","in_progress","executed","confirmed","terminated")')
             ->orderBy('created_at', 'desc')
             ->paginate($limit);
     }
 
     public function venezuelanTransactionsAPI(Request $request)
     {
-        $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+        $limit = $request->has('perPage') ? $request->get('perPage') : 10;
         if ($request->user()->hasRole('coordinator')) {
             $usersId = Role::find('venezuelan_operator')->users->pluck('id');
             $accountsIds = Account::whereHas('owners', function ($q) use ($usersId) {
@@ -104,7 +118,11 @@ class TransactionController extends Controller
         } else {
             $accountsIds = $request->user()->accounts->pluck('id');
         }
-        $transactions = Transaction::with(['destinationAccount', 'parentTransaction.toUser', 'originAccount', 'fromUser', 'toUser'])->whereIn('from_account_id', $accountsIds)->paginate($limit);
+        $transactions = Transaction::with(['destinationAccount', 'parentTransaction.toUser', 'originAccount', 'fromUser', 'toUser'])
+        ->whereIn('from_account_id', $accountsIds)
+        ->orderByRaw('FIELD(status, "assigned","in_progress","executed","confirmed","terminated")')
+        ->orderBy('created_at', 'desc')
+        ->paginate($limit);
 
         return $transactions;
     }
@@ -120,7 +138,7 @@ class TransactionController extends Controller
             $accountsIds = $request->user()->accounts->pluck('id');
         }
 
-        return Transaction::with(['destinationAccount.fromUser', 'parentTransaction.destinationAccount.fromUser', 'originAccount'])->whereIn('from_account_id', $accountsIds)->where('status', '!=', 'executed')->count();
+        return Transaction::with(['destinationAccount.fromUser', 'parentTransaction.destinationAccount.fromUser', 'originAccount'])->whereIn('from_account_id', $accountsIds)->where('status', 'assigned')->orWhere('status', 'in_progress')->count();
     }
 
     public function venezuelanTransactionsConfirmationAPI(Request $request, Transaction $transaction)

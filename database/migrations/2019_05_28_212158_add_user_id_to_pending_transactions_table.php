@@ -14,7 +14,6 @@ class AddUserIdToPendingTransactionsTable extends Migration
     public function up()
     {
         Schema::table('pending_transactions', function (Blueprint $table) {
-            //
             $table->unsignedInteger('foreign_id');
             $table->unsignedInteger('receiver_id');
             $table->unsignedInteger('venezuelan_operator_id');

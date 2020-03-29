@@ -9,6 +9,16 @@
         </div>
       </div>
       <div class="row">
+         <div class="d-flex">
+
+            <label
+              for="date"
+              class="label-base bg-white"
+            >fecha:</label>
+        <datetime v-model="date" id="date" class="input-base mx-3" value-zone="local"></datetime>
+        <button @click="date=''" class="btn btn-primary" v-if="date!==''">Hoy</button>
+
+        </div>
         <div
           v-if="loading"
           class="w-100 d-flex align-center justify-content-center"
@@ -20,6 +30,7 @@
             <div />
           </div>
         </div>
+
         <div
           v-else-if="empty"
           class="w-100 d-flex align-center justify-content-center"
@@ -30,6 +41,7 @@
           v-else
           class="container"
         >
+
           <div
             v-if="myTransactions.length"
             class="table-responsive"
@@ -55,11 +67,14 @@
                     v-for="(key, keyIndex) in keysToShow"
                     :key="keyIndex"
                   >
-                    <span v-if="key==='idn'">
+                    <span v-if="key==='idn' && transaction.client">
                       {{ transaction.client.idn_type }} - {{ transaction.client.idn }}
                     </span>
-                    <span v-else-if="key==='name'">
+                    <span v-else-if="key==='name' && transaction.client">
                       {{ transaction.client.name }} {{ transaction.client.last_name }}
+                    </span>
+                    <span v-else-if="(key==='idn' || key==='name') && !transaction.client">
+                      sin cliente
                     </span>
                     <span v-else-if="key==='operator_destination' && transaction.related_transactions.length">
                       {{ transaction.related_transactions[0].to_user.name }}
@@ -90,11 +105,14 @@
                     <span v-else-if="key==='created_at'">
                       {{ transaction[key] }}
                     </span>
-                    <span v-else-if="key==='action'">
+                    <span v-else-if="key==='action' && transaction.client">
                       <button
                         class="btn btn-primary"
                         @click="seeTransaction(transaction)"
                       >Ver Transacción</button>
+                    </span>
+                    <span v-else-if="key==='action' && !transaction.client">
+                      Transaccion de ajuste
                     </span>
                     <span v-else>
                       {{ transaction[key] | currency }}
@@ -103,6 +121,10 @@
                 </tr>
               </tbody>
             </table>
+            <pagination
+            v-if="myTransactions.length"
+            limit="0"
+            :data="query" @pagination-change-page="getResults"></pagination>
           </div>
         </div>
       </div>
@@ -238,13 +260,18 @@
 </template>
 
 <script>
+/* eslint-disable global-require */
+
 export default {
   name: 'MyTransactions',
+
   data() {
     return {
       myTransactions: [],
       selectedTransaction: null,
       myTransactionsCount: 0,
+      query: {},
+      date: new Date(),
       loading: true,
       headers: [
         'Identificación cliente', 'Nombre Cliente', 'Nombre Destino', 'Banco Destino', 'Monto', 'Estado', 'Fecha de Apertura', 'Ver Transacción',
@@ -271,7 +298,7 @@ export default {
     },
   },
   created() {
-    this.getTransactions();
+    // this.getTransactions();
   },
   methods: {
     seeTransaction(transaction) {
@@ -289,13 +316,36 @@ export default {
           this.getTransactions();
         });
     },
+    getResults(page = 1) {
+      this.loading = true;
+      axios.get(`/api/my-transactions?page=${page}`)
+        .then((response) => {
+          this.myTransactions = response.data.data;
+          this.query = response.data;
+          this.loading = false;
+          this.empty = this.myTransactions.length === 0;
+        });
+    },
     getTransactions() {
       this.loading = true;
       axios.get('/api/my-transactions').then((response) => {
         this.myTransactions = response.data.data;
+        this.query = response.data;
         this.loading = false;
         this.empty = this.myTransactions.length === 0;
       });
+    },
+  },
+  watch: {
+    date(date) {
+      this.loading = true;
+      axios.get(`/api/my-transactions?date=${date}`)
+        .then((response) => {
+          this.myTransactions = response.data.data;
+          this.query = response.data;
+          this.loading = false;
+          this.empty = this.myTransactions.length === 0;
+        });
     },
   },
 };
