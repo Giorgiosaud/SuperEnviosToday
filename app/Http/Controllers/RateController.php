@@ -59,7 +59,6 @@ use Illuminate\Http\Response;
                 'since'    => 'required|date',
                 'amount'   => 'required|Numeric',
             ]);
-
             return Rate::create([
                 'currency_id' => $validated['currency']['id'],
                 'amount'      => $validated['amount'],
@@ -99,6 +98,10 @@ use Illuminate\Http\Response;
          */
         public function destroy(Rate $rate)
         {
-            return $rate->delete();
+            $rate->delete();
+            if (request()->wantsJson()) {
+                return response('Rate Deleted', 204);
+            }
+            return redirect('/threads');
         }
     }

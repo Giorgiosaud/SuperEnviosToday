@@ -66,6 +66,8 @@ class Transaction extends Model
         'type',
     ];
 
+    protected $casts=['amount'=>'integer'];
+    
     protected $with = ['attachments'];
 
     public function originAccount()
@@ -95,7 +97,7 @@ class Transaction extends Model
 
     public function setAmountAttribute($value)
     {
-        $this->attributes['amount'] = $value * 10000;
+        $this->attributes['amount'] = strval($value * 10000);
     }
 
     public function attachments()

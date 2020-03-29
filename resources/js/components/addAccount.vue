@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     banksRelatedToCurrencies() {
-      return this.banks.filter(bank => bank.currency_id === this.currency_id);
+      return this.banks.filter(bank => bank.currency_id == this.currency_id);
     },
   },
   created() {

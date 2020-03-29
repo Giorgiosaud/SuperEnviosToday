@@ -106,6 +106,10 @@
           </tbody>
         </table>
       </div>
+      <pagination
+            v-if="transactions.length"
+            limit="0"
+            :data="queryP" @pagination-change-page="getPendingTransactions"></pagination>
     </div>
   </div>
 </template>
@@ -118,6 +122,7 @@ export default {
   data() {
     return {
       query: '',
+      queryP: {},
       loading: true,
       empty: false,
       transactions: [],
@@ -160,14 +165,22 @@ export default {
       });
   },
   methods: {
-    getPendingTransactions() {
+
+    getPendingTransactions(page = 1) {
       this.loading = true;
-      return axios.get('/api/my-pending-transactions')
-        .then((response) => {
-          this.empty = response.data.data.length === 0;
-          this.setData(response.data);
-          this.loading = false;
-        });
+      axios.get('/api/my-pending-transactions', {
+        params: {
+          q: this.query,
+          page,
+        },
+      }).then((response) => {
+        this.queryP = response.data;
+        this.empty = response.data.data.length === 0;
+        this.setData(response.data);
+        this.loading = false;
+      }).finally(() => {
+        this.loading = false;
+      });
     },
     setData(data) {
       this.transactions = data.data;

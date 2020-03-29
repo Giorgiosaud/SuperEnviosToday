@@ -17,7 +17,7 @@ class PendingTransactionController extends Controller
 
     public function indexAPI(Request $request)
     {
-        $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+        $limit = $request->has('perPage') ? $request->get('perPage') : 10;
         $q = $request->has('q') ? $request->get('q') : null;
         if ($q) {
             return PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator'])
@@ -38,8 +38,9 @@ class PendingTransactionController extends Controller
                 ->orWhereHas('operator_account.bank', function ($query) use ($q) {
                     return $query->where('name', 'like', '%'.$q.'%');
                 })
-                ->orWhere('id', 'like', '%'.$q.'%')
+                ->orWhere('id', 'like', '%'.$q.'%')                
                 ->orderBy('created_at', 'desc')
+
                 ->paginate($limit);
         }
 
@@ -58,7 +59,7 @@ class PendingTransactionController extends Controller
         if ($request->user()->hasRole('coordinator')) {
             return  $this->indexAPI($request);
         } else {
-            $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+            $limit = $request->has('perPage') ? $request->get('perPage') : 5;
             $q = $request->has('q') ? $request->get('q') : null;
             $foreignUser = $request->user();
             if ($q) {

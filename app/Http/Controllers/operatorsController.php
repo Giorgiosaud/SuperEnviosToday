@@ -23,20 +23,32 @@ class operatorsController extends Controller
 
     public function venezuelanIndex()
     {
-        return Role::whereName('Operador Venezolano')
+        $users= Role::whereName('Operador Venezolano')
                 ->first()
                 ->users()
                 ->with('accounts')
                 ->get();
+                foreach ($users as $user) {
+                  foreach($user->accounts as $account){
+                    $account['Balance']=$account->getBalanceAttribute();
+                  }
+                }
+        return $users;
     }
 
     public function foreignIndex()
     {
-        return Role::whereName('Operador Extranjero')
+        $users= Role::whereName('Operador Extranjero')
                 ->first()
                 ->users()
                 ->with('accounts')
                 ->get();
+                foreach ($users as $user) {
+                  foreach($user->accounts as $account){
+                    $account['Balance']=$account->getBalanceAttribute();
+                  }
+                }
+                return $users;
     }
 
     //

@@ -20,7 +20,7 @@
                 $table->unsignedInteger('to_account_id');
                 $table->unsignedInteger('related_transaction_id')->nullable();
                 $table->unsignedInteger('transaction_number')->nullable();
-                $table->bigInteger('amount');
+                $table->text('amount');
                 $table->enum('status', ['pending', 'assigned', 'in_progress', 'executed', 'confirmed', 'terminated'])->default('pending');
                 $table->enum('type', ['income', 'outcome', 'cancelled', 'pqc'])->default('outcome');
                 $table->timestamps();

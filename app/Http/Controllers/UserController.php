@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function apiIndex(Request $request)
     {
-        $limit = $request->has('perPage') ? $request->get('perPage') : 20;
+        $limit = $request->has('perPage') ? $request->get('perPage') : 10;
         $q = $request->has('q') ? $request->get('q') : null;
         if ($q) {
             return User::where('name', 'like', '%'.$q.'%')
@@ -171,24 +171,36 @@ class UserController extends Controller
 
     public function foreignOperators()
     {
-        return User::whereHas(
+        $users= User::whereHas(
             'roles',
             function ($q) {
                 /* @noinspection PhpUndefinedMethodInspection */
                 $q->where('name_id', 'coordinator')->orWhere('name_id', 'foreign_operator');
             }
         )->get();
+        foreach ($users as $user) {
+          foreach($user->accounts as $account){
+            $account['Balance']=$account->getBalanceAttribute();
+          }
+        }
+        return $users;
     }
 
     public function operators()
     {
-        return User::whereHas(
+        $users= User::whereHas(
             'roles',
             function ($q) {
                 /* @noinspection PhpUndefinedMethodInspection */
                 $q->where('name_id', 'coordinator')->orWhere('name_id', 'foreign_operator')->orWhere('name_id', 'venezuelan_operator');
             }
         )->get();
+        foreach ($users as $user) {
+          foreach($user->accounts as $account){
+            $account['Balance']=$account->getBalanceAttribute();
+          }
+        }
+        return $users;
     }
 
     public function aliasing($id)
