@@ -31,7 +31,7 @@
             <img src="{{ asset('image/superenvios.png') }}" alt="Super Envios Today" class="img-fluid"
                  width="60">
             <span
-                class="font-semibold text-xl tracking-tight ml-3">{{ config('app.name', 'Super Envios Today') }}</span>
+                class="font-semibold text-xl tracking-tight ml-3">{{ config('app.name', 'Super Envios Today Certification') }}</span>
         </a>
 
         <div class="collapse navbar-collapse" id="navbar">
