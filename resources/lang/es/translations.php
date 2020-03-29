@@ -13,11 +13,11 @@ return [
     |
     */
 
-    'Name' => 'Nombre',
-    'Email'=>'E-Mail',
-    'E-Mail Address'=>'Dirección de correo electronico',
-    'Password' => 'Clave',
+    'Name'             => 'Nombre',
+    'Email'            => 'E-Mail',
+    'E-Mail Address'   => 'Dirección de correo electronico',
+    'Password'         => 'Clave',
     'Confirm Password' => 'Confirmar Clave',
-    'idn'=>'RUT/DNI/Cedula',
-'idn_type'=>'Tipo de Identificacion',
+    'idn'              => 'RUT/DNI/Cedula',
+'idn_type'             => 'Tipo de Identificacion',
 ];

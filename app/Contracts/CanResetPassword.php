@@ -1,10 +1,11 @@
 <?php
 
-  namespace App\Contracts;
-  use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+namespace App\Contracts;
 
-  interface CanResetPassword extends CanResetPasswordContract
-  {
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+interface CanResetPassword extends CanResetPasswordContract
+{
     /**
      * Get the e-mail address where password reset links are sent.
      *
@@ -15,8 +16,9 @@
     /**
      * Send the password reset notification.
      *
-     * @param  string  $token
+     * @param string $token
+     *
      * @return void
      */
     public function sendPasswordResetNotification($token);
-  }
+}

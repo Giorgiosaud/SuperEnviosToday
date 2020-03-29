@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
 use App\Account;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class RemoveUserIdFromAccountsTable extends Migration
 {
@@ -31,15 +31,8 @@ class RemoveUserIdFromAccountsTable extends Migration
      */
     public function down()
     {
-
         Schema::table('accounts', function (Blueprint $table) {
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
         });
-        $accounts = Account::all();
-        foreach ($accounts as $key => $account) {
-            $user = $account->owners[0];
-            $account->owner()->associate($user);
-            $account->save();
-        }
     }
 }

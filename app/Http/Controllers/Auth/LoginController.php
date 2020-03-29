@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
-
 /**
- * Class LoginController
- * @package App\Http\Controllers\Auth
+ * Class LoginController.
  */
 class LoginController extends Controller
 {
@@ -45,6 +43,7 @@ class LoginController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function logout(Request $request)
@@ -52,38 +51,43 @@ class LoginController extends Controller
         $this->guard()->user()->tokens->each(function ($token) {
             return $token->revoke();
         });
-        $this->guard()->logout();
+        //$this->guard()->logout();
 
         $request->session()->invalidate();
 
         return $this->loggedOut($request) ?: redirect('/');
     }
+
     /**
      * Get the needed authorization credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     protected function credentials(Request $request)
     {
-        return $request->only('idn','idn_type', 'password');
+        return $request->only('idn', 'idn_type', 'password');
     }
+
     /**
      * Validate the user login request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @param \Illuminate\Http\Request $request
      *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return void
      */
     protected function validateLogin(Request $request)
     {
         $request->validate([
             'idn_type' => 'required|in:PASSPORT,DNI,RUT,CI',
-            'idn' => 'required|string',
+            'idn'      => 'required|string',
             'password' => 'required|string',
         ]);
     }
+
     /**
      * Get the login username to be used by the controller.
      *

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddAccountUserTable extends Migration
 {
@@ -28,6 +28,6 @@ class AddAccountUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounts_users');
+        Schema::dropIfExists('account_user');
     }
 }

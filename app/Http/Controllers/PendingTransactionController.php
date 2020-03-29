@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
 use App\Events\PendingTransactionRejected;
 use App\Http\Requests\CreateTransaction;
 use App\PendingTransaction;
 use App\Services\CreateTransactionService;
-use App\User;
-use Doctrine\DBAL\Query\QueryBuilder;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PendingTransactionController extends Controller
 {
@@ -22,33 +17,35 @@ class PendingTransactionController extends Controller
 
     public function indexAPI(Request $request)
     {
-
         $limit = $request->has('perPage') ? $request->get('perPage') : 20;
         $q = $request->has('q') ? $request->get('q') : null;
         if ($q) {
             return PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator'])
                 ->whereHas('client', function ($query) use ($q) {
-                    return $query->where('name', 'like', '%' . $q . '%')
-                        ->orWhere('last_name', 'like', '%' . $q . '%')
-                        ->orWhere('idn', 'like', '%' . $q . '%')
-                        ->orWhere('idn_type', 'like', '%' . $q . '%')
-                        ->orWhere('email', 'like', '%' . $q . '%');
+                    return $query->where('name', 'like', '%'.$q.'%')
+                        ->orWhere('last_name', 'like', '%'.$q.'%')
+                        ->orWhere('idn', 'like', '%'.$q.'%')
+                        ->orWhere('idn_type', 'like', '%'.$q.'%')
+                        ->orWhere('email', 'like', '%'.$q.'%');
                 })
                 ->orWhereHas('receiver_account.bank', function ($query) use ($q) {
-                    return $query->where('name', 'like', '%' . $q . '%');
+                    return $query->where('name', 'like', '%'.$q.'%');
                 })
                 ->orWhereHas('foreignOperator', function ($query) use ($q) {
-                    return $query->where('name', 'like', '%' . $q . '%')
-                        ->orWhere('last_name', 'like', '%' . $q . '%');
+                    return $query->where('name', 'like', '%'.$q.'%')
+                        ->orWhere('last_name', 'like', '%'.$q.'%');
                 })
                 ->orWhereHas('operator_account.bank', function ($query) use ($q) {
-                    return $query->where('name', 'like', '%' . $q . '%');
+                    return $query->where('name', 'like', '%'.$q.'%');
                 })
-                ->orWhere('id', 'like', '%' . $q . '%')
+                ->orWhere('id', 'like', '%'.$q.'%')
                 ->orderBy('created_at', 'desc')
                 ->paginate($limit);
         }
-        return PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator', 'receiver_account', 'operator_account'])->paginate($limit);
+
+        return PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator', 'receiver_account', 'operator_account'])
+        ->orderBy('created_at', 'desc')
+        ->paginate($limit);
     }
 
     public function myTransactions()
@@ -66,26 +63,27 @@ class PendingTransactionController extends Controller
             $foreignUser = $request->user();
             if ($q) {
                 return PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator', 'receiver_account', 'operator_account'])
-                    ->where('foreign_id',  $foreignUser->id)
+                    ->where('foreign_id', $foreignUser->id)
                     ->whereHas('client', function ($query) use ($q) {
-                        return $query->where('name', 'like', '%' . $q . '%')
-                            ->orWhere('last_name', 'like', '%' . $q . '%')
-                            ->orWhere('idn', 'like', '%' . $q . '%')
-                            ->orWhere('idn_type', 'like', '%' . $q . '%')
-                            ->orWhere('email', 'like', '%' . $q . '%');
+                        return $query->where('name', 'like', '%'.$q.'%')
+                            ->orWhere('last_name', 'like', '%'.$q.'%')
+                            ->orWhere('idn', 'like', '%'.$q.'%')
+                            ->orWhere('idn_type', 'like', '%'.$q.'%')
+                            ->orWhere('email', 'like', '%'.$q.'%');
                     })
                     ->orWhereHas('receiver_account.bank', function ($query) use ($q) {
-                        return $query->where('name', 'like', '%' . $q . '%');
+                        return $query->where('name', 'like', '%'.$q.'%');
                     })
                     ->orWhereHas('operator_account.bank', function ($query) use ($q) {
-                        return $query->where('name', 'like', '%' . $q . '%');
+                        return $query->where('name', 'like', '%'.$q.'%');
                     })
-                    ->orWhere('id', 'like', '%' . $q . '%')
+                    ->orWhere('id', 'like', '%'.$q.'%')
                     ->orderBy('created_at', 'desc')
                     ->paginate($limit);
             }
+
             return PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator', 'receiver_account', 'operator_account'])
-                ->where('foreign_id',  $foreignUser->id)
+                ->where('foreign_id', $foreignUser->id)
                 ->orderBy('created_at', 'desc')
                 ->paginate($limit);
         }
@@ -93,8 +91,6 @@ class PendingTransactionController extends Controller
 
     public function approveAPI(Request $request, PendingTransaction $pendingTransaction, CreateTransactionService $createTransactionService)
     {
-
-
         $values = $pendingTransaction->toArray();
         $values['receiver_user_id'] = $pendingTransaction->receiver_id;
         $transactionRequest = new CreateTransaction($values);
@@ -102,14 +98,16 @@ class PendingTransactionController extends Controller
         $createTransactionService->make($transactionRequest);
         $pendingTransaction->status = 'aprooved';
         $pendingTransaction->save();
+
         return $pendingTransaction;
     }
+
     public function rejectAPI(Request $request, PendingTransaction $pendingTransaction)
     {
-
         $pendingTransaction->status = 'rejected';
         $pendingTransaction->save();
         broadcast(new PendingTransactionRejected($pendingTransaction));
+
         return $pendingTransaction;
     }
 }

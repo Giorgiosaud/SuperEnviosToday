@@ -6,8 +6,8 @@
     if (isset($factory)) {
         $factory->define(Setting::class, function (Faker $faker) {
             return [
-                'key'=>$faker->name,
-                'value'=>$faker->name,
+                'key'  => $faker->name,
+                'value'=> $faker->name,
 
                 //
             ];

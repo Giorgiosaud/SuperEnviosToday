@@ -1,40 +1,43 @@
 <?php
 
-    namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
-    use App\Role;
-    use App\User;
-    use Illuminate\Http\Request;
+use App\Role;
 
-    class operatorsController extends Controller
+class operatorsController extends Controller
+{
+    public function index()
     {
-        public function index()
-        {
-            return view('coordinator.addFundsToOperator');
-        }
-        public function venezuelanList(){
-            return view('operators.venezuelan-list');
-
-        }
-        public function foreignList(){
-            return view('operators.foreign-list');
-
-        }
-        public function venezuelanIndex()
-        {
-            return Role::whereName('Operador Venezolano')
-                ->first()
-                ->users()
-                ->with('accounts')
-                ->get();
-        }
-        public function foreignIndex()
-        {
-            return Role::whereName('Operador Extranjero')
-                ->first()
-                ->users()
-                ->with('accounts')
-                ->get();
-        }
-        //
+        return view('coordinator.addFundsToOperator');
     }
+
+    public function venezuelanList()
+    {
+        return view('operators.venezuelan-list');
+    }
+
+    public function foreignList()
+    {
+        return view('operators.foreign-list');
+    }
+
+    public function venezuelanIndex()
+    {
+        return Role::whereName('Operador Venezolano')
+                ->first()
+                ->users()
+                ->with('accounts')
+                ->get();
+    }
+
+    public function foreignIndex()
+    {
+        return Role::whereName('Operador Extranjero')
+                ->first()
+                ->users()
+                ->with('accounts')
+                ->get();
+    }
+
+    //
+}

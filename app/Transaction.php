@@ -6,12 +6,12 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use App\User;
 
 /**
- * App\Transaction
+ * App\Transaction.
  *
  * @method static create($validData)
+ *
  * @property int $id
  * @property int $amount
  * @property int|null $from_account_id
@@ -26,6 +26,7 @@ use App\User;
  * @property Carbon|null $updated_at
  * @property-read Account $destinationAccount
  * @property-read Account|null $originAccount
+ *
  * @method static Builder|Transaction newModelQuery()
  * @method static Builder|Transaction newQuery()
  * @method static Builder|Transaction query()
@@ -42,8 +43,10 @@ use App\User;
  * @method static Builder|Transaction whereType($value)
  * @method static Builder|Transaction whereUpdatedAt($value)
  * @mixin Eloquent
+ *
  * @property int|null $related_transaction_id
  * @property string|null $url_attachment
+ *
  * @method static Builder|Transaction whereRelatedTransactionId($value)
  * @method static Builder|Transaction whereUrlAttachment($value)
  * @method static whereClientId()
@@ -69,31 +72,37 @@ class Transaction extends Model
     {
         return $this->belongsTo(Account::class, 'from_account_id');
     }
+
     public function fromUser()
     {
         return $this->belongsTo(User::class, 'from_user_id');
     }
+
     public function destinationAccount()
     {
-
         return $this->belongsTo(Account::class, 'to_account_id');
     }
+
     public function toUser()
     {
         return $this->belongsTo(User::class, 'to_user_id');
     }
+
     public function getAmountAttribute($value)
     {
         return $value / 10000;
     }
+
     public function setAmountAttribute($value)
     {
         $this->attributes['amount'] = $value * 10000;
     }
+
     public function attachments()
     {
         return  $this->morphMany(Attachment::class, 'attachable');
     }
+
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');
@@ -101,10 +110,11 @@ class Transaction extends Model
 
     public function relatedTransactions()
     {
-        return $this->hasMany(Transaction::class, 'related_transaction_id');
+        return $this->hasMany(self::class, 'related_transaction_id');
     }
+
     public function parentTransaction()
     {
-        return $this->belongsTo(Transaction::class, 'related_transaction_id');
+        return $this->belongsTo(self::class, 'related_transaction_id');
     }
 }

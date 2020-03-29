@@ -46,11 +46,12 @@ class CurrencyController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required',
+            'name'          => 'required',
             'identificator' => 'required',
-            'sign' => 'required'
+            'sign'          => 'required',
         ]);
         $currency = Currency::create($validated);
+
         return $currency;
         //
     }
@@ -83,7 +84,7 @@ class CurrencyController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Currency $currency
+     * @param \App\Currency            $currency
      *
      * @return \Illuminate\Http\Response
      */
