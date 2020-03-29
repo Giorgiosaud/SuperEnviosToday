@@ -23,7 +23,7 @@ class CurrencyController extends Controller
      */
     public function foreignIndex()
     {
-        return Currency::where('identificator', '<>', 'Bs')->get();
+        return Currency::where('sign', '<>', 'BS')->get();
     }
 
     /**

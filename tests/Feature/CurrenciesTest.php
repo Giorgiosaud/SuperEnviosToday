@@ -46,8 +46,7 @@ use Tests\TestCase;
          */
         public function aCoordinatorCanStoreAndSeeCurrencies()
         {
-            factory(Currency::class)->create();
-            factory(Currency::class)->create(['identificator' => 'Bs']);
+            $this->currenciesSeed();
             $this->actingAsCoordinator();
             $this->getJson(route('currencies'))
                 ->assertJsonCount(2);

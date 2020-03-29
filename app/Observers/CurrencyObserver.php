@@ -21,7 +21,8 @@ class CurrencyObserver
                 $q->where('name_id', 'coordinator')->orWhere('name_id', 'foreign_operator');
             })->get();
         foreach ($users as $user) {
-            factory(Account::class)->create(['bank_id'=>$bank->id, 'user_id'=>$user->id, 'is_operator_account'=>true]);
+            $account=factory(Account::class)->create(['bank_id'=>$bank->id, 'is_operator_account'=>true]);
+            $account->owners()->sync([$user->id], false);
         }
         //
     }
