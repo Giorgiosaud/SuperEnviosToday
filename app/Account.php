@@ -11,9 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Account
+ * App\Account.
  *
  * @method static create($validInputs)
+ *
  * @property int $id
  * @property int $bank_id
  * @property int $user_id
@@ -27,6 +28,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection|Transaction[] $incomingTransactions
  * @property-read Collection|Transaction[] $outgoingTransactions
  * @property-read User $owner
+ *
  * @method static Builder|Account newModelQuery()
  * @method static Builder|Account newQuery()
  * @method static Builder|Account query()
@@ -39,6 +41,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Account whereUpdatedAt($value)
  * @method static Builder|Account whereUserId($value)
  * @mixin Eloquent
+ *
  * @property-read mixed $balance
  * @property-read Collection|Transaction[] $transactions
  */
@@ -92,6 +95,7 @@ class Account extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
     /**
      * @return BelongsTo
      */
@@ -99,6 +103,7 @@ class Account extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
     /**
      * @return BelongsTo
      */

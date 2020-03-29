@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Currency
+ * App\Currency.
  *
  * @method static Currency whereName(string $string)
  * @method static Currency first()
+ *
  * @property int $id
  * @property string $name
  * @property string $identificator
@@ -20,6 +21,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection|Bank[] $banks
+ *
  * @method static Builder|Currency newModelQuery()
  * @method static Builder|Currency newQuery()
  * @method static Builder|Currency query()
@@ -32,22 +34,21 @@ use Illuminate\Support\Carbon;
  */
 class Currency extends Model
 {
-    protected $fillable=['name','identificator','sign'];
+    protected $fillable = ['name', 'identificator', 'sign'];
 
-    /**
-     *
-     */
     public static function boot()
     {
         parent::boot();
-        Currency::observe(new CurrencyObserver());
+        self::observe(new CurrencyObserver());
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function banks(){
+    public function banks()
+    {
         return $this->hasMany(Bank::class);
     }
+
     //
 }

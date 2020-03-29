@@ -27,7 +27,7 @@ export default {
     logout() {
       sessionStorage.clear();
       localStorage.clear();
-      axios.post('/logout').then(() => {
+      axios.post('/logout').finally(() => {
         window.location.href = '/';
       });
     },

@@ -10,14 +10,11 @@
   |
    */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@welcome');
 
 Auth::routes();
 Route::get('/access_token', 'AuthController@getToken');
 Route::middleware(['auth'])->group(function () {
-
     Route::get('/profile', 'UserController@myProfile')->name('user_profile');
     Route::get('/change_password', 'UserController@changePassword')->name('change_password');
     Route::post('/update_password', 'UserController@updatePassword')->name('update_password');
@@ -47,6 +44,5 @@ Route::middleware(['auth', 'role:coordinator'])->group(function () {
     Route::get('/list_transaction', 'TransactionController@listTransactions')->name('transactions_list');
     Route::get('/fix_transaction', 'TransactionController@fixTransaction')->name('transactions_fix');
 });
-
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -31,6 +31,7 @@
           class="container"
         >
           <div
+            v-if="myTransactions.length"
             class="table-responsive"
           >
             <table class="table">
@@ -60,9 +61,12 @@
                     <span v-else-if="key==='name'">
                       {{ transaction.client.name }} {{ transaction.client.last_name }}
                     </span>
-                    <span v-else-if="key==='operator_destination'">
+                    <span v-else-if="key==='operator_destination' && transaction.related_transactions.length">
                       {{ transaction.related_transactions[0].to_user.name }}
                       {{ transaction.related_transactions[0].to_user.last_name }}
+                    </span>
+                    <span v-else-if="key==='operator_destination'">
+                      {{ transaction.destination_account.number }}
                     </span>
                     <span v-else-if="key==='bank_destination'">
                       {{ transaction.destination_account.bank.name }} /
@@ -119,7 +123,10 @@
           class="modal-content"
         >
           <div class="modal-header">
-            Ver detalles y completar Transaccion #{{ selectedTransaction.id }} status: {{ venezuelanTransaction.status }}
+            Ver detalles y completar Transaccion #{{ selectedTransaction.id }}
+            <span v-if="venezuelanTransaction">
+              status: {{ venezuelanTransaction.status }}
+            </span>
             <button
               aria-label="Close"
               class="close"
@@ -149,6 +156,7 @@
                   Monto: {{ selectedTransaction.amount|currency }} {{
                     selectedTransaction.destination_account.bank.currency.identificator }}
                   <br>
+                  Id Transacción: {{ selectedTransaction.transaction_number }}
                 </div>
                 <div
                   v-if="selectedTransaction.attachments.length"
@@ -215,6 +223,7 @@
               Cerrar
             </button>
             <button
+              v-if="venezuelanTransaction"
               :disabled="venezuelanTransaction.status!=='executed'"
               class="btn btn-primary"
               @click="confirmarTransferencia"

@@ -14,6 +14,6 @@ class CheckForMaintenanceMode extends Middleware
     protected $except = [
     '/',
     '/login',
-    '/home'
+    '/home',
     ];
 }

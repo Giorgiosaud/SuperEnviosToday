@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Account;
 use App\Attachment;
@@ -34,6 +32,7 @@ class CreateTransactionService
                 $ptData['foreign_id'] = $request->user()->id;
                 $ptData['receiver_id'] = $request->receiver_user_id;
                 $ptData['venezuelan_operator_id'] = $request->venezuelan_operator_id;
+                $ptData['transaction_number'] = $request->transaction_number;
                 $pending = PendingTransaction::create($ptData);
                 broadcast(new PendingTransactionAwaiting($request->user()))->toOthers();
                 if (isset($request->received_transaction_attachment_ids)) {
@@ -42,22 +41,24 @@ class CreateTransactionService
                         $pending->attachments()->save($attachment);
                     }
                 }
+
                 return $pending;
             }
         } else {
             $amountInBs = $this->calculateRate($currency->id) * $request->amount;
         }
         if ($amountInBs > $venezuelan_account->balance) {
-            return abort(424, "No hay dinero disponible suficiente en la cuenta seleccionada");
+            return abort(424, 'No hay dinero disponible suficiente en la cuenta seleccionada');
         }
         $incomeTransactionData = [
-            'client_id' => $request->client_id,
-            'from_user_id' => $request->client_id,
-            'to_account_id' => $request->foreign_account_id,
-            'to_user_id' => $request->user()->id,
-            'amount' => $request->amount,
-            'status' => 'confirmed',
-            'type' => 'income',
+            'client_id'           => $request->client_id,
+            'from_user_id'        => $request->client_id,
+            'to_account_id'       => $request->foreign_account_id,
+            'transaction_number'  => $request->transaction_number,
+            'to_user_id'          => $request->user()->id,
+            'amount'              => $request->amount,
+            'status'              => 'confirmed',
+            'type'                => 'income',
         ];
         $incomeTransaction = Transaction::create($incomeTransactionData);
         if (isset($request->received_transaction_attachment_ids)) {
@@ -67,37 +68,39 @@ class CreateTransactionService
             }
         }
         $assignedTransactionData = [
-            'client_id' => $request->client_id,
+            'client_id'              => $request->client_id,
             'related_transaction_id' => $incomeTransaction->id,
-            'from_user_id' => $request->venezuelan_operator_id,
-            'from_account_id' => $request->venezuelan_operator_account_id,
-            'to_user_id' => $request->receiver_user_id,
-            'to_account_id' => $request->receiver_account_id,
-            'amount' => $amountInBs,
-            'status' => 'assigned',
-            'type' => 'outcome',
+            'from_user_id'           => $request->venezuelan_operator_id,
+            'from_account_id'        => $request->venezuelan_operator_account_id,
+            'to_user_id'             => $request->receiver_user_id,
+            'to_account_id'          => $request->receiver_account_id,
+            'amount'                 => $amountInBs,
+            'status'                 => 'assigned',
+            'type'                   => 'outcome',
         ];
         Transaction::create($assignedTransactionData);
         $set = Setting::where('key', 'venezuelanBankTax')->first();
-        $taxVal = (float)str_replace(',', '.', $set->value);
+        $taxVal = (float) str_replace(',', '.', $set->value);
         if ($taxVal !== 0) {
             $amountTax = $amountInBs * $taxVal / 100;
             $venezuelanTax = [
-                'client_id' => $request->client_id,
+                'client_id'              => $request->client_id,
                 'related_transaction_id' => $incomeTransaction->id,
-                'from_account_id' => null,
-                'from_user_id' => null,
-                'to_user_id' => $request->venezuelan_operator_id,
-                'to_account_id' => $request->venezuelan_operator_account_id,
-                'amount' => $amountTax,
-                'status' => 'terminated',
-                'type' => 'outcome',
+                'from_account_id'        => null,
+                'from_user_id'           => null,
+                'to_user_id'             => $request->venezuelan_operator_id,
+                'to_account_id'          => $request->venezuelan_operator_account_id,
+                'amount'                 => $amountTax,
+                'status'                 => 'terminated',
+                'type'                   => 'outcome',
             ];
             Transaction::create($venezuelanTax);
         }
         broadcast(new TransactionExecuted($request->user(), 'made transaction'))->toOthers();
+
         return response('All transactions created', 201);
     }
+
     private function calculateRate($currId)
     {
         $rate = Rate::whereCurrencyId($currId)->where('since', '<=', Carbon::now())->orderBy('since', 'DESC')->first();
