@@ -14,3 +14,4 @@ storage
 .vscode
 /.vscode
 public/error_log
+error_log

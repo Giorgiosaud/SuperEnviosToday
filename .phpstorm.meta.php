@@ -5,7 +5,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2020-03-29 16:30:55.
+    * Generated on 2020-03-29 14:27:37.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -39,7 +39,6 @@ namespace PHPSTORM_META {
         'auth' => \Illuminate\Auth\AuthManager::class,
         'auth.driver' => \Illuminate\Auth\SessionGuard::class,
         'auth.password' => \App\Passwords\CustomPasswordBrokerManager::class,
-        'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
         'cache.store' => \Illuminate\Cache\Repository::class,
         'command.app.name' => \Illuminate\Foundation\Console\AppNameCommand::class,
@@ -182,7 +181,6 @@ namespace PHPSTORM_META {
         'auth' => \Illuminate\Auth\AuthManager::class,
         'auth.driver' => \Illuminate\Auth\SessionGuard::class,
         'auth.password' => \App\Passwords\CustomPasswordBrokerManager::class,
-        'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
         'cache.store' => \Illuminate\Cache\Repository::class,
         'command.app.name' => \Illuminate\Foundation\Console\AppNameCommand::class,
@@ -325,7 +323,6 @@ namespace PHPSTORM_META {
         'auth' => \Illuminate\Auth\AuthManager::class,
         'auth.driver' => \Illuminate\Auth\SessionGuard::class,
         'auth.password' => \App\Passwords\CustomPasswordBrokerManager::class,
-        'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
         'cache.store' => \Illuminate\Cache\Repository::class,
         'command.app.name' => \Illuminate\Foundation\Console\AppNameCommand::class,
@@ -468,7 +465,6 @@ namespace PHPSTORM_META {
         'auth' => \Illuminate\Auth\AuthManager::class,
         'auth.driver' => \Illuminate\Auth\SessionGuard::class,
         'auth.password' => \App\Passwords\CustomPasswordBrokerManager::class,
-        'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
         'cache.store' => \Illuminate\Cache\Repository::class,
         'command.app.name' => \Illuminate\Foundation\Console\AppNameCommand::class,
@@ -611,7 +607,6 @@ namespace PHPSTORM_META {
         'auth' => \Illuminate\Auth\AuthManager::class,
         'auth.driver' => \Illuminate\Auth\SessionGuard::class,
         'auth.password' => \App\Passwords\CustomPasswordBrokerManager::class,
-        'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
         'cache.store' => \Illuminate\Cache\Repository::class,
         'command.app.name' => \Illuminate\Foundation\Console\AppNameCommand::class,
@@ -754,7 +749,6 @@ namespace PHPSTORM_META {
         'auth' => \Illuminate\Auth\AuthManager::class,
         'auth.driver' => \Illuminate\Auth\SessionGuard::class,
         'auth.password' => \App\Passwords\CustomPasswordBrokerManager::class,
-        'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
         'cache.store' => \Illuminate\Cache\Repository::class,
         'command.app.name' => \Illuminate\Foundation\Console\AppNameCommand::class,
@@ -897,7 +891,6 @@ namespace PHPSTORM_META {
         'auth' => \Illuminate\Auth\AuthManager::class,
         'auth.driver' => \Illuminate\Auth\SessionGuard::class,
         'auth.password' => \App\Passwords\CustomPasswordBrokerManager::class,
-        'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
         'cache.store' => \Illuminate\Cache\Repository::class,
         'command.app.name' => \Illuminate\Foundation\Console\AppNameCommand::class,
@@ -1040,7 +1033,6 @@ namespace PHPSTORM_META {
         'auth' => \Illuminate\Auth\AuthManager::class,
         'auth.driver' => \Illuminate\Auth\SessionGuard::class,
         'auth.password' => \App\Passwords\CustomPasswordBrokerManager::class,
-        'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
         'cache.store' => \Illuminate\Cache\Repository::class,
         'command.app.name' => \Illuminate\Foundation\Console\AppNameCommand::class,
