@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoleUserTable extends Migration
+class RoleUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,6 @@ class CreateRoleUserTable extends Migration
         Schema::create('role_user', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
             $table->string('role_name_id');
-            $table->unique(['user_id','role_name_id']);
             $table->timestamps();
         });
     }
