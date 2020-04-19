@@ -2,20 +2,8 @@
 
 namespace App;
 
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * App\PendingTransaction.
- *
- * @method static Builder|PendingTransaction newModelQuery()
- * @method static Builder|PendingTransaction newQuery()
- * @method static Builder|PendingTransaction query()
- * @method static create(Collection $validData)
- * @mixin Eloquent
- */
 class PendingTransaction extends Model
 {
     protected $fillable = [
@@ -94,6 +82,4 @@ class PendingTransaction extends Model
     {
         $this->attributes['amount'] = strval($value * 10000);
     }
-
-    //
 }

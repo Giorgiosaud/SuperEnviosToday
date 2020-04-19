@@ -3,9 +3,7 @@
 namespace Tests\Unit;
 
 use App\User;
-use App\Account;
-use Exception;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 /**
@@ -13,22 +11,31 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // you can call
+        $this->artisan('db:seed');
+
+        // or
+        $this->seed();
+    }
     /**
      * A basic test example.
      *
      * @return void
      * @test
-     */
+     * */
     public function aUserHaveADefaultRoleOfClient()
     {
         $user = factory(User::class)->create([
             'name'     => 'ALEX',
             'email'    => 'A@be.com',
-            'password' => bcrypt('LIN'),
+            'password' => bcrypt('hidden'),
         ]);
-        $user->refresh();
         $this->assertTrue($user->hasRole('client'));
     }
 
@@ -36,7 +43,6 @@ class UserTest extends TestCase
      * ActingAsCoordinatorHaveAPasswordToAccess.
      *
      * @test
-     */
     public function theCoordinatorCanLoginWithHisPassword()
     {
         $user = factory(User::class)->create([
@@ -45,10 +51,11 @@ class UserTest extends TestCase
             'idn_type' => 'CI',
             'password' => bcrypt('hidden'),
         ]);
-        $user->toogleRole('coordinator');
+        $user->setRole('coordinator');
         $user->refresh();
         $this->assertTrue($user->hasRole('coordinator'));
         $response = $this->post('login', ['idn_type' => 'CI', 'idn' => '111111', 'password' => 'hidden']);
+        $response->dump();
         $response->assertRedirect('/home');
         $this->isAuthenticated();
         $this->assertAuthenticatedAs($user);
@@ -58,7 +65,6 @@ class UserTest extends TestCase
      * A user can have accounts associated.
      *
      * @test
-     */
     public function aUserHaveMultiplesAccountsAssociated()
     {
         $user = factory('App\User')->create();
@@ -71,7 +77,7 @@ class UserTest extends TestCase
             'number'    => $account->number,
         ];
         $account=factory('App\Account')->make();
-        
+
         $this->postJson(route('save_account'), $userAccount)->assertStatus(401);
         $this->actingAsForeignOperator();
         $this->postJson(route('save_account'), $userAccount)->assertStatus(201);
@@ -88,7 +94,6 @@ class UserTest extends TestCase
 
     /**
      * @test
-     */
     public function aUserWithoutEmailCanBeRegistered()
     {
         $user = factory('App\User')->create(['email' => null]);
@@ -97,7 +102,6 @@ class UserTest extends TestCase
 
     /**
      * @test
-     */
     public function aUserWithDuplicatedEmailCanBeRegistered()
     {
         $email = 'test@test.com';
@@ -110,7 +114,6 @@ class UserTest extends TestCase
 
     /**
      * @test
-     */
     public function aUserCantBeRegisteredWithSameCombinationOfIDNandIDNTYPE()
     {
         try {
@@ -123,7 +126,6 @@ class UserTest extends TestCase
 
     /**
      * @test
-     */
     public function aUserCanRegisterAReceiverAndAsociateIt()
     {
         $user = factory('App\User')->create();
@@ -136,7 +138,6 @@ class UserTest extends TestCase
 
     /**
      * @test
-     */
     public function aReceiverUserCanHaveManyAsociatedSenders()
     {
         $user = factory('App\User')->create();
@@ -146,4 +147,6 @@ class UserTest extends TestCase
         $user2->receivers()->attach($related->id);
         $this->assertCount(2, $related->senders);
     }
+     *      */
+
 }
