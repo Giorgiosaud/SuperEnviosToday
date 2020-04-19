@@ -61333,9 +61333,9 @@ document.addEventListener("DOMContentLoaded", function () {
   notifications.forEach(function (notification) {
     animateCSS(notification, 'slideInDown', function () {
       setTimeout(function () {
-        notifications.forEach(function (notification) {
-          notification.classList.remove('slideInDown');
-          notification.classList.add('slideOutUp');
+        notifications.forEach(function (notificationPanel) {
+          notificationPanel.classList.remove('slideInDown');
+          notificationPanel.classList.add('slideOutUp');
         });
       }, 3000);
     });
@@ -61607,7 +61607,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   staticRenderFns,
   false,
   null,
-  "6273902d",
+  null,
   null
   
 )
@@ -61657,7 +61657,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
   staticRenderFns,
   false,
   null,
-  "1b8fdafa",
+  null,
   null
   
 )
