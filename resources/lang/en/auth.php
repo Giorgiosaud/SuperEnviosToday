@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed'   => 'Estas credenciales no coinciden con las de nuestro sistema.',
-    'throttle' => 'Muchos intentos. Trata en :seconds segundos.',
-
+    'failed' => 'These credentials do not match our records.',
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'IDN_Type'=>'Id Type'
 ];

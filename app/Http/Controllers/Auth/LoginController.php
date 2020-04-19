@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
-/**
- * Class LoginController.
- */
 class LoginController extends Controller
 {
     /*
@@ -29,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -41,60 +39,33 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function logout(Request $request)
-    {
-        $this->guard()->user()->tokens->each(function ($token) {
-            return $token->revoke();
-        });
-        //$this->guard()->logout();
-
-        $request->session()->invalidate();
-
-        return $this->loggedOut($request) ?: redirect('/');
-    }
-
-    /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return array
-     */
-    protected function credentials(Request $request)
-    {
-        return $request->only('idn', 'idn_type', 'password');
-    }
-
-    /**
-     * Validate the user login request.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     *
-     * @return void
-     */
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            'idn_type' => 'required|in:PASSPORT,DNI,RUT,CI',
-            'idn'      => 'required|string',
+            'idn' => ['required', 'string', 'max:20'],
+            'idn_type' => ['required', 'in:CI,PASSPORT,RUT,DNI,RIF'],
             'password' => 'required|string',
         ]);
     }
 
-    /**
-     * Get the login username to be used by the controller.
-     *
-     * @return string
-     */
-    public function username()
+    protected function credentials(Request $request)
     {
-        return 'idn';
+        return $request->only('idn', 'idn_type','password');
     }
+    /**
+     * Get the failed login response instance.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function sendFailedLoginResponse()
+    {
+        throw ValidationException::withMessages([
+            'warning' => [trans('auth.failed')],
+        ]);
+    }
+
+
 }
