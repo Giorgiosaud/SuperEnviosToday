@@ -81,7 +81,7 @@
                                     v-if="errors[0]"
                                     class="help is-danger">@{{errors[0]}}</strong>
                             </validation-provider>
-                            <input type="text"
+                            <input type="hidden"
                                    name="roles"
                                    v-model="roleNames">
                             <validation-provider

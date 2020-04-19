@@ -54,6 +54,7 @@ class UserController extends Controller
      *
      * @param User $user
      * @return \Illuminate\Http\Response
+     * */
     public function show(User $user)
     {
         $roles=Role::all();
@@ -62,7 +63,6 @@ class UserController extends Controller
         return view('coordinator.user.show', ['user' => $user,'roles'=>$roles]);
         //
     }
-     */
 
     /**
      * Show the form for editing the specified resource.

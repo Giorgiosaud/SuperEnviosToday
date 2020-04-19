@@ -8,6 +8,9 @@
         <option value="DIRECTORY:vendor" />
         <option value="DIRECTORY:node_modules" />
         <option value="DIRECTORY:public" />
+        <option value="DIRECTORY:config" />
+        <option value="DIRECTORY:bootstrap/cache" />
+        <option value="DIRECTORY:resources/lang" />
       </list>
     </option>
     <option name="projectKey" value="local-superenvios" />
