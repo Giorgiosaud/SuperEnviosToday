@@ -21,7 +21,7 @@
                 <div class="buttons">
                     <a href="{{route('users.index')}}" class="button is-primary">Lista de usuarios</a>
                     <a href="#" class="button is-primary" disabled>Operaciones Pendientes</a>
-                    <a href="#" class="button is-primary" disabled>Registrar Operador</a>
+                    <!--a href="#" class="button is-primary" disabled>Registrar Operador</a-->
                 </div>
                 <h1 class="subtitle is-3">Respecto a las cuentas</h1>
                 <div class="buttons">
