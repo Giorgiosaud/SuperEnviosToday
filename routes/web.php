@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 Route::get('/','HomeController@index')->name('loginForm');
 Route::resource('users','UserController');
+Route::resource('pending-transactions','PendingTransactionsController');
