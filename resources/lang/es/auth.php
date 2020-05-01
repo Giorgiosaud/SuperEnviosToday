@@ -42,6 +42,7 @@ return [
     'RESET:LINE:ONE'=>'Usted ha recibido este correo debido a que solicitó restaurar su clave.',
     'RESET:EMAIL:BUTTON'=>'Reiniciar Password',
     'RESET:VALIDATION'=>'Este link expirará en :count minutos.',
-    'RESET:EMAIL:LAST'=>'Si no ha solicitado este correo puede hacer como si no lo recibió y no pasará nada'
+    'RESET:EMAIL:LAST'=>'Si no ha solicitado este correo puede hacer como si no lo recibió y no pasará nada',
+    'REMEMBER'=>'¿Desea mantener sesión en este dispositivo?'
 
 ];
