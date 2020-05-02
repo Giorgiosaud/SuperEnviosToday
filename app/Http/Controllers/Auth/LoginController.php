@@ -36,7 +36,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout','token');
     }
 
     protected function validateLogin(Request $request)
@@ -66,6 +66,27 @@ class LoginController extends Controller
             'warning' => [trans('auth.failed')],
         ]);
     }
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $user->createToken('Personal Access Token');
+        //
+    }
+    public function token(Request $request)
+    {
+        return $request->user()->createToken('Personal Access Token');
+    }
+    public function getToken(Request $request)
+    {
+        return $request->user()->getToken('Personal Access Token');
+    }
+
 
 
 }

@@ -15,11 +15,10 @@ class PendingTransactionsController extends Controller
     public function index()
     {
         $perPage = request()->has('perPage') ? request()->get('perPage') : config('app.paginated_by');
-        $pendingTransactions = PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator'])
+        $pendingTransactions = PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator','foreign_account','receiver_account','operator_account'])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);;
-
-        return view('coordinator.pendingTransactions.index',compact($pendingTransactions));
+        return view('coordinator.pendingTransactions.index',compact('pendingTransactions'));
     }
 
     /**

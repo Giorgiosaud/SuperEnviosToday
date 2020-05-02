@@ -41,6 +41,7 @@
                             </b-taginput>
                         </div>
                     </div>
+
                     <b-table
                         :data="users"
                         :loading="loading"
