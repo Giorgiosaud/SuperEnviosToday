@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes(['verify' => true]);
 Route::get('/','HomeController@index')->name('loginForm');
+
+//Route::get('token','Auth\LoginController@token');
+//Route::get('get-token','Auth\LoginController@getToken');
 Route::resource('users','UserController');
 Route::resource('pending-transactions','PendingTransactionsController');

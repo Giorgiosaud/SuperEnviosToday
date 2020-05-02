@@ -19,3 +19,5 @@ Vue.component('reset-password-form', require('./components/auth/resetPasswordFor
 
 Vue.component('user-list', require('./components/coordinator/users/userList').default);
 Vue.component('user-detail', require('./components/coordinator/users/userDetail').default);
+
+Vue.component('pending-transactions', require('./components/coordinator/pendingTransactions/pendingTransactionsList').default);
