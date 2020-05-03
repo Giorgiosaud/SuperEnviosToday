@@ -12161,7 +12161,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "pendingTransactionList",
   filters: {
-    currency: _currency__WEBPACK_IMPORTED_MODULE_1__["default"]
+    currency: _currency__WEBPACK_IMPORTED_MODULE_1__["default"],
+    date: function date(_date) {
+      return new Date(_date).toLocaleString();
+    }
   },
   props: {
     pendingTransactionsQuery: {
@@ -12179,8 +12182,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       loading: false,
       selected: {},
       filters: {},
-      selectedRoles: [],
-      filteredRoles: [],
+      statusFilter: '',
       onChangeState: false
     };
   },
@@ -12241,8 +12243,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.loadAsyncData();
     },
     changedFilter: function changedFilter(filters) {
-      console.log(filters);
-
       for (var filter in filters) {
         if (filters[filter] === '') {
           delete filters[filter];
@@ -12266,31 +12266,39 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 params = _this.paramsToObject(entries);
                 params.page = _this.page;
                 Object.assign(params, _this.filters);
-
-                if (_this.selectedRoles.length) {
-                  params.roles = _this.selectedRoles.map(function (role) {
-                    return role.name_id;
-                  });
-                }
-
-                console.log(params);
                 _this.loading = true;
-                _context.next = 10;
-                return axios.get('api/pending-transactions', {
+                _context.prev = 6;
+                _context.next = 9;
+                return axios.get('api/pending-transaction', {
                   params: _objectSpread({}, params)
                 });
 
-              case 10:
+              case 9:
                 request = _context.sent;
                 _this.query = request.data;
-                _this.loading = false;
+                _context.next = 16;
+                break;
 
               case 13:
+                _context.prev = 13;
+                _context.t0 = _context["catch"](6);
+
+                _this.$buefy.notification.open({
+                  message: "Rechazo fallido message:".concat(JSON.stringify(_context.t0.response.data.errors)),
+                  type: 'is-warning',
+                  position: 'is-bottom-right',
+                  duration: 5000
+                });
+
+              case 16:
+                _this.loading = false;
+
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[6, 13]]);
       }))();
     },
     getFilteredTags: function getFilteredTags(text) {
@@ -12299,39 +12307,126 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
       console.log(this.filteredRoles);
     },
-    approveTransation: function approveTransation(transactionId) {
+    approveTransaction: function approveTransaction(transaction) {
       var _this2 = this;
 
-      this.onChangeState = true;
-      axios.patch("api/pending_transaction/".concat(transactionId), {
-        'accept_transaction': true
-      }).then(function () {
-        alert('ok');
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var data, _yield$axios$patch, _data;
 
-        _this2.getPendingTransactions();
-      })["finally"](function () {
-        _this2.onChangeState = false;
-      });
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.onChangeState = true;
+                data = {
+                  'accept_transaction': false
+                };
+                _context2.prev = 2;
+                _context2.next = 5;
+                return axios.patch("api/pending-transaction/".concat(transaction.id), {
+                  'accept_transaction': true
+                });
+
+              case 5:
+                _yield$axios$patch = _context2.sent;
+                _data = _yield$axios$patch.data;
+
+                _this2.$buefy.notification.open({
+                  message: "Transacci\xF3n #".concat(_data.id, " Aprovada"),
+                  type: 'is-success',
+                  position: 'is-bottom-right',
+                  duration: 5000
+                });
+
+                transaction.status = 'rejected';
+                _context2.next = 14;
+                break;
+
+              case 11:
+                _context2.prev = 11;
+                _context2.t0 = _context2["catch"](2);
+
+                _this2.$buefy.notification.open({
+                  message: "Rechazo fallido message:".concat(_context2.t0.message),
+                  type: 'is-warning',
+                  position: 'is-bottom-right',
+                  duration: 5000
+                });
+
+              case 14:
+                _this2.onChangeState = false;
+
+              case 15:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[2, 11]]);
+      }))();
     },
-    rejectTransation: function rejectTransation(transactionId) {
+    rejectTransation: function rejectTransation(transaction) {
       var _this3 = this;
 
-      this.onChangeState = true;
-      axios.patch("api/pending_transaction/".concat(transactionId), {
-        'accept_transaction': false
-      }, {
-        withCredentials: true
-      }).then(function () {
-        alert('ok');
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var data, _yield$axios$patch2, _data2;
 
-        _this3.getPendingTransactions();
-      })["finally"](function () {
-        _this3.onChangeState = false;
-      });
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this3.onChangeState = true;
+                data = {
+                  'accept_transaction': false
+                };
+                _context3.prev = 2;
+                _context3.next = 5;
+                return axios.patch("api/pending-transaction/".concat(transaction.id), {
+                  'accept_transaction': false
+                });
+
+              case 5:
+                _yield$axios$patch2 = _context3.sent;
+                _data2 = _yield$axios$patch2.data;
+
+                _this3.$buefy.notification.open({
+                  message: "Transacci\xF3n #".concat(_data2.id, " Rechazada"),
+                  type: 'is-success',
+                  position: 'is-bottom-right',
+                  duration: 5000
+                });
+
+                transaction.status = 'rejected';
+                _context3.next = 14;
+                break;
+
+              case 11:
+                _context3.prev = 11;
+                _context3.t0 = _context3["catch"](2);
+
+                _this3.$buefy.notification.open({
+                  message: "Rechazo fallido message:".concat(_context3.t0.message),
+                  type: 'is-warning',
+                  position: 'is-bottom-right',
+                  duration: 5000
+                });
+
+              case 14:
+                _this3.onChangeState = false;
+
+              case 15:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[2, 11]]);
+      }))();
     }
   },
   watch: {
-    selectedRoles: function selectedRoles() {
+    statusFilter: function statusFilter(value) {
+      this.changedFilter({
+        status: value
+      });
       this.loadAsyncData();
     }
   }
@@ -61576,6 +61671,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bulma__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_bulma__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var animate_css_animate_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! animate.css/animate.min.css */ "./node_modules/animate.css/animate.min.css");
 /* harmony import */ var animate_css_animate_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(animate_css_animate_min_css__WEBPACK_IMPORTED_MODULE_1__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
@@ -61586,14 +61687,21 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
  */
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // window.axios.defaults.headers.common['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1IiwianRpIjoiNTY5OTc2OTQwNzI1NDk2MmIxZWIyZDA4MTFhMGZhMzczMWE5NzZmOGMxMjFlMzRkYzNlMzliMDZjZDM4YzJlMTQ4ZDA5OTAyNDU3YzM3NTUiLCJpYXQiOjE1ODgzNzc0NjksIm5iZiI6MTU4ODM3NzQ2OSwiZXhwIjoxNjE5OTEzNDY5LCJzdWIiOiIzIiwic2NvcGVzIjpbXX0.ERkVihEVjDQnvAEoTLDwzQiJjotydxRp6qc4ac8y9YJpoHnMcCUPN_aHmJTIRvTw4xzecRtmxfzeAzPVEMJcooqhCDBg6pVX--CKleFaDPs8MIVMFrigiVtdhWyl5iRY_fwSjyjJDjBAY3t50kimP_TZ86qZ5eyOaRf-eo2r9-bh8w_ASjliigUMJvV1Ck7weKC5F-EIQRu8g5bJlAXqWJ55DWDkr6whltQo8toF6KKAT6oYUNPiFDp5sdUFwmt1DcYUuhsgJuE3xwk5EsBtjL5fj58LZUsS6Y3CgpmGfK5FHyBhubr5-uaBAxk4IoDjlFxJeYklE8CPCvI9EwvNSXS8UVhxHncZGgcKyHsXV3jFXdI_DBlkRgUBZI3vdL3bq6WH3gXVtONLreU4kQK9X5VAHhGnFlKd9Dt5BiXD9s1lwu5NCA4ri0Hy4bxPsmqa8IBsj3Ct1g1uos7XE_C2Y_c-dMa9ZmuCKQvI2lDWrAK4gH6ZJR_hG3VmxZfe861Lxk_KlhH9orrj5UQU4y_BD8RFjkSXhfAQWJ0UwHVIoakRuZrf8T-SsWs5tNNhFkY6a_s8gKc0BUPQddtIIvecEe-V3Po18q1k_gS-oACJE3GmskpyGy20MVaRSTAxEzUBWTjy_pM1G1rzMzx2l4WfZH--uBnclqvieJdIAKGXJZg';
-
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-// import Echo from 'laravel-echo';
+
+window.$http = function (url, config, headersConf) {
+  return fetch(url, _objectSpread({
+    headers: _objectSpread({
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
+    }, headersConf)
+  }, config));
+}; // import Echo from 'laravel-echo';
 // window.Pusher = require('pusher-js');
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
@@ -61656,7 +61764,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var buefy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! buefy */ "./node_modules/buefy/dist/esm/index.js");
 
 
- // import 'buefy/dist/buefy.css'
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(buefy__WEBPACK_IMPORTED_MODULE_2__["default"], {
   defaultIconPack: 'fas',

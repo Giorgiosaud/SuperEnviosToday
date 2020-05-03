@@ -52,8 +52,8 @@ class ResetPasswordController extends Controller
     protected function rules()
     {
         return [
-            'idn_type' => ['required', 'in:CI,PASSPORT,RUT,DNI,RIF'],
             'idn' => ['required', 'string', 'max:20'],
+            'idn_type' => ['required', 'in:CI,PASSPORT,RUT,DNI,RIF'],
             'email' => 'required|email',
             'token' => 'required',
             'password' => 'required|confirmed|min:8',

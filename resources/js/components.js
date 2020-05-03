@@ -1,13 +1,15 @@
 import Vue from "vue";
 import {ValidationProvider,ValidationObserver} from 'vee-validate'
 import Buefy from 'buefy'
-// import 'buefy/dist/buefy.css'
 Vue.use(Buefy,{
     defaultIconPack: 'fas',
     defaultIconNext:'chevron-right',
     defaultIconPrev:'chevron-left',
     defaultContainerElement: '#content',
 })
+
+
+
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 

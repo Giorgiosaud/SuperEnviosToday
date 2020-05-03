@@ -52,6 +52,13 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * @return mixed
+     */
+    public function getFullNameAttribute(){
+        return $this->name.' '.$this->last_name;
+    }
+
+    /**
      * The roles that belong to the user.
      */
 

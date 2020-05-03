@@ -21,7 +21,6 @@ class LoginTest extends TestCase
 {
     use DatabaseMigrations;
     use DatabaseTransactions;
-
     /**
      * A basic test login form.
      *
@@ -74,6 +73,7 @@ class LoginTest extends TestCase
      */
     public function test_user_can_not_login_with_incorrect_credentials()
     {
+
         $user = factory(User::class)->create([
             'name' => 'Pedro Raul',
             'last_name' => 'Rodriguez Soto',
@@ -88,12 +88,14 @@ class LoginTest extends TestCase
             'idn_type' => $user->idn_type,
             'password' => 'nopasswordbest',
         ];
-        $response = $this->from('/login')->post('/login', $credentials);
-        $response->assertRedirect('/login');
-        $response->assertSessionHasErrors('warning');
-        $this->assertTrue(session()->hasOldInput('idn'));
-        $this->assertTrue(session()->hasOldInput('idn_type'));
-        $this->assertFalse(session()->hasOldInput('password'));
+        $response = $this
+            ->followingRedirects()
+            ->from(route('login'))
+            ->post(route('login'), $credentials)
+            ->assertSuccessful()
+            ->assertSee(__('auth.failed'))
+            ->assertSee($user->idn)
+            ->assertSee($user->idn_type);
         $this->assertGuest();
     }
 
