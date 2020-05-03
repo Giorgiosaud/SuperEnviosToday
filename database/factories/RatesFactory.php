@@ -1,9 +1,11 @@
 <?php
 
-use Carbon\Carbon;
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Model;
 use Faker\Generator as Faker;
 
-$factory->define(App\Rate::class, function (Faker $faker) {
+$factory->define(\App\Rate::class, function (Faker $faker) {
     return [
         'currency_id' => function () {
             $currency = factory(\App\Currency::class)->create();

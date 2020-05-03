@@ -17,15 +17,12 @@ class CurrencyObserver
         ]);
         $users = User::whereHas(
             'roles', function ($q) {
-                /* @noinspection PhpUndefinedMethodInspection */
-                $q->where('name_id', 'coordinator')->orWhere('name_id', 'foreign_operator');
-            })->get();
+            /* @noinspection PhpUndefinedMethodInspection */
+            $q->where('name_id', 'coordinator')->orWhere('name_id', 'foreign_operator');
+        })->get();
         foreach ($users as $user) {
             $account=factory(Account::class)->create(['bank_id'=>$bank->id, 'is_operator_account'=>true]);
             $account->owners()->sync([$user->id], false);
         }
-        //
     }
-
-    //
 }

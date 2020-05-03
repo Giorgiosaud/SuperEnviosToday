@@ -1,14 +1,15 @@
 <?php
 
-    use App\Currency;
-    use Faker\Generator as Faker;
+/** @var Factory $factory */
 
-    if (isset($factory)) {
-        $factory->define(Currency::class, function (Faker $faker) {
-            return [
-                'name'          => $faker->name,
-                'identificator' => $faker->userName,
-                'sign'          => $faker->slug,
-            ];
-        });
-    }
+use App\Currency;
+use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
+
+$factory->define(Currency::class, function (Faker $faker) {
+    return [
+        'name'          => $faker->name,
+        'identificator' => $faker->userName,
+        'sign'          => $faker->slug,
+    ];
+});
