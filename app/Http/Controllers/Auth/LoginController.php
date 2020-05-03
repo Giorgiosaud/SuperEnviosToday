@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -73,18 +74,10 @@ class LoginController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function authenticated(Request $request, $user)
+    protected function authenticated(Request $request, User $user)
     {
         $user->createToken('Personal Access Token');
         //
-    }
-    public function token(Request $request)
-    {
-        return $request->user()->createToken('Personal Access Token');
-    }
-    public function getToken(Request $request)
-    {
-        return $request->user()->getToken('Personal Access Token');
     }
 
 

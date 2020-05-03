@@ -17,5 +17,8 @@ Route::get('/','HomeController@index')->name('loginForm');
 
 //Route::get('token','Auth\LoginController@token');
 //Route::get('get-token','Auth\LoginController@getToken');
-Route::resource('users','UserController');
-Route::resource('pending-transactions','PendingTransactionsController');
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::resource('users', 'UserController');
+    Route::resource('pending-transactions', 'PendingTransactionsController');
+});

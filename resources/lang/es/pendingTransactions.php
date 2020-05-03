@@ -3,6 +3,7 @@ return [
     'WELCOME'=>'Listado de transacciones pendientes',
     'MESSAGE'=>'aqui podras listar y filtrar tados las transacciones pendientes de :app',
     'CLIENT:NAME_AND_LAST_NAME'=>'Datos de cliente',
+    'DATE'=>'Fecha de Transaccion',
     'Client:EXTRA_DATA'=>'Más Información',
     'FOREIGN_OPERATOR:NAME_AND_LAST_NAME'=>'Nombre de operador Extranjero',
     'FOREIGN_OPERATOR:EXTRA_DATA'=>'Mas Información',
@@ -13,6 +14,12 @@ return [
     'VENEZUELAN:EXTRA_DATA'=>'Mas Información',
     'SUGGESTED_RATE'=>'Tasa Sugerida',
     'AMOUNT'=>'Monto',
-    'STATUS'=>'Estado'
+    'STATUS'=>'Estado',
+    'STATUS:ALL'=>'Todas',
+    'STATUS:APPROVED'=>'Aprobada',
+    'STATUS:APPROVE'=>'Aprobar',
+    'STATUS:REJECTED'=>'Rechazada',
+    'STATUS:REJECT'=>'Rechazar',
+    'STATUS:PENDING'=>'Pendientes',
 
 ];

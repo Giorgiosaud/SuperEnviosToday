@@ -3,7 +3,10 @@
     export default {
         name: "pendingTransactionList",
         filters:{
-            currency
+            currency,
+            date(date){
+                return new Date(date).toLocaleString();
+            }
         },
         props: {
             pendingTransactionsQuery: {
@@ -19,8 +22,7 @@
                 loading: false,
                 selected: {},
                 filters: {},
-                selectedRoles: [],
-                filteredRoles:[],
+                statusFilter:'',
                 onChangeState:false,
             }
         ),
@@ -70,7 +72,6 @@
                 this.loadAsyncData();
             },
             changedFilter(filters) {
-                console.log(filters)
                 for (const filter in filters) {
                     if (filters[filter] === '') {
                         delete filters[filter]
@@ -85,13 +86,19 @@
                 const params = this.paramsToObject(entries);
                 params.page = this.page;
                 Object.assign(params, this.filters);
-                if(this.selectedRoles.length){
-                    params.roles=this.selectedRoles.map(role=>role.name_id)
-                }
-                console.log(params)
                 this.loading = true;
-                const request = await axios.get('api/pending-transactions', {params: {...params}})
-                this.query = request.data;
+                try {
+                    const request = await axios.get('api/pending-transaction', {params: {...params}})
+                    this.query = request.data;
+                }catch(error){
+                    this.$buefy.notification.open({
+                        message:`Rechazo fallido message:${JSON.stringify(error.response.data.errors)}`,
+                        type:'is-warning',
+                        position:'is-bottom-right',
+                        duration:5000,
+
+                    })
+                }
                 this.loading = false;
 
             },
@@ -105,34 +112,62 @@
                     })
                 console.log(this.filteredRoles);
             },
-            approveTransation(transactionId) {
+            async approveTransaction(transaction) {
                 this.onChangeState = true;
-                axios.patch(`api/pending_transaction/${transactionId}`,{
-                    'accept_transaction':true
-                }).then(() => {
-                    alert('ok');
-                    this.getPendingTransactions();
-                }).finally(() => {
-                    this.onChangeState = false;
-                });
+                const data={'accept_transaction':false}
+                try{
+                    const {data}= await axios.patch(`api/pending-transaction/${transaction.id}`,
+                        {
+                            'accept_transaction':true
+                        });
+                    this.$buefy.notification.open({
+                        message:`Transacción #${data.id} Aprovada`,
+                        type:'is-success',
+                        position:'is-bottom-right',
+                        duration:5000
+                    })
+                    transaction.status='rejected'
+                }catch (error) {
+                    this.$buefy.notification.open({
+                        message:`Rechazo fallido message:${error.message}`,
+                        type:'is-warning',
+                        position:'is-bottom-right',
+                        duration:5000
+                    })
+
+                }
+                this.onChangeState = false;
             },
-            rejectTransation(transactionId) {
+            async rejectTransation(transaction) {
                 this.onChangeState = true;
-                axios.patch(`api/pending_transaction/${transactionId}`,
+                const data={'accept_transaction':false}
+                try{
+                const {data}= await axios.patch(`api/pending-transaction/${transaction.id}`,
                     {
-                    'accept_transaction':false
-                },{
-                        withCredentials:true,
-                    }).then(() => {
-                    alert('ok');
-                    this.getPendingTransactions();
-                }).finally(() => {
-                    this.onChangeState = false;
-                });
+                        'accept_transaction':false
+                    });
+                    this.$buefy.notification.open({
+                        message:`Transacción #${data.id} Rechazada`,
+                        type:'is-success',
+                        position:'is-bottom-right',
+                        duration:5000
+                    })
+                    transaction.status='rejected'
+                }catch (error) {
+                    this.$buefy.notification.open({
+                        message:`Rechazo fallido message:${error.message}`,
+                        type:'is-warning',
+                        position:'is-bottom-right',
+                        duration:5000
+                    })
+
+                }
+                this.onChangeState = false;
             },
         },
         watch:{
-            selectedRoles(){
+            statusFilter(value){
+                this.changedFilter({status:value})
                 this.loadAsyncData()
             }
         }

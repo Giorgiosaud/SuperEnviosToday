@@ -21,72 +21,68 @@
 <body>
 <div id="app">
     <div class="container is-fluid has-background-white main-navigation">
-        <nav-bar inline-template>
-            <nav class="navbar" role="navigation" aria-label="main navigation">
-                <div class="navbar-brand">
+        <template>
+        <b-navbar>
+            <template slot="brand">
+                <b-navbar-item tag="router-link" :to="{ path: '/' }">
                     <a class="navbar-item" href="{{ url('/') }}">
                         {{ config('app.name', 'Superenvios Today') }}
                     </a>
-                    <a
-                        role="button"
-                        @click="openMobile = !openMobile"
-                        class="navbar-burger burger"
-                        aria-label="menu"
-                        aria-expanded="false"
-                        data-target="navbarBasicExample">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </a>
-                </div>
-                <div
-                    id="main-navigation"
-                    class="navbar-menu"
-                    :class="{'is-active':openMobile}">
-                    <div class="navbar-end">
-                        @guest
-                            <div class="navbar-item">
-                                <a class="navbar-link is-arrowless"
-                                   href="{{ route('login') }}">{{ __('AUTH.LOGIN') }}</a>
-                            </div>
-                            @if (Route::has('register'))
-                                <div class="navbar-item ">
-                                    <a class="navbar-link is-arrowless"
-                                       href="{{ route('register') }}">{{ __('auth.REGISTER') }}</a>
-                                </div>
-                            @endif
-                        @else
-                            <div class="navbar-item has-dropdown is-hoverable"
-                                 @click="openDropdown = !openDropdown">
-                                <a id="navbarDropdown"
-                                   class="navbar-link"
-                                   href="#"
-                                   role="button"
-                                   data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="navbar-dropdown"
-                                     :class="{'is-active':openDropdown}"
-                                     aria-labelledby="navbarDropdown">
-                                    <a class="navbar-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                          style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </div>
-                        @endguest
+                </b-navbar-item>
+            </template>
+            <!--template slot="start">
+                <b-navbar-item href="#">
+                    Home
+                </b-navbar-item>
+                <b-navbar-item href="#">
+                    Documentation
+                </b-navbar-item>
+                <b-navbar-dropdown label="Info">
+                    <b-navbar-item href="#">
+                        About
+                    </b-navbar-item>
+                    <b-navbar-item href="#">
+                        Contact
+                    </b-navbar-item>
+                </b-navbar-dropdown>
+            </template-->
+            @guest
+            <template slot="end">
+                <b-navbar-item tag="div">
+                    <div class="buttons">
+                        @if (Route::has('register'))
+                        <a class="button is-primary"
+                           href="{{ route('register') }}">
+                            <strong>{{ __('auth.REGISTER') }}</strong>
+                        </a>
+                        @endif
+                        <a class="button is-light" href="{{ route('login') }}">
+                            {{ __('AUTH.LOGIN') }}
+                        </a>
                     </div>
-                </div>
-            </nav>
-        </nav-bar>
+                </b-navbar-item>
+            </template>
+            @else
+            <template slot="end">
+                <!--b-navbar-item href="#">
+                    Home
+                </b-navbar-item>
+                <b-navbar-item href="#">
+                    Documentation
+                </b-navbar-item-->
+                <b-navbar-dropdown label="{{ Auth::user()->fullName }}">
+                    <b-navbar-item href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                              style="display: none;">
+                            @csrf
+                        </form>
+                    </b-navbar-item>
+                </b-navbar-dropdown>
+            </template>
+          @endif
+        </b-navbar>
+    </template>
     </div>
     @include('layouts/flash-message')
     <main>

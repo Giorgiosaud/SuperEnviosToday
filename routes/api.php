@@ -14,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 
 */
 Route::resource('users','Api\UserController',['as'=>'api']);
-Route::resource('pending_transaction','Api\PendingTransactionController',['as'=>'api']);
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::resource('pending-transaction','Api\PendingTransactionController',['as'=>'api']);
+});
