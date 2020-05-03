@@ -12,3 +12,6 @@ npm-debug.log
 yarn-error.log
 
 .scannerwork/*
+public/error_log
+storage/.DS_Store
+storage/debugbar/
