@@ -12,25 +12,27 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
-            'name_id' => 'coordinator',
-            'name'    => 'Coordinador',
-        ]);
-        Role::create([
-            'name_id' => 'foreign_operator',
-            'name'    => 'Operador Extranjero',
-        ]);
-        Role::create([
-            'name_id' => 'venezuelan_operator',
-            'name'    => 'Operador Venezolano',
-        ]);
-        Role::create([
-            'name_id' => 'client',
-            'name'    => 'Cliente',
-        ]);
-        Role::create([
-            'name_id' => 'receiver',
-            'name'    => 'Receptor',
-        ]);
+        if(Role::all()->count()==0) {
+            Role::create([
+                'name_id' => 'coordinator',
+                'name' => 'Coordinador',
+            ]);
+            Role::create([
+                'name_id' => 'foreign_operator',
+                'name' => 'Operador Extranjero',
+            ]);
+            Role::create([
+                'name_id' => 'venezuelan_operator',
+                'name' => 'Operador Venezolano',
+            ]);
+            Role::create([
+                'name_id' => 'client',
+                'name' => 'Cliente',
+            ]);
+            Role::create([
+                'name_id' => 'receiver',
+                'name' => 'Receptor',
+            ]);
+        }
     }
 }

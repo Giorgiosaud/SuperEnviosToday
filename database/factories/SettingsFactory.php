@@ -1,15 +1,15 @@
 <?php
 
-    use App\Setting;
-    use Faker\Generator as Faker;
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-    if (isset($factory)) {
-        $factory->define(Setting::class, function (Faker $faker) {
-            return [
-                'key'  => $faker->name,
-                'value'=> $faker->name,
+use App\Model;
+use Faker\Generator as Faker;
 
-                //
-            ];
-        });
-    }
+$factory->define(\App\Setting::class, function (Faker $faker) {
+    return [
+        'key'  => $faker->name,
+        'value'=> $faker->name,
+
+        //
+    ];
+});

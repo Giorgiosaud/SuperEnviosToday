@@ -13,10 +13,10 @@ return [
     |
     */
 
-    'password' => 'La clave debe tener almenos 6 caracteres y coincidir con la confirmacion.',
-    'reset'    => 'Su clave fue reiniciada!',
-    'sent'     => '¡Le hemos enviado el link de reset de su clave a su email!',
-    'token'    => 'Este token de reinicio es invalido.',
-    'user'     => 'No pudimos encontrar un usuario con esa direccion de correo.',
+    'reset' => '¡Su clave fue cambiada!',
+    'sent' => '¡Le hemos enviado al correo el link de reinicio de clave!',
+    'throttled' => 'Por favor espere antes de reintentar.',
+    'token' => 'Este token de reinicio caducó.',
+    'user' => "No pudimos conseguir un usuario con esas credenciales.",
 
 ];

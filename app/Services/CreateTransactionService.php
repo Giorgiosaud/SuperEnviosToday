@@ -12,11 +12,14 @@ use App\Rate;
 use App\Setting;
 use App\Transaction;
 use Carbon\Carbon;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 class CreateTransactionService
 {
     /**
      * @param CreateTransaction $request
+     * @return ResponseFactory|Response|void
      */
     public function make(CreateTransaction $request)
     {

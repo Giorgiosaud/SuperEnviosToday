@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Pagination\Paginator;
+use App\Observers\UserObserver;
+use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,9 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //if ($this->app->environment() !== 'production') {
-        //$this->app->register(IdeHelperServiceProvider::class);
-        //}
+        //
     }
 
     /**
@@ -26,10 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::defaultView('vendor.pagination.bootstrap-4');
-
-        //User::observe(UserObserver::class);
-
+        User::observe(UserObserver::class);
         //
     }
 }

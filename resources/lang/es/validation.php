@@ -13,6 +13,7 @@ return [
     |
     */
 
+
     'accepted'              => 'El campo :attribute debe ser aceptado.',
     'active_url'            => 'El campo :attribute no es una URL válida.',
     'after'                 => 'El campo :attribute debe ser una fecha después de :date.',
@@ -21,7 +22,7 @@ return [
     'alpha_dash'            => 'El campo :attribute sólo puede contener letras, números y guiones.',
     'alpha_num'             => 'El campo :attribute sólo puede contener letras y números.',
     'array'                 => 'El campo :attribute debe ser un arreglo.',
-    'before'                => 'El campo :attribute debe ser una fecha antes :date.',
+    'before'                => 'El campo :attribute debe ser una fecha antes de :date.',
     'before_or_equal'       => 'El campo :attribute debe ser una fecha antes o igual a :date.',
     'between'               => [
         'numeric' => 'El campo :attribute debe estar entre :min - :max.',
@@ -32,7 +33,7 @@ return [
     'boolean'               => 'El campo :attribute debe ser verdadero o falso.',
     'confirmed'             => 'El campo de confirmación de :attribute no coincide.',
     'date'                  => 'El campo :attribute no es una fecha válida.',
-    'date_format'           => 'El campo :attribute no corresponde con el formato :format.',
+    'date_format' 	        => 'El campo :attribute no corresponde con el formato :format.',
     'different'             => 'Los campos :attribute y :other deben ser diferentes.',
     'digits'                => 'El campo :attribute debe ser de :digits dígitos.',
     'digits_between'        => 'El campo :attribute debe tener entre :min y :max dígitos.',
@@ -62,7 +63,7 @@ return [
     'ipv4'                  => 'El campo :attribute debe ser una dirección IPv4 válida.',
     'ipv6'                  => 'El campo :attribute debe ser una dirección IPv6 válida.',
     'json'                  => 'El campo :attribute debe ser una cadena JSON válida.',
-    'lt'                    => [
+    'lt'                   => [
         'numeric' => 'El campo :attribute debe ser menor que :max.',
         'file'    => 'El campo :attribute debe ser menor que :max kilobytes.',
         'string'  => 'El campo :attribute debe ser menor que :max caracteres.',
@@ -120,7 +121,7 @@ return [
     | Validación del idioma personalizado
     |--------------------------------------------------------------------------
     |
-    |   Aquí puede especificar mensajes de validación personalizados para atributos utilizando el
+    |	Aquí puede especificar mensajes de validación personalizados para atributos utilizando el
     | convención "attribute.rule" para nombrar las líneas. Esto hace que sea rápido
     | especifique una línea de idioma personalizada específica para una regla de atributo dada.
     |

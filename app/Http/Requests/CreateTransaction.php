@@ -3,11 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
-/**
- * @property int venezuelan_operator_account_id
- */
 class CreateTransaction extends FormRequest
 {
     /**
@@ -35,7 +31,7 @@ class CreateTransaction extends FormRequest
             'venezuelan_operator_account_id'        => 'required|exists:accounts,id',
             'venezuelan_operator_id'                => 'required|exists:users,id',
             'transaction_number'                    => 'required',
-            'receiver_user_id'                      => 'required|exists:users,id',
+            'receiver_id'                      => 'required|exists:users,id',
             'rate'                                  => 'nullable|numeric',
             'amount'                                => 'required|numeric',
         ];
