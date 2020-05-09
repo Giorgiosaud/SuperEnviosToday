@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 
 */
-Route::resource('users','Api\UserController',['as'=>'api']);
-Route::group(['middleware' => ['auth:api']], function () {
-    Route::resource('pending-transaction','Api\PendingTransactionController',['as'=>'api']);
+Route::group(['middleware' => ['auth:api'],'as'=>'api.'], function () {
+    Route::apiResource('pending-transaction','Api\PendingTransactionController',[
+        'only'=>['index','update']
+    ]);
+    Route::apiResource('users','Api\UserController',['only'=>['index']]);
+    Route::get('user/{idnType}/{idn}',['uses'=>'Api\UserController@search','as'=>'users.search']);
 });

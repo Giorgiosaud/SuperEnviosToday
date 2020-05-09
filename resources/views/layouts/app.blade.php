@@ -24,7 +24,7 @@
         <template>
         <b-navbar>
             <template slot="brand">
-                <b-navbar-item tag="router-link" :to="{ path: '/' }">
+                <b-navbar-item href="/">
                     <a class="navbar-item" href="{{ url('/') }}">
                         {{ config('app.name', 'Superenvios Today') }}
                     </a>

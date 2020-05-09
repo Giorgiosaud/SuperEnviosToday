@@ -240,7 +240,7 @@
                     <validation-provider
                         name="{{__('auth.PASSWORD')}}"
                         vid="password"
-                        rules="required|min:8"
+                        rules="required|min:6"
                         v-slot="{ classes,errors, valid }"
                         tag="div"
                         class="field">
