@@ -22,11 +22,13 @@
                 :has-navigation="false"
                 :animated="true">
                 <b-step-item label="{{__('transaction.CLIENT:TITLE')}}" icon="user-edit">
+                    <keep-alive>
                     @component('operator.transaction.client')
                         @slot('properties')
                             @client-data-set="clientDataSet"
                         @endslot
                     @endcomponent
+                    </keep-alive>
                 </b-step-item>
                 <b-step-item :clickable="clientReady" label="{{__('transaction.TRANSACTION:TITLE')}}" icon="money-check-alt">
                     {{__('transaction.TRANSACTION:TITLE')}}
