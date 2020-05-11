@@ -4,7 +4,7 @@
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">
+                <h1 class="super-title">
                     {{ __('auth.REGISTER') }}
                 </h1>
                 <h2 class="subtitle">
@@ -240,7 +240,7 @@
                     <validation-provider
                         name="{{__('auth.PASSWORD')}}"
                         vid="password"
-                        rules="required|min:8"
+                        rules="required|min:6"
                         v-slot="{ classes,errors, valid }"
                         tag="div"
                         class="field">

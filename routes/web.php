@@ -13,12 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes(['verify' => true]);
-Route::get('/','HomeController@index')->name('loginForm');
+Route::get('/','HomeController@index')->name('loginForm')->middleware('auth');
+Route::get('/gracias','HomeController@thanks')->name('loginForm');
 
 //Route::get('token','Auth\LoginController@token');
 //Route::get('get-token','Auth\LoginController@getToken');
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::resource('users', 'UserController');
-    Route::resource('pending-transactions', 'PendingTransactionsController');
+    Route::resource('users', 'UserController',['except'=>['destroy','create','store','edit']]);
+    Route::resource('pending-transactions', 'PendingTransactionController',['only'=>['index']]);
+    Route::resource('transaction', 'TransactionController',['only'=>['create','store','destroy']]);
+
 });

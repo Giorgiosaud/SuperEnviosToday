@@ -70,7 +70,7 @@ class RegisterController extends Controller
             'phone' => ['string', 'max:255'],
             'address' => ['string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
 

@@ -4,7 +4,7 @@
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">
+                <h1 class="super-title">
                     {{ __('message.WELCOME') }}
                 </h1>
                 <h2 class="subtitle">
@@ -43,7 +43,7 @@
                 <div class="buttons">
 
                     <a href="#" class="button is-primary" disabled>Listar Transacciones</a>
-                    <a href="#" class="button is-warning" disabled>Crear Transaccion</a>
+                    <a href="{{route('transaction.create')}}" class="button is-warning">Crear Transaccion</a>
                     <a href="#" class="button is-primary" disabled>Crear Transaccion de ajuste</a>
                 </div>
                 <p class="subtitle is-3">Respecto a La Tasa</p>

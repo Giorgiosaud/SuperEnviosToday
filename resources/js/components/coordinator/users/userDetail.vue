@@ -25,7 +25,8 @@
                     address: '',
                     roles: [],
                 },
-                filteredRoles:[]
+                filteredRoles:[],
+                sendingVerification:false
             }
         ),
         created() {
@@ -47,6 +48,13 @@
 
         },
         methods: {
+            async resendVerification(){
+                this.sendingVerification=true
+              const response=await axios.post('/api/user/verify_email',{
+                  id:this.user.id
+              })
+                this.sendingVerification=false
+            },
             cancel() {
                 window.location.reload()
             },

@@ -336,7 +336,7 @@ fieldset[disabled] .button {
   cursor: not-allowed;
 }
 
-/*! bulma.io v0.8.1 | MIT License | github.com/jgthms/bulma */
+/*! bulma.io v0.8.2 | MIT License | github.com/jgthms/bulma */
 
 @keyframes spinAround {
   from {
@@ -4855,35 +4855,35 @@ a.tag:hover {
   background-color: white;
   border-color: #dbdbdb;
   border-radius: 4px;
-  color: inherit;
+  color: #363636;
 }
 
 .select select::-moz-placeholder,
 .textarea::-moz-placeholder,
 .input::-moz-placeholder,
 .taginput .taginput-container.is-focusable::-moz-placeholder {
-  color: inherit;
+  color: rgba(54, 54, 54, 0.3);
 }
 
 .select select::-webkit-input-placeholder,
 .textarea::-webkit-input-placeholder,
 .input::-webkit-input-placeholder,
 .taginput .taginput-container.is-focusable::-webkit-input-placeholder {
-  color: inherit;
+  color: rgba(54, 54, 54, 0.3);
 }
 
 .select select:-moz-placeholder,
 .textarea:-moz-placeholder,
 .input:-moz-placeholder,
 .taginput .taginput-container.is-focusable:-moz-placeholder {
-  color: inherit;
+  color: rgba(54, 54, 54, 0.3);
 }
 
 .select select:-ms-input-placeholder,
 .textarea:-ms-input-placeholder,
 .input:-ms-input-placeholder,
 .taginput .taginput-container.is-focusable:-ms-input-placeholder {
-  color: inherit;
+  color: rgba(54, 54, 54, 0.3);
 }
 
 .select select:hover,
@@ -8350,10 +8350,6 @@ a.navbar-item.is-active,
   .navbar-item,
   .navbar-link {
     align-items: center;
-    display: flex;
-  }
-
-  .navbar-item {
     display: flex;
   }
 
@@ -12874,10 +12870,11 @@ label.panel-block:hover {
   outline: none;
   display: inline-flex;
   align-items: center;
+  margin-right: 0.5em;
 }
 
-.b-checkbox.checkbox + .checkbox {
-  margin-left: 0.5em;
+.b-checkbox.checkbox + .checkbox:last-child {
+  margin-right: 0;
 }
 
 .b-checkbox.checkbox input[type=checkbox] {
@@ -13582,6 +13579,42 @@ label.panel-block:hover {
   width: 100%;
 }
 
+.datepicker .dropdown .input[readonly],
+.datepicker .dropdown .taginput [readonly].taginput-container.is-focusable,
+.taginput .datepicker .dropdown [readonly].taginput-container.is-focusable,
+.datepicker .dropdown-trigger .input[readonly],
+.datepicker .dropdown-trigger .taginput [readonly].taginput-container.is-focusable,
+.taginput .datepicker .dropdown-trigger [readonly].taginput-container.is-focusable {
+  box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
+}
+
+.datepicker .dropdown .input[readonly]:focus,
+.datepicker .dropdown .taginput [readonly].taginput-container.is-focusable:focus,
+.taginput .datepicker .dropdown [readonly].taginput-container.is-focusable:focus,
+.datepicker .dropdown .input[readonly].is-focused,
+.datepicker .dropdown .taginput [readonly].is-focused.taginput-container.is-focusable,
+.taginput .datepicker .dropdown [readonly].is-focused.taginput-container.is-focusable,
+.datepicker .dropdown .input[readonly]:active,
+.datepicker .dropdown .taginput [readonly].taginput-container.is-focusable:active,
+.taginput .datepicker .dropdown [readonly].taginput-container.is-focusable:active,
+.datepicker .dropdown .input[readonly].is-active,
+.datepicker .dropdown .taginput [readonly].is-active.taginput-container.is-focusable,
+.taginput .datepicker .dropdown [readonly].is-active.taginput-container.is-focusable,
+.datepicker .dropdown-trigger .input[readonly]:focus,
+.datepicker .dropdown-trigger .taginput [readonly].taginput-container.is-focusable:focus,
+.taginput .datepicker .dropdown-trigger [readonly].taginput-container.is-focusable:focus,
+.datepicker .dropdown-trigger .input[readonly].is-focused,
+.datepicker .dropdown-trigger .taginput [readonly].is-focused.taginput-container.is-focusable,
+.taginput .datepicker .dropdown-trigger [readonly].is-focused.taginput-container.is-focusable,
+.datepicker .dropdown-trigger .input[readonly]:active,
+.datepicker .dropdown-trigger .taginput [readonly].taginput-container.is-focusable:active,
+.taginput .datepicker .dropdown-trigger [readonly].taginput-container.is-focusable:active,
+.datepicker .dropdown-trigger .input[readonly].is-active,
+.datepicker .dropdown-trigger .taginput [readonly].is-active.taginput-container.is-focusable,
+.taginput .datepicker .dropdown-trigger [readonly].is-active.taginput-container.is-focusable {
+  box-shadow: 0 0 0 0.125em rgba(0, 196, 167, 0.25);
+}
+
 .datepicker .dropdown.is-disabled {
   opacity: 1;
 }
@@ -14022,7 +14055,8 @@ label.panel-block:hover {
   }
 
   .dropdown.is-mobile-modal > .dropdown-menu > .dropdown-content > .dropdown-item,
-  .dropdown .dropdown-menu .has-link .dropdown.is-mobile-modal > .dropdown-menu > .dropdown-content > a {
+  .dropdown .dropdown-menu .has-link .dropdown.is-mobile-modal > .dropdown-menu > .dropdown-content > a,
+  .dropdown.is-mobile-modal > .dropdown-menu > .dropdown-content > .has-link a {
     padding: 1rem 1.5rem;
   }
 }
@@ -14276,6 +14310,18 @@ label.panel-block:hover {
 .field.is-floating-label.has-numberinput-compact.has-numberinput-is-large .label,
 .field.is-floating-in-label.has-numberinput-compact.has-numberinput-is-large .label {
   margin-left: calc(1.5rem * 2.25);
+}
+
+.field.is-grouped-right.is-floating-in-label .label,
+.field.has-addons-right.is-floating-in-label .label {
+  position: relative;
+  left: calc(3.25em + 2em);
+}
+
+.field.is-grouped-right.is-floating-label .label,
+.field.has-addons-right.is-floating-label .label {
+  position: relative;
+  left: calc(3.25em + 2em);
 }
 
 .control .help.counter {
@@ -14759,10 +14805,15 @@ label.panel-block:hover {
   outline: none;
   display: inline-flex;
   align-items: center;
+  margin-right: 0.5em;
+}
+
+.b-radio.radio + .radio:last-child {
+  margin-right: 0;
 }
 
 .b-radio.radio + .radio {
-  margin-left: 0.5em;
+  margin-left: 0;
 }
 
 .b-radio.radio input[type=radio] {
@@ -15114,6 +15165,56 @@ label.panel-block:hover {
   color: rgba(122, 122, 122, 0.7);
 }
 
+.b-skeleton {
+  display: flex;
+  width: 100%;
+}
+
+.b-skeleton > .b-skeleton-item {
+  background: linear-gradient(90deg, #dbdbdb 25%, rgba(219, 219, 219, 0.5) 50%, #dbdbdb 75%);
+  background-size: 400% 100%;
+  display: inline-flex;
+  line-height: 1;
+  width: 100%;
+}
+
+.b-skeleton > .b-skeleton-item.is-rounded {
+  border-radius: 4px;
+}
+
+.b-skeleton > .b-skeleton-item::after {
+  content: "\A0";
+}
+
+.b-skeleton.is-animated > .b-skeleton-item {
+  -webkit-animation: skeleton-loading 1.5s infinite;
+          animation: skeleton-loading 1.5s infinite;
+}
+
+.b-skeleton + .b-skeleton {
+  margin-top: 0.5rem;
+}
+
+@-webkit-keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
 .b-sidebar .sidebar-content {
   background-color: whitesmoke;
   box-shadow: 5px 0px 13px 3px rgba(10, 10, 10, 0.1);
@@ -15187,8 +15288,16 @@ label.panel-block:hover {
   width: 80px;
 }
 
+.b-sidebar .sidebar-content.is-mini-expand:hover {
+  transition: width 150ms ease-out;
+}
+
 .b-sidebar .sidebar-content.is-mini-expand:hover:not(.is-fullwidth) {
   width: 260px;
+}
+
+.b-sidebar .sidebar-content.is-mini-expand:hover:not(.is-fullwidth).is-mini-expand-fixed {
+  position: fixed;
 }
 
 .b-sidebar .sidebar-content.is-static {
@@ -15222,6 +15331,10 @@ label.panel-block:hover {
 
   .b-sidebar .sidebar-content.is-mini-expand:hover:not(.is-fullwidth-mobile) {
     width: 260px;
+  }
+
+  .b-sidebar .sidebar-content.is-mini-expand:hover:not(.is-fullwidth-mobile).is-mini-expand-fixed {
+    position: fixed;
   }
 
   .b-sidebar .sidebar-content.is-hidden-mobile {
@@ -15473,11 +15586,6 @@ Wikiki (https://github.com/Wikiki) licensed under
 MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 */
 
-.b-steps .steps {
-  font-size: 1rem;
-  min-height: 2rem;
-}
-
 .b-steps .steps .step-items {
   display: flex;
   flex-wrap: wrap;
@@ -15491,6 +15599,10 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .b-steps .steps .step-items .step-item .step-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   color: #4a4a4a;
 }
 
@@ -15501,13 +15613,14 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .b-steps .steps .step-items .step-item .step-marker {
   align-items: center;
   display: flex;
-  border-radius: 50%;
+  border-radius: 4px;
   font-weight: 700;
   justify-content: center;
   background: #b5b5b5;
   color: white;
   border: 0.2em solid #fff;
   z-index: 1;
+  overflow: hidden;
 }
 
 .b-steps .steps .step-items .step-item.is-white::before,
@@ -15796,6 +15909,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 
 .b-steps .steps .step-items .step-item .step-details {
   text-align: center;
+  z-index: 1;
 }
 
 .b-steps .steps .step-items .step-item:not(:first-child),
@@ -15808,12 +15922,28 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   content: " ";
   display: block;
   position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: -50%;
 }
 
 .b-steps .steps .step-items .step-item:only-child::after {
   content: " ";
   display: block;
   position: absolute;
+  height: 0.2em;
+  bottom: 0;
+}
+
+.b-steps .steps .step-items .step-item:only-child::before,
+.b-steps .steps .step-items .step-item:only-child::after {
+  width: 25%;
+  left: 50%;
+}
+
+.b-steps .steps .step-items .step-item:only-child::before {
+  right: 50%;
+  left: auto;
 }
 
 .b-steps .steps .step-items .step-item::before,
@@ -15865,23 +15995,42 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   overflow: hidden;
 }
 
+.b-steps .steps.is-rounded .step-item .step-marker {
+  border-radius: 290486px;
+}
+
+.b-steps .steps.is-animated .step-item:not(:first-child)::before,
+.b-steps .steps.is-animated .step-item:only-child::before {
+  transition: background 150ms ease-out;
+}
+
+.b-steps .steps.has-label-right .step-items .step-item .step-link,
+.b-steps .steps.has-label-left .step-items .step-item .step-link {
+  flex-direction: row;
+}
+
+.b-steps .steps.has-label-right .step-items .step-item .step-link > .step-details,
+.b-steps .steps.has-label-left .step-items .step-item .step-link > .step-details {
+  padding: 0.2em;
+}
+
+.b-steps .steps.has-label-left .step-items .step-item .step-link {
+  flex-direction: row-reverse;
+}
+
+.b-steps .steps {
+  font-size: 1rem;
+  min-height: 2rem;
+}
+
 .b-steps .steps .step-items .step-item .step-marker {
   height: 2rem;
   width: 2rem;
-  position: absolute;
-  left: calc(50% - 1rem);
 }
 
 .b-steps .steps .step-items .step-item .step-marker .icon *,
 .b-steps .steps .step-items .step-item .step-marker .icon *:before {
   font-size: 1rem;
-}
-
-.b-steps .steps .step-items .step-item .step-details {
-  margin-top: 2rem;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  padding-top: 0.2em;
 }
 
 .b-steps .steps .step-items .step-item .step-details .step-title {
@@ -15892,277 +16041,340 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .b-steps .steps .step-items .step-item:not(:first-child)::before,
 .b-steps .steps .step-items .step-item:only-child::before {
   height: 0.2em;
-  width: 100%;
-  bottom: 0;
-  left: -50%;
   top: 1rem;
 }
 
 .b-steps .steps .step-items .step-item:only-child::after {
-  height: 0.2em;
-  bottom: 0;
   top: 1rem;
-}
-
-.b-steps .steps .step-items .step-item:only-child::before,
-.b-steps .steps .step-items .step-item:only-child::after {
-  width: 25%;
-  left: 50%;
-}
-
-.b-steps .steps .step-items .step-item:only-child::before {
-  right: 50%;
-  left: auto;
 }
 
 @media screen and (max-width: 768px) {
-  .b-steps .steps .step-items .step-item:not(.is-active) {
-    display: none;
-  }
-
   .b-steps .steps .step-items .step-item::before,
   .b-steps .steps .step-items .step-item::after,
   .b-steps .steps .step-items .step-item:not(:first-child)::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    height: 0.2em;
-    width: 25%;
-    bottom: 0;
-    left: 50%;
     top: 1rem;
-  }
-
-  .b-steps .steps .step-items .step-item::before,
-  .b-steps .steps .step-items .step-item:not(:first-child)::before {
-    right: 50%;
-    left: auto;
   }
 }
 
-.b-steps .steps.is-small {
+.b-steps.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::before,
+.b-steps.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::after,
+.b-steps.is-vertical > .steps.has-label-right .step-items .step-item:only-child::before,
+.b-steps.is-vertical > .steps.has-label-right .step-items .step-item:only-child::after {
+  left: calc(1rem - 0.1em);
+}
+
+.b-steps.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::before,
+.b-steps.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::after,
+.b-steps.is-vertical > .steps.has-label-left .step-items .step-item:only-child::before,
+.b-steps.is-vertical > .steps.has-label-left .step-items .step-item:only-child::after {
+  left: auto;
+  right: calc(1rem - 0.1em);
+}
+
+.b-steps.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::before,
+.b-steps.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::after,
+.b-steps.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::before,
+.b-steps.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::after {
+  left: calc(1rem - 0.1em);
+}
+
+.b-steps.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::before,
+.b-steps.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::after,
+.b-steps.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::before,
+.b-steps.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::after {
+  left: auto;
+  right: calc(1rem - 0.1em);
+}
+
+.b-steps.is-small .steps {
   font-size: 0.75rem;
   min-height: 1.5rem;
 }
 
-.b-steps .steps.is-small .step-items .step-item .step-marker {
+.b-steps.is-small .steps .step-items .step-item .step-marker {
   height: 1.5rem;
   width: 1.5rem;
-  position: absolute;
-  left: calc(50% - 0.75rem);
 }
 
-.b-steps .steps.is-small .step-items .step-item .step-marker .icon *,
-.b-steps .steps.is-small .step-items .step-item .step-marker .icon *:before {
+.b-steps.is-small .steps .step-items .step-item .step-marker .icon *,
+.b-steps.is-small .steps .step-items .step-item .step-marker .icon *:before {
   font-size: 0.75rem;
 }
 
-.b-steps .steps.is-small .step-items .step-item .step-details {
-  margin-top: 1.5rem;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  padding-top: 0.2em;
-}
-
-.b-steps .steps.is-small .step-items .step-item .step-details .step-title {
+.b-steps.is-small .steps .step-items .step-item .step-details .step-title {
   font-size: 0.9rem;
   font-weight: 600;
 }
 
-.b-steps .steps.is-small .step-items .step-item:not(:first-child)::before,
-.b-steps .steps.is-small .step-items .step-item:only-child::before {
+.b-steps.is-small .steps .step-items .step-item:not(:first-child)::before,
+.b-steps.is-small .steps .step-items .step-item:only-child::before {
   height: 0.2em;
-  width: 100%;
-  bottom: 0;
-  left: -50%;
   top: 0.75rem;
 }
 
-.b-steps .steps.is-small .step-items .step-item:only-child::after {
-  height: 0.2em;
-  bottom: 0;
+.b-steps.is-small .steps .step-items .step-item:only-child::after {
   top: 0.75rem;
-}
-
-.b-steps .steps.is-small .step-items .step-item:only-child::before,
-.b-steps .steps.is-small .step-items .step-item:only-child::after {
-  width: 25%;
-  left: 50%;
-}
-
-.b-steps .steps.is-small .step-items .step-item:only-child::before {
-  right: 50%;
-  left: auto;
 }
 
 @media screen and (max-width: 768px) {
-  .b-steps .steps.is-small .step-items .step-item:not(.is-active) {
-    display: none;
-  }
-
-  .b-steps .steps.is-small .step-items .step-item::before,
-  .b-steps .steps.is-small .step-items .step-item::after,
-  .b-steps .steps.is-small .step-items .step-item:not(:first-child)::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    height: 0.2em;
-    width: 25%;
-    bottom: 0;
-    left: 50%;
+  .b-steps.is-small .steps .step-items .step-item::before,
+  .b-steps.is-small .steps .step-items .step-item::after,
+  .b-steps.is-small .steps .step-items .step-item:not(:first-child)::before {
     top: 0.75rem;
-  }
-
-  .b-steps .steps.is-small .step-items .step-item::before,
-  .b-steps .steps.is-small .step-items .step-item:not(:first-child)::before {
-    right: 50%;
-    left: auto;
   }
 }
 
-.b-steps .steps.is-medium {
+.b-steps.is-small.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::before,
+.b-steps.is-small.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::after,
+.b-steps.is-small.is-vertical > .steps.has-label-right .step-items .step-item:only-child::before,
+.b-steps.is-small.is-vertical > .steps.has-label-right .step-items .step-item:only-child::after {
+  left: calc(0.75rem - 0.1em);
+}
+
+.b-steps.is-small.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::before,
+.b-steps.is-small.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::after,
+.b-steps.is-small.is-vertical > .steps.has-label-left .step-items .step-item:only-child::before,
+.b-steps.is-small.is-vertical > .steps.has-label-left .step-items .step-item:only-child::after {
+  left: auto;
+  right: calc(0.75rem - 0.1em);
+}
+
+.b-steps.is-small.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::before,
+.b-steps.is-small.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::after,
+.b-steps.is-small.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::before,
+.b-steps.is-small.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::after {
+  left: calc(0.75rem - 0.1em);
+}
+
+.b-steps.is-small.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::before,
+.b-steps.is-small.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::after,
+.b-steps.is-small.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::before,
+.b-steps.is-small.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::after {
+  left: auto;
+  right: calc(0.75rem - 0.1em);
+}
+
+.b-steps.is-medium .steps {
   font-size: 1.25rem;
   min-height: 2.5rem;
 }
 
-.b-steps .steps.is-medium .step-items .step-item .step-marker {
+.b-steps.is-medium .steps .step-items .step-item .step-marker {
   height: 2.5rem;
   width: 2.5rem;
-  position: absolute;
-  left: calc(50% - 1.25rem);
 }
 
-.b-steps .steps.is-medium .step-items .step-item .step-marker .icon *,
-.b-steps .steps.is-medium .step-items .step-item .step-marker .icon *:before {
+.b-steps.is-medium .steps .step-items .step-item .step-marker .icon *,
+.b-steps.is-medium .steps .step-items .step-item .step-marker .icon *:before {
   font-size: 1.25rem;
 }
 
-.b-steps .steps.is-medium .step-items .step-item .step-details {
-  margin-top: 2.5rem;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  padding-top: 0.2em;
-}
-
-.b-steps .steps.is-medium .step-items .step-item .step-details .step-title {
+.b-steps.is-medium .steps .step-items .step-item .step-details .step-title {
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-.b-steps .steps.is-medium .step-items .step-item:not(:first-child)::before,
-.b-steps .steps.is-medium .step-items .step-item:only-child::before {
+.b-steps.is-medium .steps .step-items .step-item:not(:first-child)::before,
+.b-steps.is-medium .steps .step-items .step-item:only-child::before {
   height: 0.2em;
-  width: 100%;
-  bottom: 0;
-  left: -50%;
   top: 1.25rem;
 }
 
-.b-steps .steps.is-medium .step-items .step-item:only-child::after {
-  height: 0.2em;
-  bottom: 0;
+.b-steps.is-medium .steps .step-items .step-item:only-child::after {
   top: 1.25rem;
-}
-
-.b-steps .steps.is-medium .step-items .step-item:only-child::before,
-.b-steps .steps.is-medium .step-items .step-item:only-child::after {
-  width: 25%;
-  left: 50%;
-}
-
-.b-steps .steps.is-medium .step-items .step-item:only-child::before {
-  right: 50%;
-  left: auto;
 }
 
 @media screen and (max-width: 768px) {
-  .b-steps .steps.is-medium .step-items .step-item:not(.is-active) {
-    display: none;
-  }
-
-  .b-steps .steps.is-medium .step-items .step-item::before,
-  .b-steps .steps.is-medium .step-items .step-item::after,
-  .b-steps .steps.is-medium .step-items .step-item:not(:first-child)::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    height: 0.2em;
-    width: 25%;
-    bottom: 0;
-    left: 50%;
+  .b-steps.is-medium .steps .step-items .step-item::before,
+  .b-steps.is-medium .steps .step-items .step-item::after,
+  .b-steps.is-medium .steps .step-items .step-item:not(:first-child)::before {
     top: 1.25rem;
-  }
-
-  .b-steps .steps.is-medium .step-items .step-item::before,
-  .b-steps .steps.is-medium .step-items .step-item:not(:first-child)::before {
-    right: 50%;
-    left: auto;
   }
 }
 
-.b-steps .steps.is-large {
+.b-steps.is-medium.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::before,
+.b-steps.is-medium.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::after,
+.b-steps.is-medium.is-vertical > .steps.has-label-right .step-items .step-item:only-child::before,
+.b-steps.is-medium.is-vertical > .steps.has-label-right .step-items .step-item:only-child::after {
+  left: calc(1.25rem - 0.1em);
+}
+
+.b-steps.is-medium.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::before,
+.b-steps.is-medium.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::after,
+.b-steps.is-medium.is-vertical > .steps.has-label-left .step-items .step-item:only-child::before,
+.b-steps.is-medium.is-vertical > .steps.has-label-left .step-items .step-item:only-child::after {
+  left: auto;
+  right: calc(1.25rem - 0.1em);
+}
+
+.b-steps.is-medium.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::before,
+.b-steps.is-medium.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::after,
+.b-steps.is-medium.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::before,
+.b-steps.is-medium.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::after {
+  left: calc(1.25rem - 0.1em);
+}
+
+.b-steps.is-medium.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::before,
+.b-steps.is-medium.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::after,
+.b-steps.is-medium.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::before,
+.b-steps.is-medium.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::after {
+  left: auto;
+  right: calc(1.25rem - 0.1em);
+}
+
+.b-steps.is-large .steps {
   font-size: 1.5rem;
   min-height: 3rem;
 }
 
-.b-steps .steps.is-large .step-items .step-item .step-marker {
+.b-steps.is-large .steps .step-items .step-item .step-marker {
   height: 3rem;
   width: 3rem;
-  position: absolute;
-  left: calc(50% - 1.5rem);
 }
 
-.b-steps .steps.is-large .step-items .step-item .step-marker .icon *,
-.b-steps .steps.is-large .step-items .step-item .step-marker .icon *:before {
+.b-steps.is-large .steps .step-items .step-item .step-marker .icon *,
+.b-steps.is-large .steps .step-items .step-item .step-marker .icon *:before {
   font-size: 1.5rem;
 }
 
-.b-steps .steps.is-large .step-items .step-item .step-details {
-  margin-top: 3rem;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  padding-top: 0.2em;
-}
-
-.b-steps .steps.is-large .step-items .step-item .step-details .step-title {
+.b-steps.is-large .steps .step-items .step-item .step-details .step-title {
   font-size: 1.8rem;
   font-weight: 600;
 }
 
-.b-steps .steps.is-large .step-items .step-item:not(:first-child)::before,
-.b-steps .steps.is-large .step-items .step-item:only-child::before {
+.b-steps.is-large .steps .step-items .step-item:not(:first-child)::before,
+.b-steps.is-large .steps .step-items .step-item:only-child::before {
   height: 0.2em;
-  width: 100%;
-  bottom: 0;
-  left: -50%;
   top: 1.5rem;
 }
 
-.b-steps .steps.is-large .step-items .step-item:only-child::after {
-  height: 0.2em;
-  bottom: 0;
+.b-steps.is-large .steps .step-items .step-item:only-child::after {
   top: 1.5rem;
-}
-
-.b-steps .steps.is-large .step-items .step-item:only-child::before,
-.b-steps .steps.is-large .step-items .step-item:only-child::after {
-  width: 25%;
-  left: 50%;
-}
-
-.b-steps .steps.is-large .step-items .step-item:only-child::before {
-  right: 50%;
-  left: auto;
 }
 
 @media screen and (max-width: 768px) {
-  .b-steps .steps.is-large .step-items .step-item:not(.is-active) {
+  .b-steps.is-large .steps .step-items .step-item::before,
+  .b-steps.is-large .steps .step-items .step-item::after,
+  .b-steps.is-large .steps .step-items .step-item:not(:first-child)::before {
+    top: 1.5rem;
+  }
+}
+
+.b-steps.is-large.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::before,
+.b-steps.is-large.is-vertical > .steps.has-label-right .step-items .step-item:not(:first-child)::after,
+.b-steps.is-large.is-vertical > .steps.has-label-right .step-items .step-item:only-child::before,
+.b-steps.is-large.is-vertical > .steps.has-label-right .step-items .step-item:only-child::after {
+  left: calc(1.5rem - 0.1em);
+}
+
+.b-steps.is-large.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::before,
+.b-steps.is-large.is-vertical > .steps.has-label-left .step-items .step-item:not(:first-child)::after,
+.b-steps.is-large.is-vertical > .steps.has-label-left .step-items .step-item:only-child::before,
+.b-steps.is-large.is-vertical > .steps.has-label-left .step-items .step-item:only-child::after {
+  left: auto;
+  right: calc(1.5rem - 0.1em);
+}
+
+.b-steps.is-large.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::before,
+.b-steps.is-large.is-vertical.is-right > .steps.has-label-right .step-items .step-item:not(:first-child)::after,
+.b-steps.is-large.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::before,
+.b-steps.is-large.is-vertical.is-right > .steps.has-label-right .step-items .step-item:only-child::after {
+  left: calc(1.5rem - 0.1em);
+}
+
+.b-steps.is-large.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::before,
+.b-steps.is-large.is-vertical.is-right > .steps.has-label-left .step-items .step-item:not(:first-child)::after,
+.b-steps.is-large.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::before,
+.b-steps.is-large.is-vertical.is-right > .steps.has-label-left .step-items .step-item:only-child::after {
+  left: auto;
+  right: calc(1.5rem - 0.1em);
+}
+
+.b-steps.is-vertical {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.b-steps.is-vertical > .steps .step-items {
+  height: 100%;
+  flex-direction: column;
+  border-bottom-color: transparent;
+}
+
+.b-steps.is-vertical > .steps .step-items .step-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em 0;
+}
+
+.b-steps.is-vertical > .steps .step-items .step-item::before,
+.b-steps.is-vertical > .steps .step-items .step-item::after {
+  background: linear-gradient(to top, #dbdbdb 50%, #00c4a7 50%);
+  background-size: 100% 200%;
+  background-position: left bottom;
+}
+
+.b-steps.is-vertical > .steps .step-items .step-item:not(:first-child)::before,
+.b-steps.is-vertical > .steps .step-items .step-item:only-child::before {
+  height: 100%;
+  width: 0.2em;
+  top: -50%;
+  left: calc(50% - 0.1em);
+}
+
+.b-steps.is-vertical > .steps .step-items .step-item.is-active::before,
+.b-steps.is-vertical > .steps .step-items .step-item.is-active::after,
+.b-steps.is-vertical > .steps .step-items .step-item.is-previous::before,
+.b-steps.is-vertical > .steps .step-items .step-item.is-previous::after {
+  background-position: right top;
+}
+
+.b-steps.is-vertical > .steps .step-items .step-item:only-child::before {
+  top: 50%;
+}
+
+.b-steps.is-vertical > .steps .step-items .step-item:only-child::after {
+  width: 0.2em;
+  top: auto;
+  bottom: 50%;
+}
+
+.b-steps.is-vertical > .steps .step-items .step-item:only-child::before,
+.b-steps.is-vertical > .steps .step-items .step-item:only-child::after {
+  height: 25%;
+}
+
+.b-steps.is-vertical > .steps.has-label-right .step-items .step-item {
+  justify-content: flex-start;
+}
+
+.b-steps.is-vertical > .steps.has-label-left .step-items .step-item {
+  justify-content: flex-end;
+}
+
+.b-steps.is-vertical > .step-content {
+  flex-grow: 1;
+}
+
+.b-steps.is-vertical > .step-navigation {
+  flex-basis: 100%;
+}
+
+.b-steps.is-vertical.is-right {
+  flex-direction: row-reverse;
+}
+
+@media screen and (max-width: 768px) {
+  .b-steps:not(.is-vertical) .steps.mobile-minimalist .step-items .step-item:not(.is-active) {
     display: none;
   }
 
-  .b-steps .steps.is-large .step-items .step-item::before,
-  .b-steps .steps.is-large .step-items .step-item::after,
-  .b-steps .steps.is-large .step-items .step-item:not(:first-child)::before {
+  .b-steps:not(.is-vertical) .steps.mobile-minimalist .step-items .step-item::before,
+  .b-steps:not(.is-vertical) .steps.mobile-minimalist .step-items .step-item::after,
+  .b-steps:not(.is-vertical) .steps.mobile-minimalist .step-items .step-item:not(:first-child)::before {
     content: " ";
     display: block;
     position: absolute;
@@ -16170,13 +16382,16 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
     width: 25%;
     bottom: 0;
     left: 50%;
-    top: 1.5rem;
   }
 
-  .b-steps .steps.is-large .step-items .step-item::before,
-  .b-steps .steps.is-large .step-items .step-item:not(:first-child)::before {
+  .b-steps:not(.is-vertical) .steps.mobile-minimalist .step-items .step-item::before,
+  .b-steps:not(.is-vertical) .steps.mobile-minimalist .step-items .step-item:not(:first-child)::before {
     right: 50%;
     left: auto;
+  }
+
+  .b-steps:not(.is-vertical) .steps.mobile-compact .step-items .step-item:not(.is-active) .step-details {
+    display: none;
   }
 }
 
@@ -16185,10 +16400,11 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   display: inline-flex;
   align-items: center;
   position: relative;
+  margin-right: 0.5em;
 }
 
-.switch + .switch {
-  margin-left: 0.5em;
+.switch + .switch:last-child {
+  margin-right: 0;
 }
 
 .switch input[type=checkbox] {
@@ -16824,6 +17040,62 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   }
 }
 
+.b-table .table-wrapper.is-card-list thead {
+  display: none;
+}
+
+.b-table .table-wrapper.is-card-list tfoot th {
+  border: 0;
+  display: inherit;
+}
+
+.b-table .table-wrapper.is-card-list tr {
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  max-width: 100%;
+  position: relative;
+  display: block;
+}
+
+.b-table .table-wrapper.is-card-list tr td {
+  border: 0;
+  display: inherit;
+}
+
+.b-table .table-wrapper.is-card-list tr td:last-child {
+  border-bottom: 0;
+}
+
+.b-table .table-wrapper.is-card-list tr:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.b-table .table-wrapper.is-card-list tr:not([class*=is-]) {
+  background: inherit;
+}
+
+.b-table .table-wrapper.is-card-list tr:not([class*=is-]):hover {
+  background-color: inherit;
+}
+
+.b-table .table-wrapper.is-card-list tr.detail {
+  margin-top: -1rem;
+}
+
+.b-table .table-wrapper.is-card-list tr:not(.detail):not(.is-empty):not(.table-footer) td {
+  display: flex;
+  width: auto;
+  justify-content: space-between;
+  text-align: right;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.b-table .table-wrapper.is-card-list tr:not(.detail):not(.is-empty):not(.table-footer) td:before {
+  content: attr(data-label);
+  font-weight: 600;
+  padding-right: 0.5em;
+  text-align: left;
+}
+
 .b-table.is-loading {
   position: relative;
   pointer-events: none;
@@ -16973,6 +17245,106 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   text-overflow: ellipsis;
 }
 
+.tag .delete.is-white,
+.tag.is-delete.is-white {
+  background: white;
+}
+
+.tag .delete.is-white:hover,
+.tag.is-delete.is-white:hover {
+  background-color: #e6e6e6;
+}
+
+.tag .delete.is-black,
+.tag.is-delete.is-black {
+  background: #0a0a0a;
+}
+
+.tag .delete.is-black:hover,
+.tag.is-delete.is-black:hover {
+  background-color: black;
+}
+
+.tag .delete.is-light,
+.tag.is-delete.is-light {
+  background: whitesmoke;
+}
+
+.tag .delete.is-light:hover,
+.tag.is-delete.is-light:hover {
+  background-color: #dbdbdb;
+}
+
+.tag .delete.is-dark,
+.tag.is-delete.is-dark {
+  background: #363636;
+}
+
+.tag .delete.is-dark:hover,
+.tag.is-delete.is-dark:hover {
+  background-color: #1c1c1c;
+}
+
+.tag .delete.is-primary,
+.tag.is-delete.is-primary {
+  background: #00c4a7;
+}
+
+.tag .delete.is-primary:hover,
+.tag.is-delete.is-primary:hover {
+  background-color: #00917c;
+}
+
+.tag .delete.is-info,
+.tag.is-delete.is-info {
+  background: #3298dc;
+}
+
+.tag .delete.is-info:hover,
+.tag.is-delete.is-info:hover {
+  background-color: #207dbc;
+}
+
+.tag .delete.is-success,
+.tag.is-delete.is-success {
+  background: #48c774;
+}
+
+.tag .delete.is-success:hover,
+.tag.is-delete.is-success:hover {
+  background-color: #34a85c;
+}
+
+.tag .delete.is-warning,
+.tag.is-delete.is-warning {
+  background: #ffdd57;
+}
+
+.tag .delete.is-warning:hover,
+.tag.is-delete.is-warning:hover {
+  background-color: #ffd324;
+}
+
+.tag .delete.is-danger,
+.tag.is-delete.is-danger {
+  background: #f14668;
+}
+
+.tag .delete.is-danger:hover,
+.tag.is-delete.is-danger:hover {
+  background-color: #ee1742;
+}
+
+.tag .delete.is-twitter,
+.tag.is-delete.is-twitter {
+  background: #4099FF;
+}
+
+.tag .delete.is-twitter:hover,
+.tag.is-delete.is-twitter:hover {
+  background-color: #0d7eff;
+}
+
 .taginput .taginput-container {
   display: flex;
 }
@@ -17029,6 +17401,7 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 }
 
 .taginput .taginput-container .autocomplete {
+  position: static;
   flex: 1;
 }
 
@@ -17061,6 +17434,42 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
 .timepicker .dropdown,
 .timepicker .dropdown-trigger {
   width: 100%;
+}
+
+.timepicker .dropdown .input[readonly],
+.timepicker .dropdown .taginput [readonly].taginput-container.is-focusable,
+.taginput .timepicker .dropdown [readonly].taginput-container.is-focusable,
+.timepicker .dropdown-trigger .input[readonly],
+.timepicker .dropdown-trigger .taginput [readonly].taginput-container.is-focusable,
+.taginput .timepicker .dropdown-trigger [readonly].taginput-container.is-focusable {
+  box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
+}
+
+.timepicker .dropdown .input[readonly]:focus,
+.timepicker .dropdown .taginput [readonly].taginput-container.is-focusable:focus,
+.taginput .timepicker .dropdown [readonly].taginput-container.is-focusable:focus,
+.timepicker .dropdown .input[readonly].is-focused,
+.timepicker .dropdown .taginput [readonly].is-focused.taginput-container.is-focusable,
+.taginput .timepicker .dropdown [readonly].is-focused.taginput-container.is-focusable,
+.timepicker .dropdown .input[readonly]:active,
+.timepicker .dropdown .taginput [readonly].taginput-container.is-focusable:active,
+.taginput .timepicker .dropdown [readonly].taginput-container.is-focusable:active,
+.timepicker .dropdown .input[readonly].is-active,
+.timepicker .dropdown .taginput [readonly].is-active.taginput-container.is-focusable,
+.taginput .timepicker .dropdown [readonly].is-active.taginput-container.is-focusable,
+.timepicker .dropdown-trigger .input[readonly]:focus,
+.timepicker .dropdown-trigger .taginput [readonly].taginput-container.is-focusable:focus,
+.taginput .timepicker .dropdown-trigger [readonly].taginput-container.is-focusable:focus,
+.timepicker .dropdown-trigger .input[readonly].is-focused,
+.timepicker .dropdown-trigger .taginput [readonly].is-focused.taginput-container.is-focusable,
+.taginput .timepicker .dropdown-trigger [readonly].is-focused.taginput-container.is-focusable,
+.timepicker .dropdown-trigger .input[readonly]:active,
+.timepicker .dropdown-trigger .taginput [readonly].taginput-container.is-focusable:active,
+.taginput .timepicker .dropdown-trigger [readonly].taginput-container.is-focusable:active,
+.timepicker .dropdown-trigger .input[readonly].is-active,
+.timepicker .dropdown-trigger .taginput [readonly].is-active.taginput-container.is-focusable,
+.taginput .timepicker .dropdown-trigger [readonly].is-active.taginput-container.is-focusable {
+  box-shadow: 0 0 0 0.125em rgba(0, 196, 167, 0.25);
 }
 
 .timepicker .dropdown.is-disabled {
@@ -17705,6 +18114,14 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
   background: rgba(64, 153, 255, 0.05);
 }
 
+.upload .upload-draggable.is-expanded {
+  width: 100%;
+}
+
+.upload.is-expanded {
+  width: 100%;
+}
+
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
   .upload input[type=file] {
     z-index: auto;
@@ -17757,7 +18174,7 @@ body {
   text-align: center;
 }
 
-.title {
+.super-title {
   font-size: 84px;
 }
 

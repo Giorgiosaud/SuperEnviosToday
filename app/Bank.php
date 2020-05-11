@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Bank extends Model
 {
     protected $fillable = ['currency_id', 'name'];
-    protected $with = ['currency'];
     protected static function boot()
     {
         parent::boot();
