@@ -23451,7 +23451,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       clientReady: true,
       client: {},
-      actualStep: 1
+      actualStep: 0
     };
   },
   methods: {

@@ -43,7 +43,7 @@ class UserController extends Controller
      * @return ResponseFactory|Response
      */
     public function search($idnType, $idn){
-        $users= User::select('id','name','last_name','email','phone')->where('idn_type',$idnType)->where('idn',$idn)->get();
+        $users= User::select('id','idn','idn_type','name','last_name','email','phone')->where('idn_type',$idnType)->where('idn',$idn)->get();
 
         if($users->count()==0){
             return $this->checkIfUserIdMismatchOrNotFound($idn, $users);
