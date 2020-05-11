@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Notifications\ResetPassword;
+use App\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +14,7 @@ use Laravel\Passport\HasApiTokens;
  * @property mixed id
  * @method static first()
  * @method static whereHas(string $string, \Closure $param)
+ * @method static create(array $data)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -57,7 +59,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getFullNameAttribute(){
         return $this->name.' '.$this->last_name;
     }
-
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
     /**
      * The roles that belong to the user.
      */

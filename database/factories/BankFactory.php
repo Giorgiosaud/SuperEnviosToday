@@ -15,7 +15,7 @@ $factory->state(Bank::class, 'venezuelan', function ($faker) {
             $currency = Currency::whereIdentificator('BsS')->first();
             if (!$currency) {
                 $currency = factory(Currency::class)->create([
-                    'identificator' => 'BsS'
+                    'identifier' => 'BsS'
                 ]);
             }
             return $currency->id;
@@ -29,7 +29,7 @@ $factory->state(Bank::class, 'chilean', function ($faker) {
             $currency = Currency::whereIdentificator('CLP')->first();
             if (!$currency) {
                 $currency = factory(Currency::class)->create([
-                    'identificator' => 'CLP'
+                    'identifier' => 'CLP'
                 ]);
             }
             return $currency->id;
@@ -44,7 +44,7 @@ $factory->state(Bank::class, 'american', function ($faker) {
             $currency = Currency::whereIdentificator('USD')->first();
             if (!$currency) {
                 $currency = factory(Currency::class)->create([
-                    'identificator' => 'USD'
+                    'identifier' => 'USD'
                 ]);
             }
             return $currency->id;

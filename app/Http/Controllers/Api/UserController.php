@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -34,13 +37,62 @@ class UserController extends Controller
         return $users->paginate($perPage);
     }
 
-    public function search($idnType,$idn){
-        $user= User::where('idn_type',$idnType)->where('idn',$idn)->first();
-        if(!$user){
-            return response('No user Founf',204);
+    /**
+     * @param $idnType
+     * @param $idn
+     * @return ResponseFactory|Response
+     */
+    public function search($idnType, $idn){
+        $users= User::select('id','name','last_name','email','phone')->where('idn_type',$idnType)->where('idn',$idn)->get();
+
+        if($users->count()==0){
+            return $this->checkIfUserIdMismatchOrNotFound($idn, $users);
         }
-        return $user;
+        return ['status'=>'OK','user'=>$users->first()];
     }
 
+    /**
+     * @param $idn
+     * @return ResponseFactory|Response
+     */
+    private function checkIfUserIdMismatchOrNotFound($idn)
+    {
+        $user = User::select('id', 'idn','idn_type','name', 'last_name', 'email', 'phone')->where('idn', 'LIKE','%'.$idn.'%')->get();
+        if ($user->count() == 0) {
+            return response('No user Found', 204);
+        }
+
+        return response(['user'=>$user->first()], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function store(Request $request){
+        $data=$request->validate([
+            'idn_type' => ['required', 'in:CI,PASSPORT,RUT,DNI,RIF'],
+            'idn' => ['required', 'string', 'max:20'],
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required','string','max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'phone' => ['max:255'],
+        ]);
+        $data['password']=bcrypt('cliente');
+        event(new Registered($user = User::create($data)));
+        return ['status'=>'OK','user'=>$user];
+
+    }
+    public function resendVerificationEmail(Request $request){
+        $data=$request->validate([
+            'id'=>['required','exists:App\User,id']
+        ]);
+        $user=User::find($data['id']);
+        $user->sendEmailVerificationNotification();
+
+        return $request->wantsJson()
+            ? new Response('', 202)
+            : back()->with('resent', true);
+    }
 
 }

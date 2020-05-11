@@ -4,7 +4,7 @@
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">
+                <h1 class="super-title">
                     {{ __('users.SINGLE:WELCOME') }}
                 </h1>
                 <h2 class="subtitle">
@@ -30,6 +30,13 @@
                 >
                     <span>{{__('users.LIST')}}</span>
                 </a>
+                <b-button size="is-big"
+                          type="is-info"
+                          :loading="sendingVerification"
+                          icon-left="retweet"
+                          @click="resendVerification">
+                    {{__('users.RESEND')}}
+                </b-button>
                 <div v-if="!editable">
                     <div><strong>{{__('auth.IDN_TYPE')}}:</strong> @{{ userData.idn_type }}</div>
                     <div><strong>{{__('auth.IDN')}}:</strong> @{{ userData.idn }}</div>

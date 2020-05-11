@@ -9,6 +9,7 @@ import {
 } from 'vee-validate';
 import {
     required,
+    required_if,
     min,
     email,
     numeric,
@@ -19,6 +20,7 @@ import {
 } from 'vee-validate/dist/rules';
 
 extend('required', required);
+extend('required_if', required_if);
 extend('confirmed', confirmed);
 extend('alpha_dash', alpha_dash);
 extend('email', email);

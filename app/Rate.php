@@ -4,7 +4,13 @@ namespace App;
 
 use App\Scopes\RateOrderScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
+/**
+ * @method static Rate whereCurrencyId($currencyId)
+ * @method static Rate orderBy(string $string, string $string1)
+ * @method static Collection first()
+ */
 class Rate extends Model
 {
     protected $casts = [

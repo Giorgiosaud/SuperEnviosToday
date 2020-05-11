@@ -93,7 +93,7 @@
                 }
                 console.log(params)
                 this.loading = true;
-                const request = await axios.get('api/users', {params: {...params}})
+                const request = await axios.get('api/user', {params: {...params}})
                 this.query = request.data;
                 this.loading = false;
 
