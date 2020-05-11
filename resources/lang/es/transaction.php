@@ -1,0 +1,26 @@
+<?php
+return [
+    'TITLE'=>'Crear Transacción',
+    'MESSAGE'=>'Aqui puedes gestionar una transacción de :app',
+    'CLIENT:TITLE'=>'Datos del Cliente Emisor',
+    'CURRENCY'=>'Moneda',
+    'ACCOUNTS'=>'Cuenta',
+    'AMOUNT'=>'Monto',
+    'RATE:CHANGE'=>'¿Desea pedir autorizacion para utilizar otra tasa de cambio?',
+    'EXCHANGE.RATE'=>'Tasa de cambio del día',
+    'RATE:CALC'=>'Monto Calculado',
+    'VOUCHER:NUMBER'=>'Numero de transacción',
+    'RATE:NEW'=>'Tasa a autorizar',
+    'DEFAULT:ACCOUNT'=>'Seleccione la cuenta',
+    'DEFAULT:CURRENCY'=>'Seleccione la moneda',
+    'TRANSACTION:TITLE'=>'Datos de la transacción',
+    'RECEIVER:TITLE'=>'Datos del receptor',
+    'VENEZUELAN_OPERATOR:TITLE'=>'Selección del operador venezuela',
+    'REVIEW:TITLE'=>'Revisar Transacción',
+    'SEARCH:LABEL'=>'Buscar:',
+    'SAVE:LABEL'=>'Crear:',
+    'SAVE:BUTTON'=>'Guardar Cliente',
+    'SEARCH:BUTTON'=>'Buscar Cliente',
+    'CLIENT:DIFFERENT_IDN:EXIST'=>'Existe un cliente con esta informacion pero con un tipo de identificacion distinta',
+    'CLIENT:DIFFERENT_IDN:EXIST:SUB'=>'¿Quiere utilizarlo?'
+];

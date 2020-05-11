@@ -1,0 +1,204 @@
+<transaction-data
+    {{ $properties }}
+    inline-template>
+    <section class="section">
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">{{__('transaction.EXCHANGE.RATE')}}</p>
+                    <p class="title" v-if="tryAnotherRate">{{__('transaction.RATE:NEW')}}: @{{ newRate|currency }}</p>
+                    <p :class="{'sub-title':tryAnotherRate,'title':!tryAnotherRate}" >
+                        <span v-if="tryAnotherRate">{{__('transaction.EXCHANGE.RATE')}}:</span>
+                        @{{ exchangeRate|currency }}
+                    </p>
+                    <p class="sub-title" v-if="tryAnotherRate"
+                    :class="{'has-text-danger':newRate-exchangeRate>0,'has-text-success':newRate-exchangeRate<=0}">Diff: (@{{ newRate-exchangeRate|currency }})</p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">{{__('transaction.RATE:CALC')}}</p>
+                    <p class="title">@{{calcExchange|currency({
+                        symbol: 'Bs ', precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+                        })}}</p>
+                </div>
+            </div>
+        </nav>
+        <section class="section is-paddingless">
+            <div class="columns">
+                <div class="column is-narrow">
+                    <validation-provider
+                        rules="required"
+                        v-slot="{ classes,errors,valid }"
+                        name="{{__('transaction.CURRENCY')}}"
+                        tag="div"
+                        class="control">
+                        <label class="label">{{__('transaction.CURRENCY')}}</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <div class="select"
+                                 :class="classes">
+                                <select
+                                    id="idn_type"
+                                    name="idn_type"
+                                    v-model="selectedCurrency">
+                                    <option value="">{{__('transaction.DEFAULT:CURRENCY')}}</option>
+                                    <option v-for="foreignCurrency in foreignCurrencies"
+                                            :key="foreignCurrency.id"
+                                            :value="foreignCurrency">@{{foreignCurrency.name}} (@{{foreignCurrency.identifier}})</option>
+                                </select>
+                                <span class="icon is-small has-text-success is-right" v-if="valid">
+                                    <font-awesome-icon icon="check"></font-awesome-icon>
+                                </span>
+                            </div>
+                            <span class="icon is-small is-left">
+                            <font-awesome-icon icon="coins"></font-awesome-icon>
+                        </span>
+                        </div>
+                        <strong
+                            v-if="errors[0]"
+                            class="help is-danger">@{{errors[0]}}</strong>
+                    </validation-provider>
+                </div>
+                <div class="column is-narrow">
+                    <validation-provider
+                        rules="required"
+                        v-slot="{ classes,errors,valid }"
+                        name="{{__('transaction.ACCOUNTS')}}"
+                        tag="div"
+                        class="control">
+                        <label class="label">{{__('transaction.ACCOUNTS')}}</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <div class="select"
+
+                                 :class="classes">
+                                <select
+                                    :disabled="!accountsOfCurrency.length"
+                                    id="idn_type"
+                                    name="idn_type"
+                                    v-model="selectedAccount">
+                                    <option value="">{{__('transaction.DEFAULT:ACCOUNT')}}</option>
+                                    <option v-for="account in accountsOfCurrency"
+                                            :key="account.id"
+                                            :value="account">@{{account.bank.name}} (@{{account.number}})</option>
+                                </select>
+                                <span class="icon is-small has-text-success is-right" v-if="valid">
+                                    <font-awesome-icon icon="check"></font-awesome-icon>
+                                </span>
+                            </div>
+                            <span class="icon is-small is-left">
+                            <font-awesome-icon icon="piggy-bank"></font-awesome-icon>
+                        </span>
+                        </div>
+                        <strong
+                            v-if="errors[0]"
+                            class="help is-danger">@{{errors[0]}}</strong>
+                    </validation-provider>
+                </div>
+                <div class="column is-narrow">
+                    <validation-provider
+                        rules="required|min_value:{{config('app.min_amount')}}"
+                        name="{{__('transaction.AMOUNT')}}"
+                        v-slot="{ classes,errors,valid}"
+                        tag="div"
+                        class="control">
+                        <label class="label" for="idn">{{__('transaction.AMOUNT')}}</label>
+                        <div class="control has-icons-right">
+                            <money id="idn"
+                                   v-model="amount"
+                                   v-bind="clp"
+                                   name="amount"
+                                   class="input"
+                                   :class="classes"
+                                   type="text"
+                                   placeholder="{{__('transaction.AMOUNT')}}"
+                                   autocomplete="idn" autofocus></money>
+                            <span class="icon is-small has-text-warning	is-right"
+                                  v-if="errors[0]">
+                                <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
+                            </span>
+                            <span class="icon is-small has-text-success is-right" v-if="valid">
+                                <font-awesome-icon icon="check"></font-awesome-icon>
+                            </span>
+                        </div>
+                        <strong v-if="errors[0]" class="help is-danger">@{{errors[0]}}</strong>
+                    </validation-provider>
+                </div>
+            </div>
+            <div class="columns">
+                <validation-provider tag="div" class="column is-narrow" vid="tryAnotherRate" v-slot="x">
+                    <label class="checkbox">
+                        <input type="checkbox" v-model="tryAnotherRate">
+                        {{__('transaction.RATE:CHANGE')}}
+                    </label>
+                </validation-provider>
+            </div>
+            <div class="columns" v-if="tryAnotherRate">
+                <div class="column is-narrow">
+                    <validation-provider
+                        rules="required_if:tryAnotherRate,true"
+                        name="{{__('transaction.RATE:NEW')}}"
+                        v-slot="{ classes,errors,valid}"
+                        tag="div"
+                        class="control">
+                        <label class="label" for="idn">{{__('transaction.RATE:NEW')}}</label>
+                        <div class="control has-icons-right">
+                            <money id="idn"
+                                   v-model="newRate"
+                                   v-bind="clp"
+                                   name="newRate"
+                                   class="input"
+                                   :class="classes"
+                                   type="text"
+                                   placeholder="{{__('transaction.RATE:NEW')}}"></money>
+                            <span class="icon is-small has-text-warning	is-right"
+                                  v-if="errors[0]">
+                                <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
+                            </span>
+                            <span class="icon is-small has-text-success is-right" v-if="valid">
+                                <font-awesome-icon icon="check"></font-awesome-icon>
+                            </span>
+                        </div>
+                        <strong v-if="errors[0]" class="help is-danger">@{{errors[0]}}</strong>
+                    </validation-provider>
+                </div>
+            </div>
+
+        </section>
+        <section class="section">
+            <div class="columns" v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'">
+                <div class="column">
+                    <validation-provider
+                        rules="required"
+                        name="{{__('transaction.VOUCHER:NUMBER')}}"
+                        v-slot="{ classes,errors,valid}"
+                        tag="div"
+                        class="control">
+                        <label class="label" for="idn">{{__('transaction.VOUCHER:NUMBER')}}</label>
+                        <div class="control has-icons-right">
+                            <input id="voucher"
+                                   v-model="voucher"
+                                   name="voucher"
+                                   class="input"
+                                   :class="classes"
+                                   type="text"
+                                   placeholder="{{__('transaction.VOUCHER:NUMBER')}}"
+                                   autocomplete="idn" autofocus></input>
+                            <span class="icon is-small has-text-warning	is-right"
+                                  v-if="errors[0]">
+                                <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
+                            </span>
+                            <span class="icon is-small has-text-success is-right" v-if="valid">
+                                <font-awesome-icon icon="check"></font-awesome-icon>
+                            </span>
+                        </div>
+                        <strong v-if="errors[0]" class="help is-danger">@{{errors[0]}}</strong>
+                    </validation-provider>
+                </div>
+            </div>
+            <uppy-uploader
+                v-model="uploadFiles"
+                :max-file-size-in-bytes="1000000">
+            </uppy-uploader>
+        </section>
+    </section>
+</transaction-data>

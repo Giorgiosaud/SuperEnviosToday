@@ -23,3 +23,5 @@ Vue.component('user-list', require('./components/coordinator/users/userList').de
 Vue.component('user-detail', require('./components/coordinator/users/userDetail').default);
 
 Vue.component('pending-transactions', require('./components/coordinator/pendingTransactions/pendingTransactionsList').default);
+
+Vue.component('transaction-create', require('./components/operator/transaction/create').default)

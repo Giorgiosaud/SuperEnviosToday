@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factory;
 $factory->define(Currency::class, function (Faker $faker) {
     return [
         'name'          => $faker->name,
-        'identificator' => $faker->userName,
+        'identifier' => $faker->userName,
         'sign'          => $faker->slug,
     ];
 });
