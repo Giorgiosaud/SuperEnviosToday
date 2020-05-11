@@ -10,7 +10,7 @@
         data:()=>({
             clientReady:true,
             client:{},
-            actualStep:1
+            actualStep:0
         }),
         methods:{
             clientDataSet(client){
