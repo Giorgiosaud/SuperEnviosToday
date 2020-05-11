@@ -1,33 +1,27 @@
 <script>
+    import clientData from './clientData'
+    import transactionData from './transactionData'
     export default {
-        // TODO continuar revisando flujo de creacion de transaccion
         name: "transactionCreate",
+        components:{
+            clientData,
+            transactionData
+        },
         data:()=>({
-            clientReady:false,
-            searchButtonText:'Buscar',
-            client:{
-                idn:'',
-                idn_type:'',
-            },
-            obtainedClient:{},
-            searchingClient:false,
-            showCreateClientForm:false,
-            showClientData:false,
+            clientReady:true,
+            client:{},
+            actualStep:1
         }),
         methods:{
-            async searchClient(){
-                this.searchingClient=true;
-                const response = await axios.get(`/api/user/${this.client.idn_type}/${this.client.idn}`)
-                if (response.status === 204) {
-                    this.showCreateClientForm=true
-                }else{
-                    this.$set(this,'obtainedClient',response.data)
-                    this.showClientData=true;
-                }
+            clientDataSet(client){
+                this.client=client
+                this.actualStep=1
+            },
+            transactionDataSet(){
 
-                this.searchingClient=false;
             }
         }
+
     }
 
 </script>

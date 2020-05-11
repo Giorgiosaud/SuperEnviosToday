@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Currency extends Model
 {
-    protected $fillable = ['name', 'identificator', 'sign'];
+    protected $fillable = ['name', 'identifier', 'sign'];
 
     public static function boot()
     {

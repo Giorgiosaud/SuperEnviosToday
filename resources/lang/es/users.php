@@ -1,6 +1,7 @@
 <?php
 return [
     'WELCOME'=>'Listado de usuarios',
+    'RESEND'=>'reenviar confirmacion de correo',
     'MESSAGE'=>'aqui podras listar y filtrar todos los usuarios de :app',
     'GO_TO_SELECTED'=>'Ir al detalle de: ',
     'SELECT_USER'=>'Seleccione un usuario',
