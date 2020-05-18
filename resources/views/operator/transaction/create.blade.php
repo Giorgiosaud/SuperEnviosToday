@@ -38,7 +38,6 @@
                     @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.RECEIVER:TITLE')}}" icon="hand-holding-usd">
-                    {{__('transaction.RECEIVER:TITLE')}}
                     @component('operator.transaction.receiver')
                     @slot('properties')
                     :client="clientData"
@@ -48,7 +47,12 @@
                     @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.VENEZUELAN_OPERATOR:TITLE')}}" icon="comment-dollar">
-                    {{__('transaction.VENEZUELAN_OPERATOR:TITLE')}}
+                    @component('operator.transaction.venezuelanOperator')
+                    @slot('properties')
+                    @operator-set="venezuelanOperatorDataSet"
+                    @next-step="nextStep"
+                    @endslot
+                    @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.REVIEW:TITLE')}}" icon="file-invoice-dollar">
                     {{__('transaction.REVIEW:TITLE')}}
