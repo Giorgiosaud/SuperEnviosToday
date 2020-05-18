@@ -1,6 +1,6 @@
 <receiver-data
     {{ $properties }}
-    :client="client"
+
     inline-template>
     <validation-observer tag="section" class="section is-paddingless" v-slot="{invalid}">
         <div class="columns is-overflow-auto">

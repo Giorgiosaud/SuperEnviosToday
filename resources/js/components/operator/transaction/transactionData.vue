@@ -60,7 +60,7 @@
         methods: {
             nextStep() {
 
-                this.$emit('transaction-data', {
+                this.$emit('transaction-set', {
                     currency: this.selectedCurrency,
                     foreignAccount: this.selectedAccount,
                     amount: this.amount,
