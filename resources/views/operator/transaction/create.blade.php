@@ -29,10 +29,10 @@
                         @endslot
                     @endcomponent
                 </b-step-item>
-                <b-step-item :clickable="clientReady" label="{{__('transaction.TRANSACTION:TITLE')}}" icon="money-check-alt">
+                <b-step-item label="{{__('transaction.TRANSACTION:TITLE')}}" icon="money-check-alt">
                     @component('operator.transaction.transaction')
                         @slot('properties')
-                            @client-transaction-set="transactionDataSet"
+                            @transaction-set="transactionDataSet"
                             @next-step="nextStep"
                         @endslot
                     @endcomponent
@@ -41,7 +41,8 @@
                     {{__('transaction.RECEIVER:TITLE')}}
                     @component('operator.transaction.receiver')
                     @slot('properties')
-                    @client-receiver-set="clientReceiverSet"
+                    :client="clientData"
+                    @receiver-set="clientReceiverSet"
                     @next-step="nextStep"
                     @endslot
                     @endcomponent

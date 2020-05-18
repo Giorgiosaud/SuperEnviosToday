@@ -10,23 +10,28 @@
             receiverData
         },
         data:()=>({
-            clientReady:true,
-            client:{},
+            clientData:null,
             actualStep:0,
-            transaction:null,
+            transactionData:null,
+            receiverData:null,
+            venezuelanOperatorData:null,
         }),
         methods:{
             async clientDataSet(client){
-                this.client=client
+                this.clientData=client
             },
+
             nextStep(){
                 this.actualStep++
             },
             clientReceiverSet(receiverData){
+                this.receiverData=receiverData;
             },
             transactionDataSet(transactionData){
-                this.$set(this,'transaction',transactionData)
-
+                this.transactionData=transactionData;
+            },
+            venezuelanOperatorDataSet(transactionData){
+                this.transactionData=transactionData;
             }
         }
 

@@ -32,6 +32,10 @@
 
             },
             nextStep(){
+                this.$emit('receiver-set',{
+                    receiver:this.receiverSelected,
+                    receiverAccount:this.receiverAccount
+                });
                 this.$emit('next-step')
             },
             async receiverAdded() {
