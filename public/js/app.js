@@ -22313,16 +22313,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           maxFileSize: this.maxFileSizeInBytes,
           minNumberOfFiles: 1,
           maxNumberOfFiles: 10,
-          allowedFileTypes: ['image/*', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf']
+          allowedFileTypes: ['image/*', 'application/pdf']
         }
       }).use(_uppy_dashboard__WEBPACK_IMPORTED_MODULE_3___default.a, {
         hideUploadButton: true,
         inline: true,
+        width: '100%',
         target: this.$refs.dashboardContainer,
         replaceTargetContent: true,
         showProgressDetails: true,
-        trigger: '.UppyModalOpenerBtn',
-        note: 'Images and video only, 2–3 files, up to 1 MB',
+        // trigger: '.UppyModalOpenerBtn',
+        note: 'Solo Imagenes o pdf, hasta 10 archivos, de maximo 2 MB',
         metaFields: [{
           id: 'name',
           name: 'Name',
@@ -22332,7 +22333,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           name: 'Caption',
           placeholder: 'describe what the image is about'
         }],
-        browserBackButtonClose: true
+        browserBackButtonClose: true,
+        locale: {
+          strings: {
+            dropPasteImport: 'Arrastre archivos aca, peguelos, o importelos desde %{browse}',
+            browse: 'su computador aqui'
+          }
+        }
       }).use(_uppy_webcam__WEBPACK_IMPORTED_MODULE_8___default.a, {
         target: _uppy_dashboard__WEBPACK_IMPORTED_MODULE_3___default.a
       }).use(_uppy_xhr_upload__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -23299,14 +23306,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     setClient: function setClient(data) {
-      var _data$user = data.user,
-          id = _data$user.id,
-          idn = _data$user.idn,
-          idn_type = _data$user.idn_type,
-          last_name = _data$user.last_name,
-          phone = _data$user.phone,
-          email = _data$user.email,
-          name = _data$user.name;
+      var id = data.id,
+          idn = data.idn,
+          idn_type = data.idn_type,
+          last_name = data.last_name,
+          phone = data.phone,
+          email = data.email,
+          name = data.name;
       this.client.id = id;
       this.client.idn = idn;
       this.client.idn_type = idn_type;
@@ -23318,21 +23324,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$emit('client-data-set', this.client);
     },
     setPossibleClient: function setPossibleClient(data) {
-      var _data$user2 = data.user,
-          id = _data$user2.id,
-          idn = _data$user2.idn,
-          idn_type = _data$user2.idn_type,
-          last_name = _data$user2.last_name,
-          phone = _data$user2.phone,
-          email = _data$user2.email,
-          name = _data$user2.name;
-      this.client.id = id;
-      this.client.idn = idn;
-      this.client.idn_type = idn_type;
-      this.client.name = name;
-      this.client.last_name = last_name;
-      this.client.email = email;
-      this.client.phone = phone;
+      var id = data.id,
+          idn = data.idn,
+          idn_type = data.idn_type,
+          last_name = data.last_name,
+          phone = data.phone,
+          email = data.email,
+          name = data.name;
+      this.possibleClient.id = id;
+      this.possibleClient.idn = idn;
+      this.possibleClient.idn_type = idn_type;
+      this.possibleClient.name = name;
+      this.possibleClient.last_name = last_name;
+      this.possibleClient.email = email;
+      this.possibleClient.phone = phone;
       this.clientReady = true;
     },
     searchClient: function searchClient() {
@@ -23368,9 +23373,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.clientReady = false;
                 } else {
                   if (response.data.status === 'OK') {
-                    _this.setClient(response.data);
+                    _this.setClient(response.data.user);
                   } else {
-                    _this.setPossibleClient(response.data);
+                    _this.setPossibleClient(response.data.user);
 
                     _this.isComponentModalActive = true;
                   }
@@ -23388,7 +23393,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     usePossibleClient: function usePossibleClient() {
-      this.setUser(this.possibleClient);
+      this.setClientres(this.possibleClient);
       this.isComponentModalActive = false;
     },
     createNew: function createNew() {

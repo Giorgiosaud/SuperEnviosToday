@@ -1,5 +1,6 @@
 import Vue from "vue";
 import {ValidationProvider,ValidationObserver} from 'vee-validate'
+import VueTheMask from 'vue-the-mask'
 import Buefy from 'buefy'
 Vue.use(Buefy,{
     defaultIconPack: 'fas',
@@ -9,7 +10,7 @@ Vue.use(Buefy,{
 })
 
 
-
+Vue.use(VueTheMask)
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 

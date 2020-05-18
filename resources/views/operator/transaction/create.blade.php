@@ -25,19 +25,26 @@
                     @component('operator.transaction.client')
                         @slot('properties')
                             @client-data-set="clientDataSet"
+                            @next-step="nextStep"
                         @endslot
                     @endcomponent
                 </b-step-item>
                 <b-step-item :clickable="clientReady" label="{{__('transaction.TRANSACTION:TITLE')}}" icon="money-check-alt">
-                    {{__('transaction.TRANSACTION:TITLE')}}
                     @component('operator.transaction.transaction')
                         @slot('properties')
                             @client-transaction-set="transactionDataSet"
+                            @next-step="nextStep"
                         @endslot
                     @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.RECEIVER:TITLE')}}" icon="hand-holding-usd">
                     {{__('transaction.RECEIVER:TITLE')}}
+                    @component('operator.transaction.receiver')
+                    @slot('properties')
+                    @client-receiver-set="clientReceiverSet"
+                    @next-step="nextStep"
+                    @endslot
+                    @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.VENEZUELAN_OPERATOR:TITLE')}}" icon="comment-dollar">
                     {{__('transaction.VENEZUELAN_OPERATOR:TITLE')}}

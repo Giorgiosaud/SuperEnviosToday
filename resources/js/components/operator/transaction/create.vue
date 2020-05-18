@@ -1,23 +1,31 @@
 <script>
     import clientData from './clientData'
     import transactionData from './transactionData'
+    import receiverData from './receiverData'
     export default {
         name: "transactionCreate",
         components:{
             clientData,
-            transactionData
+            transactionData,
+            receiverData
         },
         data:()=>({
             clientReady:true,
             client:{},
-            actualStep:0
+            actualStep:0,
+            transaction:null,
         }),
         methods:{
-            clientDataSet(client){
+            async clientDataSet(client){
                 this.client=client
-                this.actualStep=1
             },
-            transactionDataSet(){
+            nextStep(){
+                this.actualStep++
+            },
+            clientReceiverSet(receiverData){
+            },
+            transactionDataSet(transactionData){
+                this.$set(this,'transaction',transactionData)
 
             }
         }

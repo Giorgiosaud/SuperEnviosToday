@@ -20,6 +20,7 @@ return [
     'SEARCH:LABEL'=>'Buscar:',
     'SAVE:LABEL'=>'Crear:',
     'SAVE:BUTTON'=>'Guardar Cliente',
+    'NEXT:BUTTON'=>'Siguiente Paso',
     'SEARCH:BUTTON'=>'Buscar Cliente',
     'CLIENT:DIFFERENT_IDN:EXIST'=>'Existe un cliente con esta informacion pero con un tipo de identificacion distinta',
     'CLIENT:DIFFERENT_IDN:EXIST:SUB'=>'¿Quiere utilizarlo?'

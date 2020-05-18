@@ -28,8 +28,11 @@
             isComponentModalActive:false
         }),
         methods:{
+            nextStep(){
+                this.$emit('next-step')
+            },
             setClient(data) {
-                const {id, idn, idn_type, last_name, phone, email, name} = data.user;
+                const {id, idn, idn_type, last_name, phone, email, name} = data;
 
                 this.client.id = id
                 this.client.idn = idn
@@ -42,14 +45,14 @@
                 this.$emit('client-data-set', this.client)
             },
             setPossibleClient(data) {
-                const {id, idn, idn_type, last_name, phone, email, name} = data.user;
-                this.client.id = id
-                this.client.idn = idn
-                this.client.idn_type = idn_type
-                this.client.name = name
-                this.client.last_name = last_name
-                this.client.email = email
-                this.client.phone = phone
+                const {id, idn, idn_type, last_name, phone, email, name} = data;
+                this.possibleClient.id = id
+                this.possibleClient.idn = idn
+                this.possibleClient.idn_type = idn_type
+                this.possibleClient.name = name
+                this.possibleClient.last_name = last_name
+                this.possibleClient.email = email
+                this.possibleClient.phone = phone
                 this.clientReady = true;
             },
             async searchClient(){
@@ -67,9 +70,9 @@
                     this.clientReady = false;
                 }else {
                     if(response.data.status==='OK') {
-                        this.setClient(response.data);
+                        this.setClient(response.data.user);
                     }else{
-                        this.setPossibleClient(response.data)
+                        this.setPossibleClient(response.data.user)
                         this.isComponentModalActive=true
                     }
                 }
@@ -77,7 +80,7 @@
                 this.searchingClient = false;
             },
             usePossibleClient(){
-                this.setUser(this.possibleClient)
+                this.setClient(this.possibleClient)
                 this.isComponentModalActive=false;
             },
             createNew(){
@@ -89,7 +92,7 @@
                 const response=await axios.post(`/api/user/`,{
                     ...this.client
                 })
-                this.setUser(response);
+                this.setClient(response.data.user);
                 this.savingClient=false;
             }
         }
