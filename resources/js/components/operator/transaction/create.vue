@@ -2,12 +2,14 @@
     import clientData from './clientData'
     import transactionData from './transactionData'
     import receiverData from './receiverData'
+    import venezuelanOperatorData from './venezuelanOperatorData'
     export default {
         name: "transactionCreate",
         components:{
             clientData,
             transactionData,
-            receiverData
+            receiverData,
+            venezuelanOperatorData
         },
         data:()=>({
             clientData:null,

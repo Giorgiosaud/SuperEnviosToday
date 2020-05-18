@@ -25,6 +25,7 @@ Route::group(['middleware' => ['auth:api'],'as'=>'api.'], function () {
     Route::apiResource('currency','Api\CurrencyController',['only'=>['index']]);
     Route::get('currency/foreign',['uses'=>'Api\CurrencyController@foreign','as'=>'currency.foreign']);
     Route::get('banks/base',['uses'=>'Api\BankController@baseBanks','as'=>'index.banks.venezuelan']);
+    Route::get('accounts/base',['uses'=>'Api\AccountController@indexBase','as'=>'index.base.accounts']);
     Route::get('accounts/{currencyId}',['uses'=>'Api\AccountController@getAccounts','as'=>'accounts.from_currency']);
     Route::post('accounts/{user}',['uses'=>'Api\AccountController@save','as'=>'accounts.save']);
     Route::get('rate/{currencyId}',['uses'=>'Api\RateController@get','as'=>'rate.get']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Account;
 use App\Bank;
+use App\Currency;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -34,6 +35,14 @@ class AccountController extends Controller
         $account=Account::create($data);
         return $user->accounts()->save($account);
         return Account::create($data);
+    }
+    public function indexBase(){
+        $currency=Currency::find(config('app.base_currency_id'));
+        $banksId=$currency->banks->pluck('id')->toArray();
+        return $currency->banks()->whereHas('accounts',function($q){
+          $q->where('is_operator',true);
+        })->get();
+            //Account::whereIn('bank_id',$banksId)->where('is_operator',true)->get();
     }
     //
 }
