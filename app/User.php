@@ -4,6 +4,7 @@ namespace App;
 
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
+use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,7 +14,7 @@ use Laravel\Passport\HasApiTokens;
 /**
  * @property mixed id
  * @method static first()
- * @method static whereHas(string $string, \Closure $param)
+ * @method static whereHas(string $string, Closure $param)
  * @method static create(array $data)
  */
 class User extends Authenticatable implements MustVerifyEmail
@@ -56,9 +57,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * @return mixed
      */
-    public function getFullNameAttribute(){
-        return $this->name.' '.$this->last_name;
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->last_name;
     }
+
     /**
      * Send the email verification notification.
      *
@@ -67,14 +70,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail);
-    }
-    /**
-     * The roles that belong to the user.
-     */
-
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
     /**
@@ -88,12 +83,22 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * The roles that belong to the user.
+     */
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    /**
      * Check if user Have Role Assigned.
      */
     public function hasRole(string $roleName)
     {
         return $this->roles->pluck('name_id')->contains($roleName);
     }
+
     /**
      * @return BelongsToMany
      */
@@ -101,13 +106,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Account::class);
     }
+
     /**
      * @return BelongsToMany
      */
     public function receivers()
     {
-        return $this->belongsToMany(self::class, 'users_receivers', 'user_id', 'receiver_id')->withTimestamps();
+        return $this->belongsToMany(self::class, 'users_receivers', 'user_id', 'receiver_id')
+            ->with('accounts.bank')
+            ->withTimestamps();
     }
+
     /**
      * @return BelongsToMany
      */

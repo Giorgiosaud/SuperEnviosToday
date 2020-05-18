@@ -16,6 +16,7 @@ import {
     min_value,
     max_value,
     confirmed,
+    length,
     alpha_dash
 } from 'vee-validate/dist/rules';
 
@@ -28,6 +29,8 @@ extend('numeric', numeric);
 extend('min_value', min_value);
 extend('min', min);
 extend('max_value', max_value);
+extend('length', length);
+
 configure({
     classes: {
         valid: 'is-success',

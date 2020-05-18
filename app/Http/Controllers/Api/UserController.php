@@ -94,5 +94,28 @@ class UserController extends Controller
             ? new Response('', 202)
             : back()->with('resent', true);
     }
+    public function receivers(User $user){
+        return $user->receivers;
+    }
+    public function createReceiver(User $user,Request $request){
+        $data = $request->validate([
+            'idn_type' => ['required', 'in:CI,PASSPORT,RUT,DNI,RIF'],
+            'idn' => ['required', 'string', 'max:20'],
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required','string','max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+        ]);
+        $data['password']=bcrypt('receiver');
+        $receiver=User::whereIdn($data['idn'])->where('idn_type',$data['idn_type'])->first();
+        if(!$receiver){
+            $receiver = User::create($data);
+        }else{
+            $receiver->update($data);
+        }
+        $receiversIds=$user->receivers->pluck('id')->toArray();
+        array_push($receiversIds,$receiver->id);
+        $user->receivers()->sync($receiversIds);
+        return $user;
+    }
 
 }

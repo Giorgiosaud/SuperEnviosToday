@@ -26,7 +26,7 @@ class VerifyEmail extends VerifyEmailBase
         }
 
         return (new MailMessage)
-            ->subject(Lang::get('Verifique su dirección de email'))
+            ->subject(Lang::get('¡Hola! '.$notifiable->name.' verifique su dirección de email'))
             ->line(Lang::get('Por favor hacer click en el link para verificar su email.'))
             ->action(Lang::get('Verifique su email'), $verificationUrl)
             ->line(Lang::get('Si no ha creado una cuenta en Superenvios, o hecho una transaccion no haga nada adicional.'));
