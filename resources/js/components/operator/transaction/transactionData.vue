@@ -67,7 +67,6 @@
                     voucher: this.voucher,
                     uploadedFiles: this.uploadedFiles,
                 })
-                this.$emit('next-step')
             },
         },
         watch: {
