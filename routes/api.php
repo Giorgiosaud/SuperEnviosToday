@@ -30,4 +30,5 @@ Route::group(['middleware' => ['auth:api'],'as'=>'api.'], function () {
     Route::post('accounts/{user}',['uses'=>'Api\AccountController@save','as'=>'accounts.save']);
     Route::get('rate/{currencyId}',['uses'=>'Api\RateController@get','as'=>'rate.get']);
     Route::post('file/upload', ['uses'=>'Api\AttachmentController@upload','as'=>'file.upload']);
+    Route::get('transaction/verify/{transactionNumber}',['uses'=>'Api\TransactionController@verify','as'=>'transaction.verify']);
 });
