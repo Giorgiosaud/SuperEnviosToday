@@ -23,5 +23,7 @@ return [
     'NEXT:BUTTON'=>'Siguiente Paso',
     'SEARCH:BUTTON'=>'Buscar Cliente',
     'CLIENT:DIFFERENT_IDN:EXIST'=>'Existe un cliente con esta informacion pero con un tipo de identificacion distinta',
-    'CLIENT:DIFFERENT_IDN:EXIST:SUB'=>'¿Quiere utilizarlo?'
+    'CLIENT:DIFFERENT_IDN:EXIST:SUB'=>'¿Quiere utilizarlo?',
+    'VERIFY:BUTTON'=>'Verificar si existe',
+    'VOUCHER:CAN:GO:ON'=>'puede continuar'
 ];

@@ -15,17 +15,21 @@ class AccountController extends Controller
     public function getAccounts($currencyId)
     {
         $banks = Bank::select('id')->where('currency_id', $currencyId)->pluck('id');
-        $accounts = Account::with('bank')
+        return Account::with('bank')
             ->whereIn('bank_id', $banks)
             ->whereHas('owners', function ($q) {
                 return $q->where('user_id', auth()->user()->id);
             })
             ->where('is_operator', true)
             ->get();
-        return $accounts;
     }
 
-    public function save(User $user,Request $request)
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function save(User $user, Request $request)
     {
         $data=$request->validate([
             'bank_id'=>['required'],
@@ -34,15 +38,20 @@ class AccountController extends Controller
         ]);
         $account=Account::create($data);
         return $user->accounts()->save($account);
-        return Account::create($data);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function indexBase(){
-        $currency=Currency::find(config('app.base_currency_id'));
-        $banksId=$currency->banks->pluck('id')->toArray();
-        return $currency->banks()->whereHas('accounts',function($q){
-          $q->where('is_operator',true);
-        })->get();
-            //Account::whereIn('bank_id',$banksId)->where('is_operator',true)->get();
+        $banks = Bank::select('id')->where('currency_id', config('app.base_currency_id'))->pluck('id');
+        return Account::with(['bank','owners'])
+            ->whereIn('bank_id', $banks)
+            ->whereHas('owners')
+
+            ->where('is_operator', true)
+            ->get()
+            ->append('balance');
     }
     //
 }
