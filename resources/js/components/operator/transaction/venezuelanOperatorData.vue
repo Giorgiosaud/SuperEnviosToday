@@ -1,21 +1,53 @@
 <script>
+import currencyFilter from '../../../currency';
+const bsFormat=    {symbol: 'Bs ', precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,}
 
-    export default {
+export default {
         name: "venezuelanOperatorData",
+        filters:{
+            currency(value){
+                return currencyFilter(value,bsFormat)
+            }
+        },
         props: {
         },
         components: {
         },
         data: () => ({
+            venezuelanAccounts:[],
+            selectedAccount:null,
+            selectedOperator:null,
+            loadingAccounts:true,
         }),
         async created(){
-            await axios.get('/api/accounts/base')
+            this.loadingAccounts=true
+            const response = await axios.get('/api/accounts/base')
+            this.venezuelanAccounts=response.data;
+            this.loadingAccounts=false
         },
         methods: {
+            selectAccount(account){
+                this.selectedAccount=account;
+            },
+            nextStep() {
+                this.$emit('operator-set', {
+                    operator: this.selectedOperator,
+                    selectedAccount: this.selectedAccount,
+                })
+            },
         },
         computed: {
+            owners(){
+                if(this.selectedAccount){
+                    return this.selectedAccount.owners;
+                }
+                return []
+            }
         },
         watch: {
+            selectedAccount(){
+                this.selectedOperator=null
+            }
         }
     }
 </script>

@@ -31,18 +31,11 @@
             },
             transactionDataSet(transactionData){
                 this.transactionData=transactionData;
-                try {
-                    await this.verifyTransactionNumberAsUnique();
-                    this.nextStep();
-                }catch(error){
-                    alert('Este numero de transaccion ya existe')
-                }
+                this.nextStep();
             },
-            verifyTransactionNumberAsUnique(){
-
-            },
-            venezuelanOperatorDataSet(transactionData){
-                this.transactionData=transactionData;
+            venezuelanOperatorDataSet(operatorDataSet){
+                this.venezuelanOperatorData=operatorDataSet;
+                this.nextStep();
             }
         }
 

@@ -14,6 +14,8 @@
             UppyUploader
         },
         data: () => ({
+            verifyingTransaction:false,
+            canGoOn:'',
             transaction: '',
             selectedCurrency: null,
             selectedAccount: null,
@@ -68,12 +70,21 @@
                     uploadedFiles: this.uploadedFiles,
                 })
             },
+            async verifyTransactionNumberAsUnique(){
+                try {
+                    const response = await axios(`/api/transaction/verify/${this.voucher}`)
+                }catch(error){
+
+                }
+            },
         },
         watch: {
             selectedAccount(value) {
                 if (value && value.bank && value.bank.name === 'Efectivo') {
                     this.voucher = uuidv4()
+                    this.canGoOn='ok'
                 } else {
+                    this.canGoOn=''
                     this.voucher = ''
                 }
             },

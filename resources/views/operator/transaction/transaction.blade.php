@@ -142,7 +142,7 @@
                 <div class="columns" v-if="tryAnotherRate">
                     <div class="column is-narrow">
                         <validation-provider
-                            rules="required_if:tryAnotherRate,true|min_val:0.00000001"
+                            rules="required_if:tryAnotherRate,true|min_value:0.00000001"
                             name="{{__('transaction.RATE:NEW')}}"
                             v-slot="{ classes,errors,valid}"
                             tag="div"
@@ -180,7 +180,9 @@
                             v-slot="{ classes,errors,valid}"
                             tag="div"
                             class="control">
-                            <label class="label" for="idn">{{__('transaction.VOUCHER:NUMBER')}}</label>
+                            <label class="label" for="idn">
+                                {{__('transaction.VOUCHER:NUMBER')}}
+                            </label>
                             <div class="control has-icons-right">
                                 <input id="voucher"
                                        v-model="voucher"
@@ -190,13 +192,12 @@
                                        type="text"
                                        placeholder="{{__('transaction.VOUCHER:NUMBER')}}"
                                        autocomplete="idn" autofocus></input>
-                                <span class="icon is-small has-text-warning	is-right"
-                                      v-if="errors[0]">
-                                <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
-                            </span>
+                                <span class="icon is-small has-text-warning	is-right" v-if="errors[0]">
+                                    <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
+                                </span>
                                 <span class="icon is-small has-text-success is-right" v-if="valid">
-                                <font-awesome-icon icon="check"></font-awesome-icon>
-                            </span>
+                                    <font-awesome-icon icon="check"></font-awesome-icon>
+                                </span>
                             </div>
                             <strong v-if="errors[0]" class="help is-danger">@{{errors[0]}}</strong>
                         </validation-provider>
@@ -214,7 +215,22 @@
                         :max-file-size-in-bytes="1000000">
                     </uppy-uploader>
                 </validation-provider>
+
             </section>
+            <div class="columns has-padding-top-5" v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'">
+                <div class="column">
+                    <b-button size="is-big"
+                              type="is-info"
+                              :loading="verifyingTransaction"
+                              icon-right="search-dollar"
+                              @click="verifyTransactionNumberAsUnique">
+                        {{__('transaction.VERIFY:BUTTON')}}
+                    </b-button>
+                </div>
+                <Validation-provider rules="required|is:ok" name="canGoOn" v-slot="{ errors }">
+                    <input type="hidden" v-model="canGoOn">
+                </Validation-provider>
+            </div>
             <div class="columns has-padding-top-5">
                 <div class="column">
                     <b-button size="is-big"
@@ -226,7 +242,6 @@
                         {{__('transaction.NEXT:BUTTON')}}
                     </b-button>
                 </div>
-                .
             </div>
         </validation-observer>
     </section>

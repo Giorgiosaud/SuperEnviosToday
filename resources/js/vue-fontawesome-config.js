@@ -9,6 +9,7 @@ import {
     faUpload,
     faPhone,
     faCommentDollar,
+    faSearchDollar,
     faKey,
     faAddressBook,
     faChevronLeft,

@@ -15,7 +15,7 @@ class PendingTransactionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index()
     {
@@ -46,7 +46,7 @@ class PendingTransactionController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return PendingTransaction|\Illuminate\Http\Response
      * TODO Make it work
      */
     public function update(Request $request, PendingTransaction $pendingTransaction)
@@ -55,7 +55,6 @@ class PendingTransactionController extends Controller
             'accept_transaction'=>'boolean'
         ]);
         if($validation['accept_transaction']){
-            return $request->user();
             return $this->acceptTransaction($pendingTransaction, $request->user());
         }
         return $this->rejectTransaction($pendingTransaction, $request->user());
@@ -71,7 +70,6 @@ class PendingTransactionController extends Controller
     protected function acceptTransaction(PendingTransaction $pendingTransaction, User $user, CreateTransactionService $createTransactionService){
         $values = $pendingTransaction->toArray();
         $transactionRequest = new CreateTransaction($values);
-        //$transactionRequest->setUserResolver($request->getUserResolver());
         $createTransactionService->make($transactionRequest);
         $pendingTransaction->status = 'aprooved';
         $pendingTransaction->save();
@@ -83,7 +81,6 @@ class PendingTransactionController extends Controller
      * @return PendingTransaction
      */
     protected function rejectTransaction(PendingTransaction $pendingTransaction){
-        return $pendingTransaction;
         $pendingTransaction->status = 'rejected';
         $pendingTransaction->save();
         broadcast(new PendingTransactionRejected($pendingTransaction));
