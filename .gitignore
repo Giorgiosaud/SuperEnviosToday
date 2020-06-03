@@ -16,3 +16,4 @@ storage
 public/error_log
 error_log
 .env
+.env
