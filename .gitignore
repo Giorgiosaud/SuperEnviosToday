@@ -1,3 +1,4 @@
+.env
 /node_modules
 /public/storage
 /storage/*.key
@@ -15,5 +16,3 @@ storage
 /.vscode
 public/error_log
 error_log
-.env
-.env
