@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PendingTransaction extends Model
 {
+  protected $table='pending_transactions';
     protected $fillable = [
         'client_id',
         'foreign_id',
