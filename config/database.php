@@ -54,6 +54,9 @@ return [
             'prefix_indexes' => true,
             'strict'         => true,
             'engine'         => null,
+            'dump' => [
+                'timeout' => 60 * 5, // 5 minute timeout
+            ]  
         ],
 
         'pgsql' => [
