@@ -32,7 +32,7 @@ class DemoEmail extends Mailable
     public function build()
     {
         return $this->from('sender@example.com')
-            ->view('wmails.demo')
+            ->view('emails.demo')
             ->text('mails.demo_plain')
             ->with(
                 [
