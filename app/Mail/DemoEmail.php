@@ -33,7 +33,7 @@ class DemoEmail extends Mailable
     {
         return $this->from('sender@example.com')
             ->view('emails.demo')
-            ->text('mails.demo_plain')
+            ->text('emails.demo_plain')
             ->with(
                 [
                     'testVarOne' => '1',
