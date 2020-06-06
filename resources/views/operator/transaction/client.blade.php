@@ -159,7 +159,7 @@
                                 @{{client.last_name}}
                             </div>
                             <div class="control has-icons-right" v-else>
-                                <inpu   t id="last_name"
+                                <input   t id="last_name"
                                        name="last_name"
                                        v-model="client.last_name"
                                        class="input"

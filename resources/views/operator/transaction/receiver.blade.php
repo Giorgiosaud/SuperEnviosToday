@@ -2,6 +2,7 @@
     {{ $properties }}
 
     inline-template>
+    <div>
     <validation-observer tag="section" class="section is-paddingless" v-slot="{invalid}">
         <div class="columns is-overflow-auto">
             <validation-provider tag="div" rules="required" class="column">
@@ -100,18 +101,6 @@
                     {{__('receiver.NEW:ACCOUNT')}}
                 </b-button>
             </validation-provider>
-            <b-modal :active.sync="openModal"
-                     has-modal-card
-                     trap-focus
-                     :destroy-on-hide="false"
-                     aria-role="dialog"
-                     aria-modal>
-                <component
-                    :is="activeForm"
-                    v-bind="customComponentProps"
-                    @receiver-added="receiverAdded"
-                    @account-added="accountAdded">
-            </b-modal>
         </div>
         <div class="columns has-padding-top-5">
             <div class="column">
@@ -126,4 +115,17 @@
             .
         </div>
     </validation-observer>
+    <b-modal :active.sync="openModal"
+             has-modal-card
+             trap-focus
+             :destroy-on-hide="false"
+             aria-role="dialog"
+             aria-modal>
+        <component
+            :is="activeForm"
+            v-bind="customComponentProps"
+            @receiver-added="receiverAdded"
+            @account-added="accountAdded">
+    </b-modal>
+    </div>
 </receiver-data>

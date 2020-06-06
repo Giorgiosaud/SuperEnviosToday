@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @method static create(array $data)
+ * @method static find($venezuelan_operator_account_id)
  */
 class Account extends Model
 {

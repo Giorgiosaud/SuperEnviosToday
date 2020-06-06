@@ -10,7 +10,7 @@ const animateCSS = function animateCSS(node, animationName, callback) {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const notifications = document.querySelectorAll('.notification');
+    const notifications = document.querySelectorAll('.notification.main');
     notifications.forEach(notification => {
         animateCSS(notification, 'slideInDown', () => {
             setTimeout(() => {

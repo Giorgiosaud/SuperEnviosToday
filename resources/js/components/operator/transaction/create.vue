@@ -5,6 +5,12 @@
     import venezuelanOperatorData from './venezuelanOperatorData'
     export default {
         name: "transactionCreate",
+        props:{
+            operator:{
+                type:Object,
+                default:()=>({})
+            }
+        },
         components:{
             clientData,
             transactionData,
@@ -36,6 +42,9 @@
             venezuelanOperatorDataSet(operatorDataSet){
                 this.venezuelanOperatorData=operatorDataSet;
                 this.nextStep();
+            },
+            executedTransaction(){
+
             }
         }
 
