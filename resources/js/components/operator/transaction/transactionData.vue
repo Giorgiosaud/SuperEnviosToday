@@ -3,19 +3,34 @@
     import {Money} from 'v-money'
     import UppyUploader from '../../../UppyUploader';
     import {v4 as uuidv4} from 'uuid';
+    import transactionInvalid from './transactionInvalid'
 
     export default {
         name: "transactionData",
         filters: {
-            currency
+            currency,
+            rateCurrency:(value,selectedCurrency)=>{
+                const formatOptions={
+                    precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+                }
+                if(!selectedCurrency){
+                    formatOptions.symbol='Bs/$ ';
+                }else {
+                    formatOptions.symbol=`Bs/${selectedCurrency.sign} `;
+                }
+                return currency(value,formatOptions)
+            }
         },
         components: {
             Money,
-            UppyUploader
+            UppyUploader,
+            transactionInvalid
         },
         data: () => ({
             verifyingTransaction:false,
+            datosDeTransaccionRepetida:null,
             canGoOn:'',
+            isComponentModalActive:false,
             transaction: '',
             selectedCurrency: null,
             selectedAccount: null,
@@ -50,6 +65,7 @@
             const {data: foreignCurrencies} = await axios.get('/api/currency/foreign');
 
             this.foreignCurrencies = foreignCurrencies;
+
         },
         computed: {
             calcExchange() {
@@ -60,21 +76,36 @@
             }
         },
         methods: {
+            continueWithThat(){
+                this.canGoOn = 'ok';
+                this.$refs.fields.validate()
+                this.isComponentModalActive=false;
+            },
             nextStep() {
 
                 this.$emit('transaction-set', {
                     currency: this.selectedCurrency,
                     foreignAccount: this.selectedAccount,
                     amount: this.amount,
+                    bsAmount:this.calcExchange,
                     voucher: this.voucher,
+                    exchangeRate:this.tryAnotherRate?this.newRate:this.exchangeRate,
+                    tryAnotherRate:this.tryAnotherRate,
                     uploadedFiles: this.uploadedFiles,
                 })
             },
             async verifyTransactionNumberAsUnique(){
                 try {
                     const response = await axios(`/api/transaction/verify/${this.voucher}`)
+                    if (response.status === 204) {
+                        this.canGoOn = 'ok'
+                    } else {
+                        this.canGoOn = ''
+                        this.isComponentModalActive=true;
+                        this.datosDeTransaccionRepetida=response.data;
+                    }
                 }catch(error){
-
+                    this.$buefy.notification('asd')
                 }
             },
         },
@@ -103,6 +134,13 @@
 
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .is-success ::v-deep.uppy-Root{
+        border:dashed 1px green;
+        border-radius: 5px;
+    }
+    .is-danger ::v-deep.uppy-Root{
+        border:dashed 1px red;
+        border-radius: 5px;
+    }
 </style>

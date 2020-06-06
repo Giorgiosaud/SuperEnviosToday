@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Account;
 use App\Attachment;
-use App\Events\PendingTransactionAwaiting;
-use App\Events\TransactionExecuted;
+use App\Events\PendingTransactionCreated;
+use App\Events\TransactionCreated;
 use App\Http\Requests\CreateTransaction;
 use App\PendingTransaction;
 use App\Rate;
@@ -36,7 +36,7 @@ class CreateTransactionService
                 $ptData['venezuelan_operator_id'] = $request->venezuelan_operator_id;
                 $ptData['transaction_number'] = $request->transaction_number;
                 $pending = PendingTransaction::create($ptData);
-                broadcast(new PendingTransactionAwaiting($request->user()))->toOthers();
+                broadcast(new PendingTransactionCreated($request->user()))->toOthers();
                 if (isset($request->received_transaction_attachment_ids)) {
                     foreach ($request->received_transaction_attachment_ids as $attachmentId) {
                         $attachment = Attachment::find($attachmentId);
@@ -98,7 +98,7 @@ class CreateTransactionService
             ];
             Transaction::create($venezuelanTax);
         }
-        broadcast(new TransactionExecuted($request->user(), 'made transaction'))->toOthers();
+        broadcast(new TransactionCreated($request->user(), 'made transaction'))->toOthers();
 
         return response('All transactions created', 201);
     }

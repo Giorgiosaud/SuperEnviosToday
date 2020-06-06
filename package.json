@@ -35,6 +35,7 @@
         "bulma": "^0.8.1",
         "bulma-helpers": "^0.3.10",
         "currency.js": "^1.2.2",
+        "date-fns": "^2.14.0",
         "laravel-vue-pagination": "^2.3.1",
         "stylus": "^0.54.7",
         "stylus-loader": "^3.0.2",

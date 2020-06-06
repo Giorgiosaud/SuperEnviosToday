@@ -16,15 +16,15 @@
                     aria-previous-label="Previous page">
 
                     <template slot-scope="props">
-                        <b-table-column field="bank" label="{{__('auth.IDN_TYPE')}}">
-                            @{{ props.row.bank.name }}/@{{ props.row.bank.type }}
+                        <b-table-column field="bank" label="{{__('transaction.BANK')}}">
+                            @{{ props.row.bank.name }}/@{{ props.row.type }}
                         </b-table-column>
-                        <b-table-column field="idn" label="{{__('auth.IDN')}}">
+                        <b-table-column field="idn" label="{{__('transaction.NUMBER')}}">
                             @{{ props.row.number }}
                         </b-table-column>
 
                         <b-table-column field="balance"
-                                        label="{{__('auth.NAME')}}"
+                                        label="{{__('transaction.BALANCE')}}"
                         >
                             @{{ props.row.balance | currency}}
                         </b-table-column>
@@ -33,7 +33,7 @@
                         <section class="section">
                             <div class="content has-text-grey has-text-centered">
                                 <font-awesome-icon class="is-size-1" icon="sad-tear"></font-awesome-icon>
-                                <p>{{__('receiver.NO:RECEIVERS')}}</p>
+                                <p>{{__('transaction.NO:ACCOUNTS')}}</p>
                             </div>
                         </section>
                     </template>
@@ -59,7 +59,7 @@
                         <section class="section">
                             <div class="content has-text-grey has-text-centered">
                                 <font-awesome-icon class="is-size-1" icon="comment-dollar"></font-awesome-icon>
-                                <p>{{__('receiver.NO:RECEIVERS:ACCOUNTS')}}</p>
+                                <p>{{__('transaction.NO:OPERATORS')}}</p>
                             </div>
                         </section>
                     </template>

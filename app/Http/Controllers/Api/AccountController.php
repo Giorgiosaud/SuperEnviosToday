@@ -47,7 +47,6 @@ class AccountController extends Controller
         $banks = Bank::select('id')->where('currency_id', config('app.base_currency_id'))->pluck('id');
         return Account::with(['bank','owners'])
             ->whereIn('bank_id', $banks)
-            ->whereHas('owners')
 
             ->where('is_operator', true)
             ->get()

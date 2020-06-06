@@ -6,10 +6,10 @@
             <div class="level-item has-text-centered">
                 <div>
                     <p class="heading" v-if="!tryAnotherRate">{{__('transaction.EXCHANGE.RATE')}}</p>
-                    <p class="title" v-if="tryAnotherRate">{{__('transaction.RATE:NEW')}}: @{{ newRate|currency }}</p>
+                    <p class="title" v-if="tryAnotherRate">{{__('transaction.RATE:NEW')}}: @{{ newRate|rateCurrency(selectedCurrency) }}</p>
                     <p :class="{'sub-title':tryAnotherRate,'title':!tryAnotherRate}">
                         <span v-if="tryAnotherRate">{{__('transaction.EXCHANGE.RATE')}}:</span>
-                        @{{ exchangeRate|currency }}
+                        @{{ exchangeRate|rateCurrency(selectedCurrency) }}
                     </p>
                     <p class="sub-title" v-if="tryAnotherRate"
                        :class="{'has-text-danger':newRate-exchangeRate>0,'has-text-success':newRate-exchangeRate<=0}">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </nav>
-        <validation-observer v-slot="{invalid}" slim>
+        <validation-observer v-slot="{invalid}" ref="fields" slim>
             <section class="section is-paddingless">
 
                 <div class="columns">
@@ -109,7 +109,7 @@
                             class="control">
                             <label class="label" for="idn">{{__('transaction.AMOUNT')}}</label>
                             <div class="control has-icons-right">
-                                <money id="idn"
+                                <money id="amount"
                                        v-model="amount"
                                        :disabled="!selectedAccount"
                                        v-bind="clp"
@@ -118,7 +118,7 @@
                                        :class="classes"
                                        type="text"
                                        placeholder="{{__('transaction.AMOUNT')}}"
-                                       autocomplete="idn" autofocus></money>
+                                       autocomplete="amount" autofocus></money>
                                 <span class="icon is-small has-text-warning	is-right"
                                       v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
@@ -206,14 +206,16 @@
                 <validation-provider
                     rules="required|min:1"
                     v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'"
-                    name="{{__('transaction.VOUCHER:NUMBER')}}"
+                    name="{{__('transaction.VOUCHER:FILES')}}"
                     v-slot="{ classes,errors,valid}"
                     tag="div"
                     class="control">
                     <uppy-uploader
+                        :class="classes"
                         v-model="uploadedFiles"
                         :max-file-size-in-bytes="1000000">
                     </uppy-uploader>
+                    <strong v-if="errors[0]" class="help is-danger">@{{errors[0]}}</strong>
                 </validation-provider>
 
             </section>
@@ -244,5 +246,13 @@
                 </div>
             </div>
         </validation-observer>
+        <b-modal :active.sync="isComponentModalActive"
+                 has-modal-card
+                 trap-focus
+                 :destroy-on-hide="false"
+                 aria-role="dialog"
+                 aria-modal>
+            <transaction-invalid @continuar="continueWithThat" :datos-de-transaccion="datosDeTransaccionRepetida"></transaction-invalid>
+        </b-modal>
     </section>
 </transaction-data>

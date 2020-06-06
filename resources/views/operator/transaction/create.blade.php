@@ -14,7 +14,10 @@
     </div>
 </section>
 <section class="section">
-    <transaction-create inline-template>
+    <transaction-create
+        inline-template
+        v-cloak
+        >
         <section>
             <b-steps
                 size="is-small"
@@ -55,7 +58,16 @@
                     @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.REVIEW:TITLE')}}" icon="file-invoice-dollar">
-                    {{__('transaction.REVIEW:TITLE')}}
+                    @component('operator.transaction.reviewTransaction')
+                        @slot('properties')
+                            :client-data="clientData"
+                            :operator="{{Auth::user()}}"
+                            :receiver-data="receiverData"
+                            :transaction-data="transactionData"
+                            :venezuelan-operator-data="venezuelanOperatorData"
+                            @executed-transaction="executedTransaction"
+                        @endslot
+                    @endcomponent
                 </b-step-item>
 
             </b-steps>

@@ -42,17 +42,6 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        User::observe(UserObserver::class);
-    }
-
     /**
      * Get a validator for an incoming registration request.
      *
