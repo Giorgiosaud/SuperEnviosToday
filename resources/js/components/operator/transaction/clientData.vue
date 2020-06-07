@@ -60,7 +60,7 @@
                     return;
                 }
                 this.searchingClient=true;
-                const response = await axios.get(`/api/user/${this.client.idn_type}/${this.client.idn}`)
+                const response = await $http.get(`/api/user/${this.client.idn_type}/${this.client.idn}`)
                 if (response.status === 204) {
                     this.client.id = ''
                     this.client.name = ''
@@ -68,11 +68,12 @@
                     this.client.email = ''
                     this.client.phone = ''
                     this.clientReady = false;
-                }else {
-                    if(response.data.status==='OK') {
-                        this.setClient(response.data.user);
+                }else{
+                    const UserData=await response.json()
+                    if(UserData.status==='OK') {
+                        this.setClient(UserData.user);
                     }else{
-                        this.setPossibleClient(response.data.user)
+                        this.setPossibleClient(UserData.user)
                         this.isComponentModalActive=true
                     }
                 }
@@ -89,10 +90,12 @@
             },
             async saveClient(){
                 this.savingClient=true;
-                const response=await axios.post(`/api/user/`,{
+                const response=await $http.post(`/api/user/`,{
                     ...this.client
                 })
-                this.setClient(response.data.user);
+                const userData=await response.json()
+
+                this.setClient(userData.user);
                 this.savingClient=false;
             }
         }

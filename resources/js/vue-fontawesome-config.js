@@ -14,6 +14,7 @@ import {
     faAddressBook,
     faChevronLeft,
     faSadTear,
+    faPeopleArrows,
     faCoins,
     faPiggyBank,
     faChevronRight
@@ -34,7 +35,8 @@ library.add(
     faCoins,
     faPiggyBank,
     faAddressBook,
-    faSadTear
+    faSadTear,
+    faPeopleArrows
 
 );
 

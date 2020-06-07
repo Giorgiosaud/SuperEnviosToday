@@ -156,6 +156,7 @@
 <script>
     import currencyFilter from '../../../currency';
     const bsFormat=    {symbol: 'Bs ', precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,}
+    import { SnackbarProgrammatic as Snackbar } from 'buefy'
 
     export default {
         name: "reviewTransaction",
@@ -220,25 +221,37 @@
                 window.location.reload()
             },
             async enviar(){
-                console.log('enviando')
                 this.executingTransaction=true;
                 const transaction={
-                    'client_id':this.clientData.id,
-                    'foreign_account_id'                    :this.transactionData.foreignAccount.id,
+                    'client_id'                             :this.clientData.id,
+                    'operator_id'                            :this.operator.id,
+                    'operator_account_id'                    :this.transactionData.foreignAccount.id,
                     'received_transaction_attachment_ids' :this.transactionData.uploadedFiles.map(files=>files.id),
                     'receiver_account_id'                   :this.receiverData.receiverAccount.id,
                     'venezuelan_operator_account_id'        :this.venezuelanOperatorData.selectedAccount.id,
                     'venezuelan_operator_id'                :this.venezuelanOperatorData.operator.id,
                     'transaction_number'                    :this.transactionData.voucher,
-                    'receiver_user_id'                      :this.receiverData.receiver.id,
+                    'receiver_id'                      :this.receiverData.receiver.id,
                     'rate'                                  :this.transactionData.exchangeRate,
                     'amount'                                :this.transactionData.amount
                 };
-                    console.log(transaction)
+                try {
+                    await $http.post('/api/transaction/execute', transaction)
+                }catch(error){
+                    if(error.response.status===424){
+                        this.$buefy.snackbar.open({
+                            message:error.response.data.message,
+                            type: 'is-warning',
+                            indefinite:true,
+                            onAction(){
+                                window.location.reload()
+                            }
+                        })
 
-                await setTimeout(()=>{
+                    }
+                }finally{
                     this.executingTransaction=false
-                },3000)
+                }
             }
         },
         computed: {

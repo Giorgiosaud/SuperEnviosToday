@@ -91,10 +91,9 @@
                 if(this.selectedRoles.length){
                     params.roles=this.selectedRoles.map(role=>role.name_id)
                 }
-                console.log(params)
                 this.loading = true;
-                const request = await axios.get('api/user', {params: {...params}})
-                this.query = request.data;
+                const request = await $http.get('/api/user', {params: {...params}})
+                this.query = await request.json();
                 this.loading = false;
 
             },
@@ -108,23 +107,6 @@
                     })
                 console.log(this.filteredRoles);
             }
-            /*  async changedPage(page = 1) {
-                  const urlParams = new URLSearchParams(document.location.search.substring(1));
-                  const entries = urlParams.entries();
-                  const params = this.paramsToObject(entries);
-
-                  if (Number.isInteger(page)) {
-                      params.page = page
-                  } else {
-                      Object.assign( params,page)
-                  }
-                  for(const param in params){
-                      urlParams.set(param,params[param])
-                  }
-                  this.loading = true
-                  const url = `${window.location.pathname}?${urlParams.toString()}`
-                  window.location.href=url
-              },*/
         },
         watch:{
             selectedRoles(){

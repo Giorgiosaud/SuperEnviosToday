@@ -13,13 +13,14 @@ use Illuminate\Queue\SerializesModels;
 class TransactionCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    public $message;
+    public $user;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($user, $message)
     {
         //
     }
@@ -31,6 +32,6 @@ class TransactionCreated
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('transaction-assigned');
     }
 }

@@ -16,6 +16,9 @@ use Laravel\Passport\HasApiTokens;
  * @method static first()
  * @method static whereHas(string $string, Closure $param)
  * @method static create(array $data)
+ * @method static whereIdn(string $idn)
+ * @method static find($id)
+ * @method static select(string $string, string $string1, string $string2, string $string3, string $string4, string $string5, string $string6)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {

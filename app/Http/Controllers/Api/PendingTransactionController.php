@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\PendingTransactionAccepted;
 use App\Events\PendingTransactionRejected;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTransaction;
@@ -24,7 +25,7 @@ class PendingTransactionController extends Controller
             'rate'=>'numeric',
             'venezuelan_bank_to'=>'string'
         ]);
-        $pendingTransactions = PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator','foreign_account','receiver_account','operator_account']);
+        $pendingTransactions = PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator','foreignAccount.bank.currency','receiverAccount.bank','localOperatorAccount.bank']);
         $moneyFilters = ['amount','rate'];
         foreach ($moneyFilters as $moneyFilter) {
             if (request()->has($moneyFilter)) {
@@ -44,35 +45,37 @@ class PendingTransactionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param PendingTransaction $pendingTransaction
      * @return PendingTransaction|\Illuminate\Http\Response
-     * TODO Make it work
      */
     public function update(Request $request, PendingTransaction $pendingTransaction)
     {
         $validation=$request->validate([
             'accept_transaction'=>'boolean'
         ]);
+        $values=$pendingTransaction->toArray();
+        $values['received_transaction_attachment_ids']=$pendingTransaction->attachments->pluck('id')->toArray();
+        $transactionRequest=new CreateTransaction($values);
+        $transactionRequest->setUserResolver($request->getUserResolver());
         if($validation['accept_transaction']){
-            return $this->acceptTransaction($pendingTransaction, $request->user());
+            return $this->acceptTransaction($transactionRequest,$pendingTransaction);
         }
-        return $this->rejectTransaction($pendingTransaction, $request->user());
+        return $this->rejectTransaction($pendingTransaction);
         //
     }
 
     /**
+     * @param CreateTransaction $request
      * @param PendingTransaction $pendingTransaction
-     * @param User $user
-     * @param CreateTransactionService $createTransactionService
-     * @return PendingTransaction
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|void
      */
-    protected function acceptTransaction(PendingTransaction $pendingTransaction, User $user, CreateTransactionService $createTransactionService){
-        $values = $pendingTransaction->toArray();
-        $transactionRequest = new CreateTransaction($values);
-        $createTransactionService->make($transactionRequest);
-        $pendingTransaction->status = 'aprooved';
+    protected function acceptTransaction(CreateTransaction $request,PendingTransaction $pendingTransaction){
+        $createTransactionService=new CreateTransactionService();
+        $createTransactionService->make($request);
+        $pendingTransaction->status = 'approved';
         $pendingTransaction->save();
+        broadcast(new PendingTransactionAccepted($pendingTransaction));
         return $pendingTransaction;
     }
 

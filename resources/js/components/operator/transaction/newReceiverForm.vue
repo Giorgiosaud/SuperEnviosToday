@@ -195,7 +195,7 @@
             async saveReceiver() {
                 this.savingData = true
                 try {
-                    const response = await axios.post(`/api/user/${this.client.id}/receiver`, {
+                    const response = await $http.post(`/api/user/${this.client.id}/receiver`, {
                         idn: this.idn,
                         idn_type: this.idn_type,
                         name: this.name,

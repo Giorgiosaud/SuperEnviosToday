@@ -62,8 +62,8 @@
             }
         }),
         async created() {
-            const {data: foreignCurrencies} = await axios.get('/api/currency/foreign');
-
+            const response = await $http.get('/api/currency/foreign');
+            const foreignCurrencies= await response.json()
             this.foreignCurrencies = foreignCurrencies;
 
         },
@@ -96,7 +96,8 @@
             },
             async verifyTransactionNumberAsUnique(){
                 try {
-                    const response = await axios(`/api/transaction/verify/${this.voucher}`)
+                    const response = await $http.get(`/api/transaction/verify/${this.voucher}`)
+
                     if (response.status === 204) {
                         this.canGoOn = 'ok'
                     } else {
@@ -121,8 +122,10 @@
             },
             async selectedCurrency(value, old) {
                 if (value !== old) {
-                    const {data: exchangeRate} = await axios.get(`/api/rate/${value.id}`);
-                    const {data: accountsOfCurrency} = await axios.get(`/api/accounts/${value.id}`)
+                    const response = await $http.get(`/api/rate/${value.id}`);
+                    const  exchangeRate=await response.json()
+                    const response2=await $http.get(`/api/accounts/${value.id}`)
+                    const accountsOfCurrency = await response2.json()
                     this.accountsOfCurrency = accountsOfCurrency;
                     this.exchangeRate = exchangeRate.amount;
                 }
