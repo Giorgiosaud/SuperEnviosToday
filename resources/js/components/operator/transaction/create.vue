@@ -1,4 +1,5 @@
 <script>
+    // TODO verificar saldo de cuentas al momento de ir al pasod e eleccion de cuentas o colocar boton de actualizar alli,
     import clientData from './clientData'
     import transactionData from './transactionData'
     import receiverData from './receiverData'

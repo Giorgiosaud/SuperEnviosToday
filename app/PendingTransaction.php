@@ -4,14 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static create(array $ptData)
+ * @method static where(string $string, string $string1)
+ * @property mixed attachments
+ */
 class PendingTransaction extends Model
 {
     protected $fillable = [
         'client_id',
-        'foreign_id',
+        'operator_id',
         'receiver_id',
         'venezuelan_operator_id',
-        'foreign_account_id',
+        'operator_account_id',
         'received_transaction_attachment_id',
         'receiver_account_id',
         'venezuelan_operator_account_id',
@@ -45,20 +50,20 @@ class PendingTransaction extends Model
 
     public function foreignOperator()
     {
-        return $this->belongsTo(User::class, 'foreign_id');
+        return $this->belongsTo(User::class, 'operator_id');
     }
 
-    public function foreign_account()
+    public function foreignAccount()
     {
-        return $this->belongsTo(Account::class, 'foreign_account_id');
+        return $this->belongsTo(Account::class, 'operator_account_id');
     }
 
-    public function receiver_account()
+    public function receiverAccount()
     {
         return $this->belongsTo(Account::class, 'receiver_account_id');
     }
 
-    public function operator_account()
+    public function localOperatorAccount()
     {
         return $this->belongsTo(Account::class, 'venezuelan_operator_account_id');
     }

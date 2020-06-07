@@ -37,6 +37,13 @@
                           @click="resendVerification">
                     {{__('users.RESEND')}}
                 </b-button>
+                <b-button size="is-big"
+                          type="is-info"
+                          :loading="sendingVerification"
+                          icon-left="people-arrows"
+                          @click="loginAs">
+                    Inciar Sesion como @{{ userData.name }} @{{ userData.last_name }}
+                </b-button>
                 <div v-if="!editable">
                     <div><strong>{{__('auth.IDN_TYPE')}}:</strong> @{{ userData.idn_type }}</div>
                     <div><strong>{{__('auth.IDN')}}:</strong> @{{ userData.idn }}</div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -69,5 +71,12 @@ class UserController extends Controller
         return redirect(route('users.show',$user->id))->with('info',__('users.UPDATED:MESSAGE'));
     }
 
+    /**
+     * @param User $user
+     */
+    public function loginAs(User $user){
+        Auth::login($user);
+        return Redirect::back()->with('message','Operation Successful !');
+    }
 
 }

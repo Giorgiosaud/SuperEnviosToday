@@ -10,18 +10,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PendingTransactionCreated
+class PendingTransactionAccepted
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $user;
+
+    public $pendingTransaction;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($pendingTransaction)
     {
-        $this->user = $user;
+        $this->pendingTransaction=$pendingTransaction;
+        //
     }
 
     /**
@@ -31,6 +34,6 @@ class PendingTransactionCreated
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('pending-transaction-created');
+        return new PrivateChannel('pending-transaction-accepted');
     }
 }

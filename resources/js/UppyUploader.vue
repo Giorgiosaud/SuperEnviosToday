@@ -91,7 +91,7 @@
                     locale:UppyEs,
                     autoProceed: this.autoProceed,
                     meta: {
-                        username: 'John',
+                        username: 'Jorge Saud',
                         license: 'Creative Commons'
                     },
                     debug: true,

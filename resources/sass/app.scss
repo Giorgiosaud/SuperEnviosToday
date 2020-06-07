@@ -100,3 +100,23 @@ html, body {
 .main-navigation{
     z-index: 10;
 }
+.notices.has-custom-container{
+    position:fixed
+}
+.snackbar{
+    &.is-danger {
+        background: $danger-dark;
+    }
+    &.is-warning {
+        background: $warning-dark;
+    }
+    &.is-info {
+        background: $info-dark;
+    }
+    &.is-success {
+        background: $success-dark;
+    }
+    &.is-primary {
+        background: $primary-dark;
+    }
+}

@@ -2,7 +2,13 @@
     {{ $properties }}
     inline-template>
     <validation-observer tag="section" class="section is-paddingless" v-slot="{invalid}">
+        <div class="columns">
+            <div class="column">
+                <b-button type="is-primary" @click="getBaseAccounts">Refrescar</b-button>
+            </div>
+        </div>
         <div class="columns is-overflow-auto">
+
             <validation-provider tag="div" rules="required" class="column">
                 <input type="hidden" v-model="selectedAccount">
                 <b-table

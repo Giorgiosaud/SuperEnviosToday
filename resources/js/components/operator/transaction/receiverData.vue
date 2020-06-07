@@ -47,8 +47,8 @@
             async lookupForReceivers() {
                 this.loadingReceivers = true;
                 try {
-                    const receiversData = await axios.get(`/api/user/receivers/${this.client.id}`)
-                    this.receivers = receiversData.data
+                    const response = await $http.get(`/api/user/receivers/${this.client.id}`)
+                    this.receivers = await response.json()
                 } catch (error) {
                     console.log(error)
                 } finally {

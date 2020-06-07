@@ -19,7 +19,10 @@ class UserController extends Controller
     public function index()
     {
         $request = request();
-        $users = User::with('roles');
+        $users=User::query();
+        $users->with(array('roles'=>function($query){
+            $query->select('name','name_id');
+        }));
         $filters = ['name', 'last_name', 'idn', 'idn_type', 'email', 'address', 'phone', 'email_verified_at'];
         foreach ($filters as $filter) {
             if ($request->has($filter)) {
@@ -28,13 +31,14 @@ class UserController extends Controller
         }
         if ($request->has('roles')) {
             $roles=$request->roles;
+            $roles = explode(',', $roles);
             $users->whereHas('roles',function($query) use($roles){
                 $query->whereIn('name_id',$roles);
             });
         }
         $perPage = $request->has('perPage') ? $request->get('perPage') : config('app.paginated_by');
 
-        return $users->paginate($perPage);
+        return $users->select('id', 'idn','idn_type','name', 'last_name', 'email', 'phone')->paginate($perPage);
     }
 
     /**

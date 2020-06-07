@@ -20,12 +20,15 @@ export default {
             loadingAccounts:true,
         }),
         async created(){
-            this.loadingAccounts=true
-            const response = await axios.get('/api/accounts/base')
-            this.venezuelanAccounts=response.data;
-            this.loadingAccounts=false
+            await this.getBaseAccounts();
         },
         methods: {
+            async getBaseAccounts(){
+                this.loadingAccounts=true
+                const response = await $http.get('/api/accounts/base')
+                this.venezuelanAccounts=await response.json();
+                this.loadingAccounts=false
+            },
             selectAccount(account){
                 this.selectedAccount=account;
             },

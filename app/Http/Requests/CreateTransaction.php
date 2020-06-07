@@ -4,6 +4,17 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property mixed received_transaction_attachment_ids
+ * @property mixed client_id
+ * @property mixed venezuelan_operator_id
+ * @property mixed venezuelan_operator_account_id
+ * @property mixed receiver_account_id
+ * @property mixed transaction_number
+ * @property mixed amount
+ * @property mixed receiver_id
+ * @property mixed operator_account_id
+ */
 class CreateTransaction extends FormRequest
 {
     /**
@@ -25,7 +36,8 @@ class CreateTransaction extends FormRequest
     {
         return [
             'client_id'                             => 'required|exists:users,id',
-            'foreign_account_id'                    => 'required|exists:accounts,id',
+            'operator_id'                             => 'required|exists:users,id',
+            'operator_account_id'                    => 'required|exists:accounts,id',
             'received_transaction_attachment_ids.*' => 'numeric|exists:attachments,id',
             'receiver_account_id'                   => 'required|exists:accounts,id',
             'venezuelan_operator_account_id'        => 'required|exists:accounts,id',

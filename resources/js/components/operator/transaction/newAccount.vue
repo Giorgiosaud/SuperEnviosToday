@@ -126,14 +126,15 @@
             accountNumber: ''
         }),
         async created() {
-            const response = await axios.get('/api/banks/base')
-            this.venezuelanBanks = response.data.sort(bank => bank.name)
+            const response = await $http.get('/api/banks/base')
+            const banksBase=await response.json()
+            this.venezuelanBanks = banksBase.sort(bank => bank.name)
         },
         methods: {
             async saveAccount() {
                 this.savingData = true
                 try {
-                    const response = await axios.post(`/api/accounts/${this.receiver.id}`, {
+                    const response = await $http.post(`/api/accounts/${this.receiver.id}`, {
                         bank_id: this.selectedBank.id,
                         type: this.selectedType,
                         number: this.accountNumber,
