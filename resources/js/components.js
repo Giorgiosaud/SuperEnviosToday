@@ -1,5 +1,6 @@
 import Vue from "vue";
 import {ValidationProvider,ValidationObserver} from 'vee-validate'
+import VueTheMask from 'vue-the-mask'
 import Buefy from 'buefy'
 Vue.use(Buefy,{
     defaultIconPack: 'fas',
@@ -9,7 +10,7 @@ Vue.use(Buefy,{
 })
 
 
-
+Vue.use(VueTheMask)
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 
@@ -25,3 +26,4 @@ Vue.component('user-detail', require('./components/coordinator/users/userDetail'
 Vue.component('pending-transactions', require('./components/coordinator/pendingTransactions/pendingTransactionsList').default);
 
 Vue.component('transaction-create', require('./components/operator/transaction/create').default)
+Vue.component('review-transaction', require('./components/operator/transaction/reviewTransaction').default)

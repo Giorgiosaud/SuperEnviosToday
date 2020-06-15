@@ -8,10 +8,13 @@ import {
     faCheck,
     faUpload,
     faPhone,
+    faCommentDollar,
+    faSearchDollar,
     faKey,
     faAddressBook,
     faChevronLeft,
     faSadTear,
+    faPeopleArrows,
     faCoins,
     faPiggyBank,
     faChevronRight
@@ -25,13 +28,15 @@ library.add(
     faUpload,
     faCheck,
     faKey,
+    faCommentDollar,
     faChevronLeft,
     faChevronRight,
     faPhone,
     faCoins,
     faPiggyBank,
     faAddressBook,
-    faSadTear
+    faSadTear,
+    faPeopleArrows
 
 );
 

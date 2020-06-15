@@ -1,23 +1,50 @@
 <script>
+    // TODO verificar saldo de cuentas al momento de ir al pasod e eleccion de cuentas o colocar boton de actualizar alli,
     import clientData from './clientData'
     import transactionData from './transactionData'
+    import receiverData from './receiverData'
+    import venezuelanOperatorData from './venezuelanOperatorData'
     export default {
         name: "transactionCreate",
+        props:{
+            operator:{
+                type:Object,
+                default:()=>({})
+            }
+        },
         components:{
             clientData,
-            transactionData
+            transactionData,
+            receiverData,
+            venezuelanOperatorData
         },
         data:()=>({
-            clientReady:true,
-            client:{},
-            actualStep:0
+            clientData:null,
+            actualStep:0,
+            transactionData:null,
+            receiverData:null,
+            venezuelanOperatorData:null,
         }),
         methods:{
-            clientDataSet(client){
-                this.client=client
-                this.actualStep=1
+            async clientDataSet(client){
+                this.clientData=client
             },
-            transactionDataSet(){
+
+            nextStep(){
+                this.actualStep++
+            },
+            clientReceiverSet(receiverData){
+                this.receiverData=receiverData;
+            },
+            transactionDataSet(transactionData){
+                this.transactionData=transactionData;
+                this.nextStep();
+            },
+            venezuelanOperatorDataSet(operatorDataSet){
+                this.venezuelanOperatorData=operatorDataSet;
+                this.nextStep();
+            },
+            executedTransaction(){
 
             }
         }

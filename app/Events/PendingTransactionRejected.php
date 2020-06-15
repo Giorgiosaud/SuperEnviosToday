@@ -14,13 +14,15 @@ class PendingTransactionRejected
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $pendingTransaction;
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param \App\PendingTransaction $pendingTransaction
      */
-    public function __construct()
+    public function __construct(\App\PendingTransaction $pendingTransaction)
     {
+        $this->pendingTransaction=$pendingTransaction;
         //
     }
 
@@ -31,6 +33,6 @@ class PendingTransactionRejected
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('pending-transaction-rejected');
     }
 }

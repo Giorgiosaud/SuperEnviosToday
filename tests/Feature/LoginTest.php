@@ -5,22 +5,13 @@ namespace Tests\Feature;
 use App\Auth\DatabaseTokenRepository;
 use App\User;
 use Exception;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
     use DatabaseMigrations;
-    use DatabaseTransactions;
     /**
      * A basic test login form.
      *

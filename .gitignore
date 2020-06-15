@@ -17,3 +17,11 @@ yarn-error.log
 public/error_log
 storage/.DS_Store
 storage/debugbar/
+
+error_log
+.env
+storage/app
+storage/framework
+storage/logs
+storage/work
+storage/*
