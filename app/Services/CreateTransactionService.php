@@ -37,7 +37,7 @@ class CreateTransactionService
         }
         if ($actualRate !== $request->rate && !$isCoordinator) {
              $this->createPendingTransaction($request);
-             return response('All transactions created', 200);
+             return response('Request to Coordinator Made', 200);
         }
 
         $incomeTransaction = $this->createIncomeTransaction($request);
