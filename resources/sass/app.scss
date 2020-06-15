@@ -103,6 +103,9 @@ html, body {
 .notices.has-custom-container{
     position:fixed
 }
+.dialog.has-custom-container {
+    position: fixed;
+}
 .snackbar{
     &.is-danger {
         background: $danger-dark;

@@ -36,7 +36,8 @@ class CreateTransactionService
             return abort(424, 'No hay dinero disponible suficiente en la cuenta seleccionada');
         }
         if ($actualRate !== $request->rate && !$isCoordinator) {
-            return $this->createPendingTransaction($request);
+             $this->createPendingTransaction($request);
+             return response('Request to Coordinator Made', 200);
         }
 
         $incomeTransaction = $this->createIncomeTransaction($request);
