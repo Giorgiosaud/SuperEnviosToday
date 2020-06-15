@@ -2,13 +2,18 @@
 
 namespace App\Auth;
 
-use http\Exception\InvalidArgumentException;
+use Closure;
 use Illuminate\Auth\Passwords\PasswordBrokerManager as LaravelPasswordBrokerManager;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 class PasswordBrokerManager extends LaravelPasswordBrokerManager{
 
 
+    /**
+     * @param string $name
+     * @return PasswordBroker|\Illuminate\Auth\Passwords\PasswordBroker|\Illuminate\Contracts\Auth\PasswordBroker
+     */
     protected function resolve($name)
     {
         $config = $this->getConfig($name);
@@ -21,6 +26,11 @@ class PasswordBrokerManager extends LaravelPasswordBrokerManager{
             $this->app['auth']->createUserProvider($config['provider'])
         );
     }
+
+    /**
+     * @param array $config
+     * @return DatabaseTokenRepository|\Illuminate\Auth\Passwords\DatabaseTokenRepository|\Illuminate\Auth\Passwords\TokenRepositoryInterface
+     */
     protected function createTokenRepository(array $config)
     {
         $key = $this->app['config']['app.key'];
@@ -39,5 +49,15 @@ class PasswordBrokerManager extends LaravelPasswordBrokerManager{
             $config['expire'],
             $config['throttle'] ?? 0
         );
+    }
+
+    public function sendResetLink(array $credentials)
+    {
+        // TODO: Implement sendResetLink() method.
+    }
+
+    public function reset(array $credentials, Closure $callback)
+    {
+        // TODO: Implement reset() method.
     }
 }

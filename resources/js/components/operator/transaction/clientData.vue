@@ -28,8 +28,11 @@
             isComponentModalActive:false
         }),
         methods:{
+            nextStep(){
+                this.$emit('next-step')
+            },
             setClient(data) {
-                const {id, idn, idn_type, last_name, phone, email, name} = data.user;
+                const {id, idn, idn_type, last_name, phone, email, name} = data;
 
                 this.client.id = id
                 this.client.idn = idn
@@ -42,14 +45,14 @@
                 this.$emit('client-data-set', this.client)
             },
             setPossibleClient(data) {
-                const {id, idn, idn_type, last_name, phone, email, name} = data.user;
-                this.client.id = id
-                this.client.idn = idn
-                this.client.idn_type = idn_type
-                this.client.name = name
-                this.client.last_name = last_name
-                this.client.email = email
-                this.client.phone = phone
+                const {id, idn, idn_type, last_name, phone, email, name} = data;
+                this.possibleClient.id = id
+                this.possibleClient.idn = idn
+                this.possibleClient.idn_type = idn_type
+                this.possibleClient.name = name
+                this.possibleClient.last_name = last_name
+                this.possibleClient.email = email
+                this.possibleClient.phone = phone
                 this.clientReady = true;
             },
             async searchClient(){
@@ -57,7 +60,7 @@
                     return;
                 }
                 this.searchingClient=true;
-                const response = await axios.get(`/api/user/${this.client.idn_type}/${this.client.idn}`)
+                const response = await $http.get(`/api/user/${this.client.idn_type}/${this.client.idn}`)
                 if (response.status === 204) {
                     this.client.id = ''
                     this.client.name = ''
@@ -65,11 +68,12 @@
                     this.client.email = ''
                     this.client.phone = ''
                     this.clientReady = false;
-                }else {
-                    if(response.data.status==='OK') {
-                        this.setClient(response.data);
+                }else{
+                    const UserData=await response.json()
+                    if(UserData.status==='OK') {
+                        this.setClient(UserData.user);
                     }else{
-                        this.setPossibleClient(response.data)
+                        this.setPossibleClient(UserData.user)
                         this.isComponentModalActive=true
                     }
                 }
@@ -77,7 +81,7 @@
                 this.searchingClient = false;
             },
             usePossibleClient(){
-                this.setUser(this.possibleClient)
+                this.setClient(this.possibleClient)
                 this.isComponentModalActive=false;
             },
             createNew(){
@@ -86,10 +90,12 @@
             },
             async saveClient(){
                 this.savingClient=true;
-                const response=await axios.post(`/api/user/`,{
+                const response=await $http.post(`/api/user/`,{
                     ...this.client
                 })
-                this.setUser(response);
+                const userData=await response.json()
+
+                this.setClient(userData.user);
                 this.savingClient=false;
             }
         }

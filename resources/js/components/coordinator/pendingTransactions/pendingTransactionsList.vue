@@ -1,9 +1,30 @@
 <script>
-    import currency from "../../../currency";
+    import currencyFilter from "../../../currency";
     export default {
         name: "pendingTransactionList",
         filters:{
-            currency,
+            currency(value,selectedCurrency){
+                const formatOptions={
+                    precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+                }
+                if(!selectedCurrency){
+                    formatOptions.symbol='$ ';
+                }else {
+                    formatOptions.symbol=`${selectedCurrency.sign} `;
+                }
+                return currencyFilter(value,formatOptions)
+            },
+            rateCurrency:(value,selectedCurrency)=>{
+                const formatOptions={
+                    precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+                }
+                if(!selectedCurrency){
+                    formatOptions.symbol='Bs/$ ';
+                }else {
+                    formatOptions.symbol=`Bs/${selectedCurrency.sign} `;
+                }
+                return currencyFilter(value,formatOptions)
+            },
             date(date){
                 return new Date(date).toLocaleString();
             }
@@ -88,8 +109,8 @@
                 Object.assign(params, this.filters);
                 this.loading = true;
                 try {
-                    const request = await axios.get('api/pending-transaction', {params: {...params}})
-                    this.query = request.data;
+                    const request = await $http.get('api/pending-transaction', {params: {...params}})
+                    this.query = await request.json();
                 }catch(error){
                     this.$buefy.notification.open({
                         message:`Rechazo fallido message:${JSON.stringify(error.response.data.errors)}`,
@@ -126,7 +147,7 @@
                         position:'is-bottom-right',
                         duration:5000
                     })
-                    transaction.status='rejected'
+                    transaction.status='approved'
                 }catch (error) {
                     this.$buefy.notification.open({
                         message:`Rechazo fallido message:${error.message}`,

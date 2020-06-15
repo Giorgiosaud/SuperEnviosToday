@@ -15,7 +15,7 @@ $factory->state(Account::class, 'american', function ($faker) {
         },
         'type' => $faker->randomElement(['corriente','ahorro',null]),
         'number'              => $faker->bankAccountNumber(),
-        'is_operator_account' => $faker->boolean(),
+        'is_operator' => $faker->boolean(),
     ];
 });
 $factory->state(Account::class, 'chilean', function ($faker) {
@@ -26,7 +26,7 @@ $factory->state(Account::class, 'chilean', function ($faker) {
         },
         'type' => $faker->randomElement(['corriente','ahorro']),
         'number'              => $faker->bankAccountNumber(),
-        'is_operator_account' => $faker->boolean(),
+        'is_operator' => $faker->boolean(),
     ];
 });
 $factory->state(Account::class, 'venezuelan', function ($faker) {
@@ -37,7 +37,7 @@ $factory->state(Account::class, 'venezuelan', function ($faker) {
         },
         'type' => $faker->randomElement(['corriente','ahorro']),
         'number'              => $faker->bankAccountNumber(),
-        'is_operator_account' => $faker->boolean(),
+        'is_operator' => $faker->boolean(),
     ];
 });
 
@@ -49,6 +49,6 @@ $factory->define(Account::class, function (Faker $faker) {
         },
         'type' => $faker->randomElement(['corriente','ahorro']),
         'number'              => $faker->bankAccountNumber(),
-        'is_operator_account' => $faker->boolean(),
+        'is_operator' => $faker->boolean(),
     ];
 });

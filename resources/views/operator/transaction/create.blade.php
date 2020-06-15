@@ -14,7 +14,10 @@
     </div>
 </section>
 <section class="section">
-    <transaction-create inline-template>
+    <transaction-create
+        inline-template
+        v-cloak
+        >
         <section>
             <b-steps
                 size="is-small"
@@ -25,25 +28,46 @@
                     @component('operator.transaction.client')
                         @slot('properties')
                             @client-data-set="clientDataSet"
+                            @next-step="nextStep"
                         @endslot
                     @endcomponent
                 </b-step-item>
-                <b-step-item :clickable="clientReady" label="{{__('transaction.TRANSACTION:TITLE')}}" icon="money-check-alt">
-                    {{__('transaction.TRANSACTION:TITLE')}}
+                <b-step-item label="{{__('transaction.TRANSACTION:TITLE')}}" icon="money-check-alt">
                     @component('operator.transaction.transaction')
                         @slot('properties')
-                            @client-transaction-set="transactionDataSet"
+                            @transaction-set="transactionDataSet"
+                            @next-step="nextStep"
                         @endslot
                     @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.RECEIVER:TITLE')}}" icon="hand-holding-usd">
-                    {{__('transaction.RECEIVER:TITLE')}}
+                    @component('operator.transaction.receiver')
+                    @slot('properties')
+                    :client="clientData"
+                    @receiver-set="clientReceiverSet"
+                    @next-step="nextStep"
+                    @endslot
+                    @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.VENEZUELAN_OPERATOR:TITLE')}}" icon="comment-dollar">
-                    {{__('transaction.VENEZUELAN_OPERATOR:TITLE')}}
+                    @component('operator.transaction.venezuelanOperator')
+                    @slot('properties')
+                    @operator-set="venezuelanOperatorDataSet"
+                    @next-step="nextStep"
+                    @endslot
+                    @endcomponent
                 </b-step-item>
                 <b-step-item label="{{__('transaction.REVIEW:TITLE')}}" icon="file-invoice-dollar">
-                    {{__('transaction.REVIEW:TITLE')}}
+                    @component('operator.transaction.reviewTransaction')
+                        @slot('properties')
+                            :client-data="clientData"
+                            :operator="{{Auth::user()}}"
+                            :receiver-data="receiverData"
+                            :transaction-data="transactionData"
+                            :venezuelan-operator-data="venezuelanOperatorData"
+                            @executed-transaction="executedTransaction"
+                        @endslot
+                    @endcomponent
                 </b-step-item>
 
             </b-steps>

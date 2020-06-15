@@ -284,11 +284,13 @@
             /**
              * Get all of the OAuth clients for the user.
              */
-            getClients() {
-                axios.get('/oauth/clients')
-                        .then(response => {
-                            this.clients = response.data;
-                        });
+            async getClients() {
+                try {
+                    const response = $http.get('/oauth/clients')
+                    this.clients = response.json()
+                }catch(error){
+                    throw error
+                }
             },
 
             /**
@@ -332,26 +334,23 @@
             /**
              * Persist the client to storage using the given form.
              */
-            persistClient(method, uri, form, modal) {
+            async persistClient(method, uri, form, modal) {
                 form.errors = [];
-
-                axios[method](uri, form)
-                    .then(response => {
-                        this.getClients();
-
-                        form.name = '';
-                        form.redirect = '';
-                        form.errors = [];
-
-                        $(modal).modal('hide');
-                    })
-                    .catch(error => {
-                        if (typeof error.response.data === 'object') {
-                            form.errors = _.flatten(_.toArray(error.response.data.errors));
-                        } else {
-                            form.errors = ['Something went wrong. Please try again.'];
-                        }
-                    });
+                try {
+                    const response
+                    await $http[method](uri, form)
+                    this.getClients();
+                    form.name = '';
+                    form.redirect = '';
+                    form.errors = [];
+                    $(modal).modal('hide');
+                }catch(error) {
+                    if (typeof error.response.data === 'object') {
+                        form.errors = _.flatten(_.toArray(error.response.data.errors));
+                    } else {
+                        form.errors = ['Something went wrong. Please try again.'];
+                    }
+                };
             },
 
             /**

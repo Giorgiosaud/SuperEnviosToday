@@ -26,7 +26,7 @@ class RemoveReceivedTransactionAttachmentColumnFromPendingTransactions extends M
     public function down()
     {
         Schema::table('pending_transactions', function (Blueprint $table) {
-            $table->unsignedInteger('received_transaction_attachment_id')->nullable;
+            $table->unsignedInteger('received_transaction_attachment_id')->nullable();
         });
     }
 }

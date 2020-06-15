@@ -14,13 +14,13 @@ class RemoveUserIdFromAccountsTable extends Migration
      */
     public function up()
     {
-        $accounts = Account::all();
-        if ($accounts->count() > 0){
-        foreach ($accounts as $key => $account) {
-            $user_id = $account->owner->id;
-            $account->owners()->sync([$user_id], false);
+        $accounts = Account::withTrashed()->get();
+        if ($accounts->count() > 0) {
+            foreach ($accounts as $key => $account) {
+                $user_id = $account->owner->id;
+                $account->owners()->sync([$user_id], false);
+            }
         }
-    }
         Schema::table('accounts', function (Blueprint $table) {
             $table->dropColumn('user_id');
         });

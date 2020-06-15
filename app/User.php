@@ -4,8 +4,10 @@ namespace App;
 
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
+use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -13,11 +15,16 @@ use Laravel\Passport\HasApiTokens;
 /**
  * @property mixed id
  * @method static first()
- * @method static whereHas(string $string, \Closure $param)
+ * @method static whereHas(string $string, Closure $param)
  * @method static create(array $data)
+ * @method static whereIdn(string $idn)
+ * @method static find($id)
+ * @method static select(string $string, string $string1, string $string2, string $string3, string $string4, string $string5, string $string6)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use SoftDeletes;
+
     use HasApiTokens, Notifiable;
 
     /**
@@ -56,9 +63,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * @return mixed
      */
-    public function getFullNameAttribute(){
-        return $this->name.' '.$this->last_name;
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->last_name;
     }
+
     /**
      * Send the email verification notification.
      *
@@ -68,6 +77,21 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new VerifyEmail);
     }
+
+    /**
+     * Set role to user.
+     * @param string $roleName
+     * @return void
+     */
+    public function setRole(string $roleName)
+    {
+
+        if(!Role::find($roleName)){
+            Role::create(['name'=>$roleName,'name_id'=>$roleName]);
+        }
+        return $this->roles()->attach($roleName);
+    }
+
     /**
      * The roles that belong to the user.
      */
@@ -78,22 +102,13 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Set role to user.
-     * @param string $roleName
-     * @return void
-     */
-    public function setRole(string $roleName)
-    {
-        return $this->roles()->attach($roleName);
-    }
-
-    /**
      * Check if user Have Role Assigned.
      */
     public function hasRole(string $roleName)
     {
         return $this->roles->pluck('name_id')->contains($roleName);
     }
+
     /**
      * @return BelongsToMany
      */
@@ -101,13 +116,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(Account::class);
     }
+
     /**
      * @return BelongsToMany
      */
     public function receivers()
     {
-        return $this->belongsToMany(self::class, 'users_receivers', 'user_id', 'receiver_id')->withTimestamps();
+        return $this->belongsToMany(self::class, 'users_receivers', 'user_id', 'receiver_id')
+            ->with('accounts.bank')
+            ->withTimestamps();
     }
+
     /**
      * @return BelongsToMany
      */

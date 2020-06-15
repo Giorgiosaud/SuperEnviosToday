@@ -24,7 +24,7 @@ $factory->define(\App\PendingTransaction::class, function (Faker $faker) {
         },
         'rate'   => $faker->randomFloat(4, 4, 5),
         'amount' => $faker->numberBetween(0, 1000000),
-        'status' => $faker->randomElement(['pending', 'aprooved', 'rejected']),
+        'status' => $faker->randomElement(['pending', 'approved', 'rejected']),
         'foreign_id'=>function(){
             return factory(User::class)->create()->id;
         },

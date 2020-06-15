@@ -48,9 +48,12 @@
 
         },
         methods: {
+            loginAs(){
+              window.location.href=`/users/login-as/${this.user.id}`;
+            },
             async resendVerification(){
                 this.sendingVerification=true
-              const response=await axios.post('/api/user/verify_email',{
+              const response=await $http.post('/api/user/verify_email',{
                   id:this.user.id
               })
                 this.sendingVerification=false

@@ -1,3 +1,4 @@
+@charset "utf-8";
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 
@@ -32,7 +33,10 @@ $link-focus-border: $primary;
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/derived-variables";
 @import "navbar";
-
+@import "../../node_modules/bulma-helpers/bulma-helpers.sass";
+.is-overflow-auto{
+    overflow: auto;
+}
 html, body {
     background-color: #fff;
     color: #636b6f;
@@ -95,4 +99,24 @@ html, body {
 }
 .main-navigation{
     z-index: 10;
+}
+.notices.has-custom-container{
+    position:fixed
+}
+.snackbar{
+    &.is-danger {
+        background: $danger-dark;
+    }
+    &.is-warning {
+        background: $warning-dark;
+    }
+    &.is-info {
+        background: $info-dark;
+    }
+    &.is-success {
+        background: $success-dark;
+    }
+    &.is-primary {
+        background: $primary-dark;
+    }
 }

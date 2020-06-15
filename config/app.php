@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'logo' => env('APP_LOGO', 'http://superenvios.cl/image/superenvios.png'),
     /*
     |--------------------------------------------------------------------------
     | Base Currency id
@@ -28,7 +29,7 @@ return [
    |--------------------------------------------------------------------------
    |
    */
-    'min_amount' => env('MIN_AMOUNT', '1000'),
+    'min_amount' => env('MIN_AMOUNT', '10'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

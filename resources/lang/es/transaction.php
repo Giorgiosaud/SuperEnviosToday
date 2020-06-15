@@ -6,10 +6,16 @@ return [
     'CURRENCY'=>'Moneda',
     'ACCOUNTS'=>'Cuenta',
     'AMOUNT'=>'Monto',
+    'BANK'=>'Banco',
+    'NUMBER'=>'Número',
+    'NO:OPERATORS'=>'No Existen Operadores Asociados',
+    'NO:ACCOUNTS'=>'No Existen Cuentas Registradas',
+    'BALANCE'=>'Saldo',
     'RATE:CHANGE'=>'¿Desea pedir autorizacion para utilizar otra tasa de cambio?',
     'EXCHANGE.RATE'=>'Tasa de cambio del día',
     'RATE:CALC'=>'Monto Calculado',
     'VOUCHER:NUMBER'=>'Numero de transacción',
+    'VOUCHER:FILES'=>'Archivos Adjuntos',
     'RATE:NEW'=>'Tasa a autorizar',
     'DEFAULT:ACCOUNT'=>'Seleccione la cuenta',
     'DEFAULT:CURRENCY'=>'Seleccione la moneda',
@@ -20,7 +26,10 @@ return [
     'SEARCH:LABEL'=>'Buscar:',
     'SAVE:LABEL'=>'Crear:',
     'SAVE:BUTTON'=>'Guardar Cliente',
+    'NEXT:BUTTON'=>'Siguiente Paso',
     'SEARCH:BUTTON'=>'Buscar Cliente',
     'CLIENT:DIFFERENT_IDN:EXIST'=>'Existe un cliente con esta informacion pero con un tipo de identificacion distinta',
-    'CLIENT:DIFFERENT_IDN:EXIST:SUB'=>'¿Quiere utilizarlo?'
+    'CLIENT:DIFFERENT_IDN:EXIST:SUB'=>'¿Quiere utilizarlo?',
+    'VERIFY:BUTTON'=>'Verificar si existe',
+    'VOUCHER:CAN:GO:ON'=>'puede continuar'
 ];

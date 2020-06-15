@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
  * @method static Rate whereCurrencyId($currencyId)
  * @method static Rate orderBy(string $string, string $string1)
  * @method static Collection first()
+ * @method where(string $string, string $string1, \Carbon\Carbon $now)
  */
 class Rate extends Model
 {
