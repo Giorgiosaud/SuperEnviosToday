@@ -2,25 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Auth\DatabaseTokenRepository;
 use App\User;
-use Exception;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class ResetTest extends TestCase
 {
     use DatabaseMigrations;
-    use DatabaseTransactions;
     /**
      * Displays the reset password request form.
      *
@@ -59,6 +50,25 @@ class ResetTest extends TestCase
             'password_confirmation' => 'passwords123'
         ]);
         $this->assertFalse(Hash::check('passwords123', $user->fresh()->password));
+    }
+    public function testThrowErrorifChangeAUserPasswordWithDifferentTokenViaJson()
+    {
+        $user = factory(User::class)->create();
+        //$this->expectErrorMessage(trans('passwords.token'));
+        $token = Password::createToken($user);
+        $this->postJson(route('password.update'), [
+            'token' => '$token',
+            'email' => $user->email,
+            'idn' => $user->idn,
+            'idn_type' => $user->idn_type,
+            'password' => 'passwords123',
+            'password_confirmation' => 'passwords123'
+        ])
+        ->assertJson([
+            "errors"=>[
+                'warning' => [trans('passwords.token')],
+            ]
+        ]);
     }
     /**
      * Allows a user to reset their password.
@@ -145,5 +155,19 @@ class ResetTest extends TestCase
             'password_confirmation' => 'passwords123'
         ]);
         $this->assertTrue(Hash::check('passwords123', $user->fresh()->password));
+    }
+    public function testChangesAUsersPasswordJson()
+    {
+        $user = factory(User::class)->create();
+        $token = Password::createToken($user);
+        $response = $this->postJson('/password/reset', [
+            'token' => $token,
+            'email' => $user->email,
+            'idn' => $user->idn,
+            'idn_type' => $user->idn_type,
+            'password' => 'passwords123',
+            'password_confirmation' => 'passwords123'
+        ])
+        ->assertJson(['message' => trans('passwords.reset')]);
     }
 }

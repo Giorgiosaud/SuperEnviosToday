@@ -7,6 +7,7 @@ use App\Notifications\VerifyEmail;
 use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -22,6 +23,8 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use SoftDeletes;
+
     use HasApiTokens, Notifiable;
 
     /**
@@ -82,6 +85,10 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function setRole(string $roleName)
     {
+
+        if(!Role::find($roleName)){
+            Role::create(['name'=>$roleName,'name_id'=>$roleName]);
+        }
         return $this->roles()->attach($roleName);
     }
 

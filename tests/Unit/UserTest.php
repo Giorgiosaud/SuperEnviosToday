@@ -2,8 +2,13 @@
 
 namespace Tests\Unit;
 
+use App\Account;
+use App\Notifications\ResetPassword;
+use App\Notifications\VerifyEmail;
+use App\Role;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 /**
@@ -16,12 +21,6 @@ class UserTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        // you can call
-        $this->artisan('db:seed');
-
-        // or
-        $this->seed();
     }
     /**
      * A basic test example.
@@ -31,6 +30,7 @@ class UserTest extends TestCase
      * */
     public function aUserHaveADefaultRoleOfClient()
     {
+        factory(Role::class)->create(['name'=>'Clientes','name_id'=>'client']);
         $user = factory(User::class)->create([
             'name'     => 'ALEX',
             'email'    => 'A@be.com',
@@ -40,113 +40,78 @@ class UserTest extends TestCase
     }
 
     /**
-     * ActingAsCoordinatorHaveAPasswordToAccess.
-     *
-     * @test
-    public function theCoordinatorCanLoginWithHisPassword()
+     * Test user Has Role
+     */
+    public function testHasRole()
     {
-        $user = factory(User::class)->create([
-            'name'     => 'Coordinador',
-            'idn'      => '111111',
-            'idn_type' => 'CI',
-            'password' => bcrypt('hidden'),
-        ]);
-        $user->setRole('coordinator');
+        $user=factory(User::class)->create();
+        $this->assertEquals(
+            $user->hasRole('client'),
+            true);
+    }
+    /**
+     * Test user Has accounts
+     */
+    public function testHasAccounts()
+    {
+        $user=factory(User::class)->create();
+        $this->assertCount(0,
+            $user->accounts
+            );
+        $account=factory(Account::class,1)->create();
+        $user->accounts()->save($account[0]);
         $user->refresh();
-        $this->assertTrue($user->hasRole('coordinator'));
-        $response = $this->post('login', ['idn_type' => 'CI', 'idn' => '111111', 'password' => 'hidden']);
-        $response->dump();
-        $response->assertRedirect('/home');
-        $this->isAuthenticated();
-        $this->assertAuthenticatedAs($user);
+        $this->assertCount(1,
+            $user->accounts
+            );
     }
-
     /**
-     * A user can have accounts associated.
-     *
-     * @test
-    public function aUserHaveMultiplesAccountsAssociated()
+     * Test user Has Receivers
+     */
+    public function testHasReceivers()
     {
-        $user = factory('App\User')->create();
-        $bank=factory('App\Bank')->create();
-        $account=factory('App\Account')->make();
-        $userAccount=[
-            'user_id' => $user->id,
-            'bank_id' => $bank->id,
-            'type'    => $account->type,
-            'number'    => $account->number,
-        ];
-        $account=factory('App\Account')->make();
-
-        $this->postJson(route('save_account'), $userAccount)->assertStatus(401);
-        $this->actingAsForeignOperator();
-        $this->postJson(route('save_account'), $userAccount)->assertStatus(201);
-        $userAccount=[
-            'user_id' => $user->id,
-            'bank_id' => $bank->id,
-            'type'    => $account->type,
-            'number'    => $account->number,
-        ];
-        $this->postJson(route('save_account'), $userAccount)->assertStatus(201);
+        $receiver=factory(User::class)->create();
+        $account=factory(Account::class,1)->create();
+        $receiver->accounts()->save($account[0]);
+        $user=factory(User::class)->create();
+        $user->receivers()->save($receiver);
         $user->refresh();
-        $this->assertCount(2,$user->accounts);
+        $this->assertCount(1,$user->receivers);
+    }
+    /**
+     * Test user Has Senders
+     */
+    public function testHasSenders()
+    {
+        $receiver=factory(User::class)->create();
+        $account=factory(Account::class,1)->create();
+        $receiver->accounts()->save($account[0]);
+        $user=factory(User::class)->create();
+        $user->receivers()->save($receiver);
+        $receiver->refresh();
+        $this->assertCount(1,$receiver->senders);
+    }
+
+    public function testSendPasswordResetNotificationSendNotifications()
+    {
+        Notification::fake();
+        $token='123';
+        $user=factory(User::class)->create();
+        $this->expectsNotification($user,ResetPassword::class);
+        $user->sendPasswordResetNotification($token);
+
     }
 
     /**
-     * @test
-    public function aUserWithoutEmailCanBeRegistered()
+     *
+     */
+    public function testSendEmailVerificationNotification()
     {
-        $user = factory('App\User')->create(['email' => null]);
-        $this->assertNull(User::find($user->id)->email);
+        Notification::fake();
+        $user=factory(User::class)->create();
+        $this->expectsNotification($user,VerifyEmail::class);
+        $user->sendEmailVerificationNotification();
     }
 
-    /**
-     * @test
-    public function aUserWithDuplicatedEmailCanBeRegistered()
-    {
-        $email = 'test@test.com';
-        factory('App\User')->create(['name'=>'test1', 'email'=>$email]);
-        factory('App\User')->create(['name'=>'test2', 'email'=>$email]);
-        $users = User::all();
-        $this->assertCount(2, $users);
-        $this->assertEquals($users[0]->email, $users[1]->email);
-    }
-
-    /**
-     * @test
-    public function aUserCantBeRegisteredWithSameCombinationOfIDNandIDNTYPE()
-    {
-        try {
-            factory('App\User')->create(['idn'=>'123123', 'idn_type'=>'PASSPORT']);
-            factory('App\User')->create(['idn'=>'123123', 'idn_type'=>'PASSPORT']);
-        } catch (Exception $err) {
-            $this->assertContains('Integrity constraint violation', $err->getMessage());
-        }
-    }
-
-    /**
-     * @test
-    public function aUserCanRegisterAReceiverAndAsociateIt()
-    {
-        $user = factory('App\User')->create();
-        $related = factory('App\User')->create();
-        $user->receivers()->attach($related->id);
-        $related = factory('App\User')->create();
-        $user->receivers()->attach($related->id);
-        $this->assertCount(2, $user->receivers);
-    }
-
-    /**
-     * @test
-    public function aReceiverUserCanHaveManyAsociatedSenders()
-    {
-        $user = factory('App\User')->create();
-        $related = factory('App\User')->create();
-        $related->senders()->attach($user->id);
-        $user2 = factory('App\User')->create();
-        $user2->receivers()->attach($related->id);
-        $this->assertCount(2, $related->senders);
-    }
-     *      */
 
 }

@@ -20,3 +20,8 @@ storage/debugbar/
 
 error_log
 .env
+storage/app
+storage/framework
+storage/logs
+storage/work
+storage/*

@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static select(string $string)
+ */
 class Bank extends Model
 {
     protected $fillable = ['currency_id', 'name'];

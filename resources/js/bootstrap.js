@@ -90,19 +90,19 @@ window.$http={
             config.method='DELETE';
             return this.noDataFetch(url,headersConf,config)
         },
-        post:function(url,data,headersConf,config={}){
+        post:function(url,data={},headersConf,config={}){
             config.method='POST';
             return this.dataFetch(url,data,headersConf,config)
         },
-        put:function(url,data,headersConf,config){
+        put:function(url,data={},headersConf,config={}){
             config.method='PUT';
             return this.dataFetch(url,data,headersConf,config)
         },
-        patch:function(url,data,headersConf,config){
+        patch:function(url,data={},headersConf,config={}){
             config.method='PATCH';
             return this.dataFetch(url,data,headersConf,config)
         },
-        custom:function(url,data,headersConf,config){
+        custom:function(url,data={},headersConf,config){
             return this.dataFetch(url,data,headersConf,config)
         },
 }

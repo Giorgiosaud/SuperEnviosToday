@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use App\Role;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 /**
@@ -18,12 +17,6 @@ class RoleTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        // you can call
-        $this->artisan('db:seed');
-
-        // or
-        $this->seed();
     }
 
     /**
@@ -31,6 +24,7 @@ class RoleTest extends TestCase
      */
     public function testRolesHaveManyUsers()
     {
+        factory(Role::class)->create(['name'=>'Clientes','name_id'=>'client']);
         $roleInitialCount=Role::find('client')->users->count();
         factory(User::class,30)->create();
         $role=Role::find('client');

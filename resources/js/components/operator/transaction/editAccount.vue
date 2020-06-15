@@ -103,51 +103,56 @@
             </validation-provider>
         </div>
         <footer class="modal-card-foot">
-            <b-button :loading="savingData" class="button is-primary" :disabled="invalid" @click="saveAccount">Guardar</b-button>
-            <button class="button" type="button" @click="cleanAndClose">Cancelar</button>
+            <b-button :loading="updatingData" class="button is-primary" :disabled="invalid" @click="updateAccount">Guardar</b-button>
+            <button class="button" type="button" @click="close">Cancelar</button>
         </footer>
     </validation-observer>
 </template>
 <script>
     export default {
-        name: 'newAccount',
+        name: 'editAccount',
         props: {
             receiver: {
+                type: Object | null,
+                default: () => null
+            },
+            account: {
                 type: Object | null,
                 default: () => null
             }
         },
         data: () => ({
             venezuelanBanks: [],
+            id:'',
             types: [{name: 'Corriente', value: 'corriente'}, {name: 'Ahorro', value: 'ahorro'}],
             selectedBank: '',
             selectedType: '',
-            savingData:false,
+            updatingData:false,
             accountNumber: ''
         }),
         async created() {
-            const response = await $http.get('/api/banks/base')
+            const response = await $http.get('/api/banks/base/')
             const banksBase=await response.json()
             this.venezuelanBanks = banksBase.sort(bank => bank.name)
         },
         methods: {
-            async saveAccount() {
-                this.savingData = true
+            async updateAccount() {
+                this.updatingData = true
                 try {
-                    const response = await $http.post(`/api/accounts/link/${this.receiver.id}`, {
+                    const response = await $http.patch(`/api/account/${this.id}`, {
                         bank_id: this.selectedBank.id,
                         type: this.selectedType,
                         number: this.accountNumber,
                     })
-                    this.$emit('account-added');
-                    this.cleanAndClose()
+                    this.$emit('account-edited');
+                    this.close()
                 } catch (error) {
                     this.$buefy.notification.open({
                         message: error.message,
                         type: 'is-danger'
                     })
                 } finally {
-                    this.savingData = false
+                    this.updatingData = false
                 }
             },
             cleanData() {
@@ -155,12 +160,28 @@
                 this.selectedType = '';
                 this.accountNumber = '';
             },
-            cleanAndClose() {
-                this.cleanData()
+            close() {
                 this.$parent.close()
             }
         },
-        watch: {}
+        watch: {
+            account:{
+                immediate:true,
+                handler(value){
+                    if(value) {
+                        this.id = value.id;
+                        this.selectedBank = value.bank;
+                        this.selectedType = value.type;
+                        this.accountNumber = value.number;
+                    }else{
+                        this.id = '';
+                        this.selectedBank = '';
+                        this.selectedType = '';
+                        this.accountNumber = '';
+                    }
+                }
+            }
+        }
 
 
     }

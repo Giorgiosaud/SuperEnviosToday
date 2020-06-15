@@ -2,17 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Notifications\ResetPassword;
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Tests\TestCase;
+use App\Notifications\ResetPassword;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ForgotTest extends TestCase
 {
     use DatabaseMigrations;
-    use DatabaseTransactions;
 
     /**
      * Displays the forget password request form.
@@ -50,34 +51,10 @@ class ForgotTest extends TestCase
             ->assertSuccessful()
             ->assertSee(__('passwords.user'));
     }
-
-
     /**
-     * Testing submitting a password reset request.
-     */
-    public function testSubmitPasswordResetRequestAndSendEmailWithResetLink()
-    {
-        Notification::fake();
-        $user = factory(User::class)->create();
-
-        $response = $this
-            ->followingRedirects()
-            ->from(route('password.request'))
-            ->post(route('password.email'), [
-                'idn' => $user->idn,
-                'idn_type' => $user->idn_type,
-                'email' => $user->email,
-            ])
-            ->assertSuccessful()
-            ->assertSee(__('passwords.sent'));
-
-        Notification::assertSentTo($user, ResetPassword::class);
-    }
-
-    /**
-     * Testing submitting a password reset request.
+     * Testing submitting a password reset request and throttling.
      * */
-    public function testSubmitPasswordResetRequestThrottled()
+    public function testSubmitPasswordResetRequestWorksOnFirstTimeButThrottledOnImmediateSecondTime()
     {
         Notification::fake();
         $user = factory(User::class)->create();
@@ -104,6 +81,43 @@ class ForgotTest extends TestCase
             ])
             ->assertSuccessful()
             ->assertSee(__('passwords.throttled'));
+    }
+    public function testSubmitPasswordResetRequestWorksOnFirstTimeButThrottledOnImmediateSecondTimeViaJson()
+    {
+        Notification::fake();
+        $user = factory(User::class)->create();
+
+        $response = $this
+            ->followingRedirects()
+            ->from(route('password.request'))
+            ->postJson(route('password.email'), [
+                'idn' => $user->idn,
+                'idn_type' => $user->idn_type,
+                'email' => $user->email,
+            ])
+            ->assertSuccessful()
+            ->assertSee('Le hemos enviado al correo el link de reinicio de clave');
+
+    }
+
+    /**
+     *
+     */
+    public function testConfigNotProperlySetup()
+    {
+        Config::set("auth.passwords.users",null);
+        $this->expectException("InvalidArgumentException");
+        $this->expectExceptionMessage("Password resetter [users] is not defined.");
+        $user = factory(User::class)->create();
+        $token = Password::createToken($user);
+        $response = $this->post('/password/reset', [
+            'token' => $token,
+            'email' => $user->email,
+            'idn' => $user->idn,
+            'idn_type' => $user->idn_type,
+            'password' => 'passwords123',
+            'password_confirmation' => 'passwords123'
+        ]);
     }
 
 }
