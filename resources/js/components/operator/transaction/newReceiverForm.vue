@@ -53,7 +53,7 @@
                            type="text"
                            placeholder="ID"
                            value="123"
-                           autocomplete="idn" autofocus>
+                           autocomplete="idn">
                     <span class="icon is-small has-text-warning	is-right"
                           v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
@@ -79,7 +79,7 @@
                            :class="classes"
                            type="text"
                            placeholder="Nombre"
-                           autocomplete="name" autofocus>
+                           autocomplete="name">
                     <span class="icon is-small has-text-warning	is-right"
                           v-if="errors[0]">
                                     <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
@@ -107,7 +107,7 @@
                            :class="classes"
                            type="text"
                            placeholder="Apellido"
-                           autocomplete="name" autofocus>
+                           autocomplete="name">
                     <span class="icon is-small has-text-warning	is-right"
                           v-if="errors[0]">
                                     <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
@@ -142,7 +142,7 @@
                            type="text"
                            v-model="email"
                            placeholder="email"
-                           autocomplete="email" autofocus>
+                           autocomplete="email">
                     <span class="icon is-small is-left">
                         <font-awesome-icon icon="envelope"></font-awesome-icon>
                     </span>
@@ -158,7 +158,7 @@
         </div>
         <footer class="modal-card-foot">
             <b-button :loading="savingData" class="button is-primary" @click="saveReceiver">Guardar</b-button>
-            <button class="button" type="button" @click="cleanAndClose">Cancelar</button>
+            <button class="button" type="button" @click="cleanAndClose" @keyup.esc="cleanAndClose">Cancelar</button>
         </footer>
     </validation-observer>
 </template>

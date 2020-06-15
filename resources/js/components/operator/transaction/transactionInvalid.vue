@@ -19,8 +19,8 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <button type="button" class="button" @click="$parent.close()">Close</button>
-                <button class="button is-primary" @click="continuar">Aceptar y Continuar</button>
+                <button type="button" class="button" @click="$parent.close()" @keyup.esc="$parent.close()">Close</button>
+                <button class="button is-primary" @click="continuar" @keyup.right="continuar">Aceptar y Continuar</button>
             </footer>
         </div>
     </div>
