@@ -89,8 +89,7 @@
                               :class="classes"
                               type="text"
                               mask="####-####-####-####-####"
-                              placeholder="Número de Cuenta"
-                              autofocus></the-mask>
+                              placeholder="Número de Cuenta"></the-mask>
                     <span class="icon is-small has-text-warning	is-right"
                           v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
@@ -104,7 +103,7 @@
         </div>
         <footer class="modal-card-foot">
             <b-button :loading="updatingData" class="button is-primary" :disabled="invalid" @click="updateAccount">Guardar</b-button>
-            <button class="button" type="button" @click="close">Cancelar</button>
+            <button class="button" type="button" @click="close" onkeyup.esc="close">Cancelar</button>
         </footer>
     </validation-observer>
 </template>
