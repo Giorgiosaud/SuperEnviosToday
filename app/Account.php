@@ -89,6 +89,7 @@ class Account extends Model
 
     /**
      * @return mixed
+     * SELECT transactions.`from_account_id`, SUM(transactions.`amount`) as amount, DATE(transactions.`created_at`) as Date FROM `transactions` transactions left join `accounts` accounts on accounts.`id`=transactions.`from_account_id` where accounts.`is_operator`=1 and transactions.`from_account_id`=2344 and DATE(transactions.`created_at`)='2020-05-11' GROUP BY DATE(transactions.`created_at`), transactions.`from_account_id`
      * TODO: refactor this to work with multiples caches and make it work on past balance
      */
     public function getBalanceAttribute()
