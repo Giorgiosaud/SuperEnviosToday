@@ -103,7 +103,7 @@
         </div>
         <footer class="modal-card-foot">
             <b-button :loading="updatingData" class="button is-primary" :disabled="invalid" @click="updateAccount">Guardar</b-button>
-            <button class="button" type="button" @click="close" onkeyup.esc="close">Cancelar</button>
+            <button class="button" type="button" @click="close" @keyup.esc="close">Cancelar</button>
         </footer>
     </validation-observer>
 </template>
