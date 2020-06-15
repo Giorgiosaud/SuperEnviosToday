@@ -60,6 +60,7 @@ class AccountTest extends TestCase
         $account=factory(Account::class)->create();
         factory(Transaction::class,10)->create(['from_account_id'=>$account->id]);
         factory(Transaction::class,10)->create(['to_account_id'=>$account->id]);
+        $account->refresh();
         $this->assertCount(20,$account->transactions);
 
 
@@ -67,7 +68,6 @@ class AccountTest extends TestCase
 
     /**
      *
-     */
     public function testIncomingTransactionsTyped()
     {
 
@@ -77,6 +77,7 @@ class AccountTest extends TestCase
     {
 
     }
+     */
 
     public function testGetBalanceAttribute()
     {
@@ -87,7 +88,7 @@ class AccountTest extends TestCase
         $this->assertEquals((50000-100000)*50,$account->balance);
 
     }
-
+    /**
     public function testOutgoingTransactionsTyped()
     {
 
@@ -98,5 +99,5 @@ class AccountTest extends TestCase
 
 
     }
-
+    */
 }

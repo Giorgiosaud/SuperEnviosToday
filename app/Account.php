@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @method static create(array $data)
  * @method static find($venezuelan_operator_account_id)
  * @method static where(string $string, $bank_id)
+ * @property mixed balanceCache
  */
 class Account extends Model
 {
@@ -62,9 +63,10 @@ class Account extends Model
     /**
      * @return HasMany
      */
-    public function transactions()
+    public function getTransactionsAttribute()
     {
-        return $this->hasMany(Transaction::class, ['from_account_id','to_account_id']);
+
+        return $this->incomingTransactions->merge($this->outgoingTransactions);
     }
     /**
      * @return HasMany
@@ -92,13 +94,11 @@ class Account extends Model
     public function getBalanceAttribute()
     {
       $cachedBalanceTransactionId= $this->balanceCache?$this->balanceCache->transaction_id:null;
-
       $incomingTransactionsNoCached=$this->incomingTransactionsTyped($cachedBalanceTransactionId)->get();
-
       $outgoingTransactionsNoCached=$this->outgoingTransactionsTyped($cachedBalanceTransactionId)->get();
-      $sumIncomings=$incomingTransactionsNoCached->sum('amount');
+      $sumIncoming=$incomingTransactionsNoCached->sum('amount');
       $sumOutgoings=$outgoingTransactionsNoCached->sum('amount');
-      $cache_balance_diff_amount = $sumIncomings - $sumOutgoings;
+      $cache_balance_diff_amount = $sumIncoming - $sumOutgoings;
       $cachedBalanceAmount= $cachedBalanceTransactionId?$this->balanceCache->amount:0;
       $newCachedBalance=$cachedBalanceAmount+$cache_balance_diff_amount;
       if($incomingTransactionsNoCached->count()+$outgoingTransactionsNoCached->count()>15){
@@ -111,7 +111,6 @@ class Account extends Model
         }else{
           $this->balanceCache()->create(['transaction_id'=>$maxId,'amount'=>strval($newCachedBalance)]);
         }
-        return $newCachedBalance;
       }
         return $newCachedBalance;
     }
