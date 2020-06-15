@@ -236,7 +236,21 @@
                     'amount'                                :this.transactionData.amount
                 };
                 try {
-                    await $http.post('/api/transaction/execute', transaction)
+                    const response=await $http.post('/api/transaction/execute', transaction)
+                    if(response.status==200) {
+                        this.$buefy.dialog.alert({
+                            title:'Solicitud completada',
+                            message:'Ahora debemos esperar que el coordinador apruebe',
+                            onConfirm:() => window.location.reload()
+                        });
+                    }else if(response.status==201){
+                        this.$buefy.dialog.alert({ 
+                            title:'Transacción completada',
+                            message: 'Transaccion ejecutada',
+                            onConfirm:() => window.location.reload()
+                        });
+
+                    }
                 }catch(error){
                     if(error.response.status===424){
                         this.$buefy.snackbar.open({
