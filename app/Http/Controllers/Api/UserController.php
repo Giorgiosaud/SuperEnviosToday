@@ -14,7 +14,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index()
     {
@@ -38,13 +38,14 @@ class UserController extends Controller
         }
         $perPage = $request->has('perPage') ? $request->get('perPage') : config('app.paginated_by');
 
-        return $users->select('id', 'idn','idn_type','name', 'last_name', 'email', 'phone')->paginate($perPage);
+        return $users->select('id', 'idn','idn_type','name', 'last_name', 'email', 'phone')
+            ->paginate($perPage);
     }
 
     /**
      * @param $idnType
      * @param $idn
-     * @return ResponseFactory|Response
+     * @return array|ResponseFactory|Response
      */
     public function search($idnType, $idn){
         $users= User::select('id','idn','idn_type','name','last_name','email','phone')->where('idn_type',$idnType)->where('idn',$idn)->get();
@@ -87,6 +88,11 @@ class UserController extends Controller
         return ['status'=>'OK','user'=>$user];
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|Response
+     */
     public function resendVerificationEmail(Request $request){
         $data=$request->validate([
             'id'=>['required','exists:App\User,id']
@@ -98,10 +104,21 @@ class UserController extends Controller
             ? new Response('', 202)
             : back()->with('resent', true);
     }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
     public function receivers(User $user){
         return $user->receivers;
     }
-    public function createReceiver(User $user,Request $request){
+
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return User
+     */
+    public function createReceiver(User $user, Request $request){
         $data = $request->validate([
             'idn_type' => ['required', 'in:CI,PASSPORT,RUT,DNI,RIF'],
             'idn' => ['required', 'string', 'max:20'],
@@ -110,16 +127,37 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
         ]);
         $data['password']=bcrypt('receiver');
-        $receiver=User::whereIdn($data['idn'])->where('idn_type',$data['idn_type'])->first();
+        $receiver=User::whereIdn($data['idn'])->withTrashed()->where('idn_type',$data['idn_type'])->first();
         if(!$receiver){
             $receiver = User::create($data);
         }else{
             $receiver->update($data);
+            $receiver->restore();
         }
         $receiversIds=$user->receivers->pluck('id')->toArray();
         array_push($receiversIds,$receiver->id);
         $user->receivers()->sync($receiversIds);
         return $user;
+    }
+
+    public function update(User $user,Request $request){
+        $data = $request->validate([
+            'idn_type' => ['required', 'in:CI,PASSPORT,RUT,DNI,RIF'],
+            'idn' => ['required', 'string', 'max:20'],
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required','string','max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+        ]);
+        $user->update($data);
+        return $user;
+    }
+    public function unlink(User $client,User $receiver){
+        $client->receivers()->detach($receiver->id);
+        if($receiver->senders->count()==0){
+         $receiver->delete();
+        }
+        return
+            response('transaction executed',204);
     }
 
 }

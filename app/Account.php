@@ -9,14 +9,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
  * @method static create(array $data)
  * @method static find($venezuelan_operator_account_id)
+ * @method static where(string $string, $bank_id)
  */
 class Account extends Model
 {
+    use SoftDeletes;
+
     //protected $with = ['bank'];
     protected $fillable = ['bank_id', 'is_operator_account', 'number', 'type'];
 
@@ -29,7 +33,7 @@ class Account extends Model
     }
 
     /**
-     * @return \App\Account
+     * @return BelongsToMany
      */
     public function owners()
     {
@@ -83,6 +87,7 @@ class Account extends Model
 
     /**
      * @return mixed
+     * TODO: refactor this to work with multiples caches and make it work on past balance
      */
     public function getBalanceAttribute()
     {

@@ -4,13 +4,11 @@ namespace Tests\Feature;
 
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class HomeTest extends TestCase
 {
     use DatabaseMigrations;
-    use DatabaseTransactions;
     /**
      * A basic test example.
      *

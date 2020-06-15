@@ -49,7 +49,7 @@
                         </section>
                     </template>
                 </b-table>
-
+                <div class="buttons">
                 <b-button
                     size="is-medium"
                     @click="openModalForm('newReceiverForm')"
@@ -57,6 +57,24 @@
                     icon-left="user-plus">
                     {{__('receiver.NEW:RECEIVER')}}
                 </b-button>
+                <b-button
+                    size="is-medium"
+                    :disabled="!receiverSelected"
+                    @click="openModalForm('editReceiverForm')"
+                    type="is-info"
+                    icon-left="user-plus">
+                    {{__('receiver.EDIT:RECEIVER')}}
+                </b-button>
+                <b-button
+                    size="is-medium"
+                    :disabled="!receiverSelected"
+                    :loading="unlinkingReceiver"
+                    @click="unlinkReceiver"
+                    type="is-info"
+                    icon-left="user-plus">
+                    {{__('receiver.UNLINK:RECEIVER')}}
+                </b-button>
+                </div>
             </validation-provider>
             <validation-provider tag="div" rules="required" class="column">
                 <input type="hidden" v-model="receiverAccount">
@@ -92,6 +110,7 @@
                         </section>
                     </template>
                 </b-table>
+                <div class="buttons">
                 <b-button
                     size="is-medium"
                     type="is-info"
@@ -100,6 +119,24 @@
                     icon-left="plus-circle">
                     {{__('receiver.NEW:ACCOUNT')}}
                 </b-button>
+                <b-button
+                    size="is-medium"
+                    @click="openModalForm('editAccount')"
+                    :disabled="!receiverAccount"
+                    type="is-info"
+                    icon-left="user-plus">
+                    {{__('receiver.EDIT:ACCOUNT')}}
+                </b-button>
+                <b-button
+                    size="is-medium"
+                    :loading="unlinkingAccount"
+                    :disabled="!receiverAccount"
+                    @click="unlinkAccount"
+                    type="is-info"
+                    icon-left="user-plus">
+                    {{__('receiver.UNLINK:ACCOUNT')}}
+                </b-button>
+                </div>
             </validation-provider>
         </div>
         <div class="columns has-padding-top-5">
@@ -124,8 +161,10 @@
         <component
             :is="activeForm"
             v-bind="customComponentProps"
-            @receiver-added="receiverAdded"
-            @account-added="accountAdded">
+            @receiver-added="lookupForReceivers"
+            @receiver-edited="lookupForReceivers"
+            @account-added="lookupForReceivers"
+            @account-edited="lookupForReceivers">
     </b-modal>
     </div>
 </receiver-data>

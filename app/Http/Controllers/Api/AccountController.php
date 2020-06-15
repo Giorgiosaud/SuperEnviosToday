@@ -29,14 +29,23 @@ class AccountController extends Controller
      * @param Request $request
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function save(User $user, Request $request)
+    public function link(User $user, Request $request)
     {
         $data=$request->validate([
             'bank_id'=>['required'],
             'number'=>['required','numeric'],
             'type'=>[]
         ]);
-        $account=Account::create($data);
+        $account=Account::where('bank_id',$data['bank_id'])
+            ->where('number',$data['number'])
+            ->where('type',$data['type'])
+            ->withTrashed()
+            ->first();
+        if(!$account){
+            $account = Account::create($data);
+        }else{
+            $account->restore();
+        }
         return $user->accounts()->save($account);
     }
 
@@ -51,6 +60,30 @@ class AccountController extends Controller
             ->where('is_operator', true)
             ->get()
             ->append('balance');
+    }
+
+    public function update(Account $account,Request $request){
+        $data=$request->validate([
+            'bank_id'=>['required'],
+            'number'=>['required','numeric'],
+            'type'=>[]
+        ]);
+        $account->update($data);
+        return $account;
+    }
+
+    /**
+     * @param Account $account
+     * @param User $user
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function unlink(Account $account, User $user){
+        $account->owners()->detach($user->id);
+        if($account->owners->count()==0){
+            $account->delete();
+        }
+        return response('Unlinked Account', 204);
     }
     //
 }
