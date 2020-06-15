@@ -244,7 +244,7 @@
                             onConfirm:() => window.location.reload()
                         });
                     }else if(response.status==201){
-                        this.$buefy.dialog.alert({ 
+                        this.$buefy.dialog.alert({
                             title:'Transacción completada',
                             message: 'Transaccion ejecutada',
                             onConfirm:() => window.location.reload()
