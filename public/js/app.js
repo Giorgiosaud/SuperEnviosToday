@@ -25836,7 +25836,7 @@ var bsFormat = {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var transaction;
+        var transaction, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -25862,11 +25862,31 @@ var bsFormat = {
                 return $http.post('/api/transaction/execute', transaction);
 
               case 5:
-                _context2.next = 10;
+                response = _context2.sent;
+
+                if (response.status == 200) {
+                  _this.$buefy.dialog.alert({
+                    title: 'Solicitud completada',
+                    message: 'Ahora debemos esperar que el coordinador apruebe',
+                    onConfirm: function onConfirm() {
+                      return window.location.reload();
+                    }
+                  });
+                } else if (response.status == 201) {
+                  _this.$buefy.dialog.alert({
+                    title: 'Transacción completada',
+                    message: 'Transaccion ejecutada',
+                    onConfirm: function onConfirm() {
+                      return window.location.reload();
+                    }
+                  });
+                }
+
+                _context2.next = 12;
                 break;
 
-              case 7:
-                _context2.prev = 7;
+              case 9:
+                _context2.prev = 9;
                 _context2.t0 = _context2["catch"](2);
 
                 if (_context2.t0.response.status === 424) {
@@ -25880,17 +25900,17 @@ var bsFormat = {
                   });
                 }
 
-              case 10:
-                _context2.prev = 10;
+              case 12:
+                _context2.prev = 12;
                 _this.executingTransaction = false;
-                return _context2.finish(10);
+                return _context2.finish(12);
 
-              case 13:
+              case 15:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[2, 7, 10, 13]]);
+        }, _callee2, null, [[2, 9, 12, 15]]);
       }))();
     }
   },
