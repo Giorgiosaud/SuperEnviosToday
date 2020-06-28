@@ -123,3 +123,6 @@ html, body {
         background: $primary-dark;
     }
 }
+.control.no-arrow .select:not(.is-multiple):not(.is-loading)::after {
+    display:none
+}

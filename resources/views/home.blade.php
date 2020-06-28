@@ -33,12 +33,19 @@
                     <a href="#" class="button is-primary" disabled>Listar cuentas, saldos y operadores asociados a cuentas en Venezurela</a>
 
                 </div>
+                <h1 class="subtitle is-3">Respecto a los Tipos de Moneda</h1>
+                <div class="buttons">
+
+                    <a href="{{route('currencies.index')}}" class="button is-primary">Manejar Monedas</a>
+
+                </div>
                 <h1 class="subtitle is-3">Respecto a los Bancos</h1>
                 <div class="buttons">
 
-                    <a href="#" class="button is-warning" disabled>Agregar Banco</a>
+                    <a href="{{route('banks.index')}}" class="button is-primary">Manejar Bancos</a>
 
                 </div>
+
                 <p class="subtitle is-3">Respecto a Las Transacciones</p>
                 <div class="buttons">
 

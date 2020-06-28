@@ -52,7 +52,7 @@
                     <div><strong>{{__('auth.EMAIL')}}:</strong> @{{ userData.email }}</div>
                     <div><strong>{{__('auth.PHONE')}}:</strong> @{{ userData.phone }}</div>
                     <div><strong>{{__('auth.ADDRESS')}}:</strong> @{{ userData.address }}</div>
-                    <div><strong>{{__('users.ROLES')}}:</strong> <span class="tag"
+                    <div><strong>{{__('users.ROLES')}}:</strong> <span class="tag mx-1"
                                                                        v-for="role in userData.roles"
                                                                        :class="{
                                       'is-danger':role.name_id==='coordinator',

@@ -4,13 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static select(string $string)
  */
 class Bank extends Model
 {
+    protected $perPage=50;
+    use SoftDeletes;
+
     protected $fillable = ['currency_id', 'name'];
+
     protected static function boot()
     {
         parent::boot();
@@ -21,7 +27,7 @@ class Bank extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function currency()
     {
