@@ -23,9 +23,10 @@ Route::group(['middleware' => ['auth:api'],'as'=>'api.'], function () {
     Route::get('user/receivers/{user}',['uses'=>'Api\UserController@receivers','as'=>'user.receivers']);
     Route::post('user/{user}/receiver',['uses'=>'Api\UserController@createReceiver','as'=>'user.create.receiver']);
     Route::get('user/{idnType}/{idn}',['uses'=>'Api\UserController@search','as'=>'user.search']);
-    Route::apiResource('currency','Api\CurrencyController',['only'=>['index']]);
     Route::get('currency/foreign',['uses'=>'Api\CurrencyController@foreign','as'=>'currency.foreign']);
+    Route::apiResource('currencies','Api\CurrencyController',['only'=>['index','store','destroy','update']]);
     Route::get('banks/base',['uses'=>'Api\BankController@baseBanks','as'=>'index.banks.venezuelan']);
+    Route::apiResource('banks','Api\BankController',['only'=>['index','store','destroy','update']]);
     Route::patch('account/{account}',['uses'=>'Api\AccountController@update','as'=>'account.update']);
     Route::get('accounts/base',['uses'=>'Api\AccountController@indexBase','as'=>'index.base.accounts']);
     Route::get('accounts/{currencyId}',['uses'=>'Api\AccountController@getAccounts','as'=>'accounts.from_currency']);

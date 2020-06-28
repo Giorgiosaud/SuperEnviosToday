@@ -7,7 +7,7 @@
                 </h1>
             </header>
             <div class="card-content" >
-                <div v-if="clientData">
+                <div class="space client-data" v-if="clientData">
                     <h2 class="title">Datos del cliente</h2>
                     <div class="level">
                         <div class="level-left">Id de sistema:</div>
@@ -30,7 +30,7 @@
                         <div class="level-right">{{clientData.email}}</div>
                     </div>
                 </div>
-                <div v-if="receiverData">
+                <div class="space receiver-data" v-if="receiverData">
                     <h2 class="title">Datos del receptor</h2>
                     <div class="level">
                         <div class="level-left">Número de Identificción:</div>
@@ -57,7 +57,7 @@
                         <div class="level-right">{{receiverData.receiverAccount.number|formatAccount}}</div>
                     </div>
                 </div>
-                <div v-if="transactionData">
+                <div class="space transaction-data" v-if="transactionData">
                     <h2 class="title">Datos de la transacción</h2>
                     <div class="level">
                         <div class="level-left">Moneda:</div>
@@ -103,7 +103,7 @@
                         <img :src="image.path">
                     </figure>
                 </div>
-                <div v-if="venezuelanOperatorData">
+                <div class="space venezuelan-operator-data" v-if="venezuelanOperatorData">
                     <h2 class="title">Datos de Transacción en Venezuela</h2>
                     <div class="level">
                         <div class="level-left">Nombre y Apellido:</div>
@@ -134,7 +134,6 @@
                         <div class="level-right">{{venezuelanOperatorData.selectedAccount.balance-transactionData.bsAmount|currency({sign:'Bs'})}}</div>
                     </div>
                 </div>
-
             </div>
             <footer class="card-footer" v-if="transactionData">
 
