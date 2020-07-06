@@ -22,7 +22,7 @@
                         <div class="column">
                             <button class="button field is-info"
                                     @click="openAddCurrencyModal">
-                                {{__('currency.ADD_CURRENCY')}}
+                                {{__('currencies.ADD_CURRENCY')}}
 
                             </button>
                         </div>
@@ -53,15 +53,15 @@
                             </b-table-column>
 
                             <b-table-column field="name"
-                                            label="{{__('currency.NAME')}}"
+                                            label="{{__('currencies.NAME')}}"
                                             searchable>
                                 @{{ props.row.name }}
                             </b-table-column>
 
-                            <b-table-column field="identifier" label="{{__('currency.CURRENCY')}}">
+                            <b-table-column field="identifier" label="{{__('currencies.CURRENCY')}}">
                                 @{{ props.row.identifier }}
                             </b-table-column>
-                            <b-table-column field="sign" label="{{__('currency.CURRENCY')}}">
+                            <b-table-column field="sign" label="{{__('currencies.SIGN')}}">
                                 @{{ props.row.sign }}
                             </b-table-column>
                         </template>

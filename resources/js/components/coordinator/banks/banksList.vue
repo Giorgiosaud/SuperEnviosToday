@@ -39,6 +39,7 @@ export default {
 
     },
     computed: {
+
         currencies() {
             return this.allCurrencies.map(currency => currency.name)
         },
@@ -103,6 +104,15 @@ export default {
         changedPage(page) {
             this.page = page;
             this.loadAsyncData();
+        },
+        getFilteredTags(text) {
+            this.filteredCurrencies = this.allCurrencies
+                .filter((currency) => {
+                    return currency.name
+                        .toString()
+                        .toLowerCase()
+                        .indexOf(text.toLowerCase()) >= 0
+                })
         },
         changedFilter(filters) {
             console.log(filters)

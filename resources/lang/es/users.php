@@ -1,5 +1,7 @@
 <?php
 return [
+    'MENU:TITLE'=>'Usuarios',
+    'MENU:LIST'=>'Listado',
     'WELCOME'=>'Listado de usuarios',
     'RESEND'=>'reenviar confirmacion de correo',
     'MESSAGE'=>'aqui podras listar y filtrar todos los usuarios de :app',
