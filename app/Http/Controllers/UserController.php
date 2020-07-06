@@ -23,7 +23,7 @@ class UserController extends Controller
         $roles=Role::all();
         $perPage = $request->has('perPage') ? $request->get('perPage') : config('app.paginated_by');
 
-        return view('coordinator.user.index', ['users' => $users->paginate($perPage),'roles'=>$roles]);
+        return view('coordinator.users.index', ['users' => $users->paginate($perPage),'roles'=>$roles]);
         //
     }
 
@@ -38,7 +38,7 @@ class UserController extends Controller
         $roles=Role::all();
 
 
-        return view('coordinator.user.show', ['user' => $user,'roles'=>$roles]);
+        return view('coordinator.users.show', ['user' => $user,'roles'=>$roles]);
         //
     }
 

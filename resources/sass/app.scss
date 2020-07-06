@@ -7,7 +7,7 @@ $primary: #00c4a7;
 $primary-invert: findColorInvert($primary);
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
-
+$sidebar-width:350px;
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
     "white": ($white, $black),
@@ -123,3 +123,18 @@ html, body {
         background: $primary-dark;
     }
 }
+.control.no-arrow .select:not(.is-multiple):not(.is-loading)::after {
+    display:none
+}
+.menu-list {
+    .icon.is-small {
+        margin-right: 0.5rem;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .always-on{
+        display:block;
+    }
+}
+
+

@@ -13,7 +13,7 @@
                             tag="div"
                             class="control">
                             <label class="label">{{__('auth.IDN_TYPE')}}</label>
-                            <div class="control has-icons-left has-icons-right">
+                            <div class="control has-icons-left has-icons-right" :class="{'no-arrow':valid}">
                                 <div class="select"
                                      :class="classes">
                                     <select
@@ -27,7 +27,7 @@
                                         <option value="DNI">DNI</option>
                                         <option value="RIF">RIF</option>
                                     </select>
-                                    <span class="icon is-small has-text-success is-right" v-if="valid">
+                                    <span class="icon is-small has-text-success is-right mr-3" v-if="valid">
                                     <font-awesome-icon icon="check"></font-awesome-icon>
                                 </span>
                                 </div>
