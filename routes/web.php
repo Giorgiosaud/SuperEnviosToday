@@ -21,6 +21,10 @@ Route::get('/gracias','HomeController@thanks')->name('auth.thanks');
 Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('users', 'UserController',['except'=>['destroy','create','store','edit']]);
+    Route::get('banks', ['uses'=>'BankController@index','as'=>'banks.index']);
+    Route::get('currencies', ['uses'=>'CurrencyController@index','as'=>'currencies.index']);
+    Route::get('rates', ['uses'=>'RateController@index','as'=>'rates.index']);
+    Route::get('settings', ['uses'=>'SettingController@index','as'=>'settings.index']);
     Route::get('users/login-as/{user}',['uses'=>'UserController@loginAs','as'=>'user.login.as']);
     Route::resource('pending-transactions', 'PendingTransactionController',['only'=>['index']]);
     Route::resource('transaction', 'TransactionController',['only'=>['create','store','destroy']]);

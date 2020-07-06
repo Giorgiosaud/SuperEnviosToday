@@ -105,7 +105,6 @@
                             .toLowerCase()
                             .indexOf(text.toLowerCase()) >= 0
                     })
-                console.log(this.filteredRoles);
             }
         },
         watch:{

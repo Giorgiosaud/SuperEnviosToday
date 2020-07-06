@@ -20,8 +20,14 @@ Vue.component('forget-form', require('./components/auth/forgetForm').default);
 Vue.component('nav-bar', require('./components/layout/navBar').default);
 Vue.component('reset-password-form', require('./components/auth/resetPasswordForm').default);
 
-Vue.component('user-list', require('./components/coordinator/users/userList').default);
+Vue.component('users-list', require('./components/coordinator/users/usersList').default);
 Vue.component('user-detail', require('./components/coordinator/users/userDetail').default);
+
+Vue.component('banks-list', require('./components/coordinator/banks/banksList').default);
+
+Vue.component('currencies-list', require('./components/coordinator/currencies/currenciesList').default);
+Vue.component('settings-list', require('./components/coordinator/settings/settingsList').default);
+Vue.component('rates-list', require('./components/coordinator/rates/ratesList').default);
 
 Vue.component('pending-transactions', require('./components/coordinator/pendingTransactions/pendingTransactionsList').default);
 

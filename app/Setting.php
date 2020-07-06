@@ -9,6 +9,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Setting extends Model
 {
+    /**
+     * @var int
+     */
+    protected $perPage=50;
+
+    /**
+     * @var string[]
+     */
     protected $fillable = ['key', 'value'];
 
     //

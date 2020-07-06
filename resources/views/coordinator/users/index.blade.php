@@ -14,7 +14,7 @@
         </div>
     </section>
     <section class="section">
-        <user-list :users-query='@json($users)' :all-roles='@json($roles)' inline-template v-cloak>
+        <users-list :users-query='@json($users)' :all-roles='@json($roles)' inline-template v-cloak>
             <div>
                 <section class="section">
                     <div class="columns">
@@ -22,7 +22,7 @@
                             <button class="button field is-info"
                                     @click="goToDetails"
                                     :disabled="!selected.id">
-                                <span v-if="!selected.id">{{__('users.SELECT_USER')}}</span>
+                                <span v-if="!selected.id">{{__('banks.SELECT_BANK')}}</span>
                                 <span
                                     v-else>{{__('users.GO_TO_SELECTED')}} @{{selected.name}} @{{selected.last_name}}</span>
                             </button>
@@ -52,7 +52,7 @@
                         :striped="true"
                         :total="query.total"
                         :current-page="query.current_page"
-                        :per-page="query.perPage"
+                        :per-page="query.per_page"
                         @page-change="changedPage"
                         @filters-change="changedFilter"
                         aria-next-label="Next page"
@@ -112,6 +112,6 @@
                     </b-table>
                 </section>
             </div>
-        </user-list>
+        </users-list>
     </section>
 @endsection

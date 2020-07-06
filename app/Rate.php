@@ -4,6 +4,7 @@ namespace App;
 
 use App\Scopes\RateOrderScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 
 /**
@@ -11,14 +12,25 @@ use Illuminate\Support\Collection;
  * @method static Rate orderBy(string $string, string $string1)
  * @method static Collection first()
  * @method where(string $string, string $string1, \Carbon\Carbon $now)
+ * @method static paginate()
  */
 class Rate extends Model
 {
+    protected $perPage=300;
+    /**
+     *
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new RateOrderScope('since', 'DESC'));
+    }
+
     protected $casts = [
         'since' => 'datetime',
         'amount'=>'integer'
     ];
-    protected $fillable = ['currency_id', 'amount', 'since'];
+    protected $fillable = ['currency_id', 'amount', 'since','message'];
 
     public function getAmountAttribute($value)
     {
@@ -29,11 +41,12 @@ class Rate extends Model
     {
         $this->attributes['amount'] = strval($value * 10000);
     }
-
-    protected static function boot()
+    /**
+     * @return BelongsTo
+     */
+    public function currency()
     {
-        parent::boot();
-        static::addGlobalScope(new RateOrderScope('since', 'DESC'));
+        return $this->belongsTo(Currency::class);
     }
     //
 }

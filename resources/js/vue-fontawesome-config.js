@@ -11,12 +11,15 @@ import {
     faCommentDollar,
     faSearchDollar,
     faKey,
+    faSignOutAlt,
     faAddressBook,
     faChevronLeft,
     faSadTear,
     faPeopleArrows,
     faCoins,
     faPiggyBank,
+    faFileSignature,
+    faSignInAlt,
     faChevronRight
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
@@ -24,10 +27,13 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 library.add(
     faEnvelope,
     faExclamationTriangle,
+    faFileSignature,
+    faSignInAlt,
     faPassport,
     faUpload,
     faCheck,
     faKey,
+    faSignOutAlt,
     faCommentDollar,
     faChevronLeft,
     faChevronRight,
