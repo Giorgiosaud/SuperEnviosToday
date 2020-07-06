@@ -14,6 +14,14 @@ class CurrencyController extends Controller
     public function indexList(){
         return Currency::select('id','name','identifier')->all();
     }
+
+    /**
+     * @return mixed
+     */
+    public function foreign(){
+
+        return Currency::where('id','!=',config('app.base_currency_id'))->get();
+    }
     public function index()
     {
         $request = request();

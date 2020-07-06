@@ -1,5 +1,7 @@
 <?php
 return [
+    'MENU:TITLE'=>'Bancos',
+    'MENU:MANAGE'=>'Manejar Bancos',
     'WELCOME'=>'Listado de bancos',
     'MESSAGE'=>'aqui podras listar y filtrar todos los bancos de :app',
     'GO_TO_SELECTED'=>'Ir al detalle de: ',

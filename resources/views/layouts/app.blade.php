@@ -20,53 +20,130 @@
 </head>
 <body>
 <div id="app">
-    <div class="container is-fluid has-background-white main-navigation">
-        <template>
-        <b-navbar>
-            <template slot="brand">
-                <b-navbar-item href="/">
-                    <a class="navbar-item" href="{{ url('/') }}">
-                        {{ config('app.name', 'Superenvios Today') }}
-                    </a>
-                </b-navbar-item>
-            </template>
-            @guest
-            <template slot="end">
-                <b-navbar-item tag="div">
-                    <div class="buttons">
-                        @if (Route::has('register'))
-                        <a class="button is-primary"
-                           href="{{ route('register') }}">
-                            <strong>{{ __('auth.REGISTER') }}</strong>
-                        </a>
-                        @endif
-                        <a class="button is-light" href="{{ route('login') }}">
-                            {{ __('AUTH.LOGIN') }}
-                        </a>
-                    </div>
-                </b-navbar-item>
-            </template>
-            @else
-            <template slot="end">
+    <b-sidebar
+        type="is-light"
+        fullheight
+        expand-on-hover
+        :open.sync="navbarOpen"
+        overlay
+    >
+        <div class="has-padding-50">
+            <div class="block">
+                <img
+                    src="http://superenvios.cl/image/superenvios.png"
+                    alt="{{ config('app.name', 'Superenvios Today') }}"
+                />
+            </div>
+            <b-menu class="is-custom-mobile">
+                @can('manage-users')
+                    <b-menu-list label="{{__('users.MENU:TITLE')}}">
+                        <b-menu-item icon="users"
+                                     label="{{__('users.MENU:LIST')}}"
+                                     tag="a"
+                                     href="{{ route('users.index') }}"></b-menu-item>
+                    </b-menu-list>
+                @endcan
+                @can('manage-transactions')
+                    <b-menu-list label="{{__('transaction.MENU:TITLE')}}">
+                        @can('approve-operations')
+                            <b-menu-item icon="calendar-check"
+                                         label="{{__('transaction.MENU:PENDING')}}"
+                                         tag="a"
+                                         href="{{ route('pending-transactions.index') }}"></b-menu-item>
+                        @endcan
+                        @can('create-transaction')
+                            <b-menu-item icon="money-check-alt"
+                                         label="{{__('transaction.MENU:CREATE')}}"
+                                         tag="a"
+                                         href="{{ route('transaction.create') }}"></b-menu-item>
+                        @endcan
+                    </b-menu-list>
+                @endcan
+                @can('manage-currencies')
+                    <b-menu-list label="{{__('currencies.MENU:TITLE')}}">
+                        <b-menu-item icon="coins"
+                                     label="{{__('currencies.MENU:MANAGE')}}"
+                                     tag="a"
+                                     href="{{ route('currencies.index') }}"></b-menu-item>
+                    </b-menu-list>
+                @endcan
+                @can('manage-banks')
+                    <b-menu-list label="{{__('banks.MENU:TITLE')}}">
+                        <b-menu-item icon="university"
+                                     label="{{__('banks.MENU:MANAGE')}}"
+                                     tag="a"
+                                     href="{{ route('banks.index') }}"></b-menu-item>
+                    </b-menu-list>
+                @endcan
+                @can('manage-rates')
+                    <b-menu-list label="{{__('rates.MENU:TITLE')}}">
+                        <b-menu-item icon="chart-line"
+                                     label="{{__('rates.MENU:MANAGE')}}"
+                                     tag="a"
+                                     href="{{ route('rates.index') }}"></b-menu-item>
+                    </b-menu-list>
+                @endcan
+                @can('manage-settings')
+                    <b-menu-list label="{{__('settings.MENU:TITLE')}}">
+                        <b-menu-item icon="tools"
+                                     label="{{__('settings.MENU:MANAGE')}}"
+                                     tag="a"
+                                     href="{{ route('settings.index') }}"></b-menu-item>
+                    </b-menu-list>
+                @endcan
 
-                <b-navbar-dropdown label="{{ Auth::user()->fullName }}">
-                    <b-navbar-item href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                <b-menu-list label="Actions">
+                    @auth
+                        <form id="logout-form"
+                              action="{{ route('logout') }}"
+                              method="POST"
                               style="display: none;">
                             @csrf
                         </form>
-                    </b-navbar-item>
-                </b-navbar-dropdown>
-            </template>
-          @endif
-        </b-navbar>
-    </template>
+                        <b-menu-item icon="sign-out-alt"
+                                     label="Logout"
+                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+                        >
+                        </b-menu-item>
+                    @else
+                        <b-menu-item label="{{ __('auth.REGISTER') }}"
+                                     icon="file-signature"
+                                     tag="a"
+                                     href="{{ route('register') }}"></b-menu-item>
+                        <b-menu-item label="{{ __('auth.LOGIN') }}"
+                                     icon="sign-in-alt"
+                                     tag="a"
+                                     href="{{ route('login') }}"></b-menu-item>
+                    @endauth
+
+                </b-menu-list>
+            </b-menu>
+        </div>
+    </b-sidebar>
+    <div class="container is-fluid has-background-white main-navigation">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a role="button" @click="navbarOpen = !navbarOpen" class="navbar-burger always-on" aria-label="menu"
+                   aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+                <a class="navbar-item" href="/">
+                    <img src="http://superenvios.cl/image/superenvios.png"
+                         alt="{{ config('app.name', 'Superenvios Today') }}"
+                    >
+                </a>
+
+
+            </div>
+        </nav>
     </div>
     @include('layouts/flash-message')
     <main>
         @yield('content')
     </main>
 </div>
+
 </body>
 </html>

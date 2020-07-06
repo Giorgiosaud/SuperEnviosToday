@@ -15,7 +15,7 @@ class BankController extends Controller
      */
     public function index()
     {
-        $banks = Bank::with('currency')->paginate(50);
+        $banks = Bank::with('currency')->paginate();
         $currencies = Currency::all();
         return view('coordinator.banks.index', compact('banks','currencies'));
     }

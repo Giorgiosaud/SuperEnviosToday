@@ -18,10 +18,7 @@ export default {
         {
             query: {},
             loading: false,
-            selected: {},
             filters: {},
-            selectedCurrencies: [],
-            filteredCurrencies: [],
             defaultOpenedDetails: [],
             savingCurrency: false,
             isOpenModal: false,
@@ -31,7 +28,6 @@ export default {
     created() {
         this.query = this.currenciesQuery;
         this.page = this.query.current_page;
-        this.filteredCurrencies = this.allCurrencies;
 
     },
     computed: {

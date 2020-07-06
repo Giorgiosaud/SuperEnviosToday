@@ -1,5 +1,8 @@
 <?php
 return [
+    'MENU:TITLE'=>'Transacciones',
+    'MENU:PENDING'=>'Operaciones Pendientes',
+    'MENU:CREATE'=>'Crear Transacción',
     'TITLE'=>'Crear Transacción',
     'MESSAGE'=>'Aqui puedes gestionar una transacción de :app',
     'CLIENT:TITLE'=>'Datos del Cliente Emisor',

@@ -129,7 +129,7 @@
                         </div>
                         <div class="field is-grouped">
                             <div class="control">
-                                <button type="submit" class="button is-link">{{ __('auth.LOGIN') }}</button>
+                                <button type="submit" class="button is-primary">{{ __('auth.LOGIN') }}</button>
                             </div>
                             <div class="control">
                                 @if (Route::has('password.request'))

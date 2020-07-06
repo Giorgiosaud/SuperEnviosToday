@@ -25,6 +25,8 @@ Route::group(['middleware' => ['auth:api'],'as'=>'api.'], function () {
     Route::get('user/{idnType}/{idn}',['uses'=>'Api\UserController@search','as'=>'user.search']);
     Route::get('currency/foreign',['uses'=>'Api\CurrencyController@foreign','as'=>'currency.foreign']);
     Route::apiResource('currencies','Api\CurrencyController',['only'=>['index','store','destroy','update']]);
+    Route::apiResource('settings','Api\SettingController',['only'=>['index','store','destroy','update']]);
+    Route::apiResource('rates','Api\RateController',['only'=>['index','store','destroy','update']]);
     Route::get('banks/base',['uses'=>'Api\BankController@baseBanks','as'=>'index.banks.venezuelan']);
     Route::apiResource('banks','Api\BankController',['only'=>['index','store','destroy','update']]);
     Route::patch('account/{account}',['uses'=>'Api\AccountController@update','as'=>'account.update']);
