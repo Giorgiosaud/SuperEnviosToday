@@ -23,6 +23,14 @@ class Transaction extends Model
         'amount',
         'status',
         'type',
+        'account_id',
+        'client_id',
+        'operator_id',
+        'track_number',
+        'bank_reference',
+        'amount',
+        'status',
+        'comment'
     ];
 
     protected $casts=['amount'=>'integer'];
@@ -39,9 +47,9 @@ class Transaction extends Model
         return $this->belongsTo(User::class, 'from_user_id');
     }
 
-    public function destinationAccount()
+    public function account()
     {
-        return $this->belongsTo(Account::class, 'to_account_id');
+        return $this->belongsTo(Account::class, 'account_id');
     }
 
     public function toUser()

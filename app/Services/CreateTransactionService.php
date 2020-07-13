@@ -12,43 +12,54 @@ use App\Rate;
 use App\Setting;
 use App\Transaction;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class CreateTransactionService
 {
     /**
      * @param CreateTransaction $request
-     * @return ResponseFactory|Response|void
+     * @return Application|ResponseFactory|Response|void
      */
     public function make(CreateTransaction $request)
     {
-        $venezuelan_account = Account::find($request->venezuelan_operator_account_id);
-        $foreign_account = Account::find($request->operator_account_id);
+        DB::transaction(function() use ($request){
+            $venezuelan_account = Account::find($request->venezuelan_operator_account_id);
+            $foreign_account = Account::find($request->operator_account_id);
 
-        $currency = $foreign_account->bank->currency;
-        $actualRate=$this->actualRate($currency->id);
-        $isCoordinator=$request->user()->hasRole('coordinator');
-        $amountInBs = $actualRate * $request->amount;
-        $attachmentIds=$request->received_transaction_attachment_ids;
+            $currency = $foreign_account->bank->currency;
+            $actualRate = $this->actualRate($currency->id);
+            $isCoordinator = $request->user()->hasRole('coordinator');
+            $amountInBs = $actualRate * $request->amount;
+            $attachmentIds = $request->received_transaction_attachment_ids;
 
-        if ($amountInBs > $venezuelan_account->balance) {
-            return abort(424, 'No hay dinero disponible suficiente en la cuenta seleccionada');
-        }
-        if ($actualRate !== $request->rate && !$isCoordinator) {
-             $this->createPendingTransaction($request);
-             return response('Request to Coordinator Made', 200);
-        }
+            if ($amountInBs > $venezuelan_account->balance) {
+                return abort(424, 'No hay dinero disponible suficiente en la cuenta seleccionada');
+            }
+            $request->merge(['track_number' => uniqid()]);
 
-        $incomeTransaction = $this->createIncomeTransaction($request);
-        $this->assignAttachments($attachmentIds,$incomeTransaction);
-        $this->venezuelanOperatorAssignedTransaction($request, $incomeTransaction, $amountInBs);
-        $this->taxTransaction($amountInBs, $request, $incomeTransaction);
-        broadcast(new TransactionCreated($request->user(), 'made transaction'))->toOthers();
+            if ($actualRate !== $request->rate && !$isCoordinator) {
+                $this->createPendingTransaction($request);
+                return response('Request to Coordinator Made', 200);
+            }
 
-        return response('All transactions created', 201);
+            $incomeTransaction = $this->createIncomeTransaction($request);
+            $this->assignAttachments($attachmentIds, $incomeTransaction);
+            $outcomeOfVenezuelanAccount = $this->extractMoneyFromVenezuelanAccount($request, $amountInBs);
+            $venezuelanAssigned = $this->venezuelanOperatorAssignedTransaction($request, $amountInBs);
+            $taxTransaction = $this->taxTransaction($request, $amountInBs);
+        });
+            broadcast(new TransactionCreated($request->user(), 'made transaction'))->toOthers();
+
+            return response('All transactions created', 201);
     }
 
+    /**
+     * @param $currencyId
+     * @return mixed
+     */
     private function actualRate($currencyId)
     {
         $rate = Rate::whereCurrencyId($currencyId)->where('since', '<=', Carbon::now())->orderBy('since', 'DESC')->first();
@@ -71,13 +82,13 @@ class CreateTransactionService
 
     /**
      * @param array $attachmentsIds
-     * @param $pendingTransaction
+     * @param $Transaction
      */
-    private function assignAttachments(array $attachmentsIds, $pendingTransaction): void
+    private function assignAttachments(array $attachmentsIds, $Transaction): void
     {
         foreach ($attachmentsIds as $attachmentId) {
             $attachment = Attachment::find($attachmentId);
-            $pendingTransaction->attachments()->save($attachment);
+            $Transaction->attachments()->save($attachment);
         }
     }
 
@@ -88,64 +99,82 @@ class CreateTransactionService
     private function createIncomeTransaction(CreateTransaction $request): Transaction
     {
         $incomeTransactionData = [
+            'account_id' => $request->operator_account_id,
             'client_id' => $request->client_id,
-            'from_user_id' => $request->client_id,
-            'to_account_id' => $request->operator_account_id,
-            'transaction_number' => $request->transaction_number,
-            'to_user_id' => $request->user()->id,
+            'operator_id' => $request->user()->id,
+            'track_number' => $request->track_number,
+            'bank_reference' => $request->transaction_number,
             'amount' => $request->amount,
-            'status' => 'confirmed',
-            'type' => 'income',
+            'status' => 'executed',
         ];
         return Transaction::create($incomeTransactionData);
     }
 
     /**
      * @param CreateTransaction $request
-     * @param $incomeTransaction
+     * @param int $amountInBs
+     * @return Transaction
+     */
+    private function extractMoneyFromVenezuelanAccount(CreateTransaction $request, int $amountInBs)
+    {
+        $extractMoneyFromVenezuelanAccount = [
+            'account_id' => $request->venezuelan_operator_account_id,
+            'client_id' => null,
+            'operator_id' => $request->venezuelan_operator_id,
+            'track_number' => $request->track_number,
+            'bank_reference' => null,
+            'amount' => -1 * $amountInBs,
+            'status' => 'pending',
+            'comment' => null
+        ];
+        return Transaction::create($extractMoneyFromVenezuelanAccount);
+    }
+
+    /**
+     * @param CreateTransaction $request
      * @param $amountInBs
      * @return Transaction
      */
-    private function venezuelanOperatorAssignedTransaction(CreateTransaction $request, $incomeTransaction, $amountInBs): Transaction
+    private function venezuelanOperatorAssignedTransaction(CreateTransaction $request, $amountInBs): Transaction
     {
         $venezuelanOperatorAssignedTransaction = [
-            'client_id' => $request->client_id,
-            'related_transaction_id' => $incomeTransaction->id,
-            'from_user_id' => $request->venezuelan_operator_id,
-            'from_account_id' => $request->venezuelan_operator_account_id,
-            'to_user_id' => $request->receiver_id,
-            'to_account_id' => $request->receiver_account_id,
+            'account_id' => $request->receiver_account_id,
+            'client_id' => $request->receiver_id,
+            'operator_id' => $request->venezuelan_operator_id,
+            'track_number' => $request->track_number,
+            'bank_reference' => null,
             'amount' => $amountInBs,
-            'status' => 'assigned',
-            'type' => 'outcome',
+            'status' => 'pending',
+            'comment' => null
         ];
         return Transaction::create($venezuelanOperatorAssignedTransaction);
     }
 
     /**
-     * @param $amountInBs
      * @param CreateTransaction $request
-     * @param $incomeTransaction
-     * @return Transaction
+     * @param $amountInBs
+     * @return Transaction|null
      */
-    private function taxTransaction($amountInBs, CreateTransaction $request, $incomeTransaction): Transaction
+    private function taxTransaction(CreateTransaction $request, $amountInBs): ?Transaction
     {
         $set = Setting::where('key', 'venezuelanBankTax')->first();
         $taxVal = (float)str_replace(',', '.', $set->value);
-        if ($taxVal !== 0) {
+        if (intval(abs($taxVal)) !== 0) {
             $amountTax = $amountInBs * $taxVal / 100;
             $venezuelanTax = [
-                'client_id' => $request->client_id,
-                'related_transaction_id' => $incomeTransaction->id,
-                'from_account_id' => null,
-                'from_user_id' => null,
-                'to_user_id' => $request->venezuelan_operator_id,
-                'to_account_id' => $request->venezuelan_operator_account_id,
-                'amount' => $amountTax,
-                'status' => 'terminated',
-                'type' => 'outcome',
+                'account_id' => $request->venezuelan_operator_account_id,
+                'client_id' => null,
+                'operator_id' => $request->venezuelan_operator_id,
+                'track_number' => $request->track_number,
+                'bank_reference' => null,
+                'amount' => -1 * $amountTax,
+                'status' => 'pending',
+                'comment' => 'tax'
             ];
             return Transaction::create($venezuelanTax);
         }
+        return null;
     }
+
+
 }

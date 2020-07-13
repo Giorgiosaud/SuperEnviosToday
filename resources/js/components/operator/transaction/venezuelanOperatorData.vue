@@ -10,6 +10,10 @@ export default {
             }
         },
         props: {
+             transactionData:{
+                type:Object|null,
+                default:null
+            },
         },
         components: {
         },

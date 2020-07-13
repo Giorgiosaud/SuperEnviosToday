@@ -2,7 +2,7 @@
     {{ $properties }}
     inline-template>
     <section class="section">
-        <nav class="level is-mobile">
+        <nav class="level">
             <div class="level-item has-text-centered">
                 <div>
                     <p class="heading" v-if="!tryAnotherRate">{{__('transaction.EXCHANGE.RATE')}}</p>
@@ -191,6 +191,7 @@
                                        :class="classes"
                                        type="text"
                                        placeholder="{{__('transaction.VOUCHER:NUMBER')}}"
+
                                        autocomplete="idn" autofocus></input>
                                 <span class="icon is-small has-text-warning	is-right" v-if="errors[0]">
                                     <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
