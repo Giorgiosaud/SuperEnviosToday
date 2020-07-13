@@ -54,9 +54,65 @@ class Account extends Model
         }
         return 0;
     }
+      /**
+     * @return HasMany
+       * * TODO clean after migrate
+     */
+    public function incomingTransactions()
+    {
+        return $this->hasMany(Transaction::class, 'to_account_id');
+    }
+
+    public function balanceCache(){
+      return $this->hasOne(BalanceCache::class);
+    }
+
+    /**
+     * @return HasMany
+     * * TODO clean after migrate
+     */
+    public function outgoingTransactions()
+    {
+        return $this->hasMany(Transaction::class, 'from_account_id');
+    }
+
+    /**
+     * @return HasMany
+     * * TODO clean after migrate
+     */
+    public function getTransactionsAttribute()
+    {
+
+        return $this->incomingTransactions->merge($this->outgoingTransactions);
+    }
+    /**
+     * @return HasMany
+     * * TODO clean after migrate
+     */
+    public function outgoingTransactionsTyped($lastTransactionId)
+    {
+      if($lastTransactionId){
+        return $this->outgoingTransactions()->where('id','>',$lastTransactionId)->where('type', 'outcome');
+      }
+      return $this->outgoingTransactions()->where('type', 'outcome');
+    }
+
+    /**
+     * @param $lastTransactionId
+     * * TODO clean after migrate
+     * @return HasMany
+     */
+    public function incomingTransactionsTyped($lastTransactionId)
+    {
+      if($lastTransactionId){
+        return $this->incomingTransactions()->where('id','>',$lastTransactionId)->where('type', 'income');
+      }
+      return $this->incomingTransactions()->where('type', 'income');
+    }
 
     /**
      * @return int|mixed
+     * * TODO clean after migrate
      */
     public function getOldBalanceAttribute(){
       $cachedBalanceTransactionId= $this->balanceCache?$this->balanceCache->transaction_id:null;
