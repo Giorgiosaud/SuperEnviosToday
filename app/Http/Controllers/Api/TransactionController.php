@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class TransactionController extends Controller
 {
     public function verify($transactionNumber){
-        $transaction=Transaction::where('transaction_number',$transactionNumber)->with(['client','destinationAccount.bank.currency'])->first();
+        $transaction=Transaction::where('bank_reference',$transactionNumber)->with(['client','account.bank.currency'])->first();
         if($transaction){
             return response($transaction,200);
         }

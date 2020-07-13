@@ -2,6 +2,24 @@
     {{ $properties }}
     inline-template>
     <validation-observer tag="section" class="section is-paddingless" v-slot="{invalid}">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">{{__('transaction.AMOUNT')}}</p>
+                    <p class="title">@{{ transactionData.bsAmount|currency }}</p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div v-if="selectedAccount">
+                    <p class="heading">{{__('transaction.FINAL:BALANCE')}}</p>
+                    <p class="title">@{{ selectedAccount.balance-transactionData.bsAmount|currency }}</p>
+                </div>
+                <div v-else="selectedAccount">
+                    <p class="heading">{{__('transaction.FINAL:BALANCE')}}</p>
+                    <p class="title">Seleccione una Cuenta</p>
+                </div>
+            </div>
+        </nav>
         <div class="columns">
             <div class="column">
                 <b-button type="is-primary" @click="getBaseAccounts">Refrescar</b-button>
@@ -19,6 +37,8 @@
                     :selected.sync="selectedAccount"
                     :striped="true"
                     aria-next-label="Next page"
+                    :is-row-selectable="(row) => row.balance>= transactionData.bsAmount"
+                    :row-class="(row, index) => row.balance< transactionData.bsAmount?'is-unselectable':'is-selectable'">
                     aria-previous-label="Previous page">
 
                     <template slot-scope="props">
@@ -54,6 +74,7 @@
                     :selected.sync="selectedOperator"
                     :striped="true"
                     aria-next-label="Next page"
+                    :row-class="(row, index) => 'is-selectable'"
                     aria-previous-label="Previous page">
 
                     <template slot-scope="props">

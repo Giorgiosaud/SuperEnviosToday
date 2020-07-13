@@ -9,8 +9,8 @@
                 <strong>{{datosDeTransaccion.client.name}} {{datosDeTransaccion.client.last_name}}</strong>
                 por un monto de
                 <strong>
-                    {{datosDeTransaccion.amount}} {{datosDeTransaccion.destination_account.bank.currency.name}}
-                </strong> en el banco <strong>{{datosDeTransaccion.destination_account.bank.name}}</strong> el día
+                    {{datosDeTransaccion.amount}} {{datosDeTransaccion.account.bank.currency.name}}
+                </strong> en el banco <strong>{{datosDeTransaccion.account.bank.name}}</strong> el día
                 <strong>{{datosDeTransaccion.created_at|date}}</strong> a las <strong>{{datosDeTransaccion.created_at|time}}</strong>
                 y su status es <strong>{{datosDeTransaccion.status}}</strong>
                 <div class="title-2">Adjuntos:</div>

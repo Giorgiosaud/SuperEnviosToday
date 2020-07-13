@@ -131,6 +131,23 @@ html, body {
         margin-right: 0.5rem;
     }
 }
+.is-unselectable{
+    cursor: not-allowed;
+    filter:blur(1px);
+}
+.is-selectable {
+    cursor: pointer;
+}
+.navbar-burger{
+    margin-left: inherit;
+}
+.navbar-item{
+    margin-left: auto;
+
+}
+.navbar-brand{
+    width: 100%;
+}
 @media screen and (min-width: 1024px) {
     .always-on{
         display:block;
