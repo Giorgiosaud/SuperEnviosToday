@@ -11,12 +11,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @method static create(array $data)
  * @method static find($venezuelan_operator_account_id)
  * @method static where(string $string, $bank_id)
  * @property mixed balanceCache
+ * @property mixed id
  */
 class Account extends Model
 {
@@ -40,8 +42,21 @@ class Account extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
     /**
+     * @return float|int
+     */
+    public function getBalanceAttribute()
+    {
+        $sum = DB::selectOne('select sum(amount) as amount from transactions where account_id=? GROUP BY `account_id`', [$this->id]);
+        if($sum) {
+            return $sum->amount / 10000;
+        }
+        return 0;
+    }
+      /**
      * @return HasMany
+       * * TODO clean after migrate
      */
     public function incomingTransactions()
     {
@@ -54,6 +69,7 @@ class Account extends Model
 
     /**
      * @return HasMany
+     * * TODO clean after migrate
      */
     public function outgoingTransactions()
     {
@@ -62,6 +78,7 @@ class Account extends Model
 
     /**
      * @return HasMany
+     * * TODO clean after migrate
      */
     public function getTransactionsAttribute()
     {
@@ -70,6 +87,7 @@ class Account extends Model
     }
     /**
      * @return HasMany
+     * * TODO clean after migrate
      */
     public function outgoingTransactionsTyped($lastTransactionId)
     {
@@ -79,6 +97,11 @@ class Account extends Model
       return $this->outgoingTransactions()->where('type', 'outcome');
     }
 
+    /**
+     * @param $lastTransactionId
+     * * TODO clean after migrate
+     * @return HasMany
+     */
     public function incomingTransactionsTyped($lastTransactionId)
     {
       if($lastTransactionId){
@@ -88,12 +111,10 @@ class Account extends Model
     }
 
     /**
-     * @return mixed
-     * SELECT transactions.`from_account_id`, SUM(transactions.`amount`) as amount, DATE(transactions.`created_at`) as Date FROM `transactions` transactions left join `accounts` accounts on accounts.`id`=transactions.`from_account_id` where accounts.`is_operator`=1 and transactions.`from_account_id`=2344 and DATE(transactions.`created_at`)='2020-05-11' GROUP BY DATE(transactions.`created_at`), transactions.`from_account_id`
-     * TODO: refactor this to work with multiples caches and make it work on past balance
+     * @return int|mixed
+     * * TODO clean after migrate
      */
-    public function getBalanceAttribute()
-    {
+    public function getOldBalanceAttribute(){
       $cachedBalanceTransactionId= $this->balanceCache?$this->balanceCache->transaction_id:null;
       $incomingTransactionsNoCached=$this->incomingTransactionsTyped($cachedBalanceTransactionId)->get();
       $outgoingTransactionsNoCached=$this->outgoingTransactionsTyped($cachedBalanceTransactionId)->get();

@@ -14,6 +14,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property mixed amount
  * @property mixed receiver_id
  * @property mixed operator_account_id
+ * @property mixed track_number
  */
 class CreateTransaction extends FormRequest
 {

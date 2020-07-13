@@ -52,8 +52,9 @@
                 <b-step-item label="{{__('transaction.VENEZUELAN_OPERATOR:TITLE')}}" icon="comment-dollar">
                     @component('operator.transaction.venezuelanOperator')
                     @slot('properties')
-                    @operator-set="venezuelanOperatorDataSet"
-                    @next-step="nextStep"
+                            :transaction-data="transactionData"
+                            @operator-set="venezuelanOperatorDataSet"
+                            @next-step="nextStep"
                     @endslot
                     @endcomponent
                 </b-step-item>

@@ -9,6 +9,7 @@ return [
     'CURRENCY'=>'Moneda',
     'ACCOUNTS'=>'Cuenta',
     'AMOUNT'=>'Monto',
+    'FINAL:BALANCE'=>'Saldo final',
     'BANK'=>'Banco',
     'NUMBER'=>'Número',
     'NO:OPERATORS'=>'No Existen Operadores Asociados',

@@ -15,6 +15,7 @@
                     :selected.sync="receiverSelected"
                     :striped="true"
                     aria-next-label="Next page"
+                    :row-class="(row, index) => 'is-selectable'"
                     aria-previous-label="Previous page">
 
                     <template slot-scope="props">
@@ -86,6 +87,7 @@
                     :selected.sync="receiverAccount"
                     :striped="true"
                     aria-next-label="Next page"
+                    :row-class="(row, index) => 'is-selectable'"
                     aria-previous-label="Previous page">
 
                     <template slot-scope="props">
