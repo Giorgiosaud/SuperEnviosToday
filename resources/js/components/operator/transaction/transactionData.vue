@@ -97,20 +97,28 @@
             async verifyTransactionNumberAsUnique(){
                 try {
                     const response = await $http.get(`/api/transaction/verify/${this.voucher}`)
-
                     if (response.status === 204) {
                         this.canGoOn = 'ok'
                     } else {
+                        const data=await response.json()
                         this.canGoOn = ''
                         this.isComponentModalActive=true;
-                        this.datosDeTransaccionRepetida=response.data;
+                        this.datosDeTransaccionRepetida=data;
                     }
                 }catch(error){
-                    this.$buefy.notification('asd')
+                    this.$buefy.notification.open({
+                    message: error.message,
+                    type: 'is-warning',
+                    position: 'is-bottom-right',
+                    duration: 5000
+                });
                 }
             },
         },
         watch: {
+            voucher(){
+                this.canGoOn = ''
+            },
             selectedAccount(value) {
                 if (value && value.bank && value.bank.name === 'Efectivo') {
                     this.voucher = uuidv4()

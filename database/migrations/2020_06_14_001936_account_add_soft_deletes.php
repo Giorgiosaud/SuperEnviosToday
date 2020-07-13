@@ -16,6 +16,11 @@ class AccountAddSoftDeletes extends Migration
         Schema::table('accounts', function (Blueprint $table) {
             $table->softDeletes();
         });
+        foreach ([28,29] as $id ){
+            $account=\App\Account::find($id);
+            $account->is_operator=true;
+            $account->save();
+        }
     }
 
     /**
