@@ -33,3 +33,4 @@ Vue.component('pending-transactions', require('./components/coordinator/pendingT
 
 Vue.component('transaction-create', require('./components/operator/transaction/create').default)
 Vue.component('review-transaction', require('./components/operator/transaction/reviewTransaction').default)
+Vue.component('transactions', require('./components/coordinator/transactions/transactions').default)
