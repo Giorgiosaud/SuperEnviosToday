@@ -16,14 +16,26 @@
     <section class="section">
         <transactions
             inline-template
-            :transactions-query='@json($transactions)'>
+            :transactions-query='@json($transactions)'
+            :currencies='@json($currencies)'
+            :currency='@json($currency)'>
             <section>
-                <b-select v-model="statusFilter" placeholder="Seleccione estado">
-                    <option value="">{{__('transaction.STATUS:ALL')}}</option>
-                    <option value="pending">{{__('transaction.STATUS:PENDING')}}</option>
-                    <option value="approved">{{__('transaction.STATUS:APPROVED')}}</option>
-                    <option value="rejected">{{__('transaction.STATUS:REJECTED')}}</option>
-                </b-select>
+                <div class="columns">
+                    <div class="column">
+                        <b-select v-model="statusFilter" placeholder="Seleccione estado">
+                            <option value="">{{__('transaction.STATUS:ALL')}}</option>
+                            <option value="pending">{{__('transaction.STATUS:PENDING')}}</option>
+                            <option value="executed">{{__('transaction.STATUS:APPROVED')}}</option>
+                            <option value="in-progress">{{__('transaction.STATUS:IN:PROGRESS')}}</option>
+                        </b-select>
+                    </div>
+                    <div class="column">
+                        <b-select v-model="selectedCurrencyId" placeholder="Seleccione una moneda estado">
+                            <option v-for="currency in currencies" :key="currency.id" :value="currency.id">@{{currency.name}}</option>
+                        </b-select>
+                    </div>
+                </div>
+
                 <b-table
                     :data="transactions"
                     :total="query.total"
@@ -62,11 +74,11 @@
                         >
                             @{{ props.row.track_number}}
                         </b-table-column>
-                        <b-table-column field="operator_id"
+                        <b-table-column field="operator"
                                         label="{{__('transaction.OPERATOR')}}"
                                         width="200"
                         >
-                            @{{ props.row.operator_id}}
+                            @{{ props.row.operator.name}} @{{ props.row.operator.last_name}}
                         </b-table-column>
                         <b-table-column field="client_id"
                                         label="{{__('transaction.CLIENT')}}"
@@ -86,112 +98,6 @@
                                         label="{{__('transaction.AMOUNT')}}">
                             @{{ props.row.amount |currency(props.row.account.bank.currency)}}
                         </b-table-column>
-                    <!--b-table-column field="client"
-                                        label="{{__('transaction.CLIENT:NAME_AND_LAST_NAME')}}"
-                                        >
-                            <a title="{{__('transaction.Client:EXTRA_DATA')}}"
-                               :href="`/users/${props.row.client.id}`"
-                               target="_blank"
-                            >@{{ props.row.client.name }} @{{ props.row.client.last_name }}
-                            </a>
-
-                        </b-table-column>
-
-                        <b-table-column field="operator_account"
-                                        label="{{__('transaction.FOREIGN_OPERATOR:NAME_AND_LAST_NAME')}}"
-                                        >
-                            <a title="{{__('transaction.FOREIGN_OPERATOR:EXTRA_DATA')}}"
-                               :href="`/users/${props.row.local_operator_account.id}`"
-                               target="_blank"
-                            >@{{ props.row.foreign_operator.name }} @{{ props.row.foreign_operator.last_name }}
-                            </a>
-
-                        </b-table-column>
-
-                        <b-table-column field="venezuelan_operator"
-                                        label="{{__('transaction.VENEZUELAN:NAME_AND_LAST_NAME')}}"
-                                        >
-                            <a title="{{__('transaction.VENEZUELAN:EXTRA_DATA')}}"
-                               :href="`/users/${props.row.venezuelan_operator.id}`"
-                               target="_blank"
-                            >@{{ props.row.venezuelan_operator.name }} @{{ props.row.venezuelan_operator.last_name }}
-                            </a>
-
-                        </b-table-column>
-                        <b-table-column field="foreign_bank"
-                                        label="{{__('transaction.FOREIGN:BANK')}}"
-                                        >
-                            <a title="{{__('transaction.VENEZUELAN:EXTRA_DATA')}}"
-                               :href="`/accounts/${props.row.foreign_account.id}`"
-                               target="_blank"
-                            >@{{ props.row.foreign_account.bank.name }}</a>
-                        </b-table-column>
-                        <b-table-column field="venezuelan_bank_from"
-                                        label="{{__('transaction.VENEZUELAN:BANK_FROM')}}"
-                                        >
-                            <a title="{{__('transaction.VENEZUELAN:EXTRA_DATA')}}"
-                               :href="`/accounts/${props.row.local_operator_account.id}`"
-                               target="_blank"
-                            >
-                            @{{ props.row.local_operator_account.bank.name }}
-                            </a>
-                        </b-table-column>
-                        <b-table-column field="venezuelan_bank_to"
-                                        label="{{__('transaction.VENEZUELAN:BANK_TO')}}"
-                                        >
-                            <a title="{{__('transaction.VENEZUELAN:EXTRA_DATA')}}"
-                               :href="`/accounts/${props.row.receiver_account.id}`"
-                               target="_blank"
-                            >
-                            @{{ props.row.receiver_account.bank.name }}
-                            </a>
-                        </b-table-column>
-                        <b-table-column field="rate"
-                                        label="{{__('transaction.SUGGESTED_RATE')}}"
-                                        searchable>
-                            @{{ props.row.rate|rateCurrency(props.row.foreign_account.bank.currency) }}
-                        </b-table-column>
-                        <b-table-column field="amount"
-                                        label="{{__('transaction.AMOUNT')}}"
-                                        searchable>
-                            @{{ props.row.amount |currency(props.row.foreign_account.bank.currency)}}
-                        </b-table-column>
-                        <b-table-column field="status"
-                                        label="{{__('transaction.STATUS')}}"
-                                        >
-                            <div
-                                v-if="props.row.status==='pending'"
-                                class="field is-grouped">
-                                <p class="control">
-                                    <button
-                                        class="button is-info"
-                                        :disabled="onChangeState"
-                                        @click="approveTransaction(props.row)"
-                                    >
-                                        {{__('transaction.STATUS:APPROVE')}}
-                        </button>
-                    </p>
-                    <p class="control">
-                        <button
-                            class="button is-danger"
-                            :disabled="onChangeState"
-                            @click="rejectTransation(props.row)"
-                        >
-{{__('transaction.STATUS:REJECT')}}
-                        </button>
-                    </p>
-                </div>
-
-                <span v-else-if="props.row.status==='approved'">
-{{__('transaction.STATUS:APPROVED')}}
-                        </span>
-                        <span v-else>
-{{__('transaction.STATUS:REJECTED')}}
-                        </span>
-
-
-
-                    </b-table-column-->
 
 
                     </template>
