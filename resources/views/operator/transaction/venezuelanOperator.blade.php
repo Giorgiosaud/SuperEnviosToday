@@ -6,7 +6,7 @@
             <div class="level-item has-text-centered">
                 <div>
                     <p class="heading">{{__('transaction.AMOUNT')}}</p>
-                    <p class="title">@{{ transactionData.bsAmount|currency }}</p>
+                    <p class="title" v-if="transactionData">@{{ transactionData.bsAmount|currency }}</p>
                 </div>
             </div>
             <div class="level-item has-text-centered">

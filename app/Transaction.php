@@ -84,12 +84,10 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'client_id');
     }
-/*
     public function relatedTransactions()
     {
         return $this->hasMany(self::class, 'related_transaction_id');
     }
-*/
     public function parentTransaction()
     {
         return $this->belongsTo(self::class, 'related_transaction_id');
@@ -97,7 +95,7 @@ class Transaction extends Model
     public function operator(){
         return $this->belongsTo(User::class, 'operator_id');
     }
-    public function relatedTransactions(){
-        return $this->hasMany(self::class, 'tracking_number','tracking_number');
+    public function related(){
+        return $this->hasMany(Transaction::class, 'track_number','track_number');
     }
 }

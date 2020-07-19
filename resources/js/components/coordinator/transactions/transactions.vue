@@ -36,6 +36,18 @@
                     data: {}
                 })
             },
+            currency: {
+                type: Object,
+                default: () => ({
+                    data: {}
+                })
+            },
+            currencies: {
+                type: Array,
+                default: () => ({
+                    data: []
+                })
+            },
         },
         data: () => (
             {
@@ -45,13 +57,18 @@
                 filters: {},
                 statusFilter:'',
                 onChangeState:false,
+                selectedCurrencyId:1
             }
         ),
         created() {
             this.query = this.transactionsQuery;
+
             this.page = this.query.current_page;
         },
         computed: {
+            selectedCurrency(){
+             return this.currencies.find(currency=>currency.id===this.selectedCurrencyId)
+            },
             transactions() {
                 return this.query.data;
             }
@@ -77,7 +94,7 @@
             }
             ,
             goToDetails() {
-                window.location.href = `transaction/${this.selected.id}`;
+                window.location.href = `transactions/${this.selected.id}`;
             }
             ,
             paramsToObject(entries) {
@@ -106,19 +123,13 @@
                 const entries = urlParams.entries();
                 const params = this.paramsToObject(entries);
                 params.page = this.page;
+                params.currency = this.selectedCurrency.id;
                 Object.assign(params, this.filters);
                 this.loading = true;
                 try {
-                    const request = await $http.get('api/transaction', {params: {...params}})
+                    const request = await $http.get('api/transactions', {params: {...params}})
                     this.query = await request.json();
                 }catch(error){
-                    this.$buefy.notification.open({
-                        message:`Rechazo fallido message:${JSON.stringify(error.response.data.errors)}`,
-                        type:'is-warning',
-                        position:'is-bottom-right',
-                        duration:5000,
-
-                    })
                 }
                 this.loading = false;
 
@@ -131,64 +142,17 @@
                             .toLowerCase()
                             .indexOf(text.toLowerCase()) >= 0
                     })
-                console.log(this.filteredRoles);
             },
-            async approveTransaction(transaction) {
-                this.onChangeState = true;
-                const data={'accept_transaction':false}
-                try{
-                    const {data}= await axios.patch(`api/transaction/${transaction.id}`,
-                        {
-                            'accept_transaction':true
-                        });
-                    this.$buefy.notification.open({
-                        message:`Transacción #${data.id} Aprovada`,
-                        type:'is-success',
-                        position:'is-bottom-right',
-                        duration:5000
-                    })
-                    transaction.status='approved'
-                }catch (error) {
-                    this.$buefy.notification.open({
-                        message:`Rechazo fallido message:${error.message}`,
-                        type:'is-warning',
-                        position:'is-bottom-right',
-                        duration:5000
-                    })
 
-                }
-                this.onChangeState = false;
-            },
-            async rejectTransation(transaction) {
-                this.onChangeState = true;
-                const data={'accept_transaction':false}
-                try{
-                const {data}= await axios.patch(`api/transaction/${transaction.id}`,
-                    {
-                        'accept_transaction':false
-                    });
-                    this.$buefy.notification.open({
-                        message:`Transacción #${data.id} Rechazada`,
-                        type:'is-success',
-                        position:'is-bottom-right',
-                        duration:5000
-                    })
-                    transaction.status='rejected'
-                }catch (error) {
-                    this.$buefy.notification.open({
-                        message:`Rechazo fallido message:${error.message}`,
-                        type:'is-warning',
-                        position:'is-bottom-right',
-                        duration:5000
-                    })
-
-                }
-                this.onChangeState = false;
-            },
         },
         watch:{
             statusFilter(value){
                 this.changedFilter({status:value})
+                this.loadAsyncData()
+            },
+            selectedCurrencyId(value){
+                this.changedFilter({currency:value})
+
                 this.loadAsyncData()
             }
         }
