@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('settings', ['uses'=>'SettingController@index','as'=>'settings.index']);
     Route::get('users/login-as/{user}',['uses'=>'UserController@loginAs','as'=>'user.login.as']);
     Route::resource('pending-transactions', 'PendingTransactionController',['only'=>['index']]);
-    Route::resource('transaction', 'TransactionController',['only'=>['create','store','destroy']]);
-
+    Route::get('transaction/create', ['uses'=>'TransactionController@create','as'=>'transaction.create']);
+    Route::get('transactions', ['uses'=>'TransactionController@index','as'=>'transaction.index']);
+    Route::get('transaction/adjust', ['uses'=>'TransactionController@adjust','as'=>'transaction.adjust']);
 });

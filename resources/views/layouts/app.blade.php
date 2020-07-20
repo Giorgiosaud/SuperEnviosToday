@@ -30,6 +30,7 @@
         <div class="has-padding-50">
             <div class="block">
                 <img
+                    height="28"
                     src="http://superenvios.cl/image/superenvios.png"
                     alt="{{ config('app.name', 'Superenvios Today') }}"
                 />
@@ -45,6 +46,18 @@
                 @endcan
                 @can('manage-transactions')
                     <b-menu-list label="{{__('transaction.MENU:TITLE')}}">
+                        @can('see-all-transactions')
+                            <b-menu-item icon="calendar-check"
+                                         label="{{__('transaction.MENU:ADJUSTMENT:TRANSACTIONS')}}"
+                                         tag="a"
+                                         href="{{ route('transaction.adjust') }}"></b-menu-item>
+                        @endcan
+                        @can('see-all-transactions')
+                            <b-menu-item icon="calendar-check"
+                                         label="{{__('transaction.MENU:LIST:ALL')}}"
+                                         tag="a"
+                                         href="{{ route('transaction.index') }}"></b-menu-item>
+                        @endcan
                         @can('approve-operations')
                             <b-menu-item icon="calendar-check"
                                          label="{{__('transaction.MENU:PENDING')}}"
