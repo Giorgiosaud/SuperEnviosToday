@@ -6,7 +6,7 @@
             <div class="level-item has-text-centered">
                 <div>
                     <p class="heading">{{__('transaction.AMOUNT')}}</p>
-                    <p class="title">@{{ transactionData.bsAmount|currency }}</p>
+                    <p class="title" v-if="transactionData">@{{ transactionData.bsAmount|currency }}</p>
                 </div>
             </div>
             <div class="level-item has-text-centered">
@@ -25,11 +25,12 @@
                 <b-button type="is-primary" @click="getBaseAccounts">Refrescar</b-button>
             </div>
         </div>
-        <div class="columns is-overflow-auto">
+        <div class="columns is-overflow-auto" v-if="transactionData">
 
             <validation-provider tag="div" rules="required" class="column">
                 <input type="hidden" v-model="selectedAccount">
                 <b-table
+
                     :data="venezuelanAccounts"
                     scrollable
                     :mobile-cards="false"

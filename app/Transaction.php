@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Transaction extends Model
 {
     use SoftDeletes;
-
     protected $fillable = [
         'client_id',
         'from_user_id',
@@ -37,6 +37,14 @@ class Transaction extends Model
 
     protected $with = ['attachments'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('created_at', 'desc');
+        });
+    }
     public function originAccount()
     {
         return $this->belongsTo(Account::class, 'from_account_id');
@@ -76,14 +84,18 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'client_id');
     }
-
     public function relatedTransactions()
     {
         return $this->hasMany(self::class, 'related_transaction_id');
     }
-
     public function parentTransaction()
     {
         return $this->belongsTo(self::class, 'related_transaction_id');
+    }
+    public function operator(){
+        return $this->belongsTo(User::class, 'operator_id');
+    }
+    public function related(){
+        return $this->hasMany(Transaction::class, 'track_number','track_number');
     }
 }
