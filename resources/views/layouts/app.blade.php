@@ -30,6 +30,7 @@
         <div class="has-padding-50">
             <div class="block">
                 <img
+                    height="28"
                     src="http://superenvios.cl/image/superenvios.png"
                     alt="{{ config('app.name', 'Superenvios Today') }}"
                 />

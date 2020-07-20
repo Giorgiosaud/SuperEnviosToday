@@ -7,7 +7,7 @@ $primary: #00c4a7;
 $primary-invert: findColorInvert($primary);
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
-$sidebar-width:350px;
+$sidebar-width: 350px;
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
     "white": ($white, $black),
@@ -34,9 +34,10 @@ $link-focus-border: $primary;
 @import "~bulma/sass/utilities/derived-variables";
 @import "navbar";
 @import "../../node_modules/bulma-helpers/bulma-helpers.sass";
-.is-overflow-auto{
+.is-overflow-auto {
     overflow: auto;
 }
+
 html, body {
     background-color: #fff;
     color: #636b6f;
@@ -70,10 +71,6 @@ html, body {
     text-align: center;
 }
 
-.super-title {
-    font-size: 84px;
-}
-
 .links > a {
     color: #636b6f;
     padding: 0 25px;
@@ -87,70 +84,98 @@ html, body {
 .m-b-md {
     margin-bottom: 30px;
 }
-[v-cloak] {display: none}
+
+[v-cloak] {
+    display: none
+}
+
 .notification.is-fixed-top {
     position: fixed;
     width: 100%;
-    opacity:0;
+    opacity: 0;
     box-shadow: 0px 1px 5px gray;
 }
-.notification.animated{
-    opacity:1
+
+.notification.animated {
+    opacity: 1
 }
-.main-navigation{
+
+.main-navigation {
     z-index: 10;
 }
-.notices.has-custom-container{
-    position:fixed
+
+.notices.has-custom-container {
+    position: fixed
 }
+
 .dialog.has-custom-container {
     position: fixed;
 }
-.snackbar{
+
+.snackbar {
     &.is-danger {
         background: $danger-dark;
     }
+
     &.is-warning {
         background: $warning-dark;
     }
+
     &.is-info {
         background: $info-dark;
     }
+
     &.is-success {
         background: $success-dark;
     }
+
     &.is-primary {
         background: $primary-dark;
     }
 }
+
 .control.no-arrow .select:not(.is-multiple):not(.is-loading)::after {
-    display:none
+    display: none
 }
+
 .menu-list {
     .icon.is-small {
         margin-right: 0.5rem;
     }
 }
-.is-unselectable{
+
+.is-unselectable {
     cursor: not-allowed;
-    filter:blur(1px);
+    filter: blur(1px);
 }
+
 .is-selectable {
     cursor: pointer;
 }
-.navbar-burger{
+
+.navbar-burger {
     margin-left: inherit;
 }
-.navbar-item{
+
+.navbar-item {
     margin-left: auto;
 
 }
-.navbar-brand{
+
+.navbar-brand {
     width: 100%;
 }
+
+.super-title {
+    font-size: 3rem;
+}
+
 @media screen and (min-width: 1024px) {
-    .always-on{
-        display:block;
+    .always-on {
+        display: block;
+    }
+    .super-title {
+        font-size: 5rem;
     }
 }
 

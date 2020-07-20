@@ -31,8 +31,13 @@
                     </div>
                     <div class="column">
                         <b-select v-model="selectedCurrencyId" placeholder="Seleccione una moneda estado">
-                            <option v-for="currency in currencies" :key="currency.id" :value="currency.id">@{{currency.name}}</option>
+                            <option v-for="currency in currencies" :key="currency.id" :value="currency.id">
+                                @{{currency.name}}
+                            </option>
                         </b-select>
+                    </div>
+                    <div class="column is-narrow">
+                        <b-button type="is-info" outlined @click="refreshData">{{__('transaction.REFRESH')}}</b-button>
                     </div>
                 </div>
 
