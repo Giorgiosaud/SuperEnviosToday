@@ -1,165 +1,171 @@
 <script>
-    import currencyFilter from "../../../currency";
-    export default {
-        name: "Transactions",
-        filters:{
-            currency(value,selectedCurrency){
-                const formatOptions={
-                    precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
-                }
-                if(!selectedCurrency){
-                    formatOptions.symbol='$ ';
-                }else {
-                    formatOptions.symbol=`${selectedCurrency.sign} `;
-                }
-                return currencyFilter(value,formatOptions)
-            },
-            rateCurrency:(value,selectedCurrency)=>{
-                const formatOptions={
-                    precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
-                }
-                if(!selectedCurrency){
-                    formatOptions.symbol='Bs/$ ';
-                }else {
-                    formatOptions.symbol=`Bs/${selectedCurrency.sign} `;
-                }
-                return currencyFilter(value,formatOptions)
-            },
-            date(date){
-                return new Date(date).toLocaleString();
-            }
-        },
-        props: {
-            transactionsQuery: {
-                type: Object,
-                default: () => ({
-                    data: {}
-                })
-            },
-            currency: {
-                type: Object,
-                default: () => ({
-                    data: {}
-                })
-            },
-            currencies: {
-                type: Array,
-                default: () => ({
-                    data: []
-                })
-            },
-        },
-        data: () => (
-            {
-                query: {},
-                loading: false,
-                selected: {},
-                filters: {},
-                statusFilter:'',
-                onChangeState:false,
-                selectedCurrencyId:1
-            }
-        ),
-        created() {
-            this.query = this.transactionsQuery;
+import currencyFilter from "../../../currency";
 
-            this.page = this.query.current_page;
+export default {
+    name: "Transactions",
+    filters: {
+        currency(value, selectedCurrency) {
+            const formatOptions = {
+                precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+            }
+            if (!selectedCurrency) {
+                formatOptions.symbol = '$ ';
+            } else {
+                formatOptions.symbol = `${selectedCurrency.sign} `;
+            }
+            return currencyFilter(value, formatOptions)
         },
-        computed: {
-            selectedCurrency(){
-             return this.currencies.find(currency=>currency.id===this.selectedCurrencyId)
-            },
-            transactions() {
-                return this.query.data;
+        rateCurrency: (value, selectedCurrency) => {
+            const formatOptions = {
+                precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
             }
-            ,
-            currentPage() {
-                return this.query.currentPage ? this.query.currentPage : 0;
+            if (!selectedCurrency) {
+                formatOptions.symbol = 'Bs/$ ';
+            } else {
+                formatOptions.symbol = `Bs/${selectedCurrency.sign} `;
             }
-            ,
-            lastPage() {
-                return this.query.last_page ? this.query.last_page : 0;
-            }
-            ,
-            path() {
-                return this.query.path ? this.query.path : '';
+            return currencyFilter(value, formatOptions)
+        },
+        date(date) {
+            return new Date(date).toLocaleString();
+        }
+    },
+    props: {
+        transactionsQuery: {
+            type: Object,
+            default: () => ({
+                data: {}
+            })
+        },
+        currency: {
+            type: Object,
+            default: () => ({
+                data: {}
+            })
+        },
+        currencies: {
+            type: Array,
+            default: () => ({
+                data: []
+            })
+        },
+    },
+    data: () => (
+        {
+            query: {},
+            loading: false,
+            selected: {},
+            filters: {},
+            statusFilter: '',
+            onChangeState: false,
+            selectedCurrencyId: 1
+        }
+    ),
+    created() {
+        this.query = this.transactionsQuery;
+
+        this.page = this.query.current_page;
+    },
+    computed: {
+        selectedCurrency() {
+            return this.currencies.find(currency => currency.id === this.selectedCurrencyId)
+        },
+        transactions() {
+            return this.query.data;
+        }
+        ,
+        currentPage() {
+            return this.query.currentPage ? this.query.currentPage : 0;
+        }
+        ,
+        lastPage() {
+            return this.query.last_page ? this.query.last_page : 0;
+        }
+        ,
+        path() {
+            return this.query.path ? this.query.path : '';
+        }
+    }
+    ,
+    methods: {
+        transactionClicked(transaction) {
+            if (transaction.id === this.selected.id) {
+                this.selected = {}
             }
         }
         ,
-        methods: {
-            transactionClicked(transaction) {
-                if (transaction.id === this.selected.id) {
-                    this.selected = {}
+        goToDetails() {
+            window.location.href = `transactions/${this.selected.id}`;
+        }
+        ,
+        paramsToObject(entries) {
+            let result = {}
+            for (let entry of entries) { // each 'entry' is a [key, value] tupple
+                const [key, value] = entry;
+                result[key] = value;
+            }
+            return result;
+        },
+        changedPage(page) {
+            this.page = page;
+            this.loadAsyncData();
+        },
+        changedFilter(filters) {
+            for (const filter in filters) {
+                if (filters[filter] === '') {
+                    delete filters[filter]
                 }
             }
-            ,
-            goToDetails() {
-                window.location.href = `transactions/${this.selected.id}`;
+            this.filters = filters;
+            this.loadAsyncData();
+        },
+        refreshData() {
+            this.page = 1;
+            this.loadAsyncData()
+        },
+        async loadAsyncData() {
+            const urlParams = new URLSearchParams(document.location.search.substring(1));
+            const entries = urlParams.entries();
+            const params = this.paramsToObject(entries);
+            params.page = this.page;
+            params.currency = this.selectedCurrency.id;
+            Object.assign(params, this.filters);
+            this.loading = true;
+            try {
+                const request = await $http.get('api/transactions', {params: {...params}})
+                this.query = await request.json();
+            } catch (error) {
             }
-            ,
-            paramsToObject(entries) {
-                let result = {}
-                for (let entry of entries) { // each 'entry' is a [key, value] tupple
-                    const [key, value] = entry;
-                    result[key] = value;
-                }
-                return result;
-            },
-            changedPage(page) {
-                this.page = page;
-                this.loadAsyncData();
-            },
-            changedFilter(filters) {
-                for (const filter in filters) {
-                    if (filters[filter] === '') {
-                        delete filters[filter]
-                    }
-                }
-                this.filters = filters;
-                this.loadAsyncData();
-            },
-            async loadAsyncData() {
-                const urlParams = new URLSearchParams(document.location.search.substring(1));
-                const entries = urlParams.entries();
-                const params = this.paramsToObject(entries);
-                params.page = this.page;
-                params.currency = this.selectedCurrency.id;
-                Object.assign(params, this.filters);
-                this.loading = true;
-                try {
-                    const request = await $http.get('api/transactions', {params: {...params}})
-                    this.query = await request.json();
-                }catch(error){
-                }
-                this.loading = false;
-
-            },
-            getFilteredTags(text) {
-                this.filteredRoles = this.allRoles
-                    .filter((role) => {
-                        return role.name
-                            .toString()
-                            .toLowerCase()
-                            .indexOf(text.toLowerCase()) >= 0
-                    })
-            },
+            this.loading = false;
 
         },
-        watch:{
-            statusFilter(value){
-                this.changedFilter({status:value})
-                this.loadAsyncData()
-            },
-            selectedCurrencyId(value){
-                this.changedFilter({currency:value})
+        getFilteredTags(text) {
+            this.filteredRoles = this.allRoles
+                .filter((role) => {
+                    return role.name
+                        .toString()
+                        .toLowerCase()
+                        .indexOf(text.toLowerCase()) >= 0
+                })
+        },
 
-                this.loadAsyncData()
-            }
+    },
+    watch: {
+        statusFilter(value) {
+            this.changedFilter({status: value})
+            this.loadAsyncData()
+        },
+        selectedCurrencyId(value) {
+            this.page = 1
+            this.changedFilter({currency: value})
+
+            this.loadAsyncData()
         }
     }
+}
 </script>
 <style lang="stylus">
-    .b-table .table td.is-sticky{
-        color:#00c4a7
-    }
+.b-table .table td.is-sticky {
+    color: #00c4a7
+}
 </style>
