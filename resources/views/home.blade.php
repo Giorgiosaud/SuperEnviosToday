@@ -27,7 +27,6 @@
                 </div>
                 <p class="subtitle is-3">Respecto a Las Transacciones</p>
                 <div class="buttons">
-                    <a href="#" class="button is-primary" disabled>Listar Transacciones</a>
                     <a href="#" class="button is-primary" disabled>Crear Transaccion de ajuste</a>
                 </div>
             </article>

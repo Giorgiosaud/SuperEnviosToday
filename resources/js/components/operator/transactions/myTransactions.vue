@@ -2,7 +2,7 @@
 import currencyFilter from "../../../currency";
 
 export default {
-    name: "Transactions",
+    name: "myTransactions",
     filters: {
         currency(value, selectedCurrency) {
             const formatOptions = {
@@ -133,7 +133,7 @@ export default {
             Object.assign(params, this.filters);
             this.loading = true;
             try {
-                const request = await $http.get('/api/transactions', {params: {...params}})
+                const request = await $http.get('/api/my-transactions', {params: {...params}})
                 this.query = await request.json();
             } catch (error) {
             }

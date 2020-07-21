@@ -36,13 +36,34 @@ class TransactionController extends Controller
         return $createTransactionService->make($request);
     }
 
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
     public function index()
     {
         $currency = Currency::whereId(request()->currency)->first();
         $banksWithCurrency = Bank::select('id')->where('currency_id', $currency->id)->get();
         $accountsWithCurrencies = Account::select('id')->whereIn('bank_id', $banksWithCurrency->pluck('id'))->whereIsOperator(true)->get();
         $accountsId = $accountsWithCurrencies->pluck('id');
-        $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related'])->whereIn('account_id', $accountsId);
+        $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator','related.client','related.account.bank.currency'])->whereIn('account_id', $accountsId);
+        if (request()->status) {
+            $transactions->whereStatus(request()->status);
+        }
+        return $transactions->paginate();
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function myIndex()
+    {
+        $currency = Currency::whereId(request()->currency)->first();
+        $banksWithCurrency = Bank::select('id')->where('currency_id', $currency->id)->get();
+        $accountsWithCurrencies = Account::select('id')->whereIn('bank_id', $banksWithCurrency->pluck('id'))->whereHas('owners',function($query) use($user){
+            $query->where('user_id',$user->id);
+            })->get();
+        $accountsId = $accountsWithCurrencies->pluck('id');
+        $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator','related.client','related.account.bank.currency'])->whereIn('account_id', $accountsId);
         if (request()->status) {
             $transactions->whereStatus(request()->status);
         }
