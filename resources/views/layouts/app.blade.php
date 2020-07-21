@@ -19,7 +19,7 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <b-sidebar
         type="is-light"
         fullheight
