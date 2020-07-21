@@ -64,6 +64,7 @@ return [
     'TRACKING:NUMBER' => 'Número de Seguimiento',
     'BANK:REFERENCE' => 'Referencia Bancaria',
     'MENU:LIST:ALL'=>'Ver Todas Las Transacciones',
+    'MENU:MY:LIST:ALL'=>'Ver Mis Transacciones',
     'MENU:ADJUSTMENT:TRANSACTIONS'=>'Crear Transaccion de ajuste',
     'REFRESH'=>'Refrescar'
 

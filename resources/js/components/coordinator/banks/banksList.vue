@@ -26,7 +26,7 @@ export default {
             filters: {},
             selectedCurrencies: [],
             filteredCurrencies: [],
-            defaultOpenedDetails: [],
+            defaultOpenedDetails: [5],
             savingName: false,
             isOpenModal: false,
             removingBank: false

@@ -52,6 +52,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('see-all-transactions',function($user){
             return $user->hasRole('coordinator');
         });
+        Gate::define('see-my-transactions',function($user){
+            return $user->hasRole('coordinator');
+        });
+
         Passport::routes();
 
         //
