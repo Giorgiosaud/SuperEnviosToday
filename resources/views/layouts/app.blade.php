@@ -58,6 +58,12 @@
                                          tag="a"
                                          href="{{ route('transaction.index') }}"></b-menu-item>
                         @endcan
+                        @can('see-my-transactions')
+                            <b-menu-item icon="calendar-check"
+                                         label="{{__('transaction.MENU:MY:LIST:ALL')}}"
+                                         tag="a"
+                                         href="{{ route('transaction.my.index') }}"></b-menu-item>
+                        @endcan
                         @can('approve-operations')
                             <b-menu-item icon="calendar-check"
                                          label="{{__('transaction.MENU:PENDING')}}"

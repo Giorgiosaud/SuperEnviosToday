@@ -29,5 +29,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('pending-transactions', 'PendingTransactionController',['only'=>['index']]);
     Route::get('transaction/create', ['uses'=>'TransactionController@create','as'=>'transaction.create']);
     Route::get('transactions', ['uses'=>'TransactionController@index','as'=>'transaction.index']);
+    Route::get('my-transactions', ['uses'=>'TransactionController@myIndex','as'=>'transaction.my.index']);
     Route::get('transaction/adjust', ['uses'=>'TransactionController@adjust','as'=>'transaction.adjust']);
 });
