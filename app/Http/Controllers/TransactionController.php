@@ -24,7 +24,25 @@ class TransactionController extends Controller
         $banksWithCurrency = Bank::select('id')->where('currency_id',$currency->id)->get();
         $accountsWithCurrencies=Account::select('id')->whereIn('bank_id',$banksWithCurrency->pluck('id'))->whereIsOperator(true)->get();
         $accountsId=$accountsWithCurrencies->pluck('id');
-        $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related'])->whereIn('account_id',$accountsId)->paginate();
+        $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator','related.client','related.account.bank.currency'])->whereIn('account_id',$accountsId)->paginate();
+
+
+        return view('coordinator.transactions.index', compact('transactions', 'currencies', 'currency'));
+    }
+    /**
+     * @return Application|Factory|View
+     */
+    public function myIndex()
+    {
+        $currency = Currency::whereId(request()->currency)->first() ?: (Currency::where('identifier', 'CLP')->with('banks.accounts')->first());
+        $currencies = Currency::all();
+        $banksWithCurrency = Bank::select('id')->where('currency_id',$currency->id)->get();
+        $user=request()->user();
+        $accountsWithCurrencies=Account::select('id')->whereIn('bank_id',$banksWithCurrency->pluck('id'))->whereHas('owners',function($query) use($user){
+            $query->where('user_id',$user->id);
+            })->get();
+        $accountsId=$accountsWithCurrencies->pluck('id');
+        $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator','related.client','related.account.bank.currency'])->whereIn('account_id',$accountsId)->paginate();
 
 
         return view('coordinator.transactions.index', compact('transactions', 'currencies', 'currency'));

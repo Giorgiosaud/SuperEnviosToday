@@ -14,7 +14,7 @@
         </div>
     </section>
     <section class="section">
-        <transactions
+        <my-transactions
             inline-template
             :transactions-query='@json($transactions)'
             :currencies='@json($currencies)'
@@ -149,6 +149,6 @@
                     </template>
                 </b-table>
             </section>
-        </transactions>
+        </my-transactions>
     </section>
 @endsection
