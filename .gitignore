@@ -5,6 +5,7 @@
 /vendor
 .env
 .env.backup
+.env.lock
 .phpunit.result.cache
 .idea/*
 storage/*
@@ -19,7 +20,6 @@ storage/.DS_Store
 storage/debugbar/
 
 error_log
-.env
 storage/app
 storage/framework
 storage/logs
