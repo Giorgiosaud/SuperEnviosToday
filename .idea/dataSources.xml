@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="database" uuid="c3b2786f-18b7-4446-b69c-73fcec41d2b6">
-      <driver-ref>sqlite.xerial</driver-ref>
+    <data-source source="LOCAL" name="Superenvios Local" uuid="62b56d3f-d221-48f3-a4bb-a7839e62253f">
+      <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/database/database.sqlite</jdbc-url>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/superenv_develop</jdbc-url>
     </data-source>
   </component>
 </project>

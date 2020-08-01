@@ -36,6 +36,14 @@ class Account extends Model
     }
 
     /**
+     * @return Account|HasMany
+     * TODO: Rename after migrate
+     */
+    public function allTransactions(){
+        return $this->hasMany(Transaction::class);
+    }
+
+    /**
      * @return BelongsToMany
      */
     public function owners()

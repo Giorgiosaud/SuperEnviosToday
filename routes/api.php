@@ -39,5 +39,5 @@ Route::group(['middleware' => ['auth:api'],'as'=>'api.'], function () {
     Route::get('transaction/verify/{transactionNumber}',['uses'=>'Api\TransactionController@verify','as'=>'transaction.verify']);
     Route::post('transaction/execute',['uses'=>'Api\TransactionController@execute','as'=>'transaction.execute']);
     Route::get('transactions',['uses'=>'Api\TransactionController@index','as'=>'transactions.index']);
-    Route::get('my-transactions',['uses'=>'Api\TransactionController@myIndex','as'=>'transactions.index']);
+    Route::get('my-transactions',['uses'=>'Api\TransactionController@myIndex','as'=>'my.transactions.index']);
 });

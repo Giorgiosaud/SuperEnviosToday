@@ -27,8 +27,12 @@ class AddUserIdToTransactionsTable extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropColumn('from_user_id');
-            $table->dropColumn('to_user_id');
+            if (Schema::hasColumn('transactions', 'from_user_id')) {
+                $table->dropColumn('from_user_id');
+            }
+            if (Schema::hasColumn('transactions', 'to_user_id')) {
+                $table->dropColumn('to_user_id');
+            }
         });
     }
 }
