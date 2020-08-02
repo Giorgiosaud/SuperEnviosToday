@@ -27,6 +27,8 @@ Route::middleware(['auth', 'role:foreign_operator,coordinator'])->group(function
     Route::get('/transactions/status', 'TransactionController@list')->name('my_transactions');
     Route::get('/transactions/pending', 'PendingTransactionController@myTransactions')->name('chilean_pending_transactions');
     Route::get('/venezuelan_operators', 'operatorsController@venezuelanList')->name('venezuelan_operators');
+    Route::get('/venezuelan_accounts', 'AccountController@venezuelanAccounts')->name('venezuelan_accounts');
+
     //TODO create foreign operator list
 });
 Route::middleware(['auth', 'role:coordinator'])->group(function () {
@@ -40,6 +42,7 @@ Route::middleware(['auth', 'role:coordinator'])->group(function () {
     Route::get('/add_funds', 'operatorsController@index')->name('addFoundsToVenezuelanOperator');
     Route::get('/pending_transactions', 'PendingTransactionController@index')->name('pending_operations');
     Route::get('/foreign_operators', 'operatorsController@foreignList')->name('foreign_operators');
+    Route::get('/foreign_accounts', 'AccountController@foreignList')->name('foreign_accounts');
     Route::get('/coordinator_transaction', 'TransactionController@addTransaction')->name('coordinator_transaction');
     Route::get('/list_transaction', 'TransactionController@listTransactions')->name('transactions_list');
     Route::get('/fix_transaction', 'TransactionController@fixTransaction')->name('transactions_fix');

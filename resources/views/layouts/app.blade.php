@@ -10,7 +10,7 @@
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.es6.min.js"></script>
 
-<!--script src="{{ asset('js/app.js') }}" defer></script-->
+<!--script src="{{ asset('/js/app.js') }}" defer></script-->
 <!-- Fonts -->
 <link rel="dns-prefetch" href="//fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -59,11 +59,9 @@
                                 <a class="dropdown-item" href="{{route('addFoundsToVenezuelanOperator')}}">Agregar
                                     Fondos a Operador Venezuela</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{route('foreign_operators')}}">Listar Operadores
-                                    Extranjero y saldos
-                                    disponibles</a>
-                                <a class="dropdown-item" href="{{route('venezuelan_operators')}}">Listar Operadores Venezuela y saldos
-                                    disponibles</a>
+                                <a class="dropdown-item" href="{{route('foreign_accounts')}}">Listar Cuentas
+                                    Extranjero y Operadores asociados</a>
+                                <a class="dropdown-item" href="{{route('venezuelan_accounts')}}">Listar Cuentas Venezuela y Operadores asociados</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{route('transactions_list')}}">Listar Transacciones</a>
                                 <div class="dropdown-divider"></div>

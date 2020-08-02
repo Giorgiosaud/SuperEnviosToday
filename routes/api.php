@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 Route::group(['middleware' => ['auth:api', 'role:coordinator,foreign_operator']], function () {
     Route::get('country_banks/{currency}', 'BankController@country_index')->name('country_banks');
     Route::get('operadores-venezuela', 'operatorsController@venezuelanIndex')->name('venezuelan_operators_api');
+    Route::get('cuentas-venezuela', 'AccountController@venezuelanIndex')->name('venezuelan_operators_api');
     Route::get('user_data', 'UserController@userData')->name('user_data');
     Route::post('accounts', 'AccountController@store')->name('save_account');
     Route::post('add-transaction', 'TransactionController@normalstore')->name('save_transaction');
@@ -80,6 +81,7 @@ Route::group(['middleware' => ['auth:api', 'role:coordinator']], function () {
     Route::get('accounts', 'AccountController@index');
     Route::get('operators-accounts', 'AccountController@operatorsIndex');
     Route::get('foreign-accounts', 'AccountController@foreignAccounts');
+    Route::get('cuentas-foraneas', 'AccountController@foreignAccountsNew');
     Route::post('add-account', 'AccountController@addAccounts')->name('add-operator-account');
     Route::post('operator-asociate-account', 'AccountController@asociateForeignAccounts')->name('asociate-operator-account');
     Route::delete('operator-desasociate-account/{account}/{user}', 'AccountController@removeAccount');
