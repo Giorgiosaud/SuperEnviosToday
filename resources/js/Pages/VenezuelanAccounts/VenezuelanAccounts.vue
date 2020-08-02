@@ -6,6 +6,7 @@
                 <button
                     class="btn btn-primary"
                     @click="updateVenezuelanAccounts"
+                    @keyup.esc="updateVenezuelanAccounts"
                 >
                     Actualizar
                 </button>
