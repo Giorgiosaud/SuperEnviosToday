@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Role;
 use App\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -50,13 +52,13 @@ class UserController extends Controller
         $limit = $request->has('perPage') ? $request->get('perPage') : 10;
         $q = $request->has('q') ? $request->get('q') : null;
         if ($q) {
-            return User::where('name', 'like', '%'.$q.'%')
-                ->orWhere('last_name', 'like', '%'.$q.'%')
-                ->orWhere('idn', 'like', '%'.$q.'%')
-                ->orWhere('idn_type', 'like', '%'.$q.'%')
-                ->orWhere('email', 'like', '%'.$q.'%')
-                ->orWhere('address', 'like', '%'.$q.'%')
-                ->orWhere('phone', 'like', '%'.$q.'%')
+            return User::where('name', 'like', '%' . $q . '%')
+                ->orWhere('last_name', 'like', '%' . $q . '%')
+                ->orWhere('idn', 'like', '%' . $q . '%')
+                ->orWhere('idn_type', 'like', '%' . $q . '%')
+                ->orWhere('email', 'like', '%' . $q . '%')
+                ->orWhere('address', 'like', '%' . $q . '%')
+                ->orWhere('phone', 'like', '%' . $q . '%')
                 ->paginate($limit);
         }
 
@@ -65,7 +67,7 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @param User    $user
+     * @param User $user
      *
      * @return string
      */
@@ -143,11 +145,11 @@ class UserController extends Controller
     public function infoPatch(Request $request)
     {
         $validated = $request->validate([
-            'name'      => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'phone'     => ['string'],
-            'address'   => ['string'],
-            'email'     => ['string', 'email', 'max:255'],
+            'phone' => ['string'],
+            'address' => ['string'],
+            'email' => ['string', 'email', 'max:255'],
         ]);
         $user = auth()->user();
         /* @noinspection PhpUndefinedMethodInspection */
@@ -162,7 +164,7 @@ class UserController extends Controller
     public function userData(Request $request)
     {
         $validated = $request->validate([
-            'idn'      => 'required',
+            'idn' => 'required',
             'idn_type' => 'required|in:PASSPORT,RUT,CI,DNI',
         ]);
 
@@ -171,7 +173,7 @@ class UserController extends Controller
 
     public function foreignOperators()
     {
-        $users= User::whereHas(
+        $users = User::whereHas(
             'roles',
             function ($q) {
                 /* @noinspection PhpUndefinedMethodInspection */
@@ -179,26 +181,36 @@ class UserController extends Controller
             }
         )->get();
         foreach ($users as $user) {
-          foreach($user->accounts as $account){
-            $account['Balance']=$account->getBalanceAttribute();
-          }
+            foreach ($user->accounts as $account) {
+                $account['Balance'] = $account->getBalanceAttribute();
+            }
         }
         return $users;
     }
 
     public function operators()
     {
-        $users= User::whereHas(
-            'roles',
-            function ($q) {
-                /* @noinspection PhpUndefinedMethodInspection */
-                $q->where('name_id', 'coordinator')->orWhere('name_id', 'foreign_operator')->orWhere('name_id', 'venezuelan_operator');
+        $rolesId = ['foreign_operator', 'coordinator', 'venezuelan_operator'];
+        $roles = Role::whereIn('name_id', $rolesId)->with('users')->get();
+
+        $users = collect();
+        foreach ($roles as $role) {
+            foreach ($role->users as $user) {
+                foreach ($user->accounts as $account) {
+                    $account['Balance']=$account->getBalanceAttribute();
+                }
             }
-        )->get();
+            $users->add($role->users);
+        }
+        return $users->flatten()->unique('id')->values();
+        $users = User::with(['roles' => function ($query) use ($rolesId) {
+            $query->whereIn('name_id', $rolesId);
+        }])->get();
+        return $users;
         foreach ($users as $user) {
-          foreach($user->accounts as $account){
-            $account['Balance']=$account->getBalanceAttribute();
-          }
+            foreach ($user->accounts as $account) {
+                // $account['Balance']=$account->getBalanceAttribute();
+            }
         }
         return $users;
     }

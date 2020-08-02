@@ -16,9 +16,7 @@ use Illuminate\Http\Response;
 class TransactionController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
@@ -27,9 +25,7 @@ class TransactionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function pending()
     {
@@ -37,11 +33,8 @@ class TransactionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param Request $request
-     *
-     * @return Response
+     * @return mixed
      */
     public function store(Request $request)
     {
@@ -57,6 +50,11 @@ class TransactionController extends Controller
         return Transaction::create($validData);
     }
 
+    /**
+     * @param CreateTransaction $request
+     * @param CreateTransactionService $createTransactionService
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|void
+     */
     public function normalstore(CreateTransaction $request, CreateTransactionService $createTransactionService)
     {
         return $createTransactionService->make($request);
@@ -110,14 +108,7 @@ class TransactionController extends Controller
     public function venezuelanTransactionsAPI(Request $request)
     {
         $limit = $request->has('perPage') ? $request->get('perPage') : 10;
-        if ($request->user()->hasRole('coordinator')) {
-            $usersId = Role::find('venezuelan_operator')->users->pluck('id');
-            $accountsIds = Account::whereHas('owners', function ($q) use ($usersId) {
-                return $q->whereIn('user_id', $usersId);
-            })->get()->pluck('id');
-        } else {
-            $accountsIds = $request->user()->accounts->pluck('id');
-        }
+        $accountsIds = $this->getAccountsIds($request);
         $transactions = Transaction::with(['destinationAccount', 'parentTransaction.toUser', 'originAccount', 'fromUser', 'toUser'])
         ->whereIn('from_account_id', $accountsIds)
         ->orderByRaw('FIELD(status, "assigned","in_progress","executed","confirmed","terminated")')
@@ -129,16 +120,9 @@ class TransactionController extends Controller
 
     public function venezuelanTransactionsCountAPI(Request $request)
     {
-        if ($request->user()->hasRole('coordinator')) {
-            $usersId = Role::find('venezuelan_operator')->users->pluck('id');
-            $accountsIds = Account::whereHas('owners', function ($q) use ($usersId) {
-                return $q->whereIn('user_id', $usersId);
-            })->get()->pluck('id');
-        } else {
-            $accountsIds = $request->user()->accounts->pluck('id');
-        }
+        $accountsIds = $this->getAccountsIds($request);
 
-        return Transaction::with(['destinationAccount.fromUser', 'parentTransaction.destinationAccount.fromUser', 'originAccount'])->whereIn('from_account_id', $accountsIds)->where('status', 'assigned')->orWhere('status', 'in_progress')->count();
+        return Transaction::whereIn('from_account_id', $accountsIds)->where('status', 'assigned')->orWhere('status', 'in_progress')->count();
     }
 
     public function venezuelanTransactionsConfirmationAPI(Request $request, Transaction $transaction)
@@ -229,5 +213,22 @@ class TransactionController extends Controller
         }
 
         return ['isRepeated' => true];
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Support\Collection
+     */
+    protected function getAccountsIds(Request $request): \Illuminate\Support\Collection
+    {
+        if ($request->user()->hasRole('coordinator')) {
+            $usersId = Role::find('venezuelan_operator')->users->pluck('id');
+            $accountsIds = Account::whereHas('owners', function ($q) use ($usersId) {
+                return $q->whereIn('user_id', $usersId);
+            })->where('is_operator_account', true)->get()->pluck('id');
+        } else {
+            $accountsIds = $request->user()->accounts->pluck('id');
+        }
+        return $accountsIds;
     }
 }
