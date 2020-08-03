@@ -37,9 +37,7 @@ class AccountTest extends TestCase
         factory(Transaction::class,10)->create(['account_id'=>$account->id]);
         factory(Transaction::class,10)->create(['account_id'=>$account->id]);
         $account->refresh();
-        $this->assertCount(20,$account->allTransactions);
-
-
+        $this->assertCount(20,$account->transactions);
     }
 
     public function testGetBalanceAttribute()
