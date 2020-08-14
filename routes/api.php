@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth:api', 'role:coordinator']], function () {
     Route::post('add-account', 'AccountController@addAccounts')->name('add-operator-account');
     Route::post('operator-asociate-account', 'AccountController@asociateForeignAccounts')->name('asociate-operator-account');
     Route::delete('operator-desasociate-account/{account}/{user}', 'AccountController@removeAccount');
+    Route::get('account-remove-operator/{account}','AccountController@removeAccountAsOperator');
 });
 //TODO make all existent test pass
 //TODO agregar foreign_user_id en tabla de transacciones
