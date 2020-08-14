@@ -106,7 +106,10 @@ class AccountController extends Controller
     {
         return $account->owners()->detach($user->id);
     }
-
+    public function removeAccountAsOperator(Account $account){
+        $account->is_operator_account=false;
+        $account->save();
+    }
     public function venezuelanAccounts()
     {
         return view('accounts.venezuelan-list');
