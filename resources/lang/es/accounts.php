@@ -1,7 +1,10 @@
 <?php
 return [
     'MENU:TITLE' => 'Cuentas',
-    'MENU:MANAGE' => 'Manejar Cuentas',
+    'MENU:MANAGE' => 'Manejar Cuentas de operadores',
+    'DELETE_ACCOUNT'=>'Borrar Cuenta',
+    'ACTIONS'=>'Acciones',
+    'BANK:CURRENCY'=>'Moneda',
     'WELCOME' => 'Listado de cuentas',
     'MESSAGE' => 'aqui podras listar y filtrar todas las cuentas de :app',
     'GO_TO_SELECTED' => 'Ir al detalle de: ',

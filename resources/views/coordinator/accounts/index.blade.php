@@ -43,19 +43,7 @@
                                 @typing="getFilteredCurrenciesTags">
                             </b-taginput>
                         </div>
-                        <div class="column">
-                            <b-taginput
-                                v-model="selectedBanks"
-                                :data="filteredBanks"
-                                autocomplete
-                                :allow-new="false"
-                                :open-on-focus="true"
-                                field="name"
-                                icon="label"
-                                placeholder="{{__('accounts.SELECT:BANK')}}"
-                                @typing="getFilteredBanksTags">
-                            </b-taginput>
-                        </div>
+
                     </div>
 
                     <b-table
@@ -63,12 +51,8 @@
                         :loading="loading"
                         :striped="true"
                         :total="query.total"
-                        :opened-detailed="defaultOpenedDetails"
-                        detailed
                         :current-page="query.current_page"
                         :per-page="query.per_page"
-                        :show-detail-icon="true"
-                        detail-key="id"
                         ref="accountsTable"
                         aria-next-label="Next page"
                         aria-previous-label="Previous page"
@@ -83,16 +67,18 @@
                             </b-table-column>
 
                             <b-table-column field="number"
-                                            label="{{__('accounts.NUMBER')}}"
-                                            searchable>
+                                            label="{{__('accounts.NUMBER')}}">
                                 @{{ props.row.number }}
                             </b-table-column>
+
                             <b-table-column field="name"
-                                            label="{{__('accounts.BANK:NAME')}}"
-                                            searchable>
+                                            label="{{__('accounts.BANK:NAME')}}">
                                 @{{ props.row.bank.name }}
                             </b-table-column>
-
+                            <b-table-column field="name"
+                                            label="{{__('accounts.BANK:CURRENCY')}}">
+                                @{{ props.row.bank.currency.name }}
+                            </b-table-column>
                             <b-table-column field="balance" label="{{__('accounts.BALANCE')}}">
                                 @{{ props.row.balance |currencyFilter({
                                 ...props.row.bank.currency,
@@ -101,37 +87,12 @@
                             </b-table-column>
                             <b-table-column field="Acciones" label="{{__('accounts.ACTIONS')}}">
                                 <button class="button field is-danger"
-                                    @click="deleteAccount(props.row.id)">
-                                {{__('accounts.DELETE_ACCOUNT')}}
+                                        @click="deleteAccount(props.row.id)">
+                                    {{__('accounts.DELETE_ACCOUNT')}}
 
-                            </button>
+                                </button>
                             </b-table-column>
                         </template>
-
-                        <template slot="detail" slot-scope="props">
-                            <section>
-                                <div class="title">{{__('accounts.EDIT')}}</div>
-                                <b-field label="Name">
-                                    <b-input v-model="props.row.name"></b-input>
-                                </b-field>
-                                <div class="buttons">
-                                    <b-button
-                                        @click="changeName(props.row.id,props.row.name)"
-                                        :loading="savingName"
-                                        type="is-info">
-                                        Guardar
-                                    </b-button>
-                                    <b-button
-                                        @click="removeAccount(props.row.id)"
-                                        :loading="removingAccount"
-                                        type="is-danger">
-                                        Borrar
-                                    </b-button>
-                                </div>
-                            </section>
-
-                        </template>
-
                         <template #empty>
                             <section class="section">
                                 <div class="content has-text-grey has-text-centered">
@@ -149,7 +110,7 @@
                     :destroy-on-hide="false"
                     aria-role="dialog"
                     aria-modal>
-                    <add-account :currencies='allCurrencies' @account-saved="loadAsyncData"></add-account>
+                    <add-account :currencies='allCurrencies' :banks="allBanks" @account-saved="loadAsyncData"></add-account>
                 </b-modal>
             </div>
         </accounts-list>

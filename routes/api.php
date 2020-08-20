@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth:api'], 'as' => 'api.'], function () {
     Route::get('banks/base', ['uses' => 'Api\BankController@baseBanks', 'as' => 'index.banks.venezuelan']);
     Route::apiResource('banks', 'Api\BankController', ['only' => ['index', 'store', 'destroy', 'update']]);
     Route::get('accounts', ['uses' => 'Api\AccountController@index', 'as' => 'index.accounts']);
+    Route::post('accounts', ['uses' => 'Api\AccountController@store', 'as' => 'store.accounts']);
     Route::patch('account/{account}', ['uses' => 'Api\AccountController@update', 'as' => 'account.update']);
     Route::get('accounts/base', ['uses' => 'Api\AccountController@indexBase', 'as' => 'index.base.accounts']);
     Route::get('accounts/{currencyId}', ['uses' => 'Api\AccountController@getAccounts', 'as' => 'accounts.from_currency']);
