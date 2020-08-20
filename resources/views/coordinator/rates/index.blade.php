@@ -74,8 +74,7 @@
                             </b-table-column>
 
                             <b-table-column field="since"
-                                            label="{{__('rates.SINCE')}}"
-                                            searchable>
+                                            label="{{__('rates.SINCE')}}">
                                 @{{ props.row.since | timeFormat("dd-MM-yyyy 'a las' h:mm a")}}
                             </b-table-column>
 

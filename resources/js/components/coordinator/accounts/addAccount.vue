@@ -12,24 +12,21 @@
         <b-field label="Nombre">
           <b-input
             v-model="name"
-            type="text"
-            placeholder="Nombre de Moneda"
+            type="name"
+            placeholder="Nombre de Banco"
             required />
         </b-field>
-        <b-field label="Indentificador">
-          <b-input
-            v-model="identifier"
-            type="text"
-            placeholder="Identificador de moneda"
-            required />
-        </b-field>
-        <b-field label="Sign">
-          <b-input
-            v-model="sign"
-            type="text"
-            placeholder="Signo de moneda"
-            required />
-        </b-field>
+
+        <b-select
+          v-model="currency"
+          placeholder="Seleccione una moneda">
+          <option
+            v-for="option in currencies"
+            :key="option.id"
+            :value="option.id">
+            {{ option.name }}
+          </option>
+        </b-select>
       </section>
       <footer class="modal-card-foot">
         <button
@@ -41,8 +38,8 @@
         </button>
         <button
           class="button is-primary"
-          @click="newCurrency"
-          @keypress.enter="newCurrency">
+          @click="newBank"
+          @keypress.enter="newBank">
           Guardar
         </button>
       </footer>
@@ -52,27 +49,31 @@
 
 <script>
 export default {
-  name: 'AddCurrency',
+  name: 'AddAccount',
+  props: {
+    currencies: {
+      type: Array,
+      default: () => ([]),
+    },
+  },
   data: () => ({
     name: '',
-    identifier: '',
-    sign: '',
-    savingCurrency: false,
+    currency: '',
+    savingBank: false,
   }),
   methods: {
-    async newCurrency() {
-      this.savingCurrency = true;
+    async newBank() {
+      this.savingBank = true;
 
       try {
-        await $http.post('api/currencies', {
+        await $http.post('api/banks', {
           name: this.name,
-          identifier: this.identifier,
-          sign: this.sign,
+          currency: this.currency,
         });
       } finally {
-        this.savingCurrency = false;
+        this.savingBank = false;
         this.$parent.close();
-        this.$emit('currency-created');
+        this.$emit('bank-saved');
       }
     },
   },

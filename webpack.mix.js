@@ -11,10 +11,10 @@ const mix = require('laravel-mix');
  |
 */
 mix.options({
-    hmrOptions: {
-        host: 'localhost',
-        port: '9000'
-    }
-})
+  hmrOptions: {
+    host: 'localhost',
+    port: '9000',
+  },
+});
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+  .sass('resources/sass/app.scss', 'public/css');

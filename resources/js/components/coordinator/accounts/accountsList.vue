@@ -1,19 +1,27 @@
 <script>
-import addBank from './addBank.vue';
+import addAccount from './addAccount.vue';
+import currencyFilter from '../../../currency';
 
 export default {
-    name: 'BankLists',
+    name: 'AccountsLists',
+    filters: {
+        currencyFilter,
+    },
     components: {
-        addBank,
+        addAccount,
     },
     props: {
-        banksQuery: {
+        accountsQuery: {
             type: Object,
             default: () => ({
                 data: {},
             }),
         },
         allCurrencies: {
+            type: Array,
+            default: () => ([]),
+        },
+        allBanks: {
             type: Array,
             default: () => ([]),
         },
@@ -25,11 +33,13 @@ export default {
             selected: {},
             filters: {},
             selectedCurrencies: [],
+            selectedBanks: [],
             filteredCurrencies: [],
+            filteredBanks: [],
             defaultOpenedDetails: [5],
             savingName: false,
             isOpenModal: false,
-            removingBank: false,
+            removingAccount: false,
         }
     ),
     computed: {
@@ -37,7 +47,7 @@ export default {
         currencies() {
             return this.allCurrencies.map((currency) => currency.name);
         },
-        banks() {
+        accounts() {
             return this.query.data;
         },
         currentPage() {
@@ -54,17 +64,24 @@ export default {
         selectedCurrencies() {
             this.loadAsyncData();
         },
+        selectedBanks() {
+            this.loadAsyncData();
+        },
     },
     created() {
-        this.query = this.banksQuery;
+        this.query = this.accountsQuery;
         this.page = this.query.current_page;
         this.filteredCurrencies = this.allCurrencies;
+        this.filteredBanks = this.allBanks;
     },
     methods: {
-        openAddBankModal() {
+        deleteAccount(id){
+            console.log(id)
+        },
+        openAddAccountModal() {
             this.isOpenModal = true;
         },
-        async removeBank(id) {
+        async removeAccount(id) {
             this.$buefy.dialog.confirm({
                 message: 'Continue on this task?',
                 onConfirm: async () => {
@@ -81,7 +98,7 @@ export default {
         async changeName(id, name) {
             this.savingName = true;
             try {
-                await $http.patch(`api/banks/${id}`, {
+                await $http.patch(`api/accounts/${id}`, {
                     name,
                 });
             } finally {
@@ -90,29 +107,40 @@ export default {
             }
         },
         toggle(row) {
-            this.$refs.banksTable.toggleDetails(row);
+            this.$refs.accountsTable.toggleDetails(row);
         },
+
         changedPage(page) {
             this.page = page;
             this.loadAsyncData();
         },
-        getFilteredTags(text) {
+        getFilteredCurrenciesTags(text) {
             this.filteredCurrencies = this.allCurrencies
                 .filter((currency) => currency.name
                     .toString()
                     .toLowerCase()
                     .indexOf(text.toLowerCase()) >= 0);
         },
-
+        getFilteredBanksTags(text) {
+            this.filteredBanks = this.allBanks
+                .filter((bank) => bank.name
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(text.toLowerCase()) >= 0);
+        },
         async loadAsyncData() {
             const params = this.getAllUrlParams(document.location.href)
+
             params.page = this.page;
             Object.assign(params, this.filters);
             if (this.selectedCurrencies.length) {
                 params.currencies = this.selectedCurrencies.map((currency) => currency.id);
             }
+            if (this.selectedBanks.length) {
+                params.banks = this.selectedBanks.map((bank) => bank.id);
+            }
             this.loading = true;
-            const request = await $http.get('/api/banks', {params: {...params}});
+            const request = await $http.get('/api/accounts', {params: {...params}});
             this.query = await request.json();
             this.loading = false;
         },

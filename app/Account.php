@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
  * @method static create(array $data)
  * @method static find($venezuelan_operator_account_id)
  * @method static where(string $string, $bank_id)
+ * @method static whereIsOperator(bool $true)
  * @property mixed balanceCache
  * @property mixed id
  */
@@ -25,7 +26,7 @@ class Account extends Model
     use SoftDeletes;
 
     //protected $with = ['bank'];
-    protected $fillable = ['bank_id', 'is_operator_account', 'number', 'type'];
+    protected $fillable = ['bank_id', 'type','number','is_operator'];
 
     /**
      * @return BelongsTo

@@ -46,6 +46,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('manage-banks', function ($user) {
             return $user->hasRole('coordinator');
         });
+        Gate::define('manage-accounts', function ($user) {
+            return $user->hasRole('coordinator');
+        });
         Gate::define('approve-operations', function ($user) {
             return $user->hasRole('coordinator');
         });

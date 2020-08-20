@@ -1,8 +1,7 @@
-import './bulma'
-import 'animate.css/animate.min.css'
+import './bulma';
+import 'animate.css/animate.min.css';
 
 window._ = require('lodash');
-
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -13,15 +12,7 @@ window._ = require('lodash');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.fetchxios=(headers)=> {
-    var fetchHeaders = new Headers();
-    fetchHeaders.append('Content-Type', 'application/json');
-    fetchHeaders.append('X-Requested-With', 'XMLHttpRequest');
-    for (key in headers) {
-        fetchHeaders.append(key,headers[key]);
-    }
-    return fetch(url)
-}
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -33,79 +24,87 @@ function getCookie(name) {
     }
 
     const xsrfCookies = document.cookie.split(';')
-        .map(c => c.trim())
-        .filter(c => c.startsWith(name + '='));
+        .map((c) => c.trim())
+        .filter((c) => c.startsWith(`${name}=`));
 
     if (xsrfCookies.length === 0) {
         return null;
     }
     return decodeURIComponent(xsrfCookies[0].split('=')[1]);
 }
+
 const csrfToken = getCookie('XSRF-TOKEN');
-const noDataFetch=
-window.$http={
+window.$http = {
 
-        setupHeaders:(newHeaders)=>{
-            const myHeaders = new Headers();
+    setupHeaders: (newHeaders) => {
+        const myHeaders = new Headers();
 
-            myHeaders.append('credentials','same-origin')
-            myHeaders.append('Accept','application/json')
-            myHeaders.append('Content-Type', 'application/json')
-            myHeaders.append('X-Requested-With','XMLHttpRequest')
-            myHeaders.append('X-XSRF-TOKEN', csrfToken);
-            for (let key in newHeaders) {
-                myHeaders.append(key,newHeaders[key]);
-            }
-            return myHeaders;
-        },
-        noDataFetch:function(url,headersConf,config){
-            const myHeaders=this.setupHeaders(headersConf)
-            return fetch(url, {
-                headers:myHeaders,
-                ...config
-            })
-        },
-        dataFetch:function(url,data, headersConf,config){
-            const myHeaders=this.setupHeaders(headersConf)
-            return fetch(url, {
-                headers:myHeaders,
-                method:'POST',
-                body:JSON.stringify(data),
-                ...config
-            })
-        },
-        get:function(url,config={},headersConf){
-            config.method='GET';
-            let params='';
-            if(config.params){
-                params +='?';
-                for(let paramKey in config.params){
-                    params+=`${paramKey}=${config.params[paramKey]}&`
-                }
-                params=params.replace(/\&$/g,'')
-            }
-            return this.noDataFetch(`${url}${params}`,headersConf,config)
-        },
-        delete:function(url,headersConf,config={}){
-            config.method='DELETE';
-            return this.noDataFetch(url,headersConf,config)
-        },
-        post:function(url,data={},headersConf,config={}){
-            config.method='POST';
-            return this.dataFetch(url,data,headersConf,config)
-        },
-        put:function(url,data={},headersConf,config={}){
-            config.method='PUT';
-            return this.dataFetch(url,data,headersConf,config)
-        },
-        patch:function(url,data={},headersConf,config={}){
-            config.method='PATCH';
-            return this.dataFetch(url,data,headersConf,config)
-        },
-        custom:function(url,data={},headersConf,config){
-            return this.dataFetch(url,data,headersConf,config)
-        },
-}
+        myHeaders.append('credentials', 'same-origin');
+        myHeaders.append('Accept', 'application/json');
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('X-Requested-With', 'XMLHttpRequest');
+        myHeaders.append('X-XSRF-TOKEN', csrfToken);
+        if (newHeaders) {
+            newHeaders.forEach((key) => {
+                myHeaders.append(key, newHeaders[key]);
+            });
+        }
+        return myHeaders;
+    },
+    noDataFetch(url, headersConf, config) {
+        const myHeaders = this.setupHeaders(headersConf);
+        return fetch(url, {
+            headers: myHeaders,
+            ...config,
+        });
+    },
+    dataFetch(url, data, headersConf, config) {
+        const myHeaders = this.setupHeaders(headersConf);
+        return fetch(url, {
+            headers: myHeaders,
+            method: 'POST',
+            body: JSON.stringify(data),
+            ...config,
+        });
+    },
+    get(url, config = {}, headersConf) {
+        // eslint-disable-next-line no-param-reassign
+        config.method = 'GET';
+        let params = '';
+        if (config.params) {
+            params += '?';
+            const paramsKeys = Object.keys(config.params)
+            paramsKeys.forEach((paramKey) => {
+                params += `${paramKey}=${config.params[paramKey]}&`;
+            });
+            params = params.replace(/&$/g, '');
+        }
+        return this.noDataFetch(`${url}${params}`, headersConf, config);
+    },
+    delete(url, headersConf, config = {}) {
+        // eslint-disable-next-line no-param-reassign
+        config.method = 'DELETE';
+        return this.noDataFetch(url, headersConf, config);
+    },
+    post(url, data = {}, headersConf, config = {}) {
+        // eslint-disable-next-line no-param-reassign
+        config.method = 'POST';
+        return this.dataFetch(url, data, headersConf, config);
+    },
+    put(url, data = {}, headersConf, config = {}) {
+        // eslint-disable-next-line no-param-reassign
+        config.method = 'PUT';
+        return this.dataFetch(url, data, headersConf, config);
+    },
+    patch(url, data = {}, headersConf, config = {}) {
+        // eslint-disable-next-line no-param-reassign
+        config.method = 'PATCH';
+        return this.dataFetch(url, data, headersConf, config);
+    },
+    custom(url, data = {}, headersConf, config) {
+        return this.dataFetch(url, data, headersConf, config);
+    },
+};
 // import Echo from 'laravel-echo';
 
 // window.Pusher = require('pusher-js');

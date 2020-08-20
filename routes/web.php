@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('users', 'UserController',['except'=>['destroy','create','store','edit']]);
     Route::get('banks', ['uses'=>'BankController@index','as'=>'banks.index']);
+    Route::get('accounts', ['uses'=>'AccountController@index','as'=>'accounts.index']);
     Route::get('currencies', ['uses'=>'CurrencyController@index','as'=>'currencies.index']);
     Route::get('rates', ['uses'=>'RateController@index','as'=>'rates.index']);
     Route::get('settings', ['uses'=>'SettingController@index','as'=>'settings.index']);
