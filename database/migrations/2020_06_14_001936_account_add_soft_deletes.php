@@ -18,8 +18,10 @@ class AccountAddSoftDeletes extends Migration
         });
         foreach ([28,29] as $id ){
             $account=\App\Account::find($id);
-            $account->is_operator=true;
-            $account->save();
+            if($account) {
+                $account->is_operator = true;
+                $account->save();
+            }
         }
     }
 

@@ -1,11 +1,11 @@
 <script>
-    export default {
-        name: "navBar",
-        data:()=>({
-            openMobile:false,
-            openDropdown:false,
-        })
-    }
+export default {
+  name: 'NavBar',
+  data: () => ({
+    openMobile: false,
+    openDropdown: false,
+  }),
+};
 </script>
 
 <style scoped>

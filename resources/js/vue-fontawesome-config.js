@@ -11,6 +11,8 @@ import {
     faCommentDollar,
     faSearchDollar,
     faKey,
+    faFileInvoiceDollar,
+
     faSignOutAlt,
     faAddressBook,
     faChevronLeft,
@@ -20,12 +22,14 @@ import {
     faPiggyBank,
     faFileSignature,
     faSignInAlt,
-    faChevronRight
+    faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 
 library.add(
+    faFileInvoiceDollar,
     faEnvelope,
+    faSearchDollar,
     faExclamationTriangle,
     faFileSignature,
     faSignInAlt,
@@ -42,9 +46,7 @@ library.add(
     faPiggyBank,
     faAddressBook,
     faSadTear,
-    faPeopleArrows
-
+    faPeopleArrows,
 );
-
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);

@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BankController extends Controller
 {
      /**
-     * Display a listing of the resource.
-     *
-     * @return LengthAwarePaginator
+
      */
     public function index()
     {

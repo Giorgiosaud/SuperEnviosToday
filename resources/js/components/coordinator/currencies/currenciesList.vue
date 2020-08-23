@@ -1,18 +1,18 @@
 <script>
-import addCurrency from './addCurrency';
+import addCurrency from './addCurrency.vue';
 
 export default {
-    name: "currenciesList",
+    name: 'CurrenciesList',
+    components: {
+        addCurrency,
+    },
     props: {
-        'currenciesQuery': {
+        currenciesQuery: {
             type: Object,
             default: () => ({
-                data: {}
-            })
+                data: {},
+            }),
         },
-    },
-    components: {
-        addCurrency
     },
     data: () => (
         {
@@ -22,32 +22,27 @@ export default {
             defaultOpenedDetails: [],
             savingCurrency: false,
             isOpenModal: false,
-            removingCurrency: false
+            removingCurrency: false,
         }
     ),
-    created() {
-        this.query = this.currenciesQuery;
-        this.page = this.query.current_page;
-
-    },
     computed: {
         currencies() {
             return this.query.data;
-        }
-        ,
+        },
         currentPage() {
             return this.query.currentPage ? this.query.currentPage : 0;
-        }
-        ,
+        },
         lastPage() {
             return this.query.last_page ? this.query.last_page : 0;
-        }
-        ,
+        },
         path() {
             return this.query.path ? this.query.path : '';
-        }
-    }
-    ,
+        },
+    },
+    created() {
+        this.query = this.currenciesQuery;
+        this.page = this.query.current_page;
+    },
     methods: {
         openAddCurrencyModal() {
             this.isOpenModal = true;
@@ -56,66 +51,54 @@ export default {
             this.$buefy.dialog.confirm({
                 message: 'Continue on this task?',
                 onConfirm: async () => {
-                    this.removingCurrency = true
+                    this.removingCurrency = true;
                     try {
-                        await $http.delete(`api/currencies/${id}`)
+                        await $http.delete(`api/currencies/${id}`);
                     } finally {
-                        this.removingCurrency = false
+                        this.removingCurrency = false;
                         await this.loadAsyncData();
                     }
-                }
-            })
-
+                },
+            });
         },
         async changeCurrency(id, name, identifier, sign) {
-            this.savingCurrency = true
+            this.savingCurrency = true;
             try {
                 await $http.patch(`api/currencies/${id}`, {
                     name,
                     identifier,
-                    sign
-                })
+                    sign,
+                });
             } finally {
                 this.savingCurrency = false;
                 await this.loadAsyncData();
             }
         },
         toggle(row) {
-            this.$refs.currenciesTable.toggleDetails(row)
+            this.$refs.currenciesTable.toggleDetails(row);
         },
         paramsToObject(entries) {
-            let result = {}
-            for (let entry of entries) { // each 'entry' is a [key, value] tupple
+            const result = {};
+            entries.forEach((entry) => { // each 'entry' is a [key, value] tupple
                 const [key, value] = entry;
                 result[key] = value;
-            }
+            });
             return result;
         },
         changedPage(page) {
             this.page = page;
             this.loadAsyncData();
         },
-        changedFilter(filters) {
-            for (const filter in filters) {
-                if (filters[filter] === '') {
-                    delete filters[filter]
-                }
-            }
-            this.filters = filters;
-            this.loadAsyncData();
-        },
+
         async loadAsyncData() {
-            const urlParams = new URLSearchParams(document.location.search.substring(1));
-            const entries = urlParams.entries();
-            const params = this.paramsToObject(entries);
+            const params = this.getAllUrlParams(document.location.href)
             params.page = this.page;
             Object.assign(params, this.filters);
             this.loading = true;
-            const request = await $http.get('/api/currencies', {params: {...params}})
+            const request = await $http.get('/api/currencies', {params: {...params}});
             this.query = await request.json();
             this.loading = false;
-
         },
     },
-}
+};
 </script>

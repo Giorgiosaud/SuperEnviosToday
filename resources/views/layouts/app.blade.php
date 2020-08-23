@@ -94,6 +94,14 @@
                                      href="{{ route('banks.index') }}"></b-menu-item>
                     </b-menu-list>
                 @endcan
+                @can('manage-accounts')
+                    <b-menu-list label="{{__('accounts.MENU:TITLE')}}">
+                        <b-menu-item icon="file-invoice-dollar"
+                                     label="{{__('accounts.MENU:MANAGE')}}"
+                                     tag="a"
+                                     href="{{ route('accounts.index') }}"></b-menu-item>
+                    </b-menu-list>
+                @endcan
                 @can('manage-rates')
                     <b-menu-list label="{{__('rates.MENU:TITLE')}}">
                         <b-menu-item icon="chart-line"

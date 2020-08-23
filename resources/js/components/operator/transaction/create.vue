@@ -1,55 +1,56 @@
 <script>
-    // TODO verificar saldo de cuentas al momento de ir al pasod e eleccion de cuentas o colocar boton de actualizar alli,
-    import clientData from './clientData'
-    import transactionData from './transactionData'
-    import receiverData from './receiverData'
-    import venezuelanOperatorData from './venezuelanOperatorData'
-    export default {
-        name: "transactionCreate",
-        props:{
-            operator:{
-                type:Object,
-                default:()=>({})
-            }
-        },
-        components:{
-            clientData,
-            transactionData,
-            receiverData,
-            venezuelanOperatorData
-        },
-        data:()=>({
-            clientData:null,
-            actualStep:0,
-            transactionData:null,
-            receiverData:null,
-            venezuelanOperatorData:null,
-        }),
-        methods:{
-            async clientDataSet(client){
-                this.clientData=client
-            },
+// TODO verificar saldo de cuentas al momento de ir al paso de eleccion de cuentas o colocar boton de actualizar alli,
+import clientData from './clientData.vue';
+import transactionData from './transactionData.vue';
+import receiverData from './receiverData.vue';
+import venezuelanOperatorData from './venezuelanOperatorData.vue';
 
-            nextStep(){
-                this.actualStep++
-            },
-            clientReceiverSet(receiverData){
-                this.receiverData=receiverData;
-            },
-            transactionDataSet(transactionData){
-                this.transactionData=transactionData;
-                this.nextStep();
-            },
-            venezuelanOperatorDataSet(operatorDataSet){
-                this.venezuelanOperatorData=operatorDataSet;
-                this.nextStep();
-            },
-            executedTransaction(){
+export default {
+  name: 'TransactionCreate',
+  components: {
+    clientData,
+    transactionData,
+    receiverData,
+    venezuelanOperatorData,
+  },
+  props: {
+    operator: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  data: () => ({
+    clientData: null,
+    actualStep: 0,
+    transactionData: null,
+    receiverData: null,
+    venezuelanOperatorData: null,
+  }),
+  methods: {
+    async clientDataSet(client) {
+      this.clientData = client;
+    },
 
-            }
-        }
+    nextStep() {
+      this.actualStep += 1;
+    },
+    clientReceiverSet(received) {
+      this.receiverData = received;
+    },
+    transactionDataSet(transaction) {
+      this.transactionData = transaction;
+      this.nextStep();
+    },
+    venezuelanOperatorDataSet(operatorDataSet) {
+      this.venezuelanOperatorData = operatorDataSet;
+      this.nextStep();
+    },
+    executedTransaction() {
 
-    }
+    },
+  },
+
+};
 
 </script>
 
