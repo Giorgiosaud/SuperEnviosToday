@@ -1,22 +1,22 @@
 <script>
-import addBank from './addBank';
+import addBank from './addBank.vue';
 
 export default {
-    name: "bankLists",
+    name: 'BankLists',
+    components: {
+        addBank,
+    },
     props: {
-        'banksQuery': {
+        banksQuery: {
             type: Object,
             default: () => ({
-                data: {}
-            })
+                data: {},
+            }),
         },
-        'allCurrencies': {
+        allCurrencies: {
             type: Array,
-            default: () => ([])
-        }
-    },
-    components: {
-        addBank
+            default: () => ([]),
+        },
     },
     data: () => (
         {
@@ -29,37 +29,37 @@ export default {
             defaultOpenedDetails: [5],
             savingName: false,
             isOpenModal: false,
-            removingBank: false
+            removingBank: false,
         }
     ),
+    computed: {
+
+        currencies() {
+            return this.allCurrencies.map((currency) => currency.name);
+        },
+        banks() {
+            return this.query.data;
+        },
+        currentPage() {
+            return this.query.currentPage ? this.query.currentPage : 0;
+        },
+        lastPage() {
+            return this.query.last_page ? this.query.last_page : 0;
+        },
+        path() {
+            return this.query.path ? this.query.path : '';
+        },
+    },
+    watch: {
+        selectedCurrencies() {
+            this.loadAsyncData();
+        },
+    },
     created() {
         this.query = this.banksQuery;
         this.page = this.query.current_page;
         this.filteredCurrencies = this.allCurrencies;
-
     },
-    computed: {
-
-        currencies() {
-            return this.allCurrencies.map(currency => currency.name)
-        },
-        banks() {
-            return this.query.data;
-        }
-        ,
-        currentPage() {
-            return this.query.currentPage ? this.query.currentPage : 0;
-        }
-        ,
-        lastPage() {
-            return this.query.last_page ? this.query.last_page : 0;
-        }
-        ,
-        path() {
-            return this.query.path ? this.query.path : '';
-        }
-    }
-    ,
     methods: {
         openAddBankModal() {
             this.isOpenModal = true;
@@ -68,38 +68,29 @@ export default {
             this.$buefy.dialog.confirm({
                 message: 'Continue on this task?',
                 onConfirm: async () => {
-                    this.removingBank = true
+                    this.removingBank = true;
                     try {
-                        await $http.delete(`api/banks/${id}`)
+                        await $http.delete(`api/banks/${id}`);
                     } finally {
-                        this.removingBank = false
+                        this.removingBank = false;
                         await this.loadAsyncData();
                     }
-                }
-            })
-
+                },
+            });
         },
         async changeName(id, name) {
-            this.savingName = true
+            this.savingName = true;
             try {
                 await $http.patch(`api/banks/${id}`, {
-                    name
-                })
+                    name,
+                });
             } finally {
                 await this.loadAsyncData();
-                this.savingName = false
+                this.savingName = false;
             }
         },
         toggle(row) {
-            this.$refs.banksTable.toggleDetails(row)
-        },
-        paramsToObject(entries) {
-            let result = {}
-            for (let entry of entries) { // each 'entry' is a [key, value] tupple
-                const [key, value] = entry;
-                result[key] = value;
-            }
-            return result;
+            this.$refs.banksTable.toggleDetails(row);
         },
         changedPage(page) {
             this.page = page;
@@ -107,43 +98,24 @@ export default {
         },
         getFilteredTags(text) {
             this.filteredCurrencies = this.allCurrencies
-                .filter((currency) => {
-                    return currency.name
-                        .toString()
-                        .toLowerCase()
-                        .indexOf(text.toLowerCase()) >= 0
-                })
+                .filter((currency) => currency.name
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(text.toLowerCase()) >= 0);
         },
-        changedFilter(filters) {
-            console.log(filters)
-            for (const filter in filters) {
-                if (filters[filter] === '') {
-                    delete filters[filter]
-                }
-            }
-            this.filters = filters;
-            this.loadAsyncData();
-        },
+
         async loadAsyncData() {
-            const urlParams = new URLSearchParams(document.location.search.substring(1));
-            const entries = urlParams.entries();
-            const params = this.paramsToObject(entries);
+            const params = this.getAllUrlParams(document.location.href)
             params.page = this.page;
             Object.assign(params, this.filters);
             if (this.selectedCurrencies.length) {
-                params.currencies = this.selectedCurrencies.map(currency => currency.id)
+                params.currencies = this.selectedCurrencies.map((currency) => currency.id);
             }
             this.loading = true;
-            const request = await $http.get('/api/banks', {params: {...params}})
+            const request = await $http.get('/api/banks', {params: {...params}});
             this.query = await request.json();
             this.loading = false;
-
         },
     },
-    watch: {
-        selectedCurrencies() {
-            this.loadAsyncData()
-        }
-    }
-}
+};
 </script>

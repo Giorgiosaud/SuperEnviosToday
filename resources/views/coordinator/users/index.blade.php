@@ -22,7 +22,7 @@
                             <button class="button field is-info"
                                     @click="goToDetails"
                                     :disabled="!selected.id">
-                                <span v-if="!selected.id">{{__('banks.SELECT_BANK')}}</span>
+                                <span v-if="!selected.id">{{__('users.SELECT_USER')}}</span>
                                 <span
                                     v-else>{{__('users.GO_TO_SELECTED')}} @{{selected.name}} @{{selected.last_name}}</span>
                             </button>

@@ -1,0 +1,23 @@
+<?php
+return [
+    'MENU:TITLE' => 'Cuentas',
+    'MENU:MANAGE' => 'Manejar Cuentas de operadores',
+    'DELETE_ACCOUNT'=>'Borrar Cuenta',
+    'ACTIONS'=>'Acciones',
+    'BANK:CURRENCY'=>'Moneda',
+    'WELCOME' => 'Listado de cuentas',
+    'MESSAGE' => 'aqui podras listar y filtrar todas las cuentas de :app',
+    'GO_TO_SELECTED' => 'Ir al detalle de: ',
+    'ADD_ACCOUNT' => 'Agregue un cuenta',
+    'EDIT' => 'Editar Nombre',
+    'UPDATE' => 'Actualizar Datos',
+    'CANCEL' => 'Cancelar actualización de datos',
+    'LIST' => 'Mostrar lista de Bancos',
+    'UPDATED:MESSAGE' => 'La cuenta fué Actualizado',
+    'BANK:NAME' => 'Nombre de Banco',
+    'NUMBER' => 'Numero de Cuenta',
+    'CURRENCY' => 'MONEDA',
+    'SELECT:CURRENCY' => 'Seleccione Moneda a filtrar',
+    'SELECT:BANK' => 'Seleccione Banco a filtrar',
+    'BALANCE' => 'Saldo'
+];
