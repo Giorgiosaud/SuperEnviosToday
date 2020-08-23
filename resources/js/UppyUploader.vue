@@ -8,7 +8,7 @@
         alt="Uploaded Image Preview">
     </div>
     <div class="form-group">
-      <div ref="dashboardContainer" />
+      <div ref="dashboardContainer"/>
     </div>
     <section
       v-if="!autoProceed"
@@ -119,8 +119,8 @@ export default {
           // trigger: '.UppyModalOpenerBtn',
           note: 'Solo Imagenes o pdf, hasta 10 archivos, de maximo 2 MB',
           metaFields: [
-            { id: 'name', name: 'Name', placeholder: 'file name' },
-            { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' },
+            {id: 'name', name: 'Name', placeholder: 'file name'},
+            {id: 'caption', name: 'Caption', placeholder: 'describe what the image is about'},
           ],
           browserBackButtonClose: true,
           locale: {
@@ -142,7 +142,7 @@ export default {
             },
           },
         })
-        .use(Webcam, { target: Dashboard })
+        .use(Webcam, {target: Dashboard})
         .use(XHRUpload, {
           limit: 1,
           endpoint: '/api/file/upload',
@@ -179,7 +179,7 @@ export default {
         this.uploading = false;
       }
     },
-    updatePreviewPath({ path }) {
+    updatePreviewPath({path}) {
       this.previewPath = path;
 
       return this;

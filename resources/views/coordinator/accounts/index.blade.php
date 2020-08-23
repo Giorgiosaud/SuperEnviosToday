@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <section class="hero is-primary">
         <div class="hero-body">
@@ -20,6 +19,7 @@
                        inline-template
                        v-cloak>
             <div>
+
                 <section class="section">
 
                     <div class="columns">
@@ -32,66 +32,107 @@
                         </div>
                         <div class="column">
                             <b-taginput
-                                v-model="selectedCurrencies"
-                                :data="filteredCurrencies"
-                                autocomplete
-                                :allow-new="false"
-                                :open-on-focus="true"
-                                field="name"
-                                icon="label"
-                                placeholder="{{__('accounts.SELECT:CURRENCY')}}"
-                                @typing="getFilteredCurrenciesTags">
+                                    v-model="selectedCurrencies"
+                                    :data="filteredCurrencies"
+                                    autocomplete
+                                    :allow-new="false"
+                                    :open-on-focus="true"
+                                    field="name"
+                                    icon="label"
+                                    placeholder="{{__('accounts.SELECT:CURRENCY')}}"
+                                    @typing="getFilteredCurrenciesTags">
                             </b-taginput>
                         </div>
 
                     </div>
 
                     <b-table
-                        :data="accounts"
-                        :loading="loading"
-                        :striped="true"
-                        :total="query.total"
-                        :current-page="query.current_page"
-                        :per-page="query.per_page"
-                        ref="accountsTable"
-                        aria-next-label="Next page"
-                        aria-previous-label="Previous page"
-                        paginated
-                        backend-paginatiopn
-                        backend-filtering
-                        @filters-change="changedFilter"
-                        @page-change="changedPage">
-                        <template slot-scope="props">
+                            :data="accounts"
+                            :loading="loading"
+                            :striped="true"
+                            :total="query.total"
+                            :current-page="query.current_page"
+                            :per-page="query.per_page"
+                            ref="accountsTable"
+                            aria-next-label="Next page"
+                            aria-previous-label="Previous page"
+                            paginated
+                            backend-paginatiopn
+                            backend-filtering
+                            @filters-change="changedFilter"
+                            @page-change="changedPage"
+                            detailed>
+                        <template #default="{row:account}">
                             <b-table-column field="id" label="ID" width="40" numeric>
-                                @{{ props.row.id }}
+                                @{{ account.id }}
                             </b-table-column>
 
                             <b-table-column field="number"
                                             label="{{__('accounts.NUMBER')}}">
-                                @{{ props.row.number }}
+                                @{{ account.number }}
                             </b-table-column>
 
                             <b-table-column field="name"
                                             label="{{__('accounts.BANK:NAME')}}">
-                                @{{ props.row.bank.name }}
+                                @{{ account.bank.name }}
                             </b-table-column>
                             <b-table-column field="name"
                                             label="{{__('accounts.BANK:CURRENCY')}}">
-                                @{{ props.row.bank.currency.name }}
+                                @{{ account.bank.currency.name }}
                             </b-table-column>
                             <b-table-column field="balance" label="{{__('accounts.BALANCE')}}">
-                                @{{ props.row.balance |currencyFilter({
-                                ...props.row.bank.currency,
-                                formatWithSymbol:props.row.bank.currency.format_with_symbol === 1
+                                @{{ account.balance |currencyFilter({
+                                ...account.bank.currency,
+                                formatWithSymbol:account.bank.currency.format_with_symbol === 1
                                 })}}
                             </b-table-column>
                             <b-table-column field="Acciones" label="{{__('accounts.ACTIONS')}}">
                                 <button class="button field is-danger"
-                                        @click="deleteAccount(props.row.id)">
+                                        @click="deleteAccount(account.id)">
                                     {{__('accounts.DELETE_ACCOUNT')}}
 
                                 </button>
                             </b-table-column>
+                        </template>
+                        <template #detail="{row:account}">
+                            <article>
+                                <header>
+                                    <h1>
+                                        Operadores Asociados a esta cuenta
+                                    </h1>
+                                </header>
+                                <b-table
+                                        :data="account.owners">
+                                    <template #default="{row:owner}">
+                                        <b-table-column field="idn_type" label="Tipo de identificación">
+                                            @{{ owner.idn_type }}
+                                        </b-table-column>
+                                        <b-table-column field="idn" label="Número">
+                                            @{{ owner.idn }}
+                                        </b-table-column>
+                                        <b-table-column field="name" label="Nombres">
+                                            @{{ owner.name }}
+                                        </b-table-column>
+                                        <b-table-column field="last_name" label="Apellidos">
+                                            @{{ owner.last_name }}
+                                        </b-table-column>
+                                        <b-table-column field="phone" label="Teléfono">
+                                            @{{ owner.phone }}
+                                        </b-table-column>
+
+                                        <b-table-column field="email" label="Email">
+                                            @{{owner.email }}
+                                        </b-table-column>
+                                        <b-table-column field="remove" label="Accion">
+                                            <b-button type="is-danger" @click="unBind(owner,account)">Desasociar</b-button>
+                                        </b-table-column>
+                                    </template>
+                                </b-table>
+
+                                <footer>
+                                    <b-button @click="asociateToAccount(account,account.owners)">asociar operador</b-button>
+                                </footer>
+                            </article>
                         </template>
                         <template #empty>
                             <section class="section">
@@ -104,13 +145,17 @@
                     </b-table>
                 </section>
                 <b-modal
-                    :active.sync="isOpenModal"
-                    has-modal-card
-                    trap-focus
-                    :destroy-on-hide="false"
-                    aria-role="dialog"
-                    aria-modal>
-                    <add-account :currencies='allCurrencies' :banks="allBanks" @account-saved="loadAsyncData"></add-account>
+                        :active.sync="isOpenModal"
+                        has-modal-card
+                        trap-focus
+                        :destroy-on-hide="false"
+                        aria-role="dialog"
+                        aria-modal>
+                    <add-account v-if="modal === 'account'" :currencies='allCurrencies' :banks="allBanks"
+                                 @account-saved="loadAsyncData"></add-account>
+                    <add-operator v-else :account="accountToAsociate" :actual-owners="actualOwnersOfAccount"
+                                  @add-operator-to-account="addOperatorToAccount"></add-operator>
+
                 </b-modal>
             </div>
         </accounts-list>

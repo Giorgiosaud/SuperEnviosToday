@@ -1,5 +1,5 @@
 <script>
-// TODO verificar saldo de cuentas al momento de ir al pasod e eleccion de cuentas o colocar boton de actualizar alli,
+// TODO verificar saldo de cuentas al momento de ir al paso de eleccion de cuentas o colocar boton de actualizar alli,
 import clientData from './clientData.vue';
 import transactionData from './transactionData.vue';
 import receiverData from './receiverData.vue';

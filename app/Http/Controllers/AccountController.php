@@ -14,6 +14,7 @@ class AccountController extends Controller
         $banks = Bank::all();
         $accounts = Account::whereIsOperator(true)
             ->with('bank.currency')
+            ->with('owners')
             ->paginate();
         $accounts->append(['balance']);
 

@@ -19,6 +19,7 @@ Route::group(['middleware' => ['auth:api'], 'as' => 'api.'], function () {
     ]);
     Route::patch('user/{client}/receiver/{receiver}/unlink', ['uses' => 'Api\UserController@unlink', 'as' => 'receiver.unlink']);
     Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'store', 'update']]);
+    Route::get('users/operators', ['uses'=>'Api\UserController@getOperators','as'=>'users.operators.index']);
     Route::post('user/verify_email', ['uses' => 'Api\UserController@resendVerificationEmail', 'as' => 'user.resend']);
     Route::get('user/receivers/{user}', ['uses' => 'Api\UserController@receivers', 'as' => 'user.receivers']);
     Route::post('user/{user}/receiver', ['uses' => 'Api\UserController@createReceiver', 'as' => 'user.create.receiver']);
@@ -35,6 +36,7 @@ Route::group(['middleware' => ['auth:api'], 'as' => 'api.'], function () {
     Route::get('accounts/base', ['uses' => 'Api\AccountController@indexBase', 'as' => 'index.base.accounts']);
     Route::get('accounts/{currencyId}', ['uses' => 'Api\AccountController@getAccounts', 'as' => 'accounts.from_currency']);
     Route::patch('account/{account}/user/{user}/unlink', ['uses' => 'Api\AccountController@unlink', 'as' => 'account.unlink']);
+    Route::patch('account/{account}/user/{user}/unbind', ['uses' => 'Api\AccountController@unbind', 'as' => 'account.unbind']);
     Route::post('accounts/link/{user}', ['uses' => 'Api\AccountController@link', 'as' => 'accounts.link']);
     Route::get('rate/{currencyId}', ['uses' => 'Api\RateController@get', 'as' => 'rate.get']);
     Route::post('file/upload', ['uses' => 'Api\AttachmentController@upload', 'as' => 'file.upload']);
