@@ -14,13 +14,6 @@
         </div>
     </section>
     <section class="section">
-        @if(Auth::user()->hasRole('coordinator') )
-            <article class="">
-                <p class="subtitle is-3">Respecto a Las Transacciones</p>
-                <div class="buttons">
-                    <a href="#" class="button is-primary" disabled>Crear Transaccion de ajuste</a>
-                </div>
-            </article>
-        @endif
+
     </section>
 @endsection
