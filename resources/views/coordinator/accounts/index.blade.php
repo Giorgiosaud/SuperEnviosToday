@@ -87,11 +87,18 @@
                                 })}}
                             </b-table-column>
                             <b-table-column field="Acciones" label="{{__('accounts.ACTIONS')}}">
-                                <button class="button field is-danger"
-                                        @click="deleteAccount(account.id)">
-                                    {{__('accounts.DELETE_ACCOUNT')}}
+                                <div class="buttons">
 
-                                </button>
+                                    <button class="button field is-danger"
+                                            @click="deleteAccount(account.id)">
+                                        {{__('accounts.DELETE_ACCOUNT')}}
+
+                                    </button>
+                                    <a class="button field is-info"
+                                       :href="`/accounts/${account.id}`">
+                                        {{__('accounts.CREATE_ADJUSTMENT_TRANSACTION')}}
+                                    </a>
+                                </div>
                             </b-table-column>
                         </template>
                         <template #detail="{row:account}">
@@ -124,13 +131,15 @@
                                             @{{owner.email }}
                                         </b-table-column>
                                         <b-table-column field="remove" label="Accion">
-                                            <b-button type="is-danger" @click="unBind(owner,account)">Desasociar</b-button>
+                                            <b-button type="is-danger" @click="unBind(owner,account)">Desasociar
+                                            </b-button>
                                         </b-table-column>
                                     </template>
                                 </b-table>
 
                                 <footer>
-                                    <b-button @click="asociateToAccount(account,account.owners)">asociar operador</b-button>
+                                    <b-button @click="asociateToAccount(account,account.owners)">asociar operador
+                                    </b-button>
                                 </footer>
                             </article>
                         </template>

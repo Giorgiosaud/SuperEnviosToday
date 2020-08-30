@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:api'], 'as' => 'api.'], function () {
     Route::get('accounts', ['uses' => 'Api\AccountController@index', 'as' => 'index.accounts']);
     Route::post('accounts', ['uses' => 'Api\AccountController@store', 'as' => 'store.accounts']);
     Route::patch('account/{account}', ['uses' => 'Api\AccountController@update', 'as' => 'account.update']);
+    Route::patch('account/{account}/toggle-operator-state', ['uses' => 'Api\AccountController@toggleOperatorState', 'as' => 'account.toggle.operator.state']);
     Route::get('accounts/base', ['uses' => 'Api\AccountController@indexBase', 'as' => 'index.base.accounts']);
     Route::get('accounts/{currencyId}', ['uses' => 'Api\AccountController@getAccounts', 'as' => 'accounts.from_currency']);
     Route::patch('account/{account}/user/{user}/unlink', ['uses' => 'Api\AccountController@unlink', 'as' => 'account.unlink']);
@@ -43,5 +44,6 @@ Route::group(['middleware' => ['auth:api'], 'as' => 'api.'], function () {
     Route::get('transaction/verify/{transactionNumber}', ['uses' => 'Api\TransactionController@verify', 'as' => 'transaction.verify']);
     Route::post('transaction/execute', ['uses' => 'Api\TransactionController@execute', 'as' => 'transaction.execute']);
     Route::get('transactions', ['uses' => 'Api\TransactionController@index', 'as' => 'transactions.index']);
+    Route::post('transaction/{account}/', ['uses' => 'Api\TransactionController@create', 'as' => 'transactions.create']);
     Route::get('my-transactions', ['uses' => 'Api\TransactionController@myIndex', 'as' => 'my.transactions.index']);
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -36,9 +37,9 @@ class UserController extends Controller
     public function show(User $user)
     {
         $roles=Role::all();
-
-
-        return view('coordinator.users.show', ['user' => $user,'roles'=>$roles]);
+        $accounts=$user->accounts()->with('bank.currency')->get();
+        $accounts->append('balance');
+        return view('coordinator.users.show', compact('user','roles','accounts'));
         //
     }
 

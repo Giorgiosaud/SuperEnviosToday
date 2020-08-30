@@ -6,7 +6,9 @@ return [
     'ACTIONS'=>'Acciones',
     'BANK:CURRENCY'=>'Moneda',
     'WELCOME' => 'Listado de cuentas',
+    'WELCOME:SHOW'=>'Detalles de la cuenta',
     'MESSAGE' => 'aqui podras listar y filtrar todas las cuentas de :app',
+    'MESSAGE:SHOW' => 'aqui podras ajustar detalles de la cuenta :account del banco :bank',
     'GO_TO_SELECTED' => 'Ir al detalle de: ',
     'ADD_ACCOUNT' => 'Agregue un cuenta',
     'EDIT' => 'Editar Nombre',
@@ -19,5 +21,7 @@ return [
     'CURRENCY' => 'MONEDA',
     'SELECT:CURRENCY' => 'Seleccione Moneda a filtrar',
     'SELECT:BANK' => 'Seleccione Banco a filtrar',
-    'BALANCE' => 'Saldo'
+    'BALANCE' => 'Saldo',
+    'CREATE_ADJUSTMENT_TRANSACTION' => 'Crear Transaccion de ajuste',
+  'NEW:BALANCE'=>'Nuevo Saldo'
 ];

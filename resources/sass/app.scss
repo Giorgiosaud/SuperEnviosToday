@@ -29,6 +29,7 @@ $link-focus-border: $primary;
 
 // Import Bulma and Buefy styles
 @import "~bulma";
+@import "~bulma-extensions/bulma-switch/src/sass/index";
 @import "~buefy/src/scss/buefy";
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/derived-variables";

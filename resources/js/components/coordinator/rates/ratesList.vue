@@ -51,13 +51,38 @@ export default {
                 allowHtml: true,
             },
             chartEvents: {},
+          adjustedDataForGraph:[]
         }
     ),
     computed: {
         rates() {
             return this.query.data;
         },
-        adjustedDataForGraph() {
+
+        currentPage() {
+            return this.query.currentPage ? this.query.currentPage : 0;
+        },
+        lastPage() {
+            return this.query.last_page ? this.query.last_page : 0;
+        },
+        path() {
+            return this.query.path ? this.query.path : '';
+        },
+    },
+    watch: {
+        selectedCurrencies() {
+            this.loadAsyncData();
+        },
+    },
+    created() {
+        this.query = this.ratesQuery;
+        this.page = this.query.current_page;
+        this.filteredCurrencies = this.allCurrencies;
+        this.setAdjustedDataForGraph()
+    },
+    methods: {
+       setAdjustedDataForGraph() {
+
             const orderedData = this.rates.map((rate) => {
                 const newRate = rate;
                 newRate.since = new Date(newRate.since);
@@ -85,29 +110,8 @@ export default {
                 return date;
             });
 
-            return chartData;
+            this.adjustedDataForGraph= chartData;
         },
-        currentPage() {
-            return this.query.currentPage ? this.query.currentPage : 0;
-        },
-        lastPage() {
-            return this.query.last_page ? this.query.last_page : 0;
-        },
-        path() {
-            return this.query.path ? this.query.path : '';
-        },
-    },
-    watch: {
-        selectedCurrencies() {
-            this.loadAsyncData();
-        },
-    },
-    created() {
-        this.query = this.ratesQuery;
-        this.page = this.query.current_page;
-        this.filteredCurrencies = this.allCurrencies;
-    },
-    methods: {
         getFilteredTags(text) {
             this.filteredCurrencies = this.allCurrencies
                 .filter((currency) => currency.name
@@ -174,6 +178,7 @@ export default {
             const request = await $http.get('/api/rates', {params: {...params}});
             this.query = await request.json();
             this.loading = false;
+            this.setAdjustedDataForGraph()
         },
     },
 };

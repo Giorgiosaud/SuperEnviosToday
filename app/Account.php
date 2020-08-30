@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
  * @method static whereIsOperator(bool $true)
  * @property mixed balanceCache
  * @property mixed id
+ * @property mixed bank
  */
 class Account extends Model
 {
