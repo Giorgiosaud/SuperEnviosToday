@@ -21,5 +21,10 @@ class AccountController extends Controller
         $currencies = Currency::all();
         return view('coordinator.accounts.index', compact('accounts', 'banks', 'currencies'));
     }
+    public function show(Account $account){
+      $account->bank->currency;
+      $account->append('balance');
+      return view('coordinator.accounts.show',compact('account'));
+    }
     //
 }

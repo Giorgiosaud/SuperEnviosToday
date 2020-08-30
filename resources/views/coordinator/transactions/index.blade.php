@@ -15,10 +15,10 @@
     </section>
     <section class="section">
         <transactions
-            inline-template
-            :transactions-query='@json($transactions)'
-            :currencies='@json($currencies)'
-            :currency='@json($currency)'>
+                inline-template
+                :transactions-query='@json($transactions)'
+                :currencies='@json($currencies)'
+                :currency='@json($currency)'>
             <section>
                 <div class="columns">
                     <div class="column">
@@ -42,26 +42,26 @@
                 </div>
 
                 <b-table
-                    @click="transactionClicked"
-                    :data="transactions"
-                    :total="query.total"
-                    :opened-detailed="defaultOpenedDetails"
-                    detail-key="id"
-                    custom-detail-row
-                    detailed
-                    :current-page="query.current_page"
-                    :loading="loading"
-                    :per-page="query.perPage"
-                    paginated
-                    backend-pagination
-                    backend-filtering
-                    :show-detail-icon="true"
-                    :striped="true"
-                    :scrollable="true"
-                    @page-change="changedPage"
-                    @filters-change="changedFilter"
-                    aria-next-label="Next page"
-                    aria-previous-label="Previous page"
+                        @click="transactionClicked"
+                        :data="transactions"
+                        :total="query.total"
+                        :opened-detailed="defaultOpenedDetails"
+                        detail-key="id"
+                        custom-detail-row
+                        detailed
+                        :current-page="query.current_page"
+                        :loading="loading"
+                        :per-page="query.perPage"
+                        paginated
+                        backend-pagination
+                        backend-filtering
+                        :show-detail-icon="true"
+                        :striped="true"
+                        :scrollable="true"
+                        @page-change="changedPage"
+                        @filters-change="changedFilter"
+                        aria-next-label="Next page"
+                        aria-previous-label="Previous page"
                 >
 
                     <template slot-scope="props">
@@ -112,32 +112,44 @@
                             <span v-if="props.row.status=='pending'">{{__('transaction.STATUS:PENDING')}}</span>
                             <span v-else-if="props.row.status=='executed'">{{__('transaction.STATUS:APPROVED')}}</span>
                             <span
-                                v-else-if="props.row.status=='in-progress'">{{__('transaction.STATUS:IN:PROGRESS')}}</span>
+                                    v-else-if="props.row.status=='in-progress'">{{__('transaction.STATUS:IN:PROGRESS')}}</span>
                         </b-table-column>
                     </template>
 
                     <template slot="detail" slot-scope="props">
-                        <tr v-for="relatedTransaction in props.row.related" :key="relatedTransaction.id">
-                            <td></td>
-                            <td>@{{ relatedTransaction.id }}</td>
-                            <td>@{{ relatedTransaction.bank_reference }}</td>
-                            <td>@{{ relatedTransaction.track_number }}</td>
-                            <td>@{{ relatedTransaction.operator.name }} @{{ relatedTransaction.operator.last_name }}
-                            </td>
-                            <td v-if="relatedTransaction.client">@{{ relatedTransaction.client.name }} @{{
-                                relatedTransaction.client.last_name }}
-                            </td>
-                            <td v-else>Cuenta Propia</td>
-                            <td>@{{ relatedTransaction.amount |currency(relatedTransaction.account.bank.currency)}}</td>
-                            <td>
-                                <span
-                                    v-if="relatedTransaction.status=='pending'">{{__('transaction.STATUS:PENDING')}}</span>
-                                <span
-                                    v-else-if="relatedTransaction.status=='executed'">{{__('transaction.STATUS:APPROVED')}}</span>
-                                <span
-                                    v-else-if="relatedTransaction.status=='in-progress'">{{__('transaction.STATUS:IN:PROGRESS')}}</span>
-                            </td>
+                        <tr v-if="props.row.comment">
+                            <td></td><td colspan="7" v-html="props.row.comment"></td>
                         </tr>
+                        <template v-for="relatedTransaction in props.row.related"
+                                  >
+                            <tr :key="relatedTransaction.id">
+                                <td></td>
+                                <td>@{{ relatedTransaction.id }}</td>
+                                <td>@{{ relatedTransaction.bank_reference }}</td>
+                                <td>@{{ relatedTransaction.track_number }}</td>
+                                <td>@{{ relatedTransaction.operator.name }} @{{ relatedTransaction.operator.last_name }}
+                                </td>
+                                <td v-if="relatedTransaction.client">@{{ relatedTransaction.client.name }} @{{
+                                    relatedTransaction.client.last_name }}
+                                </td>
+                                <td v-else>Cuenta Propia</td>
+                                <td>@{{ relatedTransaction.amount
+                                    |currency(relatedTransaction.account.bank.currency)}}
+                                </td>
+                                <td>
+                                <span
+                                        v-if="relatedTransaction.status=='pending'">{{__('transaction.STATUS:PENDING')}}</span>
+                                    <span
+                                            v-else-if="relatedTransaction.status=='executed'">{{__('transaction.STATUS:APPROVED')}}</span>
+                                    <span
+                                            v-else-if="relatedTransaction.status=='in-progress'">{{__('transaction.STATUS:IN:PROGRESS')}}</span>
+                                </td>
+                            </tr>
+                            <tr v-if="relatedTransaction.comment">
+                                <td></td><td colspan="7" v-html="relatedTransaction.comment"></td>
+                            </tr>
+                        </template>
+
                     </template>
                     <template slot="empty">
                         <section class="section">

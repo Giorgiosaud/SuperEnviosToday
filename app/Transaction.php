@@ -13,16 +13,13 @@ class Transaction extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'client_id',
-        'from_user_id',
-        'from_account_id',
-        'to_user_id',
+        //'from_user_id',
+        //'from_account_id',
+        //'to_user_id',
         //'to_account_id',
-        'related_transaction_id',
-        'transaction_number',
-        'amount',
-        'status',
-        'type',
+        //'related_transaction_id',
+        //'transaction_number',
+        //'type',
         'account_id',
         'client_id',
         'operator_id',

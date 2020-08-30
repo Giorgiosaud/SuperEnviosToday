@@ -15,21 +15,23 @@
     </section>
     <section class="section">
         <user-detail
-            :user='@json($user)'
-            :all-roles='@json($roles)'
-            inline-template v-cloak>
+                :user='@json($user)'
+                :accounts='@json($accounts)'
+                :all-roles='@json($roles)'
+                inline-template v-cloak>
             <div>
-                <button class="button field is-info"
-                        v-if="!editable"
-                        @click="editable = true">
-                    <span>{{__('users.EDIT')}}</span>
-                </button>
-                <a class="button field is-danger"
+                <a class="button field is-link"
                    v-if="!editable"
                    href="{{route('users.index')}}"
                 >
                     <span>{{__('users.LIST')}}</span>
                 </a>
+                <button class="button field is-info"
+                        v-if="!editable"
+                        @click="editable = true">
+                    <span>{{__('users.EDIT')}}</span>
+                </button>
+
                 <b-button size="is-big"
                           type="is-info"
                           :loading="sendingVerification"
@@ -63,6 +65,42 @@
                                       }">
                                    @{{ role.name}}
                                 </span></div>
+                    <div class="columns">
+                        <div class="column">
+                            <b-table :data="accounts">
+                                <template #default="{row:account}">
+                                    <b-table-column field="id" label="ID" numeric>
+                                        @{{ account.id }}
+                                    </b-table-column>
+                                    <b-table-column field="bank" label="Bank">
+                                        @{{ account.bank.name }}
+                                    </b-table-column>
+                                    <b-table-column field="number" label="Number">
+                                        @{{ account.number }}
+                                    </b-table-column>
+                                    <b-table-column field="is_operator"
+                                                    label="Es una Cuenta del sistema">
+                                        <b-button :type="account.is_operator?'is-success':'is-info'"
+                                                  v-text="account.is_operator?'Si':'No'"
+                                        :loading="isToggling"
+                                        @click="toggleOperatorState(account.id)">
+                                        </b-button>
+                                    </b-table-column>
+                                    <b-table-column field="balance" label="Saldo">
+@{{account.balance|currencyFilter({
+                            ...account.bank.currency,
+                            formatWithSymbol:account.bank.currency.format_with_symbol === 1
+                            }) }}
+                                    </b-table-column>
+                                    <b-table-column>
+                                        <b-button type="is-danger" @click="unlinkAccount(user.id,account.id)">
+                                            Desasociar Cuenta
+                                        </b-button>
+                                    </b-table-column>
+                                </template>
+                            </b-table>
+                        </div>
+                    </div>
                 </div>
                 <div v-else>
                     <validation-observer ref="form">
@@ -71,47 +109,47 @@
                             @csrf
                             <input type="hidden" name="_method" value="PUT">
                             <validation-provider
-                                rules="required"
-                                v-slot="{ classes,errors,valid }"
-                                name="{{__('users.ROLES')}}"
-                                tag="div"
-                                class="field">
+                                    rules="required"
+                                    v-slot="{ classes,errors,valid }"
+                                    name="{{__('users.ROLES')}}"
+                                    tag="div"
+                                    class="field">
                                 <label class="label">{{__('users.ROLES')}}</label>
                                 <div class="control has-icons-right">
                                     <b-taginput
-                                        v-model="userData.roles"
-                                        :data="filteredRoles"
-                                        autocomplete
-                                        :allow-new="false"
-                                        :open-on-focus="true"
-                                        field="name"
-                                        icon="label"
-                                        placeholder="{{__('users.SELECT:ROLE')}}"
-                                        @typing="getFilteredTags">
+                                            v-model="userData.roles"
+                                            :data="filteredRoles"
+                                            autocomplete
+                                            :allow-new="false"
+                                            :open-on-focus="true"
+                                            field="name"
+                                            icon="label"
+                                            placeholder="{{__('users.SELECT:ROLE')}}"
+                                            @typing="getFilteredTags">
                                     </b-taginput>
                                 </div>
 
                                 <strong
-                                    v-if="errors[0]"
-                                    class="help is-danger">@{{errors[0]}}</strong>
+                                        v-if="errors[0]"
+                                        class="help is-danger">@{{errors[0]}}</strong>
                             </validation-provider>
                             <input type="hidden"
                                    name="roles"
                                    v-model="roleNames">
                             <validation-provider
-                                rules="required"
-                                v-slot="{ classes,errors,valid }"
-                                name="{{__('auth.IDN_TYPE')}}"
-                                tag="div"
-                                class="field">
+                                    rules="required"
+                                    v-slot="{ classes,errors,valid }"
+                                    name="{{__('auth.IDN_TYPE')}}"
+                                    tag="div"
+                                    class="field">
                                 <label class="label">{{__('auth.IDN_TYPE')}}</label>
                                 <div class="control has-icons-left has-icons-right">
                                     <div class="select"
                                          :class="classes">
                                         <select
-                                            id="idn_type"
-                                            name="idn_type"
-                                            v-model="userData.idn_type">
+                                                id="idn_type"
+                                                name="idn_type"
+                                                v-model="userData.idn_type">
                                             <option value="">{{__('auth.DEFAULT:IDNTYPE')}}</option>
                                             <option value="CI">Cédula Venezolana</option>
                                             <option value="PASSPORT">Pasaporte</option>
@@ -128,15 +166,15 @@
                         </span>
                                 </div>
                                 <strong
-                                    v-if="errors[0]"
-                                    class="help is-danger">@{{errors[0]}}</strong>
+                                        v-if="errors[0]"
+                                        class="help is-danger">@{{errors[0]}}</strong>
                             </validation-provider>
                             <validation-provider
-                                rules="required"
-                                name="{{__('auth.IDN')}}"
-                                v-slot="{ classes,errors,valid}"
-                                tag="div"
-                                class="field">
+                                    rules="required"
+                                    name="{{__('auth.IDN')}}"
+                                    v-slot="{ classes,errors,valid}"
+                                    tag="div"
+                                    class="field">
                                 <label class="label" for="idn">{{__('auth.IDN')}}</label>
                                 <div class="control has-icons-right">
                                     <input id="idn"
@@ -159,10 +197,10 @@
                                 <strong v-if="errors[0]" class="help is-danger">@{{errors[0]}}</strong>
                             </validation-provider>
                             <validation-provider
-                                rules="required"
-                                v-slot="{ classes,errors, valid }"
-                                tag="div"
-                                class="field">
+                                    rules="required"
+                                    v-slot="{ classes,errors, valid }"
+                                    tag="div"
+                                    class="field">
 
                                 <label class="label" for="name">{{__('auth.NAME')}}</label>
                                 <div class="control has-icons-right">
@@ -183,18 +221,18 @@
                             </span>
                                 </div>
                                 <strong
-                                    v-if="errors[0]"
-                                    class="help is-danger">@{{errors[0]}}</strong>
+                                        v-if="errors[0]"
+                                        class="help is-danger">@{{errors[0]}}</strong>
                             </validation-provider>
                             <validation-provider
-                                name="{{__('auth.LAST_NAME')}}"
-                                rules="required"
-                                v-slot="{ classes,errors, valid }"
-                                tag="div"
-                                class="field">
+                                    name="{{__('auth.LAST_NAME')}}"
+                                    rules="required"
+                                    v-slot="{ classes,errors, valid }"
+                                    tag="div"
+                                    class="field">
                                 <label
-                                    class="label"
-                                    for="last_name">{{__('auth.LAST_NAME')}}</label>
+                                        class="label"
+                                        for="last_name">{{__('auth.LAST_NAME')}}</label>
                                 <div class="control has-icons-right">
                                     <input id="last_name"
                                            name="last_name"
@@ -213,15 +251,15 @@
                             </span>
                                 </div>
                                 <strong
-                                    v-if="errors[0]"
-                                    class="help is-danger">@{{errors[0]}}</strong>
+                                        v-if="errors[0]"
+                                        class="help is-danger">@{{errors[0]}}</strong>
                             </validation-provider>
                             <validation-provider
-                                name="{{__('auth.EMAIL')}}"
-                                rules="required|email"
-                                v-slot="{ classes,errors,valid }"
-                                tag="div"
-                                class="field">
+                                    name="{{__('auth.EMAIL')}}"
+                                    rules="required|email"
+                                    v-slot="{ classes,errors,valid }"
+                                    tag="div"
+                                    class="field">
 
                                 <label class="label" for="email">{{__('auth.EMAIL')}}</label>
                                 <div class="control has-icons-left has-icons-right">
@@ -245,11 +283,11 @@
                                 <strong v-if="errors[0]" class="help is-danger">@{{errors[0]}}</strong>
                             </validation-provider>
                             <validation-provider
-                                name="{{__('auth.PHONE')}}"
-                                rules="alpha_dash"
-                                v-slot="{ classes,errors,valid }"
-                                tag="div"
-                                class="field">
+                                    name="{{__('auth.PHONE')}}"
+                                    rules="alpha_dash"
+                                    v-slot="{ classes,errors,valid }"
+                                    tag="div"
+                                    class="field">
 
                                 <label class="label" for="email">{{__('auth.PHONE')}}</label>
                                 <div class="control has-icons-left has-icons-right">
@@ -273,11 +311,11 @@
                                 <strong v-if="errors[0]" class="help is-danger">@{{errors[0]}}</strong>
                             </validation-provider>
                             <validation-provider
-                                name="{{__('auth.ADDRESS')}}"
-                                rules="alpha_dash"
-                                v-slot="{ classes,errors,valid }"
-                                tag="div"
-                                class="field">
+                                    name="{{__('auth.ADDRESS')}}"
+                                    rules="alpha_dash"
+                                    v-slot="{ classes,errors,valid }"
+                                    tag="div"
+                                    class="field">
 
                                 <label class="label" for="address">{{__('auth.ADDRESS')}}</label>
                                 <div class="control has-icons-right">
