@@ -66,7 +66,10 @@ return [
     'MENU:LIST:ALL'=>'Ver Todas Las Transacciones',
     'MENU:MY:LIST:ALL'=>'Ver Mis Transacciones',
     'MENU:ADJUSTMENT:TRANSACTIONS'=>'Crear Transaccion de ajuste',
-    'REFRESH'=>'Refrescar'
+    'REFRESH'=>'Refrescar',
+    'TYPE'=>'Seleccione el tipo de transacción',
+    'INCOME'=>'Ingreso',
+    'OUTCOME'=>'Egreso',
 
 
 ];

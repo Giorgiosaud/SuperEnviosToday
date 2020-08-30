@@ -25,6 +25,7 @@ Vue.component('user-detail', require('./components/coordinator/users/userDetail'
 
 Vue.component('banks-list', require('./components/coordinator/banks/banksList').default);
 Vue.component('accounts-list', require('./components/coordinator/accounts/accountsList').default);
+Vue.component('accounts-details', require('./components/coordinator/accounts/accountsDetails').default);
 
 Vue.component('currencies-list', require('./components/coordinator/currencies/currenciesList').default);
 Vue.component('settings-list', require('./components/coordinator/settings/settingsList').default);

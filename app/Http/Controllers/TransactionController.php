@@ -57,14 +57,4 @@ class TransactionController extends Controller
     {
         return view('operator.transaction.create');
     }
-    /**
-     * Show the form for adjust transaction.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function adjust()
-    {
-        return view('coordinator.transactions.adjust');
-    }
-
 }

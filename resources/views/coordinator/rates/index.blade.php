@@ -118,7 +118,11 @@
                                     </b-select>
                                 </b-field>
                                 <b-field label="Comentario">
-                                        <froala :id="`comment-${props.row.id}`" :tag="'textarea'" :config="{}" v-model="props.row.message"></froala>
+                                    <quill-editor class="textarea"
+
+                                              :id="`comment-${props.row.id}`"
+                                              v-model.lazy="props.row.message"></quill-editor>
+
                                 </b-field>
                                 <div class="buttons">
                                     <b-button

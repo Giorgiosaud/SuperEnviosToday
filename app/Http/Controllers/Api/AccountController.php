@@ -148,5 +148,9 @@
       $account->owners()->detach($user->id);
       return response('Un Bonded Account', 204);
     }
+    public function toggleOperatorState(Account $account){
+      $account->is_operator= !$account->is_operator;
+      return $account->save();
+    }
 //
   }

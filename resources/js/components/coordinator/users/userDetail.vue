@@ -1,10 +1,19 @@
 <script>
+import currencyFilter from '../../../currency';
+
 export default {
   name: 'UserDetail',
+  filters: {
+    currencyFilter
+  },
   props: {
     user: {
       type: Object,
       default: () => ({}),
+    },
+    accounts: {
+      type: Array,
+      default: () => ([]),
     },
     allRoles: {
       type: Array,
@@ -13,6 +22,7 @@ export default {
   },
   data: () => (
     {
+      isToggling: false,
       editable: false,
       userData: {
         idn_type: '',
@@ -25,6 +35,7 @@ export default {
         address: '',
         roles: [],
       },
+      unlinkingAccount:false,
       filteredRoles: [],
       sendingVerification: false,
     }
@@ -49,6 +60,25 @@ export default {
 
   },
   methods: {
+    async toggleOperatorState(accountId) {
+      try {
+        this.isToggling = true
+        await $http.patch(`/api/account/${accountId}/toggle-operator-state`)
+      } finally {
+        window.location.reload()
+        console.log('asd')
+      }
+    },
+    async unlinkAccount(userId,accountId) {
+      this.unlinkingAccount = true;
+      try {
+        await $http.patch(`/api/account/${accountId}/user/${userId}/unlink`);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        window.location.reload()
+      }
+    },
     loginAs() {
       window.location.href = `/users/login-as/${this.user.id}`;
     },
