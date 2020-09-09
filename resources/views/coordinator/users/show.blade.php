@@ -67,6 +67,8 @@
                                 </span></div>
                     <div class="columns">
                         <div class="column">
+                            <h2 class="is-size-2 has-text-centered">Cuentas Asociadas</h2>
+
                             <b-table :data="accounts">
                                 <template #default="{row:account}">
                                     <b-table-column field="id" label="ID" numeric>
@@ -74,23 +76,24 @@
                                     </b-table-column>
                                     <b-table-column field="bank" label="Bank">
                                         @{{ account.bank.name }}
-                                    </b-table-column>
-                                    <b-table-column field="number" label="Number">
+                                    <b-tab/b-table-column>
+                                    <le-column field="number" label="Number">
                                         @{{ account.number }}
                                     </b-table-column>
                                     <b-table-column field="is_operator"
                                                     label="Es una Cuenta del sistema">
-                                        <b-button :type="account.is_operator?'is-success':'is-info'"
-                                                  v-text="account.is_operator?'Si':'No'"
-                                        :loading="isToggling"
-                                        @click="toggleOperatorState(account.id)">
+                                        <b-button 
+                                          :type="account.is_operator?'is-success':'is-info'"
+                                          v-text="account.is_operator?'Si':'No'"
+                                          :loading="isToggling"
+                                          @click="toggleOperatorState(account.id)">
                                         </b-button>
                                     </b-table-column>
                                     <b-table-column field="balance" label="Saldo">
-@{{account.balance|currencyFilter({
-                            ...account.bank.currency,
-                            formatWithSymbol:account.bank.currency.format_with_symbol === 1
-                            }) }}
+                                          @{{account.balance|currencyFilter({
+                                              ...account.bank.currency,
+                                              formatWithSymbol:account.bank.currency.format_with_symbol === 1
+                                              }) }}
                                     </b-table-column>
                                     <b-table-column>
                                         <b-button type="is-danger" @click="unlinkAccount(user.id,account.id)">

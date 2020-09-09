@@ -60,15 +60,6 @@ export default {
 
   },
   methods: {
-    async toggleOperatorState(accountId) {
-      try {
-        this.isToggling = true
-        await $http.patch(`/api/account/${accountId}/toggle-operator-state`)
-      } finally {
-        window.location.reload()
-        console.log('asd')
-      }
-    },
     async unlinkAccount(userId,accountId) {
       this.unlinkingAccount = true;
       try {

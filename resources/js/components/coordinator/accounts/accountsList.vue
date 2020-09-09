@@ -45,6 +45,7 @@ export default {
       removingAccount: false,
       accountToAsociate: null,
       actualOwnersOfAccount: null,
+      isRemovingAccountStatus:false
     }
   ),
   computed: {
@@ -80,6 +81,18 @@ export default {
     this.filteredBanks = this.allBanks;
   },
   methods: {
+    async removeAccountStatus(accountID){
+      debugger;
+      try {
+        this.isRemovingAccountStatus = true;
+        await $http.patch(`/api/account/${accountID}/toggle-operator-state`)
+      } catch(error){
+        debugger;
+      }finally {
+        this.isRemovingAccountStatus = false;
+        window.location.reload()
+      }
+    },
     async addOperatorToAccount({operator, account}) {
       this.isOpenModal = false;
       try {

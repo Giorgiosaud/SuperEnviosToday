@@ -98,13 +98,17 @@
                                        :href="`/accounts/${account.id}`">
                                         {{__('accounts.CREATE_ADJUSTMENT_TRANSACTION')}}
                                     </a>
+                                    <b-button :type="account.is_operator?'is-success':'is-danger'"
+                                        :loading="isRemovingAccountStatus"
+                                        @click="removeAccountStatus(account.id)">{{__('accounts.REMOVE')}}
+                                        </b-button>
                                 </div>
                             </b-table-column>
                         </template>
                         <template #detail="{row:account}">
                             <article>
                                 <header>
-                                    <h1>
+                                    <h1 class="is-size-3 has-text-centered">
                                         Operadores Asociados a esta cuenta
                                     </h1>
                                 </header>
@@ -131,14 +135,14 @@
                                             @{{owner.email }}
                                         </b-table-column>
                                         <b-table-column field="remove" label="Accion">
-                                            <b-button type="is-danger" @click="unBind(owner,account)">Desasociar
+                                            <b-button type="is-danger" @click="unBind(owner,account)">Desasociar Operador
                                             </b-button>
                                         </b-table-column>
                                     </template>
                                 </b-table>
 
                                 <footer>
-                                    <b-button @click="asociateToAccount(account,account.owners)">asociar operador
+                                    <b-button type="is-success" @click="asociateToAccount(account,account.owners)">asociar operador
                                     </b-button>
                                 </footer>
                             </article>
