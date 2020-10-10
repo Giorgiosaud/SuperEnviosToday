@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests;
+namespace Tests\Unit;
 
-use App\Account;
-use App\Transaction;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\Account;
+use App\Models\Transaction;
+use App\Models\User;
 use Tests\TestCase;
 
 class AccountTest extends TestCase
 {
-    use DatabaseMigrations;
 
     /**
      *
@@ -24,7 +23,7 @@ class AccountTest extends TestCase
      */
     public function testBank()
     {
-        $account=factory(Account::class)->create();
+        $account=Account::factory()->create();
         $this->assertEquals($account->bank_id,$account->bank->id);
 
     }
@@ -33,21 +32,31 @@ class AccountTest extends TestCase
      */
     public function testTransactions()
     {
-        $account=factory(Account::class)->create();
-        factory(Transaction::class,10)->create(['account_id'=>$account->id]);
-        factory(Transaction::class,10)->create(['account_id'=>$account->id]);
+        $account=Account::factory()->create();
+        Transaction::factory(10)->create(['account_id'=>$account->id]);
+        Transaction::factory(10)->create(['account_id'=>$account->id]);
         $account->refresh();
         $this->assertCount(20,$account->transactions);
     }
 
     public function testGetBalanceAttribute()
     {
-        $account=factory(Account::class)->create();
-        factory(Transaction::class,50)->create(['account_id'=>$account->id,'amount'=>-100000]);
-        factory(Transaction::class,50)->create(['account_id'=>$account->id,'amount'=>50000]);
+        $account=Account::factory()->create();
+        Transaction::factory(50)->create(['account_id'=>$account->id,'amount'=>-100000]);
+        Transaction::factory(50)->create(['account_id'=>$account->id,'amount'=>50000]);
         $account->refresh();
         $this->assertEquals((50000-100000)*50,$account->balance);
 
+    }
+    public function testOwnersOfAccount(){
+        $account=Account::factory()->create();
+        $user=User::factory()->create();
+        $account->owners()->save($user);
+        $this->assertCount(1,$account->fresh()->owners);
+    }
+    public function testNewAccountBalanceZero(){
+        $account=Account::factory()->create();
+        $this->assertEquals(0,$account->fresh()->balance);
     }
 
 }

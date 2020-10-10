@@ -29,42 +29,50 @@
                     </div>
 
                     <b-table
-                        :data="currencies"
-                        :loading="loading"
-                        :striped="true"
-                        :total="query.total"
-                        :opened-detailed="defaultOpenedDetails"
-                        detailed
-                        :current-page="query.current_page"
-                        :per-page="query.per_page"
-                        :show-detail-icon="true"
-                        detail-key="id"
-                        ref="currenciesTable"
-                        aria-next-label="Next page"
-                        aria-previous-label="Previous page"
-                        paginated
-                        backend-paginatiopn
-                        backend-filtering
-                        @filters-change="changedFilter"
-                        @page-change="changedPage">
-                        <template slot-scope="props">
-                            <b-table-column field="id" label="ID" width="40" numeric>
-                                @{{ props.row.id }}
-                            </b-table-column>
+                            :data="currencies"
+                            :loading="loading"
+                            :striped="true"
+                            :total="query.total"
+                            :opened-detailed="defaultOpenedDetails"
+                            detailed
+                            :current-page="query.current_page"
+                            :per-page="query.per_page"
+                            :show-detail-icon="true"
+                            detail-key="id"
+                            ref="currenciesTable"
+                            aria-next-label="Next page"
+                            aria-previous-label="Previous page"
+                            paginated
+                            backend-paginatiopn
+                            backend-filtering
+                            @filters-change="changedFilter"
+                            @page-change="changedPage">
 
-                            <b-table-column field="name"
-                                            label="{{__('currencies.NAME')}}"
-                                            searchable>
-                                @{{ props.row.name }}
-                            </b-table-column>
+                        <b-table-column field="id"
+                                        label="ID"
+                                        width="40"
+                                        numeric
+                                        v-slot="props">
+                            @{{ props.row.id }}
+                        </b-table-column>
 
-                            <b-table-column field="identifier" label="{{__('currencies.CURRENCY')}}">
-                                @{{ props.row.identifier }}
-                            </b-table-column>
-                            <b-table-column field="sign" label="{{__('currencies.SIGN')}}">
-                                @{{ props.row.sign }}
-                            </b-table-column>
-                        </template>
+                        <b-table-column field="name"
+                                        label="{{__('currencies.NAME')}}"
+                                        searchable
+                                        v-slot="props">
+                            @{{ props.row.name }}
+                        </b-table-column>
+
+                        <b-table-column field="identifier"
+                                        label="{{__('currencies.CURRENCY')}}"
+                                        v-slot="props">
+                            @{{ props.row.identifier }}
+                        </b-table-column>
+                        <b-table-column field="sign"
+                                        label="{{__('currencies.SIGN')}}"
+                                        v-slot="props">
+                            @{{ props.row.sign }}
+                        </b-table-column>
 
                         <template slot="detail" slot-scope="props">
                             <section>
@@ -79,15 +87,15 @@
                                 </b-field>
                                 <div class="buttons">
                                     <b-button
-                                        @click="changeCurrency(props.row.id,props.row.name,props.row.identifier,props.row.sign)"
-                                        :loading="savingCurrency"
-                                        type="is-info">
+                                            @click="changeCurrency(props.row.id,props.row.name,props.row.identifier,props.row.sign)"
+                                            :loading="savingCurrency"
+                                            type="is-info">
                                         Guardar
                                     </b-button>
                                     <b-button
-                                        @click="removeCurrency(props.row.id)"
-                                        :loading="removingCurrency"
-                                        type="is-danger">
+                                            @click="removeCurrency(props.row.id)"
+                                            :loading="removingCurrency"
+                                            type="is-danger">
                                         Borrar
                                     </b-button>
                                 </div>
@@ -106,12 +114,12 @@
                     </b-table>
                 </section>
                 <b-modal
-                    :active.sync="isOpenModal"
-                    has-modal-card
-                    trap-focus
-                    :destroy-on-hide="false"
-                    aria-role="dialog"
-                    aria-modal>
+                        :active.sync="isOpenModal"
+                        has-modal-card
+                        trap-focus
+                        :destroy-on-hide="false"
+                        aria-role="dialog"
+                        aria-modal>
                     <add-currency @currency-created="loadAsyncData"></add-currency>
                 </b-modal>
             </div>

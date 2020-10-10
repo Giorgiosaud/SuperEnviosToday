@@ -1,81 +1,97 @@
 <?php
 
-/** @var Factory $factory */
+  namespace Database\Factories;
 
-use App\Bank;
-use App\Currency;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+  use App\Models\Bank;
+  use App\Models\Currency;
+  use Illuminate\Database\Eloquent\Factories\Factory;
 
+  class BankFactory extends Factory
+  {
+    protected $model = Bank::class;
 
-$factory->state(Bank::class, 'venezuelan', function ($faker) {
-    return [
-        'name' => $faker->randomElement(['Orinoco', 'Caroni', 'Banesco', 'Provincial', 'Santander']),
-        'currency_id' => function () {
-            $currency = Currency::whereIdentificator('BsS')->first();
-            if (!$currency) {
-                $currency = factory(Currency::class)->create([
-                    'identifier' => 'BsS'
-                ]);
-            }
-            return $currency->id;
-        },
-    ];
-});
-$factory->state(Bank::class, 'chilean', function ($faker) {
-    return [
-        'name' => $faker->randomElement(['Santander', 'Banco Estado', 'Itau', 'Banco de Chile', 'BCI']),
-        'currency_id' => function () {
-            $currency = Currency::whereIdentificator('CLP')->first();
-            if (!$currency) {
-                $currency = factory(Currency::class)->create([
-                    'identifier' => 'CLP'
-                ]);
-            }
-            return $currency->id;
-        },
-    ];
-});
-
-$factory->state(Bank::class, 'american', function ($faker) {
-    return [
-        'name' => $faker->randomElement(['Bank of America', 'Chase', 'Banco de la Florida', 'Santander International', 'BCI Miami']),
-        'currency_id' => function () {
-            $currency = Currency::whereIdentificator('USD')->first();
-            if (!$currency) {
-                $currency = factory(Currency::class)->create([
-                    'identifier' => 'USD'
-                ]);
-            }
-            return $currency->id;
-        },
-
-    ];
-});
-
-$factory->define(Bank::class, function (Faker $faker) {
-    return [
-        'name' => $faker->
-        randomElement([
-            'Orinoco',
-            'Caroni',
-            'Banesco',
-            'Provincial',
-            'Santander',
-            'Bank of America',
-            'Chase',
-            'Banco de la Florida',
-            'Santander International',
-            'BCI Miami', 'Santander',
-            'Banco Estado',
-            'Itau',
-            'Banco de Chile',
-            'BCI'
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+      return [
+        'name' => $this->faker->randomElement([
+          'Orinoco',
+          'Caroni',
+          'Banesco',
+          'Provincial',
+          'Santander',
+          'Bank of America',
+          'Chase',
+          'Banco de la Florida',
+          'Santander International',
+          'BCI Miami', 'Santander',
+          'Banco Estado',
+          'Itau',
+          'Banco de Chile',
+          'BCI'
         ]),
 
         'currency_id' => function () {
-            $currency = factory(Currency::class)->create();
-            return $currency->id;
+          $currency = Currency::factory()->create();
+          return $currency->id;
         },
-    ];
-});
+      ];
+    }
+
+    public function venezuelan()
+    {
+      return $this->state([
+        'name' => $this->faker->randomElement(['Orinoco', 'Caroni', 'Banesco', 'Provincial', 'Santander']),
+        'currency_id' => function () {
+          $currency = Currency::whereIdentificator('BsS')->first();
+          if (!$currency) {
+            $currency = Currency::factory()->create([
+              'identifier' => 'BsS'
+            ]);
+          }
+          return $currency->id;
+        },
+
+      ]);
+    }
+
+    public function chilean()
+    {
+
+      return $this->state(function (array $attributes) {
+          return [
+              'name' => $this->faker->randomElement(['Santander', 'Banco Estado', 'Itau', 'Banco de Chile', 'BCI']),
+              'currency_id' => function () {
+                  $currency = Currency::whereIdentifier('CLP')->first();
+                  if (!$currency) {
+                      $currency = Currency::factory()->create([
+                          'identifier' => 'CLP'
+                      ]);
+                  }
+                  return $currency->id;
+              },
+          ];
+      });
+    }
+
+    public function american()
+    {
+      return $this->state([
+        'name' => $this->faker->randomElement(['Bank of America', 'Chase', 'Banco de la Florida', 'Santander International', 'BCI Miami']),
+        'currency_id' => function () {
+          $currency = Currency::whereIdentificator('USD')->first();
+          if (!$currency) {
+            $currency = Currency::factory()->create([
+              'identifier' => 'USD'
+            ]);
+          }
+          return $currency->id;
+        },
+      ]);
+    }
+
+  }

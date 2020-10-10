@@ -25,7 +25,7 @@ extend("decimals", {
       };
     }
     const regexPart = decimals === '*' ? '+' : `{1,${decimals}}`;
-    const regex = new RegExp(`^[-+]?\\d*(\\${separator}\\d${regexPart})?([eE]{1}[-]?\\d+)?$`);
+    const regex = new RegExp(`^[-+]?\\d*(\\${separator}\\d${regexPart})?([eE][-]?\\d+)?$`);
 
     return {
       valid: regex.test(value),

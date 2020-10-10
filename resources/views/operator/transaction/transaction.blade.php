@@ -36,7 +36,7 @@
                             name="{{__('transaction.CURRENCY')}}"
                             tag="div"
                             class="control">
-                            <label class="label">{{__('transaction.CURRENCY')}}</label>
+                            <label class="label" for="idn_type">{{__('transaction.CURRENCY')}}</label>
                             <div class="control has-icons-left has-icons-right">
                                 <div class="select"
                                      :class="classes">
@@ -72,7 +72,7 @@
                             tag="div"
                             vid="selectedAccount"
                             class="control">
-                            <label class="label">{{__('transaction.ACCOUNTS')}}</label>
+                            <label class="label" for="idn_type">{{__('transaction.ACCOUNTS')}}</label>
                             <div class="control has-icons-left has-icons-right">
                                 <div class="select"
                                      :class="classes">
@@ -180,7 +180,7 @@
                             v-slot="{ classes,errors,valid}"
                             tag="div"
                             class="control">
-                            <label class="label" for="idn">
+                            <label class="label" for="voucher">
                                 {{__('transaction.VOUCHER:NUMBER')}}
                             </label>
                             <div class="control has-icons-right">

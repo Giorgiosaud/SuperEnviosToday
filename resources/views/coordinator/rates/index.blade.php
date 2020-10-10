@@ -18,11 +18,11 @@
             <div>
                 <section class="section">
                     <g-chart
-                        :settings="{ packages: ['annotationchart','corechart', 'table', 'map'], language: 'ES-es' }"
-                        type="AnnotationChart"
-                        :data="adjustedDataForGraph"
-                        :options="chartOptions"
-                        :events="chartEvents"></g-chart>
+                            :settings="{ packages: ['annotationchart','corechart', 'table', 'map'], language: 'ES-es' }"
+                            type="AnnotationChart"
+                            :data="adjustedDataForGraph"
+                            :options="chartOptions"
+                            :events="chartEvents"></g-chart>
                 </section>
                 <section class="section">
 
@@ -36,70 +36,82 @@
                         </div>
                         <div class="column">
                             <b-taginput
-                                v-model="selectedCurrencies"
-                                :data="filteredCurrencies"
-                                autocomplete
-                                :allow-new="false"
-                                :open-on-focus="true"
-                                field="name"
-                                icon="label"
-                                placeholder="{{__('banks.SELECT:CURRENCY')}}"
-                                @typing="getFilteredTags">
+                                    v-model="selectedCurrencies"
+                                    :data="filteredCurrencies"
+                                    autocomplete
+                                    :allow-new="false"
+                                    :open-on-focus="true"
+                                    field="name"
+                                    icon="label"
+                                    placeholder="{{__('banks.SELECT:CURRENCY')}}"
+                                    @typing="getFilteredTags">
                             </b-taginput>
                         </div>
                     </div>
 
                     <b-table
-                        :data="rates"
-                        :loading="loading"
-                        :striped="true"
-                        :total="query.total"
-                        :opened-detailed="defaultOpenedDetails"
-                        detailed
-                        :current-page="query.current_page"
-                        :per-page="query.per_page"
-                        :show-detail-icon="true"
-                        detail-key="id"
-                        ref="currenciesTable"
-                        aria-next-label="Next page"
-                        aria-previous-label="Previous page"
-                        paginated
-                        backend-paginatiopn
-                        backend-filtering
-                        @filters-change="changedFilter"
-                        @page-change="changedPage">
-                        <template slot-scope="props">
-                            <b-table-column field="id" label="ID" width="40" numeric>
-                                @{{ props.row.id }}
-                            </b-table-column>
+                            :data="rates"
+                            :loading="loading"
+                            :striped="true"
+                            :total="query.total"
+                            :opened-detailed="defaultOpenedDetails"
+                            detailed
+                            :current-page="query.current_page"
+                            :per-page="query.per_page"
+                            :show-detail-icon="true"
+                            detail-key="id"
+                            ref="currenciesTable"
+                            aria-next-label="Next page"
+                            aria-previous-label="Previous page"
+                            paginated
+                            backend-paginatiopn
+                            backend-filtering
+                            @filters-change="changedFilter"
+                            @page-change="changedPage">
 
-                            <b-table-column field="since"
-                                            label="{{__('rates.SINCE')}}">
-                                @{{ props.row.since | timeFormat("dd-MM-yyyy 'a las' h:mm a")}}
-                            </b-table-column>
+                        <b-table-column field="id"
+                                        label="ID"
+                                        width="40"
+                                        numeric
+                                        v-slot="props">
+                            @{{ props.row.id }}
+                        </b-table-column>
 
-                            <b-table-column field="amount" label="{{__('rates.AMOUNT')}}">
-                                @{{ props.row.amount |rateCurrency(props.row.currency) }}
-                            </b-table-column>
-                            <b-table-column field="curerncy" label="{{__('rates.CURRENCY')}}">
-                                @{{ props.row.currency.name }}
-                            </b-table-column>
-                            <b-table-column field="message" label="{{__('rates.MESSAGE:FIELD')}}" v-html="props.row.message">
+                        <b-table-column field="since"
+                                        label="{{__('rates.SINCE')}}"
+                                        v-slot="props">
+                            @{{ props.row.since | timeFormat("dd-MM-yyyy 'a las' h:mm a")}}
+                        </b-table-column>
 
-                            </b-table-column>
-                        </template>
+                        <b-table-column field="amount"
+                                        label="{{__('rates.AMOUNT')}}"
+                                        v-slot="props">
+                            @{{ props.row.amount |rateCurrency(props.row.currency) }}
+                        </b-table-column>
+                        <b-table-column field="curerncy"
+                                        label="{{__('rates.CURRENCY')}}"
+                                        v-slot="props">
+                            @{{ props.row.currency.name }}
+                        </b-table-column>
+                        <b-table-column field="message"
+                                        label="{{__('rates.MESSAGE:FIELD')}}"
+                                        v-slot="props"
+                        >
+                            <div v-html="props.row.message"></div>
+
+                        </b-table-column>
 
                         <template slot="detail" slot-scope="props">
                             <section>
                                 <b-field label="Select datetime">
                                     <b-datetimepicker
-                                        v-model="props.row.since"
-                                        mobile-native
-                                        placeholder="Click to select..."
-                                        icon="calendar-today"
-                                        readonly
-                                        :datepicker="{ showWeekNumber:true }"
-                                        :timepicker="{ enableSeconds:true }">
+                                            v-model="props.row.since"
+                                            mobile-native
+                                            placeholder="Click to select..."
+                                            icon="calendar-today"
+                                            readonly
+                                            :datepicker="{ showWeekNumber:true }"
+                                            :timepicker="{ enableSeconds:true }">
                                         <template slot="left">
                                             <button class="button is-primary"
                                                     @click="props.row.since = new Date()">
@@ -114,27 +126,29 @@
                                 </b-field>
                                 <b-field label="Tipo de moneda">
                                     <b-select placeholder="Tipo de moneda" v-model="props.row.currency_id" expanded>
-                                        <option v-for="currency in allCurrencies" :value="currency.id">@{{currency.name}}</option>
+                                        <option v-for="currency in allCurrencies" :value="currency.id">
+                                            @{{currency.name}}
+                                        </option>
                                     </b-select>
                                 </b-field>
                                 <b-field label="Comentario">
                                     <quill-editor class="textarea"
 
-                                              :id="`comment-${props.row.id}`"
-                                              v-model.lazy="props.row.message"></quill-editor>
+                                                  :id="`comment-${props.row.id}`"
+                                                  v-model.lazy="props.row.message"></quill-editor>
 
                                 </b-field>
                                 <div class="buttons">
                                     <b-button
-                                        @click="changeRate(props.row.id,props.row.since,props.row.currency_id,props.row.amount,props.row.message)"
-                                        :loading="savingRate"
-                                        type="is-info">
+                                            @click="changeRate(props.row.id,props.row.since,props.row.currency_id,props.row.amount,props.row.message)"
+                                            :loading="savingRate"
+                                            type="is-info">
                                         Guardar
                                     </b-button>
                                     <b-button
-                                        @click="removeRate(props.row.id)"
-                                        :loading="removingRate"
-                                        type="is-danger">
+                                            @click="removeRate(props.row.id)"
+                                            :loading="removingRate"
+                                            type="is-danger">
                                         Borrar
                                     </b-button>
                                 </div>
@@ -153,12 +167,12 @@
                     </b-table>
                 </section>
                 <b-modal
-                    :active.sync="isOpenModal"
-                    has-modal-card
-                    trap-focus
-                    :destroy-on-hide="false"
-                    aria-role="dialog"
-                    aria-modal>
+                        :active.sync="isOpenModal"
+                        has-modal-card
+                        trap-focus
+                        :destroy-on-hide="false"
+                        aria-role="dialog"
+                        aria-modal>
                     <add-rate @currency-created="loadAsyncData"></add-rate>
                 </b-modal>
             </div>

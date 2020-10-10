@@ -14,6 +14,10 @@
         </div>
     </section>
     <section class="section">
-
+        <div class="columns">
+            <div class="column">
+                <a class="button is-primary is-light" href="{{route('transaction.create')}}">{{__('transaction.MENU:CREATE')}}</a>
+            </div>
+        </div>
     </section>
 @endsection

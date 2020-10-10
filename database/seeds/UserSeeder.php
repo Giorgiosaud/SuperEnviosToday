@@ -1,6 +1,6 @@
 <?php
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     {
         if(User::all()->count()==0) {
 
-            $user=factory(User::class)->create([
+            $user=User::factory()->create([
                 'name' => 'Jorge',
                 'last_name' => 'Saud',
                 'idn' => '17762267',

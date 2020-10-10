@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\User;
+use App\Http\Middleware\VerifyCsrfToken;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
 class ResetTest extends TestCase
@@ -37,7 +37,7 @@ class ResetTest extends TestCase
      */
     public function testDontChangeAUsersPasswordWithDifferentToken()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $token = Password::createToken($user);
         $this->from(route('password.reset',[
             'token'=>$token
@@ -53,10 +53,10 @@ class ResetTest extends TestCase
     }
     public function testThrowErrorifChangeAUserPasswordWithDifferentTokenViaJson()
     {
-        $user = factory(User::class)->create();
-        //$this->expectErrorMessage(trans('passwords.token'));
-        $token = Password::createToken($user);
-        $this->postJson(route('password.update'), [
+        $user = User::factory()->create();
+        $this
+          ->withoutMiddleware(VerifyCsrfToken::class)
+            ->postJson(route('password.update'), [
             'token' => '$token',
             'email' => $user->email,
             'idn' => $user->idn,
@@ -77,7 +77,7 @@ class ResetTest extends TestCase
      */
     public function testDontChangeAUsersPasswordWithDifferentEmail()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'email' => 'uno@tres.com'
         ]);
         $token = Password::createToken($user);
@@ -101,7 +101,7 @@ class ResetTest extends TestCase
      */
     public function testDontChangeAUsersPasswordWithDifferentIdn()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'idn' => '321321'
         ]);
         $token = Password::createToken($user);
@@ -123,7 +123,7 @@ class ResetTest extends TestCase
      */
     public function testDontChangeAUsersPasswordWithDifferentIdnType()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'idn_type' => 'CI'
         ]);
         $token = Password::createToken($user);
@@ -144,9 +144,10 @@ class ResetTest extends TestCase
      */
     public function testChangesAUsersPassword()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $token = Password::createToken($user);
-        $response = $this->post('/password/reset', [
+        $response = $this->withoutMiddleware(VerifyCsrfToken::class)
+            ->post('/password/reset', [
             'token' => $token,
             'email' => $user->email,
             'idn' => $user->idn,
@@ -158,9 +159,10 @@ class ResetTest extends TestCase
     }
     public function testChangesAUsersPasswordJson()
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $token = Password::createToken($user);
-        $response = $this->postJson('/password/reset', [
+        $response = $this->withoutMiddleware(VerifyCsrfToken::class)
+            ->postJson('/password/reset', [
             'token' => $token,
             'email' => $user->email,
             'idn' => $user->idn,

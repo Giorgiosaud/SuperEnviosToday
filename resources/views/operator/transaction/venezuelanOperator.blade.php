@@ -1,6 +1,6 @@
 <venezuelan-operator-data
-    {{ $properties }}
-    inline-template>
+        {{ $properties }}
+        inline-template>
     <validation-observer tag="section" class="section is-paddingless" v-slot="{invalid}">
         <nav class="level">
             <div class="level-item has-text-centered">
@@ -31,31 +31,36 @@
                 <input type="hidden" v-model="selectedAccount">
                 <b-table
 
-                    :data="venezuelanAccounts"
-                    scrollable
-                    :mobile-cards="false"
-                    :loading="loadingAccounts"
-                    :selected.sync="selectedAccount"
-                    :striped="true"
-                    aria-next-label="Next page"
-                    :is-row-selectable="(row) => row.balance>= transactionData.bsAmount"
-                    :row-class="(row, index) => row.balance< transactionData.bsAmount?'is-unselectable':'is-selectable'">
+                        :data="venezuelanAccounts"
+                        scrollable
+                        :mobile-cards="false"
+                        :loading="loadingAccounts"
+                        :selected.sync="selectedAccount"
+                        :striped="true"
+                        aria-next-label="Next page"
+                        :is-row-selectable="(row) => row.balance>= transactionData.bsAmount"
+                        :row-class="(row, index) => row.balance< transactionData.bsAmount?'is-unselectable':'is-selectable'">
                     aria-previous-label="Previous page">
 
-                    <template slot-scope="props">
-                        <b-table-column field="bank" label="{{__('transaction.BANK')}}">
-                            @{{ props.row.bank.name }}/@{{ props.row.type }}
-                        </b-table-column>
-                        <b-table-column field="idn" label="{{__('transaction.NUMBER')}}">
-                            @{{ props.row.number }}
-                        </b-table-column>
 
-                        <b-table-column field="balance"
-                                        label="{{__('transaction.BALANCE')}}"
-                        >
-                            @{{ props.row.balance | currency}}
-                        </b-table-column>
-                    </template>
+                    <b-table-column field="bank"
+                                    label="{{__('transaction.BANK')}}"
+                                    v-slot="props"
+                    >
+                        @{{ props.row.bank.name }}/@{{ props.row.type }}
+                    </b-table-column>
+                    <b-table-column field="idn"
+                                    label="{{__('transaction.NUMBER')}}"
+                                    v-slot="props">
+                        @{{ props.row.number }}
+                    </b-table-column>
+
+                    <b-table-column field="balance"
+                                    label="{{__('transaction.BALANCE')}}"
+                                    v-slot="props"
+                    >
+                        @{{ props.row.balance | currency}}
+                    </b-table-column>
                     <template slot="empty">
                         <section class="section">
                             <div class="content has-text-grey has-text-centered">
@@ -69,20 +74,22 @@
             <validation-provider tag="div" rules="required" class="column">
                 <input type="hidden" v-model="selectedOperator">
                 <b-table
-                    :mobile-cards="false"
-                    scrollable
-                    :data="owners"
-                    :selected.sync="selectedOperator"
-                    :striped="true"
-                    aria-next-label="Next page"
-                    :row-class="(row, index) => 'is-selectable'"
-                    aria-previous-label="Previous page">
+                        :mobile-cards="false"
+                        scrollable
+                        :data="owners"
+                        :selected.sync="selectedOperator"
+                        :striped="true"
+                        aria-next-label="Next page"
+                        :row-class="(row, index) => 'is-selectable'"
+                        aria-previous-label="Previous page">
 
-                    <template slot-scope="props">
-                        <b-table-column field="bank" label="{{__('pendingTransactions.FOREIGN_OPERATOR:NAME_AND_LAST_NAME')}}">
+
+                        <b-table-column field="bank"
+                                        label="{{__('pendingTransactions.FOREIGN_OPERATOR:NAME_AND_LAST_NAME')}}"
+                                        v-slot="props">
                             @{{ props.row.name }} @{{ props.row.last_name }}
                         </b-table-column>
-                    </template>
+
                     <template slot="empty">
                         <section class="section">
                             <div class="content has-text-grey has-text-centered">

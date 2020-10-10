@@ -193,6 +193,7 @@
             :key="imageId"
             class="image is-fullwidth">
             <img
+                class="is-responsive"
               :src="image.path"
               alt="imagen de documento">
           </figure>

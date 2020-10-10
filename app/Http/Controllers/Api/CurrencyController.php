@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Currency;
 use App\Events\CreatedCurrency;
 use App\Events\RestoredCurrency;
 use App\Http\Controllers\Controller;
+use App\Models\Currency;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -49,7 +50,7 @@ class CurrencyController extends Controller
     /**
      * @param Currency $currency
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(Currency $currency)
     {
@@ -61,7 +62,7 @@ class CurrencyController extends Controller
     }
     /**
      * @param Request $request
-     * @return \Illuminate\Http\Response $response
+     * @return Response $response
      */
     public function store(Request $request){
         $data=$request->validate([

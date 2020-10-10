@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\CreatedSetting;
 use App\Http\Controllers\Controller;
-use App\Setting;
+use App\Models\Setting;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -37,7 +38,7 @@ class SettingController extends Controller
     /**
      * @param Setting $setting
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(Setting $setting)
     {
@@ -47,7 +48,7 @@ class SettingController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\Response $response
+     * @return Response $response
      */
     public function store(Request $request)
     {

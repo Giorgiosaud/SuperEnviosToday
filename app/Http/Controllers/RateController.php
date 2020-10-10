@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Currency;
-use App\Rate;
+use App\Models\Currency;
+use App\Models\Rate;
 use Illuminate\View\View;
 
 

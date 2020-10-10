@@ -28,53 +28,59 @@
                         </div>
                         <div class="column">
                             <b-taginput
-                                v-model="selectedCurrencies"
-                                :data="filteredCurrencies"
-                                autocomplete
-                                :allow-new="false"
-                                :open-on-focus="true"
-                                field="name"
-                                icon="label"
-                                placeholder="{{__('banks.SELECT:CURRENCY')}}"
-                                @typing="getFilteredTags">
+                                    v-model="selectedCurrencies"
+                                    :data="filteredCurrencies"
+                                    autocomplete
+                                    :allow-new="false"
+                                    :open-on-focus="true"
+                                    field="name"
+                                    icon="label"
+                                    placeholder="{{__('banks.SELECT:CURRENCY')}}"
+                                    @typing="getFilteredTags">
                             </b-taginput>
                         </div>
                     </div>
 
                     <b-table
-                        :data="banks"
-                        :loading="loading"
-                        :striped="true"
-                        :total="query.total"
-                        :opened-detailed="defaultOpenedDetails"
-                        detailed
-                        :current-page="query.current_page"
-                        :per-page="query.per_page"
-                        :show-detail-icon="true"
-                        detail-key="id"
-                        ref="banksTable"
-                        aria-next-label="Next page"
-                        aria-previous-label="Previous page"
-                        paginated
-                        backend-paginatiopn
-                        backend-filtering
-                        @filters-change="changedFilter"
-                        @page-change="changedPage">
-                        <template slot-scope="props">
-                            <b-table-column field="id" label="ID" width="40" numeric>
-                                @{{ props.row.id }}
-                            </b-table-column>
+                            :data="banks"
+                            :loading="loading"
+                            :striped="true"
+                            :total="query.total"
+                            :opened-detailed="defaultOpenedDetails"
+                            detailed
+                            :current-page="query.current_page"
+                            :per-page="query.per_page"
+                            :show-detail-icon="true"
+                            detail-key="id"
+                            ref="banksTable"
+                            aria-next-label="Next page"
+                            aria-previous-label="Previous page"
+                            paginated
+                            backend-paginatiopn
+                            backend-filtering
+                            @filters-change="changedFilter"
+                            @page-change="changedPage">
 
-                            <b-table-column field="name"
-                                            label="{{__('banks.NAME')}}"
-                                            searchable>
-                                @{{ props.row.name }}
-                            </b-table-column>
+                        <b-table-column field="id"
+                                        label="ID"
+                                        width="40"
+                                        numeric
+                                        v-slot="props">
+                            @{{ props.row.id }}
+                        </b-table-column>
 
-                            <b-table-column field="currency" label="{{__('banks.CURRENCY')}}">
-                                @{{ props.row.currency.name }}
-                            </b-table-column>
-                        </template>
+                        <b-table-column field="name"
+                                        label="{{__('banks.NAME')}}"
+                                        searchable
+                                        v-slot="props">
+                            @{{ props.row.name }}
+                        </b-table-column>
+
+                        <b-table-column field="currency"
+                                        label="{{__('banks.CURRENCY')}}"
+                                        v-slot="props">
+                            @{{ props.row.currency.name }}
+                        </b-table-column>
 
                         <template slot="detail" slot-scope="props">
                             <section>
@@ -84,15 +90,15 @@
                                 </b-field>
                                 <div class="buttons">
                                     <b-button
-                                        @click="changeName(props.row.id,props.row.name)"
-                                        :loading="savingName"
-                                        type="is-info">
+                                            @click="changeName(props.row.id,props.row.name)"
+                                            :loading="savingName"
+                                            type="is-info">
                                         Guardar
                                     </b-button>
                                     <b-button
-                                        @click="removeBank(props.row.id)"
-                                        :loading="removingBank"
-                                        type="is-danger">
+                                            @click="removeBank(props.row.id)"
+                                            :loading="removingBank"
+                                            type="is-danger">
                                         Borrar
                                     </b-button>
                                 </div>
@@ -111,12 +117,12 @@
                     </b-table>
                 </section>
                 <b-modal
-                    :active.sync="isOpenModal"
-                    has-modal-card
-                    trap-focus
-                    :destroy-on-hide="false"
-                    aria-role="dialog"
-                    aria-modal>
+                        :active.sync="isOpenModal"
+                        has-modal-card
+                        trap-focus
+                        :destroy-on-hide="false"
+                        aria-role="dialog"
+                        aria-modal>
                     <add-bank :currencies='allCurrencies' @bank-saved="loadAsyncData"></add-bank>
                 </b-modal>
             </div>

@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Account;
-use App\Attachment;
 use App\Events\PendingTransactionCreated;
 use App\Events\TransactionCreated;
 use App\Http\Requests\CreateTransaction;
-use App\PendingTransaction;
-use App\Rate;
-use App\Setting;
-use App\Transaction;
+use App\Models\Account;
+use App\Models\Attachment;
+use App\Models\PendingTransaction;
+use App\Models\Rate;
+use App\Models\Setting;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;

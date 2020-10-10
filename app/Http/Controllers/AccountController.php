@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
-use App\Bank;
-use App\Currency;
+use App\Models\Account;
+use App\Models\Bank;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller

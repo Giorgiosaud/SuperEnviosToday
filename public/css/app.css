@@ -39939,6 +39939,11 @@ body {
   font-size: 3rem;
 }
 
+.image img.is-responsive {
+  max-width: 100%;
+  width: auto;
+}
+
 @media screen and (min-width: 1024px) {
   .always-on {
     display: block;

@@ -37,3 +37,4 @@ Vue.component('transaction-create', require('./components/operator/transaction/c
 Vue.component('review-transaction', require('./components/operator/transaction/reviewTransaction').default);
 Vue.component('transactions', require('./components/coordinator/transactions/transactions').default);
 Vue.component('my-transactions', require('./components/operator/transactions/myTransactions').default);
+Vue.component('my-venezuelan-transactions', require('./components/operator/transactions/myVenezuelanTransactions').default);

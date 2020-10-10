@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 
 */
-Route::group(['middleware' => ['auth:api'], 'as' => 'api.'], function () {
+Route::group(['middleware' => [
+    'auth:api'
+], 'as' => 'api.'], function () {
     Route::apiResource('pending-transaction', 'Api\PendingTransactionController', [
         'only' => ['index', 'update']
     ]);
     Route::patch('user/{client}/receiver/{receiver}/unlink', ['uses' => 'Api\UserController@unlink', 'as' => 'receiver.unlink']);
     Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'store', 'update']]);
-    Route::get('users/operators', ['uses'=>'Api\UserController@getOperators','as'=>'users.operators.index']);
+    Route::get('users/operators', ['uses' => 'Api\UserController@getOperators', 'as' => 'users.operators.index']);
     Route::post('user/verify_email', ['uses' => 'Api\UserController@resendVerificationEmail', 'as' => 'user.resend']);
     Route::get('user/receivers/{user}', ['uses' => 'Api\UserController@receivers', 'as' => 'user.receivers']);
     Route::post('user/{user}/receiver', ['uses' => 'Api\UserController@createReceiver', 'as' => 'user.create.receiver']);
@@ -46,4 +48,9 @@ Route::group(['middleware' => ['auth:api'], 'as' => 'api.'], function () {
     Route::get('transactions', ['uses' => 'Api\TransactionController@index', 'as' => 'transactions.index']);
     Route::post('transaction/{account}/', ['uses' => 'Api\TransactionController@create', 'as' => 'transactions.create']);
     Route::get('my-transactions', ['uses' => 'Api\TransactionController@myIndex', 'as' => 'my.transactions.index']);
+    Route::get('my-venezuelan-transactions', ['uses' => 'Api\TransactionController@myVenezuelanIndex', 'as' => 'my.venezuelan-transactions.index']);
+
+  Route::get('related-venezuelan-transactions/{transaction}', ['uses' => 'Api\TransactionController@relatedVenezuelanTransactions', 'as' => 'venezuelan.transactions.index']);
+  Route::patch('related-venezuelan-transaction', ['uses' => 'Api\TransactionController@updateRelatedVenezuelanTransaction', 'as' => 'venezuelan.transactions.update']);
+
 });

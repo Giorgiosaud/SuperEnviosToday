@@ -51,7 +51,7 @@ class PasswordBrokerManager extends LaravelPasswordBrokerManager{
         );
     }
 
-    public function sendResetLink(array $credentials)
+    public function sendResetLink(array $credentials,Closure $callback=null)
     {
     }
 

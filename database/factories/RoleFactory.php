@@ -1,13 +1,24 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+  namespace Database\Factories;
 
-use App\Model;
-use Faker\Generator as Faker;
+  use App\Models\Role;
+  use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(\App\Role::class, function (Faker $faker) {
-    return [
-        'name'   => $faker->name,
-        'name_id'=> $faker->userName,
-    ];
-});
+  class RoleFactory extends Factory
+  {
+    protected $model = Role::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+      return [
+        'name' => $this->faker->name,
+        'name_id' => $this->faker->userName,
+      ];
+    }
+  }

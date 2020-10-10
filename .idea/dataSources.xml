@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Superenvios Local" uuid="62b56d3f-d221-48f3-a4bb-a7839e62253f">
+    <data-source source="LOCAL" name="superenvios_local@localhost" uuid="18e2458e-4bd2-46bd-9352-a876b14b660b">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/superenv_develop</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/superenvios_local</jdbc-url>
     </data-source>
   </component>
 </project>

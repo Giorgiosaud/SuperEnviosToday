@@ -2,9 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Role;
-use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Models\Role;
+use App\Models\User;
 use Tests\TestCase;
 
 /**
@@ -12,8 +11,6 @@ use Tests\TestCase;
  */
 class RoleTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -24,11 +21,12 @@ class RoleTest extends TestCase
      */
     public function testRolesHaveManyUsers()
     {
-        factory(Role::class)->create(['name'=>'Clientes','name_id'=>'client']);
+        Role::factory()->create(['name'=>'Clientes','name_id'=>'client']);
         $roleInitialCount=Role::find('client')->users->count();
-        factory(User::class,30)->create();
+        User::factory(30)->create();
         $role=Role::find('client');
         $this->assertCount($roleInitialCount+30,$role->users);
+        $this->assertInstanceOf(User::class, $role->users[0]);
     }
 
 }

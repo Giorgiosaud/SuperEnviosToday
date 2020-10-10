@@ -1,8 +1,10 @@
 <?php
 return [
+    'ATTACHMENTS'=>'Adjuntos',
     'MENU:TITLE' => 'Transacciones',
     'MENU:PENDING' => 'Operaciones Pendientes',
     'MENU:CREATE' => 'Crear Transacción',
+    'MENU:VENEZUELAN:LIST' => 'Mis Transacciones Venezuela',
     'TITLE' => 'Crear Transacción',
     'MESSAGE' => 'Aqui puedes gestionar una transacción de :app',
     'MESSAGE:ADJUST' => 'crear una transaccion de ajuste de :app',
@@ -58,7 +60,7 @@ return [
     'STATUS:REJECTED' => 'Rechazada',
     'STATUS:REJECT' => 'Rechazar',
     'STATUS:IN:PROGRESS' => 'En Progreso',
-    'STATUS:PENDING' => 'Pendientes',
+    'STATUS:PENDING' => 'Pendiente',
     'CLIENT' => 'Cliente',
     'OPERATOR' => 'Operador',
     'TRACKING:NUMBER' => 'Número de Seguimiento',

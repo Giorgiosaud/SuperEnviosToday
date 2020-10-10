@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Attachment;
 use App\Http\Controllers\Controller;
+use App\Models\Attachment;
 use Illuminate\Http\Request;
 
 class AttachmentController extends Controller

@@ -12,7 +12,7 @@
                             name="{{__('auth.IDN_TYPE')}}"
                             tag="div"
                             class="control">
-                            <label class="label">{{__('auth.IDN_TYPE')}}</label>
+                            <label class="label" for="idn_type">{{__('auth.IDN_TYPE')}}</label>
                             <div class="control has-icons-left has-icons-right" :class="{'no-arrow':valid}">
                                 <div class="select"
                                      :class="classes">
@@ -227,6 +227,7 @@
                             </div>
                             <div class="control has-icons-left has-icons-right" v-else>
                                 <input id="phone" name="phone"
+                                       aria-label="{{__('auth.PHONE')}}"
                                        :class="classes"
                                        class="input"
                                        type="text"

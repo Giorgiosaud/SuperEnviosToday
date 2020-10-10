@@ -62,49 +62,57 @@
                             @filters-change="changedFilter"
                             @page-change="changedPage"
                             detailed>
-                        <template #default="{row:account}">
-                            <b-table-column field="id" label="ID" width="40" numeric>
-                                @{{ account.id }}
-                            </b-table-column>
+                        <b-table-column field="id"
+                                        label="ID"
+                                        width="40"
+                                        numeric
+                                        v-slot="{row:account}">
+                            @{{ account.id }}
+                        </b-table-column>
 
-                            <b-table-column field="number"
-                                            label="{{__('accounts.NUMBER')}}">
-                                @{{ account.number }}
-                            </b-table-column>
+                        <b-table-column field="number"
+                                        label="{{__('accounts.NUMBER')}}"
+                                        v-slot="{row:account}">
+                            @{{ account.number }}
+                        </b-table-column>
 
-                            <b-table-column field="name"
-                                            label="{{__('accounts.BANK:NAME')}}">
-                                @{{ account.bank.name }}
-                            </b-table-column>
-                            <b-table-column field="name"
-                                            label="{{__('accounts.BANK:CURRENCY')}}">
-                                @{{ account.bank.currency.name }}
-                            </b-table-column>
-                            <b-table-column field="balance" label="{{__('accounts.BALANCE')}}">
-                                @{{ account.balance |currencyFilter({
-                                ...account.bank.currency,
-                                formatWithSymbol:account.bank.currency.format_with_symbol === 1
-                                })}}
-                            </b-table-column>
-                            <b-table-column field="Acciones" label="{{__('accounts.ACTIONS')}}">
-                                <div class="buttons">
+                        <b-table-column field="name"
+                                        label="{{__('accounts.BANK:NAME')}}"
+                                        v-slot="{row:account}">
+                            @{{ account.bank.name }}
+                        </b-table-column>
+                        <b-table-column field="name"
+                                        label="{{__('accounts.BANK:CURRENCY')}}"
+                                        v-slot="{row:account}">
+                            @{{ account.bank.currency.name }}
+                        </b-table-column>
+                        <b-table-column field="balance" label="{{__('accounts.BALANCE')}}"
+                                        v-slot="{row:account}">
+                            @{{ account.balance |currencyFilter({
+                            ...account.bank.currency,
+                            formatWithSymbol:account.bank.currency.format_with_symbol === 1
+                            })}}
+                        </b-table-column>
+                        <b-table-column field="Acciones"
+                                        label="{{__('accounts.ACTIONS')}}"
+                                        v-slot="{row:account}">
+                            <div class="buttons">
 
-                                    <button class="button field is-danger"
-                                            @click="deleteAccount(account.id)">
-                                        {{__('accounts.DELETE_ACCOUNT')}}
+                                <button class="button field is-danger"
+                                        @click="deleteAccount(account.id)">
+                                    {{__('accounts.DELETE_ACCOUNT')}}
 
-                                    </button>
-                                    <a class="button field is-info"
-                                       :href="`/accounts/${account.id}`">
-                                        {{__('accounts.CREATE_ADJUSTMENT_TRANSACTION')}}
-                                    </a>
-                                    <b-button :type="account.is_operator?'is-success':'is-danger'"
-                                        :loading="isRemovingAccountStatus"
-                                        @click="removeAccountStatus(account.id)">{{__('accounts.REMOVE')}}
-                                        </b-button>
-                                </div>
-                            </b-table-column>
-                        </template>
+                                </button>
+                                <a class="button field is-info"
+                                   :href="`/accounts/${account.id}`">
+                                    {{__('accounts.CREATE_ADJUSTMENT_TRANSACTION')}}
+                                </a>
+                                <b-button :type="account.is_operator?'is-success':'is-danger'"
+                                          :loading="isRemovingAccountStatus"
+                                          @click="removeAccountStatus(account.id)">{{__('accounts.REMOVE')}}
+                                </b-button>
+                            </div>
+                        </b-table-column>
                         <template #detail="{row:account}">
                             <article>
                                 <header>
@@ -114,35 +122,36 @@
                                 </header>
                                 <b-table
                                         :data="account.owners">
-                                    <template #default="{row:owner}">
-                                        <b-table-column field="idn_type" label="Tipo de identificación">
-                                            @{{ owner.idn_type }}
-                                        </b-table-column>
-                                        <b-table-column field="idn" label="Número">
-                                            @{{ owner.idn }}
-                                        </b-table-column>
-                                        <b-table-column field="name" label="Nombres">
-                                            @{{ owner.name }}
-                                        </b-table-column>
-                                        <b-table-column field="last_name" label="Apellidos">
-                                            @{{ owner.last_name }}
-                                        </b-table-column>
-                                        <b-table-column field="phone" label="Teléfono">
-                                            @{{ owner.phone }}
-                                        </b-table-column>
 
-                                        <b-table-column field="email" label="Email">
-                                            @{{owner.email }}
-                                        </b-table-column>
-                                        <b-table-column field="remove" label="Accion">
-                                            <b-button type="is-danger" @click="unBind(owner,account)">Desasociar Operador
-                                            </b-button>
-                                        </b-table-column>
-                                    </template>
+                                    <b-table-column field="idn_type" label="Tipo de identificación"
+                                                    v-slot="{row:owner}">
+                                        @{{ owner.idn_type }}
+                                    </b-table-column>
+                                    <b-table-column field="idn" label="Número" v-slot="{row:owner}">
+                                        @{{ owner.idn }}
+                                    </b-table-column>
+                                    <b-table-column field="name" label="Nombres" v-slot="{row:owner}">
+                                        @{{ owner.name }}
+                                    </b-table-column>
+                                    <b-table-column field="last_name" label="Apellidos" v-slot="{row:owner}">
+                                        @{{ owner.last_name }}
+                                    </b-table-column>
+                                    <b-table-column field="phone" label="Teléfono" v-slot="{row:owner}">
+                                        @{{ owner.phone }}
+                                    </b-table-column>
+
+                                    <b-table-column field="email" label="Email" v-slot="{row:owner}">
+                                        @{{owner.email }}
+                                    </b-table-column>
+                                    <b-table-column field="remove" label="Accion" v-slot="{row:owner}">
+                                        <b-button type="is-danger" @click="unBind(owner,account)">Desasociar Operador
+                                        </b-button>
+                                    </b-table-column>
                                 </b-table>
 
                                 <footer>
-                                    <b-button type="is-success" @click="asociateToAccount(account,account.owners)">asociar operador
+                                    <b-button type="is-success" @click="asociateToAccount(account,account.owners)">
+                                        asociar operador
                                     </b-button>
                                 </footer>
                             </article>

@@ -1,54 +1,70 @@
 <?php
 
-/** @var Factory $factory */
+  namespace Database\Factories;
 
-use App\Account;
-use App\Bank;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+  use App\Models\Account;
+  use App\Models\Bank;
+  use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->state(Account::class, 'american', function ($faker) {
-    return [
-        'bank_id' => function () {
-            $bank = factory(App\Bank::class)->states('american')->create();
-            return $bank->id;
-        },
-        'type' => $faker->randomElement(['corriente','ahorro',null]),
-        'number'              => $faker->bankAccountNumber(),
-        'is_operator' => $faker->boolean(),
-    ];
-});
-$factory->state(Account::class, 'chilean', function ($faker) {
-    return [
-        'bank_id' => function () {
-            $bank = factory(App\Bank::class)->states('chilean')->create();
-            return $bank->id;
-        },
-        'type' => $faker->randomElement(['corriente','ahorro']),
-        'number'              => $faker->bankAccountNumber(),
-        'is_operator' => $faker->boolean(),
-    ];
-});
-$factory->state(Account::class, 'venezuelan', function ($faker) {
-    return [
-        'bank_id' => function () {
-            $bank = factory(App\Bank::class)->states('venezuelan')->create();
-            return $bank->id;
-        },
-        'type' => $faker->randomElement(['corriente','ahorro']),
-        'number'              => $faker->bankAccountNumber(),
-        'is_operator' => $faker->boolean(),
-    ];
-});
+  class AccountFactory extends Factory
+  {
+    protected $model = Account::class;
 
-$factory->define(Account::class, function (Faker $faker) {
-    return [
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+      return [
         'bank_id' => function () {
-            $bank = factory(Bank::class)->create();
-            return $bank->id;
+          $bank = Bank::factory()->create();
+          return $bank->id;
         },
-        'type' => $faker->randomElement(['corriente','ahorro']),
-        'number'              => $faker->bankAccountNumber(),
-        'is_operator' => $faker->boolean(),
-    ];
-});
+        'type' => $this->faker->randomElement(['corriente', 'ahorro']),
+        'number' => $this->faker->bankAccountNumber(),
+        'is_operator' => $this->faker->boolean(),
+      ];
+    }
+
+    public function american()
+    {
+      return $this->state([
+        'bank_id' => function () {
+          $bank = Bank::factory()->states('american')->create();
+          return $bank->id;
+        },
+        'type' => $this->faker->randomElement(['corriente', 'ahorro', null]),
+        'number' => $this->faker->bankAccountNumber(),
+        'is_operator' => $this->faker->boolean(),
+      ]);
+    }
+
+    public function chilean()
+    {
+      return $this->state([
+        'bank_id' => function () {
+          $bank = Bank::factory()->chilean()->create();
+          return $bank->id;
+        },
+        'type' => $this->faker->randomElement(['corriente', 'ahorro']),
+        'number' => $this->faker->bankAccountNumber(),
+        'is_operator' => $this->faker->boolean(),
+      ]);
+    }
+
+    public function venezuelan()
+    {
+      return $this->state([
+        'bank_id' => function () {
+          $bank = Bank::factory()->venezuelan()->create();
+          return $bank->id;
+        },
+        'type' => $this->faker->randomElement(['corriente', 'ahorro']),
+        'number' => $this->faker->bankAccountNumber(),
+        'is_operator' => $this->faker->boolean(),
+      ]);
+    }
+
+  }

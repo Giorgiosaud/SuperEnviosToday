@@ -81,12 +81,12 @@ export default {
   },
   watch: {
     statusFilter(value) {
-      this.changedFilter({ status: value });
+      this.changedFilter({status: value});
       this.loadAsyncData();
     },
     selectedCurrencyId(value) {
       this.page = 1;
-      this.changedFilter({ currency: value });
+      this.changedFilter({currency: value});
 
       this.loadAsyncData();
     },
@@ -105,14 +105,7 @@ export default {
     goToDetails() {
       window.location.href = `transactions/${this.selected.id}`;
     },
-    paramsToObject(entries) {
-      const result = {};
-      entries.forEach((entry) => {
-        const [key, value] = entry;
-        result[key] = value;
-      });
-      return result;
-    },
+
     changedPage(page) {
       this.page = page;
       this.loadAsyncData();
@@ -132,14 +125,12 @@ export default {
       this.loadAsyncData();
     },
     async loadAsyncData() {
-      const urlParams = new URLSearchParams(document.location.search.substring(1));
-      const entries = urlParams.entries();
-      const params = this.paramsToObject(entries);
+      const params = this.getAllUrlParams(document.location.href)
       params.page = this.page;
       params.currency = this.selectedCurrency.id;
       Object.assign(params, this.filters);
       this.loading = true;
-      const request = await $http.get('/api/my-transactions', { params: { ...params } });
+      const request = await $http.get(`/api/my-transactions`, {params: {...params}});
       this.query = await request.json();
       this.loading = false;
     },
@@ -150,12 +141,11 @@ export default {
           .toLowerCase()
           .indexOf(text.toLowerCase()) >= 0);
     },
-
   },
 };
 </script>
 <style lang="stylus">
 .b-table .table td.is-sticky {
-    color: #00c4a7
+  color: #00c4a7
 }
 </style>

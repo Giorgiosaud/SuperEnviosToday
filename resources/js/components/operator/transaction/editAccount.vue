@@ -16,7 +16,7 @@
         name="bank"
         tag="div"
         class="control">
-        <label class="label">Banco</label>
+        <label class="label" for="bank">Banco</label>
         <div class="control has-icons-left has-icons-right">
           <div
             class="select"
@@ -55,7 +55,7 @@
         name="type"
         tag="div"
         class="control">
-        <label class="label">Tipo de Cuenta</label>
+        <label class="label" for="type">Tipo de Cuenta</label>
         <div class="control has-icons-left has-icons-right">
           <div
             class="select"

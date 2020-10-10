@@ -70,37 +70,41 @@
                             <h2 class="is-size-2 has-text-centered">Cuentas Asociadas</h2>
 
                             <b-table :data="accounts">
-                                <template #default="{row:account}">
-                                    <b-table-column field="id" label="ID" numeric>
-                                        @{{ account.id }}
-                                    </b-table-column>
-                                    <b-table-column field="bank" label="Bank">
-                                        @{{ account.bank.name }}
-                                    <b-tab/b-table-column>
-                                    <le-column field="number" label="Number">
-                                        @{{ account.number }}
-                                    </b-table-column>
-                                    <b-table-column field="is_operator"
-                                                    label="Es una Cuenta del sistema">
-                                        <b-button 
-                                          :type="account.is_operator?'is-success':'is-info'"
-                                          v-text="account.is_operator?'Si':'No'"
-                                          :loading="isToggling"
-                                          @click="toggleOperatorState(account.id)">
-                                        </b-button>
-                                    </b-table-column>
-                                    <b-table-column field="balance" label="Saldo">
-                                          @{{account.balance|currencyFilter({
-                                              ...account.bank.currency,
-                                              formatWithSymbol:account.bank.currency.format_with_symbol === 1
-                                              }) }}
-                                    </b-table-column>
-                                    <b-table-column>
-                                        <b-button type="is-danger" @click="unlinkAccount(user.id,account.id)">
-                                            Desasociar Cuenta
-                                        </b-button>
-                                    </b-table-column>
-                                </template>
+
+                                <b-table-column
+                                        field="id"
+                                        label="ID"
+                                        numeric
+                                        v-slot="{row:account}">
+                                    @{{ account.id }}
+                                </b-table-column>
+                                <b-table-column
+                                        field="bank"
+                                        label="Bank"
+                                        v-slot="{row:account}">
+                                    @{{ account.bank.name }}
+                                </b-table-column>
+                                <b-table-column
+                                        field="number"
+                                        label="Number"
+                                        v-slot="{row:account}">
+                                    @{{ account.number }}
+                                </b-table-column>
+
+                                <b-table-column
+                                        field="balance"
+                                        label="Saldo"
+                                        v-slot="{row:account}">
+                                    @{{account.balance|currencyFilter({
+                                    ...account.bank.currency,
+                                    formatWithSymbol:account.bank.currency.format_with_symbol === 1
+                                    }) }}
+                                </b-table-column>
+                                <b-table-column v-slot="{row:account}">
+                                    <b-button type="is-danger" @click="unlinkAccount(user.id,account.id)">
+                                        Desasociar Cuenta
+                                    </b-button>
+                                </b-table-column>
                             </b-table>
                         </div>
                     </div>
@@ -145,7 +149,7 @@
                                     name="{{__('auth.IDN_TYPE')}}"
                                     tag="div"
                                     class="field">
-                                <label class="label">{{__('auth.IDN_TYPE')}}</label>
+                                <label class="label" for="idn_type">{{__('auth.IDN_TYPE')}}</label>
                                 <div class="control has-icons-left has-icons-right">
                                     <div class="select"
                                          :class="classes">
@@ -292,7 +296,7 @@
                                     tag="div"
                                     class="field">
 
-                                <label class="label" for="email">{{__('auth.PHONE')}}</label>
+                                <label class="label" for="phone">{{__('auth.PHONE')}}</label>
                                 <div class="control has-icons-left has-icons-right">
                                     <input id="phone" name="phone"
                                            :class="classes"

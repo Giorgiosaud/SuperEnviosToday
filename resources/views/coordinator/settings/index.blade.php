@@ -29,39 +29,47 @@
                     </div>
 
                     <b-table
-                        :data="settings"
-                        :loading="loading"
-                        :striped="true"
-                        :total="query.total"
-                        :opened-detailed="defaultOpenedDetails"
-                        detailed
-                        :current-page="query.current_page"
-                        :per-page="query.per_page"
-                        :show-detail-icon="true"
-                        detail-key="id"
-                        ref="settingsTable"
-                        aria-next-label="Next page"
-                        aria-previous-label="Previous page"
-                        paginated
-                        backend-paginatiopn
-                        backend-filtering
-                        @filters-change="changedFilter"
-                        @page-change="changedPage">
-                        <template slot-scope="props">
-                            <b-table-column field="id" label="ID" width="40" numeric>
-                                @{{ props.row.id }}
-                            </b-table-column>
+                            :data="settings"
+                            :loading="loading"
+                            :striped="true"
+                            :total="query.total"
+                            :opened-detailed="defaultOpenedDetails"
+                            detailed
+                            :current-page="query.current_page"
+                            :per-page="query.per_page"
+                            :show-detail-icon="true"
+                            detail-key="id"
+                            ref="settingsTable"
+                            aria-next-label="Next page"
+                            aria-previous-label="Previous page"
+                            paginated
+                            backend-paginatiopn
+                            backend-filtering
+                            @filters-change="changedFilter"
+                            @page-change="changedPage">
 
-                            <b-table-column field="key"
-                                            label="{{__('settings.KEY')}}"
-                                            searchable>
-                                @{{ props.row.key }}
-                            </b-table-column>
+                        <b-table-column
+                                field="id"
+                                label="ID"
+                                width="40"
+                                numeric
+                                v-slot="props">
+                            @{{ props.row.id }}
+                        </b-table-column>
 
-                            <b-table-column field="value" label="{{__('settings.VALUE')}}">
-                                @{{ props.row.value }}
-                            </b-table-column>
-                        </template>
+                        <b-table-column field="key"
+                                        label="{{__('settings.KEY')}}"
+                                        searchable
+                                        v-slot="props">
+                            @{{ props.row.key }}
+                        </b-table-column>
+
+                        <b-table-column
+                                field="value"
+                                label="{{__('settings.VALUE')}}"
+                                v-slot="props">
+                            @{{ props.row.value }}
+                        </b-table-column>
 
                         <template slot="detail" slot-scope="props">
                             <section>
@@ -73,15 +81,15 @@
                                 </b-field>
                                 <div class="buttons">
                                     <b-button
-                                        @click="changeSetting(props.row.id,props.row.key,props.row.value)"
-                                        :loading="savingSetting"
-                                        type="is-info">
+                                            @click="changeSetting(props.row.id,props.row.key,props.row.value)"
+                                            :loading="savingSetting"
+                                            type="is-info">
                                         Guardar
                                     </b-button>
                                     <b-button
-                                        @click="removeSetting(props.row.id)"
-                                        :loading="removingSetting"
-                                        type="is-danger">
+                                            @click="removeSetting(props.row.id)"
+                                            :loading="removingSetting"
+                                            type="is-danger">
                                         Borrar
                                     </b-button>
                                 </div>
@@ -100,12 +108,12 @@
                     </b-table>
                 </section>
                 <b-modal
-                    :active.sync="isOpenModal"
-                    has-modal-card
-                    trap-focus
-                    :destroy-on-hide="false"
-                    aria-role="dialog"
-                    aria-modal>
+                        :active.sync="isOpenModal"
+                        has-modal-card
+                        trap-focus
+                        :destroy-on-hide="false"
+                        aria-role="dialog"
+                        aria-modal>
                     <add-setting @setting-created="loadAsyncData"></add-setting>
                 </b-modal>
             </div>

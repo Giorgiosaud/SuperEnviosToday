@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Bank;
-use App\Currency;
+use App\Models\Bank;
+use App\Models\Currency;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class BankController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
