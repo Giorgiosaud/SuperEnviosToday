@@ -2,6 +2,7 @@
 
   namespace App\Models;
 
+  use Illuminate\Database\Eloquent\Builder;
   use Illuminate\Database\Eloquent\Factories\HasFactory;
   use Illuminate\Database\Eloquent\Model;
   use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,11 +12,12 @@
   use Illuminate\Support\Facades\DB;
 
   /**
-   * @method static create(array $data)
-   * @method static find($venezuelan_operator_account_id)
-   * @method static where(string $string, $bank_id)
-   * @method static whereIsOperator(bool $true)
-   * @method static select(string $string)
+   * @method static Account create(array $data)
+   * @method static Account find($venezuelan_operator_account_id)
+   * @method static Builder where(string $string, $bank_id)
+   * @method static Builder whereIsOperator(bool $true)
+   * @method static Builder select(string $string)
+   * @method static Builder whereIn(string $column,array $accountsId)
    * @property mixed balanceCache
    * @property mixed id
    * @property mixed bank

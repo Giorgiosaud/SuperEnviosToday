@@ -39,7 +39,7 @@
                         :striped="true"
                         aria-next-label="Next page"
                         :is-row-selectable="(row) => row.balance>= transactionData.bsAmount"
-                        :row-class="(row, index) => row.balance< transactionData.bsAmount?'is-unselectable':'is-selectable'">
+                        :row-class="(row, index) => row.balance< transactionData.bsAmount?'is-unselectable':'is-selectable'"
                     aria-previous-label="Previous page">
 
 

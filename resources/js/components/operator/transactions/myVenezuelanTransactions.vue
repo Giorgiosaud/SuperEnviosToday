@@ -1,13 +1,17 @@
 <script>
 import currencyFilter from '../../../currency';
 import UppyUploader from '../../../UppyUploader.vue';
-
+import {parseISO,format} from 'date-fns'
 export default {
   name: 'MyVenezuelanTransactions',
   components: {
     UppyUploader
   },
   filters: {
+    datetime(time){
+
+      return format(parseISO(time),'dd-mm-yyyy HH:mm');
+    },
     account(value) {
       const result = value.match(/\d{4}/g);
       return result.join('-');
@@ -39,6 +43,10 @@ export default {
     },
   },
   props: {
+    accounts:{
+      type: Array,
+      default:()=>([])
+    },
     transactionsQuery: {
       type: Object,
       default: () => ({
@@ -60,6 +68,7 @@ export default {
       selected: {},
       filters: {},
       statusFilter: '',
+      accountFilter:'',
       onChangeState: false,
       selectedCurrencyId: 1,
       isLoadingTransaction: false,
@@ -85,6 +94,10 @@ export default {
       this.changedFilter({status: value});
       this.loadAsyncData();
     },
+    accountFilter(value) {
+      this.changedFilter({account: value});
+      this.loadAsyncData();
+    },
     selectedCurrencyId(value) {
       this.page = 1;
       this.changedFilter({currency: value});
@@ -103,7 +116,10 @@ export default {
       try {
         await $http.patch(`/api/related-venezuelan-transaction`, {transaction: venezuelanTransaction});
       } finally {
+
         this.isExecutingTransaction = false;
+        debugger;
+        this.$refs.mainTable.closeDetailRow()
         await this.loadAsyncData();
       }
     },
@@ -127,12 +143,10 @@ export default {
       this.loadAsyncData();
     },
     changedFilter(filters) {
-      filters.forEach((filter) => {
-        if (filters[filter] === '') {
-          delete filters[filter];
-        }
-      });
-      this.filters = filters;
+      this.filters={
+        ...this.filters,
+        ...filters
+      }
       this.loadAsyncData();
     },
     refreshData() {
@@ -142,7 +156,16 @@ export default {
     async loadAsyncData() {
       const params = this.getAllUrlParams(document.location.href)
       params.page = this.page;
-      Object.assign(params, this.filters);
+      const filters={
+        ...this.filters
+      };
+      const keys=Object.keys(filters);
+      keys.forEach(key=>{
+        if(filters[key]===''){
+          delete filters[key];
+        }
+      })
+      Object.assign(params, filters);
       this.loading = true;
       const request = await $http.get('/api/my-venezuelan-transactions', {params: {...params}});
       this.query = await request.json();

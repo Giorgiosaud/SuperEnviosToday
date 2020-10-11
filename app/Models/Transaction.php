@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @method static create(array $assignedTransactionData)
- * @method static where(string $string, $transactionNumber)
- * @method static find($id)
+ * @method static Builder with(array $assignedTransactionData)
+ * @method static Builder whereIn(string $string, $accountsId)
+ * @method static Builder where(string $string, $transactionNumber)
+ * @method static Transaction create(array $data)
  */
 class Transaction extends Model
 {

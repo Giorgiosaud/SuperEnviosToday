@@ -54,7 +54,6 @@ export default {
         onConfirm: async () => {
           try {
             await $http.post(`/api/transaction/${this.account.id}`, {
-              account_id: this.account.id,
               amount: this.amount,
               type: this.transactionType,
               comment:this.comment,

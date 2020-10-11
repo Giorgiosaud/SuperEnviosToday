@@ -47,11 +47,13 @@ class TransactionController extends Controller
   public function venezuelanIndex()
   {
     $currency = Currency::where('identifier', 'BsS')->first();
+
     $user = request()->user();
     $accountsId = $currency->accounts()->whereIn('accounts.id', $user->accounts->pluck('id'))->get()->pluck('id');
+    $accounts=Account::whereIn('id',$accountsId)->with('bank')->get();
     $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'attachments'])
       ->whereIn('account_id', $accountsId)->paginate();
-    return view('operator.transactions.venezuelan.my-index', compact('transactions', 'currency'));
+    return view('operator.transactions.venezuelan.my-index', compact('transactions', 'currency','accounts'));
   }
 
 

@@ -17,7 +17,9 @@
         <my-venezuelan-transactions
                 inline-template
                 :transactions-query='@json($transactions)'
-                :currency='@json($currency)'>
+                :accounts='@json($accounts)'
+                :currency='@json($currency)'
+                :translations="@json()">
             <section>
                 <div class="columns">
                     <div class="column">
@@ -28,12 +30,24 @@
                             <option value="in-progress">{{__('transaction.STATUS:IN:PROGRESS')}}</option>
                         </b-select>
                     </div>
+                    <div class="column">
+                        <b-select v-model="accountFilter" placeholder="Seleccione Cuenta">
+                            <option value="">{{__('transaction.STATUS:ALL')}}</option>
+                            <option v-for="account in accounts"
+                                    :key="account.id"
+                                    :value="account.id"
+                                    >
+                                @{{account.bank.name}} / @{{ account.number }}
+                            </option>
+                        </b-select>
+                    </div>
                     <div class="column is-narrow">
                         <b-button type="is-info" outlined @click="refreshData">{{__('transaction.REFRESH')}}</b-button>
                     </div>
                 </div>
 
                 <b-table
+                        ref="mainTable"
                         @click="transactionClicked"
                         :data="transactions"
                         :total="query.total"
@@ -124,123 +138,212 @@
                                 <b-loading :is-full-page="false" v-model="isLoadingTransaction"
                                            :can-cancel="false"></b-loading>
                                 <section
-                                        v-if="!isLoadingTransaction && transaction.venezuelanRelated.status==='executed'"
+                                        v-if="!isLoadingTransaction && transaction.venezuelanRelated?.status==='executed'"
                                         class="section">
-                                    <div class="is-title">
-                                        Datos de La Transacción
-                                    </div>
-                                    <div class='rows'>
-                                        <div class="row is-full">
-                                            <span class="is-size-4">{{__('transaction.BANK:REFERENCE')}}: @{{ transaction.venezuelanRelated.bank_reference}}</span>
-                                        </div>
-                                        <div class='row is-full'>
-                                            Nombres: @{{transaction.venezuelanRelated.account.owners[0].name}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Apellidos: @{{transaction.venezuelanRelated.account.owners[0].last_name}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            id:
-                                            @{{transaction.venezuelanRelated.account.owners[0].idn_type}}-@{{transaction.venezuelanRelated.account.owners[0].idn}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Teléfono: @{{transaction.venezuelanRelated.account.owners[0].phone}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Email: @{{transaction.venezuelanRelated.account.owners[0].email}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Banco: @{{transaction.venezuelanRelated.account.bank.name}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Número de Cuenta: @{{transaction.venezuelanRelated.account.number|account}}
-                                        </div>
+                                    <div class="columns is-desktop">
+                                        <div class="column is-half is-offset-one-quarter">
+                                            <div class="card">
+                                                <div class="card-image" v-if="transaction.attachments.length">
+                                                    <b-carousel>
+                                                        <b-carousel-item
+                                                                v-for="attachment in transaction.attachments"
+                                                                :key="attachment.id">
+                                                            <b-image
+                                                                    :src="`{{Config::get('app.url')}}${attachment.path}`"
+                                                                    :placeholder="attachment.updated_at"
+                                                                    ratio="2by1"
+                                                            ></b-image>
+                                                        </b-carousel-item>
+                                                    </b-carousel>
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="media">
+                                                        <div class="media-content">
+                                                            <p class="title is-4">Datos de La Transacción</p>
+                                                            <p class="subtitle is-6">
+                                                                {{__('transaction.BANK:REFERENCE')}}
+                                                                :@{{transaction.venezuelanRelated.bank_reference}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
 
-                                        <div class="row is-full" v-if="transaction.attachments.length">
-                                            <span class="is-size-1">{{__('transaction.ATTACHMENTS')}}:</span>
-                                            <hr>
-                                            <section v-for="attachment in transaction.attachments">
-                                                <b-image
+                                                    <div class="content">
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('transaction.CLIENT:NAME_AND_LAST_NAME')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.owners[0].name}}
+                                                                @{{transaction.venezuelanRelated.account.owners[0].last_name}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('auth.IDN')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.owners[0].idn_type}}-@{{transaction.venezuelanRelated.account.owners[0].idn}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('auth.PHONE')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.owners[0].phone}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('auth.EMAIL')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.owners[0].email}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('banks.MENU:TITLE')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.bank.name}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('accounts.NUMBER')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.number|account}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('transaction.CREATED_AT')}}</div>
+                                                            <div class="level-right">
+                                                                <time :datetime="transaction.venezuelanRelated.created_at">
+                                                                    @{{
+                                                                    transaction.venezuelanRelated.created_at|datetime }}
+                                                                </time>
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('transaction.UPDATED_AT')}}</div>
+                                                            <div class="level-right">
+                                                                <time :datetime="transaction.venezuelanRelated.updated_at">
+                                                                    @{{
+                                                                    transaction.venezuelanRelated.updated_at|datetime }}
+                                                                </time>
+                                                            </div>
+                                                        </div>
+                                                        <br>
 
-                                                        :key="attachment.id"
-                                                        :src="`{{Config::get('app.url')}}${attachment.path}`"
-                                                        :placeholder="attachment.updated_at"
-                                                        ratio="2by1"
-                                                ></b-image>
-                                            </section>
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </section>
                                 <section
-                                        v-if="!isLoadingTransaction && transaction.venezuelanRelated.status!=='executed'"
+                                        v-if="!isLoadingTransaction && transaction.venezuelanRelated?.status!=='executed'"
                                         class="section">
-                                    <div class="is-title">
-                                        Datos de La Transacción
-                                    </div>
-                                    <div class='rows'>
-                                        <div class='row is-full'>
-                                            Nombres: @{{transaction.venezuelanRelated.account.owners[0].name}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Apellidos: @{{transaction.venezuelanRelated.account.owners[0].last_name}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            id:
-                                            @{{transaction.venezuelanRelated.account.owners[0].idn_type}}-@{{transaction.venezuelanRelated.account.owners[0].idn}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Teléfono: @{{transaction.venezuelanRelated.account.owners[0].phone}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Email: @{{transaction.venezuelanRelated.account.owners[0].email}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Banco: @{{transaction.venezuelanRelated.account.bank.name}}
-                                        </div>
-                                        <div class='row is-full'>
-                                            Número de Cuenta: @{{transaction.venezuelanRelated.account.number|account}}
-                                        </div>
-                                        <validation-observer v-slot="{invalid}">
-                                            <div class="row is-full">
-                                                <b-field label="{{__('transaction.BANK:REFERENCE')}}">
+                                    <div class="columns is-desktop">
+                                        <div class="column is-half is-offset-one-quarter">
+                                            <validation-observer v-slot="{invalid}" class="card" tag="div">
+                                                <div class="card-image" >
                                                     <validation-provider
-                                                            rules="required"
-                                                            name="{{__('transaction.BANK:REFERENCE')}}"
-                                                            v-slot="{ classes,errors,valid}">
-                                                        <b-input
+                                                            rules="required|min:1"
+                                                            name="{{__('transaction.VOUCHER:FILES')}}"
+                                                            v-slot="{ classes,errors,valid}"
+                                                            tag="div"
+                                                            class="control">
+                                                        <uppy-uploader
                                                                 :class="classes"
-
-                                                                v-model="transaction.venezuelanRelated.bank_reference"></b-input>
+                                                                v-model="transaction.venezuelanRelated.attachments"
+                                                                :max-file-size-in-bytes="1000000">
+                                                        </uppy-uploader>
+                                                        <strong v-if="errors[0]"
+                                                                class="help is-danger">@{{errors[0]}}</strong>
                                                     </validation-provider>
-                                                </b-field>
-                                            </div>
-                                            <div class="row is-full">
-                                                <validation-provider
-                                                        rules="required|min:1"
-                                                        name="{{__('transaction.VOUCHER:FILES')}}"
-                                                        v-slot="{ classes,errors,valid}"
-                                                        tag="div"
-                                                        class="control">
-                                                    <uppy-uploader
-                                                            :class="classes"
-                                                            v-model="transaction.venezuelanRelated.attachments"
-                                                            :max-file-size-in-bytes="1000000">
-                                                    </uppy-uploader>
-                                                    <strong v-if="errors[0]"
-                                                            class="help is-danger">@{{errors[0]}}</strong>
-                                                </validation-provider>
-                                            </div>
-                                            <div class="row is-full">
-                                                <b-button
-                                                        type="is-primary"
-                                                        :disabled="invalid"
-                                                        :loading="isExecutingTransaction"
-                                                        @click="executeTransaction(transaction.venezuelanRelated)"
-                                                >Ejecutar
-                                                </b-button>
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="media">
+                                                        <div class="media-content">
+                                                            <p class="title is-4">Datos de La Transacción</p>
+                                                            <b-field label="{{__('transaction.BANK:REFERENCE')}}">
+                                                                <validation-provider
+                                                                        rules="required"
+                                                                        name="{{__('transaction.BANK:REFERENCE')}}"
+                                                                        v-slot="{ classes,errors,valid}">
+                                                                    <b-input
+                                                                            :class="classes"
 
-                                            </div>
-                                        </validation-observer>
+                                                                            v-model="transaction.venezuelanRelated.bank_reference"></b-input>
+                                                                </validation-provider>
+                                                            </b-field>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="content">
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('transaction.CLIENT:NAME_AND_LAST_NAME')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.owners[0].name}}
+                                                                @{{transaction.venezuelanRelated.account.owners[0].last_name}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('auth.IDN')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.owners[0].idn_type}}-@{{transaction.venezuelanRelated.account.owners[0].idn}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('auth.PHONE')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.owners[0].phone}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('auth.EMAIL')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.owners[0].email}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('banks.MENU:TITLE')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.bank.name}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('accounts.NUMBER')}}</div>
+                                                            <div class="level-right">
+                                                                @{{transaction.venezuelanRelated.account.number|account}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('transaction.CREATED_AT')}}</div>
+                                                            <div class="level-right">
+                                                                <time :datetime="transaction.venezuelanRelated.created_at">
+                                                                    @{{
+                                                                    transaction.venezuelanRelated.created_at|datetime }}
+                                                                </time>
+                                                            </div>
+                                                        </div>
+                                                        <div class="level p-0">
+                                                            <div class="level-left">{{__('transaction.UPDATED_AT')}}</div>
+                                                            <div class="level-right">
+                                                                <time :datetime="transaction.venezuelanRelated.updated_at">
+                                                                    @{{
+                                                                    transaction.venezuelanRelated.updated_at|datetime }}
+                                                                </time>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+
+
+                                                    </div>
+                                                </div>
+                                                <footer class="card-footer">
+                                                    <b-button
+                                                            type="is-primary"
+                                                            :disabled="invalid"
+                                                            :loading="isExecutingTransaction"
+                                                            @click="executeTransaction(transaction.venezuelanRelated)"
+                                                    >Ejecutar
+                                                    </b-button>
+                                                </footer>
+                                            </validation-observer>
+                                        </div>
                                     </div>
                                 </section>
                             </td>

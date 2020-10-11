@@ -10,8 +10,8 @@
   use Illuminate\Database\Eloquent\SoftDeletes;
 
   /**
-   * @method static select(string $string)
-   * @method static whereIn(string $string, false|string[] $currencies)
+   * @method static Builder select(string $string)
+   * @method static Builder whereIn(string $string, false|string[] $currencies)
    */
   class Bank extends Model
   {

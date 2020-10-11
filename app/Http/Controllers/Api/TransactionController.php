@@ -29,6 +29,7 @@ class TransactionController extends Controller
     if ($transaction) {
       return response($transaction, 200);
     }
+
     return response('no existe', 204);
   }
 
@@ -49,11 +50,16 @@ class TransactionController extends Controller
   {
     $currency = Currency::whereId(request()->currency)->first();
     $banksWithCurrency = Bank::select('id')->where('currency_id', $currency->id)->get();
-    $accountsWithCurrencies = Account::select('id')->whereIn('bank_id', $banksWithCurrency->pluck('id'))->whereIsOperator(true)->get();
+    $accountsWithCurrencies = Account::select('id')
+      ->whereIn('bank_id', $banksWithCurrency
+        ->pluck('id'))
+      ->where('is_operator',true)
+      ->get();
     $accountsId = $accountsWithCurrencies->pluck('id');
-    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator', 'related.client', 'related.account.bank.currency'])->whereIn('account_id', $accountsId);
+    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.owners', 'related.client', 'related.account.bank.currency'])
+      ->whereIn('account_id', $accountsId);
     if (request()->status) {
-      $transactions->whereStatus(request()->status);
+      $transactions->where('status',request()->status);
     }
     return $transactions->paginate();
   }
@@ -63,26 +69,33 @@ class TransactionController extends Controller
    */
   public function myIndex()
   {
-    $currency = Currency::whereId(request()->currency)->first();
+    $currency = Currency::where('id',request()->currency)->first();
     $user = request()->user();
     $accountsId = $currency->accounts()->whereIn('accounts.id', $user->accounts->pluck('id'))->get()->pluck('id');
     $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator', 'related.client', 'related.account.bank.currency'])
       ->whereIn('account_id', $accountsId);
     if (request()->status) {
-      $transactions->whereStatus(request()->status);
+      $transactions->where('status',request()->status);
     }
     return $transactions->paginate();
   }
 
+  /**
+   * @return LengthAwarePaginator
+   */
   public function myVenezuelanIndex()
   {
     $currency = Currency::where('identifier', 'BsS')->first();
     $user = request()->user();
-    $accountsId = $currency->accounts()->whereIn('accounts.id', $user->accounts->pluck('id'))->get()->pluck('id');
-    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency'])
+    if(request()->account){
+      $accountsId = [request()->account];
+    }else {
+      $accountsId = $currency->accounts()->whereIn('accounts.id', $user->accounts->pluck('id'))->get()->pluck('id');
+    }
+    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency','attachments'])
       ->whereIn('account_id', $accountsId);
     if (request()->status) {
-      $transactions->whereStatus(request()->status);
+      $transactions->where('status',request()->status);
     }
     return $transactions->paginate();
   }
@@ -95,7 +108,6 @@ class TransactionController extends Controller
   public function create(Account $account, Request $request)
   {
     $data = $request->validate([
-      'account_id' => ['required', 'numeric', 'exists:accounts,id'],
       'type' => ['required', 'in:income,outcome'],
       'amount' => ['required', 'numeric'],
       'comment' => ['string']
@@ -103,7 +115,7 @@ class TransactionController extends Controller
     $data['status'] = 'executed';
     $data['operator_id'] = $request->user()->id;
     $data['amount'] = $data['type'] == 'outcome' ? -1 * $data['amount'] : 1 * $data['amount'];
-    return Transaction::create($data);
+    return $account->transactions()->save($data);
   }
 
   public function relatedVenezuelanTransactions(Transaction $transaction)
@@ -123,18 +135,40 @@ class TransactionController extends Controller
       'transaction.bank_reference' => ['required', 'string'],
       'transaction.attachments.*.id' => ['required', 'numeric'],
     ]);
+    //TODO: Validate if ref number exist
     $venezuelanTransaction = Transaction::find($data['transaction']['id']);
     $relatedTransactions=$venezuelanTransaction->related;
     $attachmentsId = Arr::pluck($data['transaction']['attachments'], 'id');
     $attachments = Attachment::whereIn('id', $attachmentsId)->get();
-    $attachments->each(function ($attachment) use ($relatedTransactions) {
-      $relatedTransactions->each(function($transaction) use($attachment){
-        $attachment->transactions()->save($transaction);
-        $transaction->status = 'executed';
-        $transaction->save();
-      });
+    $bankReference=$data['transaction']['bank_reference'];
+    $attachments->each(function ($attachment) use ($relatedTransactions,$bankReference) {
+      $this->runInEachAttachment($relatedTransactions,$bankReference, $attachment);
     });
     return response('executed', 201);
   }
   //
+
+  /**
+   * @param $attachment
+   * @param $transaction
+   */
+  protected function saveAttachmentAndExecuteTransaction($attachment,$bankReference, $transaction): void
+  {
+    $attachment->transactions()->save($transaction);
+    if($transaction->account->bank->currency->identifier==='BsS')
+    $transaction['bank_reference']=$bankReference;
+    $transaction->status = 'executed';
+    $transaction->save();
+  }
+
+  /**
+   * @param $relatedTransactions
+   * @param $attachment
+   */
+  protected function runInEachAttachment($relatedTransactions,$bankReference, $attachment): void
+  {
+    $relatedTransactions->each(function ($transaction) use ($attachment,$bankReference) {
+      $this->saveAttachmentAndExecuteTransaction($attachment,$bankReference, $transaction);
+    });
+  }
 }

@@ -2,6 +2,7 @@
 
   namespace App\Models;
 
+  use Illuminate\Database\Eloquent\Builder;
   use Illuminate\Database\Eloquent\Factories\HasFactory;
   use Illuminate\Database\Eloquent\Model;
   use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,9 +10,9 @@
 
   /**
    * @property Bank banks
-   * @method static create(array $data)
-   * @method static whereId($currency)
-   * @method static where(string $columnName, string $operator,string $value):Currency
+   * @method static Currency create(array $data)
+   * @method static Builder whereId($currency)
+   * @method static where(string $string, $currency)
    */
   class Currency extends Model
   {
