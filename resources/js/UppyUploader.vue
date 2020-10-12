@@ -72,6 +72,7 @@ export default {
       disabled: true,
       tempUploadFiles: [],
       uploading: false,
+      localAutoProceed: true,
     };
   },
   computed: {
@@ -81,6 +82,9 @@ export default {
     disableUploadButton() {
       return this.tempFilesCount < this.minNumberOfFiles || this.tempFilesCount > this.maxNumberOfFiles;
     },
+  },
+  created() {
+    this.localAutoProceed = this.autoProceed;
   },
   mounted() {
     this.instantiateUppy();
@@ -92,10 +96,10 @@ export default {
         type,
       });
     },
-    instantiateUppy() {
+    async instantiateUppy() {
       this.uppy = Uppy({
         locale: UppyEs,
-        autoProceed: this.autoProceed,
+        autoProceed: this.localAutoProceed,
         meta: {
           username: 'Jorge Saud',
           license: 'Creative Commons',
@@ -123,6 +127,8 @@ export default {
             { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' },
           ],
           browserBackButtonClose: true,
+          showRemoveButtonAfterComplete: true,
+
           locale: {
             strings: {
               youCanOnlyUploadX: {
@@ -170,6 +176,40 @@ export default {
           this.disabled = false;
         });
       });
+      if (this.value.length) {
+        await this.value.map(async (file) => {
+          await this.getBlob(file);
+        });
+        this.uppy.getFiles().forEach((file) => {
+          this.uppy.setFileState(file.id, {
+            progress: { uploadComplete: true, uploadStarted: false },
+          });
+        });
+        if (this.localAutoProceed === false) {
+          this.localAutoProceed = true;
+        }
+      }
+      this.uppy.on('file-removed', async (file, reason) => {
+        if (reason === 'removed-by-user') {
+          await this.sendDeleteRequestForFile(file);
+        }
+      });
+    },
+    async sendDeleteRequestForFile(file) {
+      this.$emit('remove-file', file.meta.id);
+    },
+    async getBlob({ path, id }) {
+      return fetch(path)
+        .then((response) => response.blob()) // returns a Blob
+        .then((blob) => {
+          this.uppy.addFile({
+            meta: { id },
+            name: 'image.jpg',
+            type: blob.type,
+            data: blob,
+            source: path,
+          });
+        });
     },
     async upload() {
       try {
@@ -191,9 +231,9 @@ export default {
 
       return this;
     },
-
   },
 };
+
 </script>
 
 <style scoped>

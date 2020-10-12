@@ -128,14 +128,15 @@
                 <div class="column is-half is-offset-one-quarter">
                   <div class="card">
                     <div class="card-image" v-if="transaction.attachments.length">
-                      <b-carousel>
+                      <b-carousel @click="switchGallery(true)">
                         <b-carousel-item
-                          v-for="attachment in transaction.attachments"
-                          :key="attachment.id">
+                          v-for="(attachment,key) in transaction.attachments"
+                          :key="`${attachment.id}-${key}`">
                           <b-image
                             :src="`${appUrl}${attachment.path}`"
                             :placeholder="attachment.updated_at"
                             ratio="2by1"
+                            @click="deleteImage(attachment.id)"
                           ></b-image>
                         </b-carousel-item>
                       </b-carousel>
@@ -229,6 +230,9 @@
                         tag="div"
                         class="control">
                         <uppy-uploader
+                          ref="uppy"
+                          :autoProceed="false"
+                          @remove-file="deleteImage"
                           :class="classes"
                           v-model="transaction.venezuelanRelated.attachments"
                           :max-file-size-in-bytes="1000000">
@@ -460,6 +464,16 @@ export default {
     this.page = this.query.current_page;
   },
   methods: {
+    async deleteImage(imageId) {
+      await $http.delete(`api/attachment/${imageId}`);
+    },
+    switchGallery(value) {
+      this.gallery = value;
+      if (value) {
+        return document.documentElement.classList.add('is-clipped');
+      }
+      return document.documentElement.classList.remove('is-clipped');
+    },
     async executeTransaction(venezuelanTransaction) {
       this.isExecutingTransaction = true;
       try {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\TransactionExecuted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTransaction;
 use App\Models\Account;
@@ -144,6 +145,7 @@ class TransactionController extends Controller
     $attachments->each(function ($attachment) use ($relatedTransactions,$bankReference) {
       $this->runInEachAttachment($relatedTransactions,$bankReference, $attachment);
     });
+    event(new TransactionExecuted($relatedTransactions));
     return response('executed', 201);
   }
   //

@@ -16,6 +16,8 @@ use Laravel\Passport\HasApiTokens;
 /**
  * @property mixed id
  * @property mixed roles
+ * @property mixed last_name
+ * @property mixed name
  * @method static first()
  * @method static whereHas(string $string, Closure $param)
  * @method static create(array $data)

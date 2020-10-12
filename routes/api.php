@@ -52,5 +52,6 @@ Route::group(['middleware' => [
 
   Route::get('related-venezuelan-transactions/{transaction}', ['uses' => 'Api\TransactionController@relatedVenezuelanTransactions', 'as' => 'venezuelan.transactions.index']);
   Route::patch('related-venezuelan-transaction', ['uses' => 'Api\TransactionController@updateRelatedVenezuelanTransaction', 'as' => 'venezuelan.transactions.update']);
+  Route::delete('attachment/{attachment}',['uses'=>'Api\AttachmentController@destroy','as'=>'attachment.destroy']);
 
 });
