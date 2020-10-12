@@ -15,7 +15,6 @@
             :row-class="(row, index) => 'is-selectable'"
             aria-previous-label="Previous page">
 
-
             <b-table-column
               field="idn_type"
               :label="$t('auth.IDN_TYPE')"
@@ -94,7 +93,6 @@
             aria-next-label="Next page"
             :row-class="(row, index) => 'is-selectable'"
             aria-previous-label="Previous page">
-
 
             <b-table-column field="bank"
                             :label="$t('receiver.BANK')"
@@ -273,8 +271,6 @@ export default {
         this.receivers = await response.json();
         this.receiverSelected = null;
         this.receiverAccount = null;
-      } catch (error) {
-        console.log(error);
       } finally {
         this.loadingReceivers = false;
       }
@@ -283,8 +279,6 @@ export default {
       this.unlinkingReceiver = true;
       try {
         await $http.patch(`/api/account/${this.receiverAccount.id}/user/${this.receiverSelected.id}/unlink`);
-      } catch (error) {
-        console.log(error);
       } finally {
         await this.lookupForReceivers();
         this.unlinkingReceiver = false;
@@ -294,8 +288,6 @@ export default {
       this.unlinkingAccount = true;
       try {
         await $http.patch(`/api/account/${this.receiverAccount.id}/user/${this.receiverSelected.id}/unlink`);
-      } catch (error) {
-        console.log(error);
       } finally {
         await this.lookupForReceivers();
         this.unlinkingAccount = false;

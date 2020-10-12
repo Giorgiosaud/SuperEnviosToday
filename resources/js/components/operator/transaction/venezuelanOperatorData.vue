@@ -12,7 +12,7 @@
           <p class="heading">{{$t('transaction.FINAL:BALANCE')}}</p>
           <p class="title">{{ selectedAccount.balance-transactionData.bsAmount|currency }}</p>
         </div>
-        <div v-else="selectedAccount">
+        <div v-else>
           <p class="heading">{{$t('transaction.FINAL:BALANCE')}}</p>
           <p class="title">Seleccione una Cuenta</p>
         </div>
@@ -39,7 +39,6 @@
           :is-row-selectable="(row) => row.balance>= transactionData.bsAmount"
           :row-class="(row, index) => row.balance< transactionData.bsAmount?'is-unselectable':'is-selectable'"
           aria-previous-label="Previous page">
-
 
           <b-table-column field="bank"
                           :label="$t('transaction.BANK')"
@@ -80,7 +79,6 @@
           aria-next-label="Next page"
           :row-class="(row, index) => 'is-selectable'"
           aria-previous-label="Previous page">
-
 
           <b-table-column field="bank"
                           :label="$t('pendingTransactions.FOREIGN_OPERATOR:NAME_AND_LAST_NAME')"

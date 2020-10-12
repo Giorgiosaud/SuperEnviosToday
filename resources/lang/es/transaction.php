@@ -23,7 +23,7 @@ return [
   'NO:ACCOUNTS' => 'No Existen Cuentas Registradas',
   'BALANCE' => 'Saldo',
   'RATE:CHANGE' => '¿Desea pedir autorizacion para utilizar otra tasa de cambio?',
-  'EXCHANGE.RATE' => 'Tasa de cambio del día',
+  'EXCHANGE:RATE' => 'Tasa de cambio del dia',
   'RATE:CALC' => 'Monto Calculado',
   'VOUCHER:NUMBER' => 'Numero de transacción',
   'VOUCHER:FILES' => 'Archivos Adjuntos',

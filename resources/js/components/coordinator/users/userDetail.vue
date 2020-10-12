@@ -1,51 +1,122 @@
 <template>
   <div>
-    <a class="button field is-link"
-       v-if="!editable"
-       :href="editLink"
-    >
-      <span>{{$t('users.LIST')}}</span>
-    </a>
-    <button class="button field is-info"
-            v-if="!editable"
-            @click="editable = true">
-      <span>{{$t('users.EDIT')}}</span>
-    </button>
+    <div class="buttons">
 
-    <b-button size="is-big"
-              type="is-info"
-              :loading="sendingVerification"
-              icon-left="retweet"
-              v-if="!userData.email_verified_at"
-              @click="resendVerification">
-      {{$t('users.RESEND')}}
-    </b-button>
-    <b-button size="is-big"
-              type="is-info"
-              :loading="sendingVerification"
-              icon-left="people-arrows"
-              @click="loginAs">
-      Inciar Sesion como {{ userData.name }} {{ userData.last_name }}
-    </b-button>
+        <a class="button field is-link"
+           v-if="!editable"
+           :href="editLink"
+        >
+          <span>{{ $t('users.LIST') }}</span>
+        </a>
+        <button class="button field is-info"
+                v-if="!editable"
+                @click="editable = true">
+          <span>{{ $t('users.EDIT') }}</span>
+        </button>
+        <b-button size="is-big"
+                  type="is-info"
+                  :loading="sendingVerification"
+                  icon-left="retweet"
+                  v-if="!userData.email_verified_at"
+                  @click="resendVerification">
+          {{ $t('users.RESEND') }}
+        </b-button>
+        <b-button size="is-big"
+                  type="is-info"
+                  :loading="sendingVerification"
+                  icon-left="people-arrows"
+                  @click="loginAs">
+          Inciar Sesion como {{ userData.name }} {{ userData.last_name }}
+        </b-button>
+    </div>
     <div v-if="!editable">
-      <div><strong>{{$t('auth.IDN_TYPE')}}:</strong> {{ userData.idn_type }}</div>
-      <div><strong>{{$t('auth.IDN')}}:</strong> {{ userData.idn }}</div>
-      <div><strong>{{$t('auth.NAME')}}:</strong> {{ userData.name }}</div>
-      <div><strong>{{$t('auth.LAST_NAME')}}:</strong> {{ userData.last_name }}</div>
-      <div><strong>{{$t('auth.EMAIL')}}:</strong> {{ userData.email }}</div>
-      <div><strong>{{$t('auth.PHONE')}}:</strong> {{ userData.phone }}</div>
-      <div><strong>{{$t('auth.ADDRESS')}}:</strong> {{ userData.address }}</div>
-      <div><strong>{{$t('users.ROLES')}}:</strong> <span class="tag mx-1"
-                                                         v-for="role in userData.roles"
-                                                         :class="{
-                                      'is-danger':role.name_id==='coordinator',
-                                      'is-warning':role.name_id==='foreign_operator',
-                                      'is-success':role.name_id==='receiver',
-                                      'is-info':role.name_id==='venezuelan_operator',
-                                      'is-primary':role.name_id==='client'
-                                      }">
-                                   {{ role.name}}
-                                </span></div>
+      <div class="columns is-desktop">
+        <div class="column is-half is-offset-one-quarter">
+          <div class="card">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4">Datos del Cliente</p>
+                  <p class="subtitle is-6">
+                    {{ userData.name }} {{ userData.last_name }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="content">
+                <div class="level p-0">
+                  <div class="level-left">
+                    {{ $t('auth.IDN') }}
+                  </div>
+                  <div class="level-right">
+                    {{ userData.idn_type }}-{{ userData.idn }}
+                  </div>
+                </div>
+                <div class="level p-0">
+                  <div class="level-left">
+                    {{ $t('auth.EMAIL') }}
+                  </div>
+                  <div class="level-right">
+                    {{ userData.email }}
+                  </div>
+                </div>
+                <div class="level p-0">
+                  <div class="level-left">
+                    {{ $t('auth.PHONE') }}
+                  </div>
+                  <div class="level-right">
+                    {{ userData.phone }}
+                  </div>
+                </div>
+                <div class="level p-0">
+                  <div class="level-left">
+                    {{ $t('auth.ADDRESS') }}
+                  </div>
+                  <div class="level-right">
+                    {{ userData.address }}
+                  </div>
+                </div>
+                <div class="level p-0">
+                  <div class="level-left">
+                    {{ $t('auth.ROLES') }}
+                  </div>
+                  <div class="level-right">
+                    <span class="tag mx-1"
+                          v-for="role in userData.roles"
+                          :key="role.name_id"
+                          :class="{
+                      'is-danger':role.name_id==='coordinator',
+                      'is-warning':role.name_id==='foreign_operator',
+                      'is-success':role.name_id==='receiver',
+                      'is-info':role.name_id==='venezuelan_operator',
+                      'is-primary':role.name_id==='client'
+                      }">
+                   {{ role.name }}
+                </span>
+                  </div>
+                </div>
+
+                <div class="level p-0">
+                  <div class="level-left">{{ $t('transaction.CREATED_AT') }}</div>
+                  <div class="level-right">
+                    <time :datetime="userData.created_at">
+                      {{ userData.created_at|datetime }}
+                    </time>
+                  </div>
+                </div>
+                <div class="level p-0">
+                  <div class="level-left">{{ $t('transaction.UPDATED_AT') }}</div>
+                  <div class="level-right">
+                    <time :datetime="userData.updated_at">
+                      {{ userData.updated_at|datetime }}
+                    </time>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="columns">
         <div class="column">
           <h2 class="is-size-2 has-text-centered">Cuentas Asociadas</h2>
@@ -76,10 +147,12 @@
               field="balance"
               label="Saldo"
               v-slot="{row:account}">
-              {{account.balance|currencyFilter({
-              ...account.bank.currency,
-              formatWithSymbol:account.bank.currency.format_with_symbol === 1
-            }) }}
+              {{
+                account.balance|currencyFilter({
+                  ...account.bank.currency,
+                  formatWithSymbol: account.bank.currency.format_with_symbol === 1
+                })
+              }}
             </b-table-column>
             <b-table-column v-slot="{row:account}">
               <b-button type="is-danger" @click="unlinkAccount(user.id,account.id)">
@@ -98,11 +171,11 @@
           <input type="hidden" name="_method" value="PUT">
           <validation-provider
             rules="required"
-            v-slot="{ classes,errors,valid }"
+            v-slot="{ errors }"
             :name="$t('users.ROLES')"
             tag="div"
             class="field">
-            <label class="label">{{$t('users.ROLES')}}</label>
+            <label class="label">{{ $t('users.ROLES') }}</label>
             <div class="control has-icons-right">
               <b-taginput
                 v-model="userData.roles"
@@ -119,7 +192,7 @@
 
             <strong
               v-if="errors[0]"
-              class="help is-danger">{{errors[0]}}</strong>
+              class="help is-danger">{{ errors[0] }}</strong>
           </validation-provider>
           <input type="hidden"
                  name="roles"
@@ -130,7 +203,7 @@
             :name="$t('auth.IDN_TYPE')"
             tag="div"
             class="field">
-            <label class="label" for="idn_type">{{$t('auth.IDN_TYPE')}}</label>
+            <label class="label" for="idn_type">{{ $t('auth.IDN_TYPE') }}</label>
             <div class="control has-icons-left has-icons-right">
               <div class="select"
                    :class="classes">
@@ -138,7 +211,7 @@
                   id="idn_type"
                   name="idn_type"
                   v-model="userData.idn_type">
-                  <option value="">{{$t('auth.DEFAULT:IDNTYPE')}}</option>
+                  <option value="">{{ $t('auth.DEFAULT:IDNTYPE') }}</option>
                   <option value="CI">Cédula Venezolana</option>
                   <option value="PASSPORT">Pasaporte</option>
                   <option value="RUT">RUT</option>
@@ -155,7 +228,7 @@
             </div>
             <strong
               v-if="errors[0]"
-              class="help is-danger">{{errors[0]}}</strong>
+              class="help is-danger">{{ errors[0] }}</strong>
           </validation-provider>
           <validation-provider
             rules="required"
@@ -163,7 +236,7 @@
             v-slot="{ classes,errors,valid}"
             tag="div"
             class="field">
-            <label class="label" for="idn">{{$t('auth.IDN')}}</label>
+            <label class="label" for="idn">{{ $t('auth.IDN') }}</label>
             <div class="control has-icons-right">
               <input id="idn"
                      v-model="userData.idn"
@@ -173,8 +246,7 @@
                      type="text"
                      :placeholder="$t('auth.IDN')"
                      autocomplete="idn" autofocus>
-
-              <span class="icon is-small has-text-warning	is-right"
+              <span class="icon is-small has-text-warning is-right"
                     v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
@@ -182,7 +254,7 @@
                                 <font-awesome-icon icon="check"></font-awesome-icon>
                             </span>
             </div>
-            <strong v-if="errors[0]" class="help is-danger">{{errors[0]}}</strong>
+            <strong v-if="errors[0]" class="help is-danger">{{ errors[0] }}</strong>
           </validation-provider>
           <validation-provider
             rules="required"
@@ -190,7 +262,7 @@
             tag="div"
             class="field">
 
-            <label class="label" for="name">{{$t('auth.NAME')}}</label>
+            <label class="label" for="name">{{ $t('auth.NAME') }}</label>
             <div class="control has-icons-right">
               <input id="name"
                      v-model="userData.name"
@@ -200,7 +272,7 @@
                      type="text"
                      :placeholder="$t('auth.NAME')"
                      autocomplete="name" autofocus>
-              <span class="icon is-small has-text-warning	is-right"
+              <span class="icon is-small has-text-warning is-right"
                     v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
@@ -210,7 +282,7 @@
             </div>
             <strong
               v-if="errors[0]"
-              class="help is-danger">{{errors[0]}}</strong>
+              class="help is-danger">{{ errors[0] }}</strong>
           </validation-provider>
           <validation-provider
             :name="$t('auth.LAST_NAME')"
@@ -220,7 +292,7 @@
             class="field">
             <label
               class="label"
-              for="last_name">{{$t('auth.LAST_NAME')}}</label>
+              for="last_name">{{ $t('auth.LAST_NAME') }}</label>
             <div class="control has-icons-right">
               <input id="last_name"
                      name="last_name"
@@ -230,7 +302,7 @@
                      type="text"
                      :placeholder="$t('auth.LAST_NAME')"
                      autocomplete="last_name" autofocus>
-              <span class="icon is-small has-text-warning	is-right"
+              <span class="icon is-small has-text-warning is-right"
                     v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
@@ -240,7 +312,7 @@
             </div>
             <strong
               v-if="errors[0]"
-              class="help is-danger">{{errors[0]}}</strong>
+              class="help is-danger">{{ errors[0] }}</strong>
           </validation-provider>
           <validation-provider
             :name="$t('auth.EMAIL')"
@@ -249,7 +321,7 @@
             tag="div"
             class="field">
 
-            <label class="label" for="email">{{$t('auth.EMAIL')}}</label>
+            <label class="label" for="email">{{ $t('auth.EMAIL') }}</label>
             <div class="control has-icons-left has-icons-right">
               <input id="email" name="email"
                      :class="classes"
@@ -261,14 +333,14 @@
               <span class="icon is-small is-left">
                                 <font-awesome-icon icon="envelope"></font-awesome-icon>
                             </span>
-              <span class="icon is-small has-text-warning	is-right" v-if="errors[0]">
+              <span class="icon is-small has-text-warning is-right" v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
               <span class="icon is-small has-text-success is-right" v-if="valid">
                                 <font-awesome-icon icon="check"></font-awesome-icon>
                             </span>
             </div>
-            <strong v-if="errors[0]" class="help is-danger">{{errors[0]}}</strong>
+            <strong v-if="errors[0]" class="help is-danger">{{ errors[0] }}</strong>
           </validation-provider>
           <validation-provider
             :name="$t('auth.PHONE')"
@@ -277,7 +349,7 @@
             tag="div"
             class="field">
 
-            <label class="label" for="phone">{{$t('auth.PHONE')}}</label>
+            <label class="label" for="phone">{{ $t('auth.PHONE') }}</label>
             <div class="control has-icons-left has-icons-right">
               <input id="phone" name="phone"
                      :class="classes"
@@ -289,14 +361,14 @@
               <span class="icon is-small is-left">
                                 <font-awesome-icon icon="phone"></font-awesome-icon>
                             </span>
-              <span class="icon is-small has-text-warning	is-right" v-if="errors[0]">
+              <span class="icon is-small has-text-warning is-right" v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
               <span class="icon is-small has-text-success is-right" v-if="valid">
                                 <font-awesome-icon icon="check"></font-awesome-icon>
                             </span>
             </div>
-            <strong v-if="errors[0]" class="help is-danger">{{errors[0]}}</strong>
+            <strong v-if="errors[0]" class="help is-danger">{{ errors[0] }}</strong>
           </validation-provider>
           <validation-provider
             :name="$t('auth.ADDRESS')"
@@ -305,7 +377,7 @@
             tag="div"
             class="field">
 
-            <label class="label" for="address">{{$t('auth.ADDRESS')}}</label>
+            <label class="label" for="address">{{ $t('auth.ADDRESS') }}</label>
             <div class="control has-icons-right">
                             <textarea id="address"
                                       name="address"
@@ -320,7 +392,7 @@
                                 <font-awesome-icon icon="check"></font-awesome-icon>
                             </span>
             </div>
-            <strong v-if="errors[0]" class="help is-danger">{{errors[0]}}</strong>
+            <strong v-if="errors[0]" class="help is-danger">{{ errors[0] }}</strong>
           </validation-provider>
           <div class="field is-grouped">
             <div class="control">
@@ -328,7 +400,8 @@
             </div>
             <div class="control">
               <button @click.prevent="cancel"
-                      class="button is-danger">{{ $t('users.CANCEL') }}</button>
+                      class="button is-danger">{{ $t('users.CANCEL') }}
+              </button>
             </div>
           </div>
         </form>
@@ -337,22 +410,26 @@
   </div>
 </template>
 <script>
+import {format, parseISO} from 'date-fns';
 import currencyFilter from '../../../currency';
 
 export default {
   name: 'UserDetail',
   filters: {
-    currencyFilter
+    currencyFilter,
+    datetime(time) {
+      return format(parseISO(time), 'dd-mm-yyyy HH:mm');
+    },
   },
 
   props: {
-    editLink:{
-      type:String,
-      default:'#'
+    editLink: {
+      type: String,
+      default: '#',
     },
-    formAction:{
-      type:String,
-      default:'#'
+    formAction: {
+      type: String,
+      default: '#',
     },
     user: {
       type: Object,
@@ -382,7 +459,7 @@ export default {
         address: '',
         roles: [],
       },
-      unlinkingAccount:false,
+      unlinkingAccount: false,
       filteredRoles: [],
       sendingVerification: false,
     }
@@ -407,14 +484,12 @@ export default {
 
   },
   methods: {
-    async unlinkAccount(userId,accountId) {
+    async unlinkAccount(userId, accountId) {
       this.unlinkingAccount = true;
       try {
         await $http.patch(`/api/account/${accountId}/user/${userId}/unlink`);
-      } catch (error) {
-        console.log(error);
       } finally {
-        window.location.reload()
+        window.location.reload();
       }
     },
     loginAs() {

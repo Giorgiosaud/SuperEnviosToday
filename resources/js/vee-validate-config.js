@@ -12,11 +12,11 @@ import * as rules from 'vee-validate/dist/rules';
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
 });
-extend("decimals", {
-  validate: (value, {decimals = '*', separator = '.'} = {}) => {
+extend('decimals', {
+  validate: (value, { decimals = '*', separator = '.' } = {}) => {
     if (value === null || value === undefined || value === '') {
       return {
-        valid: false
+        valid: false,
       };
     }
     if (Number(decimals) === 0) {
@@ -31,16 +31,13 @@ extend("decimals", {
       valid: regex.test(value),
     };
   },
-  message: 'El campo {_field_} debe contener solamente valores decimales'
-})
+  message: 'El campo {_field_} debe contener solamente valores decimales',
+});
 extend('balance', {
   params: ['balance'],
-  validate: (value, {balance}) => {
-    console.log(balance);
-    return balance >= 0
-  },
-  message:'El campo {_field_} tiene un monto invalido'
-})
+  validate: (value, { balance }) => balance >= 0,
+  message: 'El campo {_field_} tiene un monto invalido',
+});
 configure({
   classes: {
     valid: 'is-success',

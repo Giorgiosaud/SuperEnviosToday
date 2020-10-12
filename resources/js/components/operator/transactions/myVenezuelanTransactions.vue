@@ -16,7 +16,7 @@
                   :key="account.id"
                   :value="account.id"
           >
-            @{{ account.bank.name }} / @{{ account.number }}
+            {{ account.bank.name }} / {{ account.number }}
           </option>
         </b-select>
       </div>
@@ -77,23 +77,22 @@
                       width="200"
                       v-slot="prop"
       >
-        {{ prop.row.operator.name }} @{{ prop.row.operator.last_name }}
+        {{ prop.row.operator.name }} {{ prop.row.operator.last_name }}
       </b-table-column>
       <b-table-column field="client_id"
                       :label="$t('transaction.CLIENT')"
                       v-slot="prop"
                       width="200"
 
-
       ><span v-if="prop.row.client">
-                            @{{ prop.row.client.name }} @{{ prop.row.client.last_name }}
+                            {{ prop.row.client.name }} {{ prop.row.client.last_name }}
                             </span>
         <span v-else>N/A</span>
       </b-table-column>
       <b-table-column field="amount"
                       :label="$t('transaction.AMOUNT')"
                       v-slot="prop">
-        @{{ prop.row.amount |currency(prop.row.account.bank.currency) }}
+        {{ prop.row.amount |currency(prop.row.account.bank.currency) }}
       </b-table-column>
       <b-table-column field="status"
                       :label="$t('transaction.STATUS')"
@@ -162,7 +161,8 @@
                         <div class="level p-0">
                           <div class="level-left">{{$t('auth.IDN')}}</div>
                           <div class="level-right">
-                            {{transaction.venezuelanRelated.account.owners[0].idn_type}}-{{transaction.venezuelanRelated.account.owners[0].idn}}
+                            {{transaction.venezuelanRelated.account.owners[0].idn_type}}
+                            -{{transaction.venezuelanRelated.account.owners[0].idn}}
                           </div>
                         </div>
                         <div class="level p-0">
@@ -225,7 +225,7 @@
                       <validation-provider
                         rules="required|min:1"
                         :name="$t('transaction.VOUCHER:FILES')"
-                        v-slot="{ classes,errors,valid}"
+                        v-slot="{ classes,errors}"
                         tag="div"
                         class="control">
                         <uppy-uploader
@@ -234,7 +234,7 @@
                           :max-file-size-in-bytes="1000000">
                         </uppy-uploader>
                         <strong v-if="errors[0]"
-                                class="help is-danger">@{{errors[0]}}</strong>
+                                class="help is-danger">{{errors[0]}}</strong>
                       </validation-provider>
                     </div>
                     <div class="card-content">
@@ -245,7 +245,7 @@
                             <validation-provider
                               rules="required"
                               :name="$t('transaction.BANK:REFERENCE')"
-                              v-slot="{ classes,errors,valid}">
+                              v-slot="{ classes }">
                               <b-input
                                 :class="classes"
 
@@ -259,45 +259,46 @@
                         <div class="level p-0">
                           <div class="level-left">{{$t('transaction.CLIENT:NAME_AND_LAST_NAME')}}</div>
                           <div class="level-right">
-                            @{{transaction.venezuelanRelated.account.owners[0].name}}
-                            @{{transaction.venezuelanRelated.account.owners[0].last_name}}
+                            {{transaction.venezuelanRelated.account.owners[0].name}}
+                            {{transaction.venezuelanRelated.account.owners[0].last_name}}
                           </div>
                         </div>
                         <div class="level p-0">
                           <div class="level-left">{{$t('auth.IDN')}}</div>
                           <div class="level-right">
-                            @{{transaction.venezuelanRelated.account.owners[0].idn_type}}-@{{transaction.venezuelanRelated.account.owners[0].idn}}
+                            {{transaction.venezuelanRelated.account.owners[0].idn_type}}-
+                            {{transaction.venezuelanRelated.account.owners[0].idn}}
                           </div>
                         </div>
                         <div class="level p-0">
                           <div class="level-left">{{$t('auth.PHONE')}}</div>
                           <div class="level-right">
-                            @{{transaction.venezuelanRelated.account.owners[0].phone}}
+                            {{transaction.venezuelanRelated.account.owners[0].phone}}
                           </div>
                         </div>
                         <div class="level p-0">
                           <div class="level-left">{{$t('auth.EMAIL')}}</div>
                           <div class="level-right">
-                            @{{transaction.venezuelanRelated.account.owners[0].email}}
+                            {{transaction.venezuelanRelated.account.owners[0].email}}
                           </div>
                         </div>
                         <div class="level p-0">
                           <div class="level-left">{{$t('banks.MENU:TITLE')}}</div>
                           <div class="level-right">
-                            @{{transaction.venezuelanRelated.account.bank.name}}
+                            {{transaction.venezuelanRelated.account.bank.name}}
                           </div>
                         </div>
                         <div class="level p-0">
                           <div class="level-left">{{$t('accounts.NUMBER')}}</div>
                           <div class="level-right">
-                            @{{transaction.venezuelanRelated.account.number|account}}
+                            {{transaction.venezuelanRelated.account.number|account}}
                           </div>
                         </div>
                         <div class="level p-0">
                           <div class="level-left">{{$t('transaction.CREATED_AT')}}</div>
                           <div class="level-right">
                             <time :datetime="transaction.venezuelanRelated.created_at">
-                              @{{
+                              {{
                                 transaction.venezuelanRelated.created_at|datetime }}
                             </time>
                           </div>
@@ -306,13 +307,12 @@
                           <div class="level-left">{{$t('transaction.UPDATED_AT')}}</div>
                           <div class="level-right">
                             <time :datetime="transaction.venezuelanRelated.updated_at">
-                              @{{
+                              {{
                                 transaction.venezuelanRelated.updated_at|datetime }}
                             </time>
                           </div>
                         </div>
                         <br>
-
 
                       </div>
                     </div>
@@ -344,18 +344,17 @@
   </section>
 </template>
 <script>
+import { format, parseISO } from 'date-fns';
 import currencyFilter from '../../../currency';
 import UppyUploader from '../../../UppyUploader.vue';
-import {format, parseISO} from 'date-fns'
 
 export default {
   name: 'MyVenezuelanTransactions',
   components: {
-    UppyUploader
+    UppyUploader,
   },
   filters: {
     datetime(time) {
-
       return format(parseISO(time), 'dd-mm-yyyy HH:mm');
     },
     account(value) {
@@ -389,18 +388,18 @@ export default {
     },
   },
   props: {
-    appUrl:{
-      type:String,
-      default:'#'
+    appUrl: {
+      type: String,
+      default: '#',
     },
     accounts: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
     transactionsQuery: {
       type: Object,
       default: () => ({
-        data: []
+        data: [],
       }),
     },
     currency: {
@@ -422,7 +421,7 @@ export default {
       onChangeState: false,
       selectedCurrencyId: 1,
       isLoadingTransaction: false,
-      isExecutingTransaction: false
+      isExecutingTransaction: false,
     }
   ),
   computed: {
@@ -441,16 +440,16 @@ export default {
   },
   watch: {
     statusFilter(value) {
-      this.changedFilter({status: value});
+      this.changedFilter({ status: value });
       this.loadAsyncData();
     },
     accountFilter(value) {
-      this.changedFilter({account: value});
+      this.changedFilter({ account: value });
       this.loadAsyncData();
     },
     selectedCurrencyId(value) {
       this.page = 1;
-      this.changedFilter({currency: value});
+      this.changedFilter({ currency: value });
 
       this.loadAsyncData();
     },
@@ -464,12 +463,10 @@ export default {
     async executeTransaction(venezuelanTransaction) {
       this.isExecutingTransaction = true;
       try {
-        await $http.patch(`/api/related-venezuelan-transaction`, {transaction: venezuelanTransaction});
+        await $http.patch('/api/related-venezuelan-transaction', { transaction: venezuelanTransaction });
       } finally {
-
         this.isExecutingTransaction = false;
-        debugger;
-        this.$refs.mainTable.closeDetailRow()
+        this.$refs.mainTable.closeDetailRow();
         await this.loadAsyncData();
       }
     },
@@ -478,7 +475,6 @@ export default {
       try {
         const request = await $http.get(`/api/related-venezuelan-transactions/${transaction.id}`);
         this.$set(transaction, 'venezuelanRelated', await request.json());
-
       } finally {
         this.isLoadingTransaction = false;
       }
@@ -495,8 +491,8 @@ export default {
     changedFilter(filters) {
       this.filters = {
         ...this.filters,
-        ...filters
-      }
+        ...filters,
+      };
       this.loadAsyncData();
     },
     refreshData() {
@@ -504,20 +500,20 @@ export default {
       this.loadAsyncData();
     },
     async loadAsyncData() {
-      const params = this.getAllUrlParams(document.location.href)
+      const params = this.getAllUrlParams(document.location.href);
       params.page = this.page;
       const filters = {
-        ...this.filters
+        ...this.filters,
       };
       const keys = Object.keys(filters);
-      keys.forEach(key => {
+      keys.forEach((key) => {
         if (filters[key] === '') {
           delete filters[key];
         }
-      })
+      });
       Object.assign(params, filters);
       this.loading = true;
-      const request = await $http.get('/api/my-venezuelan-transactions', {params: {...params}});
+      const request = await $http.get('/api/my-venezuelan-transactions', { params: { ...params } });
       this.query = await request.json();
       this.loading = false;
     },

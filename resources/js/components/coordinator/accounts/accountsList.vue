@@ -48,28 +48,28 @@
                         width="40"
                         numeric
                         v-slot="{row:account}">
-          @{{ account.id }}
+          {{ account.id }}
         </b-table-column>
 
         <b-table-column field="number"
                         :label="$t('accounts.NUMBER')"
                         v-slot="{row:account}">
-          @{{ account.number }}
+          {{ account.number }}
         </b-table-column>
 
         <b-table-column field="name"
                         :label="$t('accounts.BANK:NAME')"
                         v-slot="{row:account}">
-          @{{ account.bank.name }}
+          {{ account.bank.name }}
         </b-table-column>
         <b-table-column field="name"
                         :label="$t('accounts.BANK:CURRENCY')"
                         v-slot="{row:account}">
-          @{{ account.bank.currency.name }}
+          {{ account.bank.currency.name }}
         </b-table-column>
         <b-table-column field="balance" :label="$t('accounts.BALANCE')"
                         v-slot="{row:account}">
-          @{{ account.balance |currencyFilter({
+          {{ account.balance |currencyFilter({
           ...account.bank.currency,
           formatWithSymbol:account.bank.currency.format_with_symbol === 1
         })}}
@@ -106,23 +106,23 @@
 
               <b-table-column field="idn_type" label="Tipo de identificación"
                               v-slot="{row:owner}">
-                @{{ owner.idn_type }}
+                {{ owner.idn_type }}
               </b-table-column>
               <b-table-column field="idn" label="Número" v-slot="{row:owner}">
-                @{{ owner.idn }}
+                {{ owner.idn }}
               </b-table-column>
               <b-table-column field="name" label="Nombres" v-slot="{row:owner}">
-                @{{ owner.name }}
+                {{ owner.name }}
               </b-table-column>
               <b-table-column field="last_name" label="Apellidos" v-slot="{row:owner}">
-                @{{ owner.last_name }}
+                {{ owner.last_name }}
               </b-table-column>
               <b-table-column field="phone" label="Teléfono" v-slot="{row:owner}">
-                @{{ owner.phone }}
+                {{ owner.phone }}
               </b-table-column>
 
               <b-table-column field="email" label="Email" v-slot="{row:owner}">
-                @{{owner.email }}
+                {{owner.email }}
               </b-table-column>
               <b-table-column field="remove" label="Accion" v-slot="{row:owner}">
                 <b-button type="is-danger" @click="unBind(owner,account)">Desasociar Operador
@@ -174,7 +174,7 @@ export default {
   },
   components: {
     addAccount,
-    addOperator
+    addOperator,
   },
   props: {
     accountsQuery: {
@@ -209,7 +209,7 @@ export default {
       removingAccount: false,
       accountToAsociate: null,
       actualOwnersOfAccount: null,
-      isRemovingAccountStatus:false
+      isRemovingAccountStatus: false,
     }
   ),
   computed: {
@@ -245,51 +245,50 @@ export default {
     this.filteredBanks = this.allBanks;
   },
   methods: {
-    async removeAccountStatus(accountID){
-      debugger;
+    async removeAccountStatus(accountID) {
       try {
         this.isRemovingAccountStatus = true;
-        await $http.patch(`/api/account/${accountID}/toggle-operator-state`)
-      } catch(error){
-        debugger;
-      }finally {
+        await $http.patch(`/api/account/${accountID}/toggle-operator-state`);
+      } finally {
         this.isRemovingAccountStatus = false;
-        window.location.reload()
+        window.location.reload();
       }
     },
-    async addOperatorToAccount({operator, account}) {
+    async addOperatorToAccount({ operator, account }) {
       this.isOpenModal = false;
       try {
         await $http.post(`/api/accounts/link/${operator.id}`, {
-          ...account
-        })
+          ...account,
+        });
       } finally {
-        await this.loadAsyncData()
+        await this.loadAsyncData();
       }
     },
     asociateToAccount(account, owners) {
-      this.modal = 'operator'
+      this.modal = 'operator';
       this.accountToAsociate = account;
-      this.actualOwnersOfAccount = owners.map(owner => owner.id)
+      this.actualOwnersOfAccount = owners.map((owner) => owner.id);
       this.isOpenModal = true;
     },
     async unBind(operator, account) {
       this.$buefy.dialog.confirm({
-        message: `¿Desea remover a ${operator.name} ${operator.last_name} de la cuenta del banco ${account.bank.name} numero ${account.number} ?`,
+        message: `¿Desea remover a ${operator.name} ${operator.last_name}
+        de la cuenta del banco ${account.bank.name} numero ${account.number} ?`,
         onConfirm: async () => {
           try {
-            await $http.patch(`/api/account/${account.id}/user/${operator.id}/unbind`)
+            await $http.patch(`/api/account/${account.id}/user/${operator.id}/unbind`);
           } finally {
-            this.loadAsyncData()
+            this.loadAsyncData();
           }
         },
       });
     },
     deleteAccount(id) {
-      console.log(id)
+      // TODO: remove or check
+      return id;
     },
     openAddAccountModal() {
-      this.modal = 'account'
+      this.modal = 'account';
       this.isOpenModal = true;
     },
     async removeAccount(id) {
@@ -340,7 +339,7 @@ export default {
           .indexOf(text.toLowerCase()) >= 0);
     },
     async loadAsyncData() {
-      const params = this.getAllUrlParams(document.location.href)
+      const params = this.getAllUrlParams(document.location.href);
 
       params.page = this.page;
       Object.assign(params, this.filters);
@@ -351,7 +350,7 @@ export default {
         params.banks = this.selectedBanks.map((bank) => bank.id);
       }
       this.loading = true;
-      const request = await $http.get('/api/accounts', {params: {...params}});
+      const request = await $http.get('/api/accounts', { params: { ...params } });
       this.query = await request.json();
       this.loading = false;
     },

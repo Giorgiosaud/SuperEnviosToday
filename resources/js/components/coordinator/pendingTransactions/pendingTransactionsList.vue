@@ -24,7 +24,6 @@
       aria-previous-label="Previous page"
       :selected.sync="selected">
 
-
       <b-table-column field="id"
                       label="ID"
                       width="40"
@@ -153,7 +152,6 @@
                                 {{$t('pendingTransactions.STATUS:REJECTED')}}
                             </span>
 
-
       </b-table-column>
 
       <template slot="empty">
@@ -264,7 +262,7 @@ export default {
     },
 
     async loadAsyncData() {
-      const params =this.getAllUrlParams(document.location.href)
+      const params = this.getAllUrlParams(document.location.href);
       params.page = this.page;
       Object.assign(params, this.filters);
       this.loading = true;
@@ -288,13 +286,12 @@ export default {
           .toString()
           .toLowerCase()
           .indexOf(text.toLowerCase()) >= 0);
-      console.log(this.filteredRoles);
     },
     async approveTransaction(transaction) {
       this.onChangeState = true;
       // const data = { accept_transaction: false };
       try {
-        const { data } = await axios.patch(`api/pending-transaction/${transaction.id}`,
+        const { data } = await $http.patch(`api/pending-transaction/${transaction.id}`,
           {
             accept_transaction: true,
           });
@@ -320,7 +317,7 @@ export default {
       this.onChangeState = true;
       // const data = { accept_transaction: false };
       try {
-        const { data } = await axios.patch(`api/pending-transaction/${transaction.id}`,
+        const { data } = await $http.patch(`api/pending-transaction/${transaction.id}`,
           {
             accept_transaction: false,
           });

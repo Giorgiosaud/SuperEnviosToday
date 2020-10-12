@@ -119,8 +119,8 @@ export default {
           // trigger: '.UppyModalOpenerBtn',
           note: 'Solo Imagenes o pdf, hasta 10 archivos, de maximo 2 MB',
           metaFields: [
-            {id: 'name', name: 'Name', placeholder: 'file name'},
-            {id: 'caption', name: 'Caption', placeholder: 'describe what the image is about'},
+            { id: 'name', name: 'Name', placeholder: 'file name' },
+            { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' },
           ],
           browserBackButtonClose: true,
           locale: {
@@ -142,14 +142,15 @@ export default {
             },
           },
         })
-        .use(Webcam, {target: Dashboard})
+        .use(Webcam, { target: Dashboard })
         .use(XHRUpload, {
           limit: 1,
           endpoint: '/api/file/upload',
           formData: true,
           fieldName: 'file',
           headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // from <meta name="csrf-token" content="{{ csrf_token() }}">
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+              .getAttribute('content'),
           },
         });
       this.uppy.on('file-added', (file) => {
@@ -163,6 +164,7 @@ export default {
       this.uppy.on('complete', (event) => {
         event.successful.forEach((file) => {
           this.payload = file.response.body.path;
+          // eslint-disable-next-line vue/no-mutating-props
           this.value.push(file.response.body);
           this.$emit('input', this.value);
           this.disabled = false;
@@ -173,13 +175,11 @@ export default {
       try {
         this.uploading = true;
         await this.uppy.upload();
-      } catch (error) {
-        console.log(error);
       } finally {
         this.uploading = false;
       }
     },
-    updatePreviewPath({path}) {
+    updatePreviewPath({ path }) {
       this.previewPath = path;
 
       return this;

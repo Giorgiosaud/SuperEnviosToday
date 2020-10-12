@@ -75,31 +75,31 @@ export default {
       field: 'id',
       label: 'ID',
       width: '5',
-      numeric: true
+      numeric: true,
     },
-      {
-        field: 'name',
-        label: 'Nombre',
-      }]
+    {
+      field: 'name',
+      label: 'Nombre',
+    }],
 
   }),
   computed: {
     operatorsToSelect() {
-      return this.operators.filter(operator => !this.actualOwners.includes(operator.id));
-    }
+      return this.operators.filter((operator) => !this.actualOwners.includes(operator.id));
+    },
   },
   created() {
     this.getOperators();
   },
   methods: {
     async getOperators() {
-      const response = await $http.get('api/users/operators')
-      this.operators = await response.json()
+      const response = await $http.get('api/users/operators');
+      this.operators = await response.json();
     },
     showRoles(roles) {
-      return roles.map(role => role.name)
-    }
-  }
+      return roles.map((role) => role.name);
+    },
+  },
 };
 </script>
 

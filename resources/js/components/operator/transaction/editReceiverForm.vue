@@ -292,8 +292,6 @@ export default {
         this.$emit('receiver-edited', response);
         this.cleanAndClose();
       } catch (error) {
-        debugger;
-
         this.$buefy.notification.open({
           message: error.message,
           type: 'is-danger',

@@ -3,10 +3,12 @@
     <nav class="level">
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading" v-if="!tryAnotherRate">{{$t('transaction.EXCHANGE.RATE')}}</p>
-          <p class="title" v-if="tryAnotherRate">{{$t('transaction.RATE:NEW')}}: {{ newRate|rateCurrency(selectedCurrency) }}</p>
+          <p class="heading" v-if="!tryAnotherRate">{{$t('transaction.EXCHANGE:RATE')}}</p>
+          <p class="title" v-if="tryAnotherRate">
+            {{$t('transaction.RATE:NEW')}}: {{ newRate|rateCurrency(selectedCurrency) }}
+          </p>
           <p :class="{'sub-title':tryAnotherRate,'title':!tryAnotherRate}">
-            <span v-if="tryAnotherRate">{{$t('transaction.EXCHANGE.RATE')}}:</span>
+            <span v-if="tryAnotherRate">{{$t('transaction.EXCHANGE:RATE')}}:</span>
             {{ exchangeRate|rateCurrency(selectedCurrency) }}
           </p>
           <p class="sub-title" v-if="tryAnotherRate"
@@ -70,14 +72,14 @@
               tag="div"
               vid="selectedAccount"
               class="control">
-              <label class="label" for="idn_type">{{$t('transaction.ACCOUNTS')}}</label>
+              <label class="label" for="idn_type2">{{$t('transaction.ACCOUNTS')}}</label>
               <div class="control has-icons-left has-icons-right">
                 <div class="select"
                      :class="classes">
                   <select
                     :disabled="!accountsOfCurrency.length"
-                    id="idn_type"
-                    name="idn_type"
+                    id="idn_type2"
+                    name="idn_type2"
                     v-model="selectedAccount">
                     <option value="">{{$t('transaction.DEFAULT:ACCOUNT')}}</option>
                     <option v-for="account in accountsOfCurrency"
@@ -117,7 +119,7 @@
                        type="text"
                        :placeholder="$t('transaction.AMOUNT')"
                        autocomplete="amount" autofocus></money>
-                <span class="icon is-small has-text-warning	is-right"
+                <span class="icon is-small has-text-warning is-right"
                       v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
@@ -130,7 +132,7 @@
           </div>
         </div>
         <div class="columns">
-          <validation-provider tag="div" class="column is-narrow" vid="tryAnotherRate" v-slot="x">
+          <validation-provider tag="div" class="column is-narrow" vid="tryAnotherRate">
             <label class="checkbox">
               <input type="checkbox" v-model="tryAnotherRate">
               {{$t('transaction.RATE:CHANGE')}}
@@ -158,7 +160,7 @@
                 >
 
                 </money>
-                <span class="icon is-small has-text-warning	is-right"
+                <span class="icon is-small has-text-warning is-right"
                       v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
@@ -193,8 +195,8 @@
                        type="text"
                        :placeholder="$t('transaction.VOUCHER:NUMBER')"
 
-                       autocomplete="idn" autofocus></input>
-                <span class="icon is-small has-text-warning	is-right" v-if="errors[0]">
+                       autocomplete="idn" autofocus/>
+                <span class="icon is-small has-text-warning is-right" v-if="errors[0]">
                                     <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                                 </span>
                 <span class="icon is-small has-text-success is-right" v-if="valid">
@@ -209,7 +211,7 @@
           rules="required|min:1"
           v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'"
           name="$t('transaction.VOUCHER:FILES')"
-          v-slot="{ classes,errors,valid}"
+          v-slot="{ classes,errors}"
           tag="div"
           class="control">
           <uppy-uploader
@@ -231,7 +233,7 @@
             {{$t('transaction.VERIFY:BUTTON')}}
           </b-button>
         </div>
-        <Validation-provider rules="required|is:ok" name="canGoOn" v-slot="{ errors }">
+        <Validation-provider rules="required|is:ok" name="canGoOn" >
           <input type="hidden" v-model="canGoOn">
         </Validation-provider>
       </div>
@@ -254,7 +256,8 @@
              :destroy-on-hide="false"
              aria-role="dialog"
              aria-modal>
-      <transaction-invalid @continuar="continueWithThat" :datos-de-transaccion="datosDeTransaccionRepetida"></transaction-invalid>
+      <transaction-invalid @continuar="continueWithThat" :datos-de-transaccion="datosDeTransaccionRepetida">
+      </transaction-invalid>
     </b-modal>
   </section>
 </template>
@@ -267,11 +270,11 @@ import transactionInvalid from './transactionInvalid.vue';
 
 export default {
   name: 'TransactionData',
-  props:{
-    minAmount:{
-      type:Number,
-      default:10
-    }
+  props: {
+    minAmount: {
+      type: Number,
+      default: 10,
+    },
   },
   filters: {
     currency,

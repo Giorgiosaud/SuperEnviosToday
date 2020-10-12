@@ -19,91 +19,91 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 function getCookie(name) {
-    if (!document.cookie) {
-        return null;
-    }
+  if (!document.cookie) {
+    return null;
+  }
 
-    const xsrfCookies = document.cookie.split(';')
-        .map((c) => c.trim())
-        .filter((c) => c.startsWith(`${name}=`));
+  const xsrfCookies = document.cookie.split(';')
+    .map((c) => c.trim())
+    .filter((c) => c.startsWith(`${name}=`));
 
-    if (xsrfCookies.length === 0) {
-        return null;
-    }
-    return decodeURIComponent(xsrfCookies[0].split('=')[1]);
+  if (xsrfCookies.length === 0) {
+    return null;
+  }
+  return decodeURIComponent(xsrfCookies[0].split('=')[1]);
 }
 
 const csrfToken = getCookie('XSRF-TOKEN');
 window.$http = {
 
-    setupHeaders: (newHeaders) => {
-        const myHeaders = new Headers();
+  setupHeaders: (newHeaders) => {
+    const myHeaders = new Headers();
 
-        myHeaders.append('credentials', 'same-origin');
-        myHeaders.append('Accept', 'application/json');
-        myHeaders.append('Content-Type', 'application/json');
-        myHeaders.append('X-Requested-With', 'XMLHttpRequest');
-        myHeaders.append('X-XSRF-TOKEN', csrfToken);
-        if (newHeaders) {
-            newHeaders.forEach((key) => {
-                myHeaders.append(key, newHeaders[key]);
-            });
-        }
-        return myHeaders;
-    },
-    noDataFetch(url, headersConf, config) {
-        const myHeaders = this.setupHeaders(headersConf);
-        return fetch(url, {
-            headers: myHeaders,
-            ...config,
-        });
-    },
-    dataFetch(url, data, headersConf, config) {
-        const myHeaders = this.setupHeaders(headersConf);
-        return fetch(url, {
-            headers: myHeaders,
-            method: 'POST',
-            body: JSON.stringify(data),
-            ...config,
-        });
-    },
-    get(url, config = {}, headersConf) {
-        // eslint-disable-next-line no-param-reassign
-        config.method = 'GET';
-        let params = '';
-        if (config.params) {
-            params += '?';
-            const paramsKeys = Object.keys(config.params)
-            paramsKeys.forEach((paramKey) => {
-                params += `${paramKey}=${config.params[paramKey]}&`;
-            });
-            params = params.replace(/&$/g, '');
-        }
-        return this.noDataFetch(`${url}${params}`, headersConf, config);
-    },
-    delete(url, headersConf, config = {}) {
-        // eslint-disable-next-line no-param-reassign
-        config.method = 'DELETE';
-        return this.noDataFetch(url, headersConf, config);
-    },
-    post(url, data = {}, headersConf, config = {}) {
-        // eslint-disable-next-line no-param-reassign
-        config.method = 'POST';
-        return this.dataFetch(url, data, headersConf, config);
-    },
-    put(url, data = {}, headersConf, config = {}) {
-        // eslint-disable-next-line no-param-reassign
-        config.method = 'PUT';
-        return this.dataFetch(url, data, headersConf, config);
-    },
-    patch(url, data = {}, headersConf, config = {}) {
-        // eslint-disable-next-line no-param-reassign
-        config.method = 'PATCH';
-        return this.dataFetch(url, data, headersConf, config);
-    },
-    custom(url, data = {}, headersConf, config) {
-        return this.dataFetch(url, data, headersConf, config);
-    },
+    myHeaders.append('credentials', 'same-origin');
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('X-Requested-With', 'XMLHttpRequest');
+    myHeaders.append('X-XSRF-TOKEN', csrfToken);
+    if (newHeaders) {
+      newHeaders.forEach((key) => {
+        myHeaders.append(key, newHeaders[key]);
+      });
+    }
+    return myHeaders;
+  },
+  noDataFetch(url, headersConf, config) {
+    const myHeaders = this.setupHeaders(headersConf);
+    return fetch(url, {
+      headers: myHeaders,
+      ...config,
+    });
+  },
+  dataFetch(url, data, headersConf, config) {
+    const myHeaders = this.setupHeaders(headersConf);
+    return fetch(url, {
+      headers: myHeaders,
+      method: 'POST',
+      body: JSON.stringify(data),
+      ...config,
+    });
+  },
+  get(url, config = {}, headersConf) {
+    // eslint-disable-next-line no-param-reassign
+    config.method = 'GET';
+    let params = '';
+    if (config.params) {
+      params += '?';
+      const paramsKeys = Object.keys(config.params);
+      paramsKeys.forEach((paramKey) => {
+        params += `${paramKey}=${config.params[paramKey]}&`;
+      });
+      params = params.replace(/&$/g, '');
+    }
+    return this.noDataFetch(`${url}${params}`, headersConf, config);
+  },
+  delete(url, headersConf, config = {}) {
+    // eslint-disable-next-line no-param-reassign
+    config.method = 'DELETE';
+    return this.noDataFetch(url, headersConf, config);
+  },
+  post(url, data = {}, headersConf, config = {}) {
+    // eslint-disable-next-line no-param-reassign
+    config.method = 'POST';
+    return this.dataFetch(url, data, headersConf, config);
+  },
+  put(url, data = {}, headersConf, config = {}) {
+    // eslint-disable-next-line no-param-reassign
+    config.method = 'PUT';
+    return this.dataFetch(url, data, headersConf, config);
+  },
+  patch(url, data = {}, headersConf, config = {}) {
+    // eslint-disable-next-line no-param-reassign
+    config.method = 'PATCH';
+    return this.dataFetch(url, data, headersConf, config);
+  },
+  custom(url, data = {}, headersConf, config) {
+    return this.dataFetch(url, data, headersConf, config);
+  },
 };
 // import Echo from 'laravel-echo';
 

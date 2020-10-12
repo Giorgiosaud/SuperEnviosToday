@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     onSubmit(val) {
-      console.log(val);
+      return val;
     },
   },
 };

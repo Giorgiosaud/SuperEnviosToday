@@ -57,7 +57,7 @@
                        :placeholder="$t('auth.IDN')"
                        value="123"
                        autocomplete="idn" autofocus>
-                <span class="icon is-small has-text-warning	is-right"
+                <span class="icon is-small has-text-warning is-right"
                       v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
@@ -94,19 +94,18 @@
             v-model="client.idn_type"
             id="idn_type"
             type="hidden"
-            name="idn_type"></input>
+            name="idn_type"/>
         </validation-provider>
         <validation-provider
 
           rules="required"
-          v-slot="{ classes,errors, valid }"
           tag="div"
           class="field">
           <input
             v-model="client.idn"
             id="idn_type"
             type="hidden"
-            name="idn_type"></input>
+            name="idn_type"/>
         </validation-provider>
         <div class="columns">
           <div class="column">
@@ -130,10 +129,10 @@
                        type="text"
                        :placeholder="$t('auth.NAME')"
                        autocomplete="name" autofocus>
-                <span class="icon is-small has-text-warning	is-right"
+                <span class="icon is-small has-text-warning is-right"
                       v-if="errors[0]">
-                                        <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
-                                    </span>
+                      <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
+                  </span>
                 <span class="icon is-small has-text-success is-right" v-if="valid">
                                         <font-awesome-icon icon="check"></font-awesome-icon>
                                     </span>
@@ -165,7 +164,7 @@
                          type="text"
                          :placeholder="$t('auth.LAST_NAME')"
                          autocomplete="last_name" autofocus>
-                <span class="icon is-small has-text-warning	is-right"
+                <span class="icon is-small has-text-warning is-right"
                       v-if="errors[0]">
                                             <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                                         </span>
@@ -201,7 +200,7 @@
                 <span class="icon is-small is-left">
                                 <font-awesome-icon icon="envelope"></font-awesome-icon>
                             </span>
-                <span class="icon is-small has-text-warning	is-right" v-if="errors[0]">
+                <span class="icon is-small has-text-warning is-right" v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
                 <span class="icon is-small has-text-success is-right" v-if="valid">
@@ -235,7 +234,7 @@
                 <span class="icon is-small is-left">
                                 <font-awesome-icon icon="phone"></font-awesome-icon>
                             </span>
-                <span class="icon is-small has-text-warning	is-right" v-if="errors[0]">
+                <span class="icon is-small has-text-warning is-right" v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
                             </span>
                 <span class="icon is-small has-text-success is-right" v-if="valid">

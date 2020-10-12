@@ -316,6 +316,8 @@
 </template>
 
 <script>
+import $ from 'jquery';
+
 export default {
   /*
          * The component's data.
@@ -442,7 +444,7 @@ export default {
              * Destroy the given client.
              */
     destroy(client) {
-      axios.delete(`/oauth/clients/${client.id}`)
+      $http.delete(`/oauth/clients/${client.id}`)
         .then(() => {
           this.getClients();
         });

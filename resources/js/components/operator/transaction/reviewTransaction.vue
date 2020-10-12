@@ -353,7 +353,7 @@ export default {
   props: {
     urlBase: {
       type: String,
-      default: '/'
+      default: '/',
     },
     clientData: {
       type: [Object, null],

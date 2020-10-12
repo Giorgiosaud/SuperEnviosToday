@@ -44,7 +44,6 @@
       aria-previous-label="Previous page"
     >
 
-
       <b-table-column field="id"
                       label="ID"
                       width="40"
@@ -112,8 +111,8 @@
           <td v-else>Cuenta Propia</td>
           <td>{{ relatedTransaction.amount |currency(relatedTransaction.account.bank.currency)}}</td>
           <td>
-                                <span
-                                  v-if="relatedTransaction.status=='pending'">{{$t('transaction.STATUS:PENDING')}}</span>
+            <span
+              v-if="relatedTransaction.status=='pending'">{{$t('transaction.STATUS:PENDING')}}</span>
             <span
               v-else-if="relatedTransaction.status=='executed'">{{$t('transaction.STATUS:APPROVED')}}</span>
             <span
@@ -178,7 +177,7 @@ export default {
       }),
     },
     currencies: {
-      type: Array,
+      type: Object,
       default: () => ({
         data: [],
       }),
@@ -215,12 +214,12 @@ export default {
   },
   watch: {
     statusFilter(value) {
-      this.changedFilter({status: value});
+      this.changedFilter({ status: value });
       this.loadAsyncData();
     },
     selectedCurrencyId(value) {
       this.page = 1;
-      this.changedFilter({currency: value});
+      this.changedFilter({ currency: value });
 
       this.loadAsyncData();
     },
@@ -259,12 +258,12 @@ export default {
       this.loadAsyncData();
     },
     async loadAsyncData() {
-      const params = this.getAllUrlParams(document.location.href)
+      const params = this.getAllUrlParams(document.location.href);
       params.page = this.page;
       params.currency = this.selectedCurrency.id;
       Object.assign(params, this.filters);
       this.loading = true;
-      const request = await $http.get(`/api/my-transactions`, {params: {...params}});
+      const request = await $http.get('/api/my-transactions', { params: { ...params } });
       this.query = await request.json();
       this.loading = false;
     },
