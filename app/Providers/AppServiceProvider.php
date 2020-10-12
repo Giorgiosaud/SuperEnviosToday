@@ -29,7 +29,5 @@ class AppServiceProvider extends ServiceProvider
 	{
 		User::observe(UserObserver::class);
 		Schema::defaultStringLength(191);
-
-		//
 	}
 }
