@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Superenvios.iml" filepath="$PROJECT_DIR$/.idea/Superenvios.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SuperenviosLocal.iml" filepath="$PROJECT_DIR$/.idea/SuperenviosLocal.iml" />
     </modules>
   </component>
 </project>

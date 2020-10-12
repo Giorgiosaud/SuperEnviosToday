@@ -1,32 +1,32 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+  namespace Database\Factories;
 
-use App\User;
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
+  use App\Models\User;
+  use Illuminate\Database\Eloquent\Factories\Factory;
+  use Illuminate\Support\Str;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+  class UserFactory extends Factory
+  {
+    protected $model = User::class;
 
-$factory->define(User::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'last_name' => $faker->lastName,
-        'address'=>$faker->address,
-        'email' => $faker->safeEmail,
-        'idn_type' => $faker->randomElement([ 'CI', 'DNI', 'RUT', 'PASSPORT', 'RIF']),
-        'idn' => strval($faker->numberBetween(1000000,100000000)),
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+      return [
+        'name' => $this->faker->name,
+        'last_name' => $this->faker->lastName,
+        'address' => $this->faker->address,
+        'email' => $this->faker->safeEmail,
+        'idn_type' => $this->faker->randomElement(['CI', 'DNI', 'RUT', 'PASSPORT', 'RIF']),
+        'idn' => strval($this->faker->numberBetween(1000000, 100000000)),
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
-    ];
-});
+      ];
+    }
+  }

@@ -2,12 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Account;
+use App\Models\Account;
+use App\Models\Role;
+use App\Models\User;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
-use App\Role;
-use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -16,8 +15,6 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
-    use DatabaseMigrations;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -30,8 +27,8 @@ class UserTest extends TestCase
      * */
     public function aUserHaveADefaultRoleOfClient()
     {
-        factory(Role::class)->create(['name'=>'Clientes','name_id'=>'client']);
-        $user = factory(User::class)->create([
+        Role::factory()->create(['name'=>'Clientes','name_id'=>'client']);
+        $user = User::factory()->create([
             'name'     => 'ALEX',
             'email'    => 'A@be.com',
             'password' => bcrypt('hidden'),
@@ -42,9 +39,9 @@ class UserTest extends TestCase
     /**
      * Test user Has Role
      */
-    public function testHasRole()
+    public function testHasRoleClientOnCreated()
     {
-        $user=factory(User::class)->create();
+        $user=User::factory()->create();
         $this->assertEquals(
             $user->hasRole('client'),
             true);
@@ -54,11 +51,11 @@ class UserTest extends TestCase
      */
     public function testHasAccounts()
     {
-        $user=factory(User::class)->create();
+        $user=User::factory()->create();
         $this->assertCount(0,
             $user->accounts
             );
-        $account=factory(Account::class,1)->create();
+        $account=Account::factory(1)->create();
         $user->accounts()->save($account[0]);
         $user->refresh();
         $this->assertCount(1,
@@ -70,10 +67,10 @@ class UserTest extends TestCase
      */
     public function testHasReceivers()
     {
-        $receiver=factory(User::class)->create();
-        $account=factory(Account::class,1)->create();
+        $receiver=User::factory()->create();
+        $account=Account::factory(1)->create();
         $receiver->accounts()->save($account[0]);
-        $user=factory(User::class)->create();
+        $user=User::factory()->create();
         $user->receivers()->save($receiver);
         $user->refresh();
         $this->assertCount(1,$user->receivers);
@@ -83,10 +80,10 @@ class UserTest extends TestCase
      */
     public function testHasSenders()
     {
-        $receiver=factory(User::class)->create();
-        $account=factory(Account::class,1)->create();
+        $receiver=User::factory()->create();
+        $account=Account::factory(1)->create();
         $receiver->accounts()->save($account[0]);
-        $user=factory(User::class)->create();
+        $user=User::factory()->create();
         $user->receivers()->save($receiver);
         $receiver->refresh();
         $this->assertCount(1,$receiver->senders);
@@ -96,7 +93,7 @@ class UserTest extends TestCase
     {
         Notification::fake();
         $token='123';
-        $user=factory(User::class)->create();
+        $user=User::factory()->create();
         $this->expectsNotification($user,ResetPassword::class);
         $user->sendPasswordResetNotification($token);
 
@@ -108,9 +105,32 @@ class UserTest extends TestCase
     public function testSendEmailVerificationNotification()
     {
         Notification::fake();
-        $user=factory(User::class)->create();
+        $user=User::factory()->create();
         $this->expectsNotification($user,VerifyEmail::class);
         $user->sendEmailVerificationNotification();
+    }
+    public function testUserHaveSenders(){
+        $user=User::factory()->create();
+        $sender=User::factory()->create();
+        $user->senders()->save($sender);
+        $this->assertCount(1,$user->senders);
+
+    }
+    public function testUserHaveReceivers(){
+        $user=User::factory()->create();
+        $receivers=User::factory()->create();
+        $user->receivers()->save($receivers);
+        $this->assertCount(1,$user->receivers);
+    }
+    public function testHasRoleTwoTimes(){
+        $user=User::factory()->create();
+        $role=Role::factory()->create();
+        $role->users()->save($user);
+        $this->assertTrue($user->hasRole($role->name_id));
+    }
+    public function testFullName(){
+        $user=User::factory()->create();
+        $this->assertEquals($user->name.' '.$user->last_name,$user->fullName);
     }
 
 

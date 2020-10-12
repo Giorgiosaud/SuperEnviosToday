@@ -24,4 +24,4 @@ storage/app
 storage/framework
 storage/logs
 storage/work
-storage/*
+storage

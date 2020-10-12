@@ -15,7 +15,7 @@
         name="idn_type"
         tag="div"
         class="control">
-        <label class="label">Tipo de Documento</label>
+        <label class="label" for="idn_type">Tipo de Documento</label>
         <div class="control has-icons-left has-icons-right">
           <div
             class="select"
@@ -292,8 +292,6 @@ export default {
         this.$emit('receiver-edited', response);
         this.cleanAndClose();
       } catch (error) {
-        debugger;
-
         this.$buefy.notification.open({
           message: error.message,
           type: 'is-danger',

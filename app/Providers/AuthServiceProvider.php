@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('coordinator');
         });
         Gate::define('manage-transactions', function ($user) {
-            return $user->hasRole('coordinator');
+            return $user->hasRole('coordinator venezuelan_operator');
         });
         Gate::define('manage-settings', function ($user) {
             return $user->hasRole('coordinator');
@@ -58,6 +58,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('see-my-transactions',function($user){
             return $user->hasRole('coordinator');
         });
+      Gate::define('operate-venezuelan-transactions',function($user){
+        return $user->hasRole('coordinator venezuelan_operator');
+      });
+
 
         Passport::routes();
 

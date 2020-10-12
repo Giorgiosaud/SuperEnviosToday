@@ -14,13 +14,10 @@
         </div>
     </section>
     <section class="section">
-        @if(Auth::user()->hasRole('coordinator') )
-            <article class="">
-                <p class="subtitle is-3">Respecto a Las Transacciones</p>
-                <div class="buttons">
-                    <a href="#" class="button is-primary" disabled>Crear Transaccion de ajuste</a>
-                </div>
-            </article>
-        @endif
+        <div class="columns">
+            <div class="column">
+                <a class="button is-primary is-light" href="{{route('transaction.create')}}">{{__('transaction.MENU:CREATE')}}</a>
+            </div>
+        </div>
     </section>
 @endsection

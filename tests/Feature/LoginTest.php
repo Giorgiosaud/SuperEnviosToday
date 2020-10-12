@@ -2,16 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Auth\DatabaseTokenRepository;
-use App\User;
+use App\Http\Middleware\VerifyCsrfToken;
+use App\Models\User;
 use Exception;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-    use DatabaseMigrations;
     /**
      * A basic test login form.
      *
@@ -31,16 +29,16 @@ class LoginTest extends TestCase
      */
     public function test_user_cannot_view_a_login_form_when_authenticated()
     {
-        $user = factory(User::class)->make();
+        $user = User::factory()->make();
 
         $response = $this->actingAs($user)->get('/login');
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/');
     }
 
     public function test_user_can_login_with_correct_credentials()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => 'Pedro Raul',
             'last_name' => 'Rodriguez Soto',
             'idn' => '123123123',
@@ -54,8 +52,10 @@ class LoginTest extends TestCase
             'idn_type' => $user->idn_type,
             'password' => 'passwordbest',
         ];
-        $response = $this->post('/login', $credentials);
-        $response->assertRedirect('/');
+        $response = $this
+            ->followingRedirects()
+            ->withoutMiddleware(VerifyCsrfToken::class)
+            ->post('/login', $credentials);
         $this->assertAuthenticatedAs($user);
     }
 
@@ -65,7 +65,7 @@ class LoginTest extends TestCase
     public function test_user_can_not_login_with_incorrect_credentials()
     {
 
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => 'Pedro Raul',
             'last_name' => 'Rodriguez Soto',
             'idn' => '123123123',
@@ -80,6 +80,7 @@ class LoginTest extends TestCase
             'password' => 'nopasswordbest',
         ];
         $response = $this
+            ->withoutMiddleware(VerifyCsrfToken::class)
             ->followingRedirects()
             ->from(route('login'))
             ->post(route('login'), $credentials)
@@ -95,7 +96,7 @@ class LoginTest extends TestCase
      */
     public function test_remember_me_functionality()
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'id' => random_int(1, 100),
             'name' => 'Pedro Raul',
             'last_name' => 'Rodriguez Soto',
@@ -105,20 +106,20 @@ class LoginTest extends TestCase
             'password' => bcrypt('passwordbest')
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this
+            ->withoutMiddleware(VerifyCsrfToken::class)
+            ->post('/login', [
             'idn' => $user->idn,
             'idn_type' => $user->idn_type,
             'password' => 'passwordbest',
             'remember' => 'on',
         ]);
 
-        $response->assertRedirect('/');
         $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
             $user->id,
             $user->getRememberToken(),
             $user->password,
         ]));
-        // cookie assertion goes here
         $this->assertAuthenticatedAs($user);
     }
 }

@@ -5,6 +5,11 @@
 */
 
 /*!
+ * Font Awesome Free 5.15.1 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+
+/*!
  * Quill Editor v1.3.7
  * https://quilljs.com/
  * Copyright (c) 2014, Jason Chen
@@ -52,7 +57,7 @@ PERFORMANCE OF THIS SOFTWARE.
    */
 
 /**
-  * vee-validate v3.3.9
+  * vee-validate v3.4.0
   * (c) 2020 Abdelrahman Awad
   * @license MIT
   */

@@ -14,9 +14,14 @@ class AddSoftDeletesToBanksTable extends Migration
      */
     public function up()
     {
-        $badVaues = DB::select('select `id` from `banks` where created_at=? Or updated_at=?', ['0000-00-00 00:00:00', '0000-00-00 00:00:00']);
-        foreach ($badVaues as $badVaue) {
-            DB::update('update banks set created_at= NOW(), updated_at= NOW() where id=?', [$badVaue->id]);
+        $badValues = DB::select('SELECT `id` FROM `banks` WHERE created_at=? Or updated_at=?', ['0000-00-00 00:00:00', '0000-00-00 00:00:00']);
+        foreach ($badValues as $badValue) {
+            DB::update("
+                    UPDATE `banks` 
+                      SET `created_at`= NOW(), `updated_at`= NOW() 
+                        WHERE id=?",
+              [$badValue->id]
+            );
         }
         Schema::table('banks', function (Blueprint $table) {
 

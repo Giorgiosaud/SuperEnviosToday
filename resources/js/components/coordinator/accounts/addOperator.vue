@@ -12,34 +12,33 @@
         <b-table
           :data="operatorsToSelect"
         >
-          <template #default="{row:operator}">
-            <b-table-column field="id" label="ID" numeric>
-              {{ operator.id }}
-            </b-table-column>
-            <b-table-column field="idn_type" label="tipo" >
-              {{ operator.idn_type }}
-            </b-table-column>
-            <b-table-column field="idn" label="Número">
-              {{ operator.idn }}
-            </b-table-column>
-            <b-table-column field="name" label="Nombre">
-              {{ operator.name }}
-            </b-table-column>
-            <b-table-column field="last_name" label="Apellido">
-              {{ operator.last_name }}
-            </b-table-column>
-            <b-table-column field="email" label="Email">
-              {{ operator.email }}
-            </b-table-column>
-            <b-table-column field="roles" label="Roles">
-              <b-taglist>
-                <b-tag v-for="(role,index) in showRoles(operator.roles)" :key="index" type="is-info">{{ role }}</b-tag>
-              </b-taglist>
-            </b-table-column>
-            <b-table-column field="accion" label="Accion">
-              <b-button type="is-success" @click="$emit('add-operator-to-account',{operator,account})">Agregar</b-button>
-            </b-table-column>
-          </template>
+
+          <b-table-column field="id" label="ID" numeric v-slot="{row:operator}">
+            {{ operator.id }}
+          </b-table-column>
+          <b-table-column field="idn_type" label="tipo" v-slot="{row:operator}">
+            {{ operator.idn_type }}
+          </b-table-column>
+          <b-table-column field="idn" label="Número" v-slot="{row:operator}">
+            {{ operator.idn }}
+          </b-table-column>
+          <b-table-column field="name" label="Nombre" v-slot="{row:operator}">
+            {{ operator.name }}
+          </b-table-column>
+          <b-table-column field="last_name" label="Apellido" v-slot="{row:operator}">
+            {{ operator.last_name }}
+          </b-table-column>
+          <b-table-column field="email" label="Email" v-slot="{row:operator}">
+            {{ operator.email }}
+          </b-table-column>
+          <b-table-column field="roles" label="Roles" v-slot="{row:operator}">
+            <b-taglist>
+              <b-tag v-for="(role,index) in showRoles(operator.roles)" :key="index" type="is-info">{{ role }}</b-tag>
+            </b-taglist>
+          </b-table-column>
+          <b-table-column field="accion" label="Accion" v-slot="{row:operator}">
+            <b-button type="is-success" @click="$emit('add-operator-to-account',{operator,account})">Agregar</b-button>
+          </b-table-column>
 
         </b-table>
       </section>
@@ -76,31 +75,31 @@ export default {
       field: 'id',
       label: 'ID',
       width: '5',
-      numeric: true
+      numeric: true,
     },
-      {
-        field: 'name',
-        label: 'Nombre',
-      }]
+    {
+      field: 'name',
+      label: 'Nombre',
+    }],
 
   }),
   computed: {
     operatorsToSelect() {
-      return this.operators.filter(operator => !this.actualOwners.includes(operator.id));
-    }
+      return this.operators.filter((operator) => !this.actualOwners.includes(operator.id));
+    },
   },
   created() {
     this.getOperators();
   },
   methods: {
     async getOperators() {
-      const response = await $http.get('api/users/operators')
-      this.operators = await response.json()
+      const response = await $http.get('api/users/operators');
+      this.operators = await response.json();
     },
     showRoles(roles) {
-      return roles.map(role => role.name)
-    }
-  }
+      return roles.map((role) => role.name);
+    },
+  },
 };
 </script>
 

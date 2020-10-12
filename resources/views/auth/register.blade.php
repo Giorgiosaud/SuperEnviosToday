@@ -25,7 +25,7 @@
                         name="{{__('auth.IDN_TYPE')}}"
                         tag="div"
                         class="field">
-                        <label class="label">{{__('auth.IDN_TYPE')}}</label>
+                        <label class="label" for="idn_type">{{__('auth.IDN_TYPE')}}</label>
                         <div class="control has-icons-left has-icons-right">
                             <div class="select"
                                  :class="classes">
@@ -186,7 +186,7 @@
                         tag="div"
                         class="field">
 
-                        <label class="label" for="email">{{__('auth.PHONE')}}</label>
+                        <label class="label" for="phone">{{__('auth.PHONE')}}</label>
                         <div class="control has-icons-left has-icons-right">
                             <input id="phone" name="phone"
                                    :class="classes"
@@ -217,7 +217,7 @@
                         tag="div"
                         class="field">
 
-                        <label class="label" for="email">{{__('auth.ADDRESS')}}</label>
+                        <label class="label" for="address">{{__('auth.ADDRESS')}}</label>
                         <div class="control has-icons-right">
                             <textarea id="address"
                                       name="address"

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Currency;
+use App\Models\Currency;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CurrencyController extends Controller
 {
      /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {

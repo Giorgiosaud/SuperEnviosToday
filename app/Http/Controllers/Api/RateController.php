@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Rate;
+use App\Models\Rate;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -52,7 +53,7 @@ class RateController extends Controller
     /**
      * @param Rate $rate
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(Rate $rate)
     {

@@ -12,7 +12,6 @@
                 <section class="modal-card-body">
                     <validation-provider
                         rules="required"
-                        v-slot="{ classes,errors,valid }"
                         name="Currency"
                         tag="div"
                         class="control">
@@ -31,7 +30,6 @@
                     </validation-provider>
                     <validation-provider
                         rules="required"
-                        v-slot="{ classes,errors,valid }"
                         name="Bank"
                         tag="div"
                         class="control">
@@ -65,7 +63,6 @@
                         </b-select>
                     <validation-provider
                         rules="required|numeric|max:20|min:5"
-                        v-slot="{ classes,errors,valid }"
                         name="Account number"
                         tag="div"
                         class="control">
@@ -103,53 +100,55 @@
 
 <script>
 export default {
-    name: 'AddAccount',
-    props: {
-        currencies: {
-            type: Array,
-            default: () => ([]),
-        },
-        banks: {
-            type: Array,
-            default: () => ([]),
-        },
+  name: 'AddAccount',
+  props: {
+    currencies: {
+      type: Array,
+      default: () => ([]),
     },
-    data: () => ({
-        number: '',
-        currency: null,
-        bank: null,
-        savingAccount: false,
-        accountType:[{name:'No Aplica',value:null},{name:'corriente',value:'corriente'},{name:'ahorro',value:'ahorro'}],
-        type:null,
-    }),
-    computed: {
-        selectedBank() {
-            return this.currency ? this.banks.filter(bank => bank.currency_id === this.currency) : [];
-        }
+    banks: {
+      type: Array,
+      default: () => ([]),
     },
-    watch: {
-        currency() {
-            this.bank = null
-        }
+  },
+  data: () => ({
+    number: '',
+    currency: null,
+    bank: null,
+    savingAccount: false,
+    accountType: [{ name: 'No Aplica', value: null },
+      { name: 'corriente', value: 'corriente' },
+      { name: 'ahorro', value: 'ahorro' }],
+    type: null,
+  }),
+  computed: {
+    selectedBank() {
+      return this.currency ? this.banks.filter((bank) => bank.currency_id === this.currency) : [];
     },
-    methods: {
-        async newAccount() {
-            this.savingAccount = true;
+  },
+  watch: {
+    currency() {
+      this.bank = null;
+    },
+  },
+  methods: {
+    async newAccount() {
+      this.savingAccount = true;
 
-            try {
-                await $http.post('api/accounts', {
-                    bank: this.bank,
-                    currency: this.currency,
-                    number: this.number,
-                    type:this.type
-                });
-            } finally {
-                this.savingAccount = false;
-                this.$parent.close();
-                this.$emit('bank-saved');
-            }
-        },
+      try {
+        await $http.post('api/accounts', {
+          bank: this.bank,
+          currency: this.currency,
+          number: this.number,
+          type: this.type,
+        });
+      } finally {
+        this.savingAccount = false;
+        this.$parent.close();
+        this.$emit('bank-saved');
+      }
     },
+  },
 };
 </script>
 

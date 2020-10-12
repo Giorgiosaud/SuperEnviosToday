@@ -93,7 +93,7 @@ export default {
              * Get all of the authorized tokens for the user.
              */
     getTokens() {
-      axios.get('/oauth/tokens')
+      $http.get('/oauth/tokens')
         .then((response) => {
           this.tokens = response.data;
         });
@@ -103,7 +103,7 @@ export default {
              * Revoke the given token.
              */
     revoke(token) {
-      axios.delete(`/oauth/tokens/${token.id}`)
+      $http.delete(`/oauth/tokens/${token.id}`)
         .then(() => {
           this.getTokens();
         });

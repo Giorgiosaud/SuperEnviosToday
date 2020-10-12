@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+  use App\Models\Account;
+  use Illuminate\Database\Migrations\Migration;
+  use Illuminate\Database\Schema\Blueprint;
+  use Illuminate\Support\Facades\Schema;
 
-class AccountAddSoftDeletes extends Migration
-{
+  class AccountAddSoftDeletes extends Migration
+  {
     /**
      * Run the migrations.
      *
@@ -13,16 +14,16 @@ class AccountAddSoftDeletes extends Migration
      */
     public function up()
     {
-        Schema::table('accounts', function (Blueprint $table) {
-            $table->softDeletes();
-        });
-        foreach ([28,29] as $id ){
-            $account=\App\Account::find($id);
-            if($account) {
-                $account->is_operator = true;
-                $account->save();
-            }
+      Schema::table('accounts', function (Blueprint $table) {
+        $table->softDeletes();
+      });
+      foreach ([28, 29] as $id) {
+        $account = Account::find($id);
+        if ($account) {
+          $account->is_operator = true;
+          $account->save();
         }
+      }
     }
 
     /**
@@ -32,8 +33,8 @@ class AccountAddSoftDeletes extends Migration
      */
     public function down()
     {
-        Schema::table('accounts', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+      Schema::table('accounts', function (Blueprint $table) {
+        $table->dropSoftDeletes();
+      });
     }
-}
+  }

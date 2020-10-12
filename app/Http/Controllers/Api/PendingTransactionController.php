@@ -6,17 +6,19 @@ use App\Events\PendingTransactionAccepted;
 use App\Events\PendingTransactionRejected;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTransaction;
-use App\PendingTransaction;
+use App\Models\PendingTransaction;
 use App\Services\CreateTransactionService;
-use App\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PendingTransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function index()
     {
@@ -42,13 +44,6 @@ class PendingTransactionController extends Controller
             ->paginate($perPage);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param PendingTransaction $pendingTransaction
-     * @return PendingTransaction|\Illuminate\Http\Response
-     */
     public function update(Request $request, PendingTransaction $pendingTransaction)
     {
         $validation=$request->validate([
@@ -68,7 +63,9 @@ class PendingTransactionController extends Controller
     /**
      * @param CreateTransaction $request
      * @param PendingTransaction $pendingTransaction
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|void
+     * @return ResponseFactory|Response|void
+     * TODO: Check if work
+     *
      */
     protected function acceptTransaction(CreateTransaction $request,PendingTransaction $pendingTransaction){
         $createTransactionService=new CreateTransactionService();

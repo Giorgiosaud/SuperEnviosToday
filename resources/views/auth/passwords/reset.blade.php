@@ -26,7 +26,7 @@
                             name="{{__('auth.IDN_TYPE')}}"
                             tag="div"
                             class="field">
-                            <label class="label">{{__('auth.IDN_TYPE')}}</label>
+                            <label class="label" for="idn_type">{{__('auth.IDN_TYPE')}}</label>
                             <div class="control has-icons-left has-icons-right">
                                 <div class="select"
                                      :class="classes">

@@ -1,283 +1,319 @@
 <template>
-  <div>
-    <div class="card">
-      <header class="card-header">
-        <h1 class="card-header-title">
-          Resumen de Datos
-        </h1>
-      </header>
-      <div class="card-content">
-        <div
-          v-if="clientData"
-          class="space client-data">
-          <h2 class="title">
-            Datos del cliente
-          </h2>
-          <div class="level">
-            <div class="level-left">
-              Id de sistema:
-            </div>
-            <div class="level-right">
-              {{ clientData.id }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Número de Identificación:
-            </div>
-            <div class="level-right">
-              {{ clientData.idn_type }}-{{ clientData.idn }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Nombres:
-            </div>
-            <div class="level-right">
-              {{ clientData.name }} {{ clientData.last_name }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Telefono:
-            </div>
-            <div class="level-right">
-              {{ clientData.phone }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Email:
-            </div>
-            <div class="level-right">
-              {{ clientData.email }}
-            </div>
-          </div>
+  <div class="columns is-desktop">
+    <div class="column">
+      <div class="card box">
+        <header class="card-header">
+          <p class="card-header-title title is-2">
+            Resumen de Datos
+          </p>
+        </header>
+        <div class="card-image" v-if="transactionData">
+          <b-carousel
+            v-if="transactionData.uploadedFiles.length">
+            <b-carousel-item
+              v-for="attachment in transactionData.uploadedFiles"
+              :key="attachment.id">
+              <b-image
+                :src="`${urlBase}${attachment.path}`"
+                :placeholder="attachment.updated_at"
+                responsive
+                ratio="16by9"
+              ></b-image>
+            </b-carousel-item>
+          </b-carousel>
         </div>
-        <div
-          v-if="receiverData"
-          class="space receiver-data">
-          <h2 class="title">
-            Datos del receptor
-          </h2>
-          <div class="level">
-            <div class="level-left">
-              Número de Identificción:
+
+        <div class="card-content">
+          <div class="columns is-desktop">
+            <div class="column">
+              <div
+                v-if="clientData"
+                class="card box">
+                <header class="card-header">
+                  <p class="title">
+                    Datos del cliente
+                  </p>
+                </header>
+                <div class="card-content">
+                  <div class="level">
+                    <div class="level-left">
+                      Id de sistema:
+                    </div>
+                    <div class="level-right">
+                      {{ clientData.id }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Número de Identificación:
+                    </div>
+                    <div class="level-right">
+                      {{ clientData.idn_type }}-{{ clientData.idn }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Nombres:
+                    </div>
+                    <div class="level-right">
+                      {{ clientData.name }} {{ clientData.last_name }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Telefono:
+                    </div>
+                    <div class="level-right">
+                      {{ clientData.phone }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Email:
+                    </div>
+                    <div class="level-right">
+                      {{ clientData.email }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                v-if="receiverData"
+                class="card box">
+                <header class="card-header">
+                  <h2 class="title">
+                    Datos del receptor
+                  </h2>
+                </header>
+                <div class="card-content">
+                  <div class="level">
+                    <div class="level-left">
+                      Número de Identificción:
+                    </div>
+                    <div class="level-right">
+                      {{ receiverData.receiver.idn_type }}-{{ receiverData.receiver.idn }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Nombre:
+                    </div>
+                    <div class="level-right">
+                      {{ receiverData.receiver.name }} {{ receiverData.receiver.last_name }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Teléfono:
+                    </div>
+                    <div class="level-right">
+                      {{ receiverData.receiver.phone }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Email:
+                    </div>
+                    <div class="level-right">
+                      {{ receiverData.receiver.email }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Banco a transferir:
+                    </div>
+                    <div class="level-right">
+                      {{ receiverData.receiverAccount.bank.name }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Cuenta a transferir:
+                    </div>
+                    <div class="level-right">
+                      {{ receiverData.receiverAccount.number|formatAccount }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="level-right">
-              {{ receiverData.receiver.idn_type }}-{{ receiverData.receiver.idn }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Nombre:
-            </div>
-            <div class="level-right">
-              {{ receiverData.receiver.name }} {{ receiverData.receiver.last_name }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Teléfono:
-            </div>
-            <div class="level-right">
-              {{ receiverData.receiver.phone }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Email:
-            </div>
-            <div class="level-right">
-              {{ receiverData.receiver.email }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Banco a transferir:
-            </div>
-            <div class="level-right">
-              {{ receiverData.receiverAccount.bank.name }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Cuenta a transferir:
-            </div>
-            <div class="level-right">
-              {{ receiverData.receiverAccount.number|formatAccount }}
-            </div>
-          </div>
-        </div>
-        <div
-          v-if="transactionData"
-          class="space transaction-data">
-          <h2 class="title">
-            Datos de la transacción
-          </h2>
-          <div class="level">
-            <div class="level-left">
-              Moneda:
-            </div>
-            <div class="level-right">
-              {{ transactionData.currency.name }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Recibido en:
-            </div>
-            <div class="level-right">
-              {{ transactionData.foreignAccount.bank.name }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Numero de cuenta en:
-            </div>
-            <div class="level-right">
-              {{ transactionData.foreignAccount.number|formatAccount }} / {{ transactionData.foreignAccount.type }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Numero de transaccion:
-            </div>
-            <div class="level-right">
-              {{ transactionData.voucher }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Recibido por:
-            </div>
-            <div class="level-right">
-              {{ operator.name }} {{ operator.last_name }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Monto:
-            </div>
-            <div class="level-right">
-              {{ transactionData.amount|currency(transactionData.currency) }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Tasa de cambio
-              <span v-if="transactionData.tryAnotherRate">
+            <div class="column">
+              <div
+                v-if="transactionData"
+                class="card box">
+                <header class="card-header">
+                  <h2 class="title">
+                    Datos de la transacción
+                  </h2>
+                </header>
+                <div class="card-content">
+                  <div class="level">
+                    <div class="level-left">
+                      Moneda:
+                    </div>
+                    <div class="level-right">
+                      {{ transactionData.currency.name }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Recibido en:
+                    </div>
+                    <div class="level-right">
+                      {{ transactionData.foreignAccount.bank.name }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Numero de cuenta en:
+                    </div>
+                    <div class="level-right">
+                      {{ transactionData.foreignAccount.number|formatAccount }} / {{
+                        transactionData.foreignAccount.type
+                      }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Numero de transaccion:
+                    </div>
+                    <div class="level-right">
+                      {{ transactionData.voucher }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Recibido por:
+                    </div>
+                    <div class="level-right">
+                      {{ operator.name }} {{ operator.last_name }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Monto:
+                    </div>
+                    <div class="level-right">
+                      {{ transactionData.amount|currency(transactionData.currency) }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Tasa de cambio
+                      <span v-if="transactionData.tryAnotherRate">
                 &nbsp;propuesta:
               </span>
-              <span v-else>
+                      <span v-else>
                 &nbsp;pactada:
               </span>
-            </div>
-            <div class="level-right">
-              {{ transactionData.exchangeRate|rateCurrency(transactionData.currency) }}
+                    </div>
+                    <div class="level-right">
+                      {{ transactionData.exchangeRate|rateCurrency(transactionData.currency) }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Monto a recibir <span v-if="transactionData.tryAnotherRate">si se aprueba la transacción</span>en
+                      Bs:
+                    </div>
+                    <div class="level-right">
+                      {{ transactionData.bsAmount|currency({sign: 'Bs '}) }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                v-if="venezuelanOperatorData"
+                class="card box">
+                <header class="card-header">
+                  <h2 class="title">
+                    Datos de Transacción en Venezuela
+                  </h2>
+                </header>
+                <div class="card-content">
+                  <div class="level">
+                    <div class="level-left">
+                      Nombre y Apellido:
+                    </div>
+                    <div class="level-right">
+                      {{ venezuelanOperatorData.operator.name }} {{ venezuelanOperatorData.operator.last_name }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      email:
+                    </div>
+                    <div class="level-right">
+                      {{ venezuelanOperatorData.operator.email }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      telefono:
+                    </div>
+                    <div class="level-right">
+                      {{ venezuelanOperatorData.operator.phone }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Banco desde el que se transfiere:
+                    </div>
+                    <div class="level-right">
+                      {{ venezuelanOperatorData.selectedAccount.bank.name }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Cuenta desde la que se transfiere:
+                    </div>
+                    <div class="level-right">
+                      {{ venezuelanOperatorData.selectedAccount.number|formatAccount }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Balance de la cuenta antes de la transaccion:
+                    </div>
+                    <div class="level-right">
+                      {{ venezuelanOperatorData.selectedAccount.balance|currency({sign: 'Bs'}) }}
+                    </div>
+                  </div>
+                  <div class="level">
+                    <div class="level-left">
+                      Balance de la cuenta despues de la transaccion:
+                    </div>
+                    <div class="level-right">
+                      {{
+                        venezuelanOperatorData.selectedAccount.balance - transactionData.bsAmount|currency({sign: 'Bs'})
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="level">
-            <div class="level-left">
-              Monto a recibir <span v-if="transactionData.tryAnotherRate">si se aprueba la transacción</span>en Bs:
-            </div>
-            <div class="level-right">
-              {{ transactionData.bsAmount|currency({sign:'Bs '}) }}
-            </div>
-          </div>
-          <h2 class="title">
-            Adjuntos:
-          </h2>
-          <figure
-            v-for="(image,imageId) in transactionData.uploadedFiles"
-            :key="imageId"
-            class="image is-fullwidth">
-            <img
-              :src="image.path"
-              alt="imagen de documento">
-          </figure>
         </div>
-        <div
-          v-if="venezuelanOperatorData"
-          class="space venezuelan-operator-data">
-          <h2 class="title">
-            Datos de Transacción en Venezuela
-          </h2>
-          <div class="level">
-            <div class="level-left">
-              Nombre y Apellido:
-            </div>
-            <div class="level-right">
-              {{ venezuelanOperatorData.operator.name }} {{ venezuelanOperatorData.operator.last_name }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              email:
-            </div>
-            <div class="level-right">
-              {{ venezuelanOperatorData.operator.email }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              telefono:
-            </div>
-            <div class="level-right">
-              {{ venezuelanOperatorData.operator.phone }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Banco desde el que se transfiere:
-            </div>
-            <div class="level-right">
-              {{ venezuelanOperatorData.selectedAccount.bank.name }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Cuenta desde la que se transfiere:
-            </div>
-            <div class="level-right">
-              {{ venezuelanOperatorData.selectedAccount.number|formatAccount }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Balance de la cuenta antes de la transaccion:
-            </div>
-            <div class="level-right">
-              {{ venezuelanOperatorData.selectedAccount.balance|currency({sign:'Bs'}) }}
-            </div>
-          </div>
-          <div class="level">
-            <div class="level-left">
-              Balance de la cuenta despues de la transaccion:
-            </div>
-            <div class="level-right">
-              {{ venezuelanOperatorData.selectedAccount.balance-transactionData.bsAmount|currency({sign:'Bs'}) }}
-            </div>
-          </div>
-        </div>
+        <footer
+          v-if="transactionData"
+          class="card-footer">
+          <b-button
+            :loading="executingTransaction"
+            tag="a"
+            class="card-footer-item is-success"
+            @keyup.enter="enviar()"
+            @click="enviar">
+            <span v-if="transactionData.tryAnotherRate">Solicitar Aprobación</span>
+            <span v-else>Ejecutar Transacción</span>
+          </b-button>
+          <b-button
+            class="card-footer-item is-danger"
+            @keyup.esc="cancelar()"
+            @click="cancelar">
+            Cancelar
+          </b-button>
+        </footer>
       </div>
-      <footer
-        v-if="transactionData"
-        class="card-footer">
-        <b-button
-          :loading="executingTransaction"
-          tag="a"
-          class="card-footer-item"
-          @click="enviar">
-          <span v-if="transactionData.tryAnotherRate">Solicitar Aprobación</span>
-          <span v-else>Ejecutar Transacción</span>
-        </b-button>
-        <b-button
-          class="card-footer-item"
-          @click="cancelar">
-          Cancelar
-        </b-button>
-      </footer>
     </div>
   </div>
 </template>
@@ -313,9 +349,12 @@ export default {
       return value.replace(/(\d)(?=(\d{4})+(?!\d))/gi, '$1-');
     },
   },
-  components: {
-  },
+  components: {},
   props: {
+    urlBase: {
+      type: String,
+      default: '/',
+    },
     clientData: {
       type: [Object, null],
       default: null,
@@ -340,10 +379,8 @@ export default {
   data: () => ({
     executingTransaction: false,
   }),
-  computed: {
-  },
-  watch: {
-  },
+  computed: {},
+  watch: {},
   methods: {
     cancelar() {
       window.location.reload();

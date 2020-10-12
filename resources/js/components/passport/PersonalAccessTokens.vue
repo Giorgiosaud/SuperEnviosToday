@@ -222,6 +222,8 @@
 </template>
 
 <script>
+import $ from 'jquery';
+
 export default {
   /*
          * The component's data.
@@ -272,7 +274,7 @@ export default {
              * Get all of the personal access tokens for the user.
              */
     getTokens() {
-      axios.get('/oauth/personal-access-tokens')
+      $http.get('/oauth/personal-access-tokens')
         .then((response) => {
           this.tokens = response.data;
         });
@@ -282,7 +284,7 @@ export default {
              * Get all of the available scopes.
              */
     getScopes() {
-      axios.get('/oauth/scopes')
+      $http.get('/oauth/scopes')
         .then((response) => {
           this.scopes = response.data;
         });
@@ -303,7 +305,7 @@ export default {
 
       this.form.errors = [];
 
-      axios.post('/oauth/personal-access-tokens', this.form)
+      $http.post('/oauth/personal-access-tokens', this.form)
         .then((response) => {
           this.form.name = '';
           this.form.scopes = [];
@@ -355,7 +357,7 @@ export default {
              * Revoke the given token.
              */
     revoke(token) {
-      axios.delete(`/oauth/personal-access-tokens/${token.id}`)
+      $http.delete(`/oauth/personal-access-tokens/${token.id}`)
         .then(() => {
           this.getTokens();
         });

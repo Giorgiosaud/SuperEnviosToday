@@ -19,8 +19,10 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         Telescope::night();
 
         $this->hideSensitiveRequestDetails();
+
         Telescope::filter(function (IncomingEntry $entry) {
-            if ($this->app->environment('local','testing')) {
+
+            if ($this->app->isLocal()) {
                 return true;
             }
 
@@ -39,7 +41,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function hideSensitiveRequestDetails()
     {
-        if ($this->app->environment('local','testing')) {
+        if ($this->app->isLocal()) {
             return;
         }
 

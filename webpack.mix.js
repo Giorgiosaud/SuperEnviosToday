@@ -10,11 +10,23 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
 */
+mix.webpackConfig({
+  module: {
+    rules: [
+      {
+        // Matches all PHP or JSON files in `resources/lang` directory.
+        test: /resources[\\\/]lang.+\.(php|json)$/,
+        loader: 'laravel-localization-loader',
+      }
+    ]
+  }
+});
 mix.options({
   hmrOptions: {
     host: 'localhost',
-    port: '9000',
+    port: '5000',
   },
 });
+
 mix.js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css');

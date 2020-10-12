@@ -32,5 +32,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('transaction/create', ['uses'=>'TransactionController@create','as'=>'transaction.create']);
     Route::get('transactions', ['uses'=>'TransactionController@index','as'=>'transaction.index']);
     Route::get('my-transactions', ['uses'=>'TransactionController@myIndex','as'=>'transaction.my.index']);
+    Route::get('venezuelan-transactions', ['uses'=>'TransactionController@venezuelanIndex','as'=>'venezuelan.transactions.my.index']);
 
 });

@@ -3,9 +3,11 @@
   namespace App\Http\Controllers\Api;
 
   use App\Http\Controllers\Controller;
-  use App\User;
+  use App\Models\User;
   use Illuminate\Auth\Events\Registered;
+  use Illuminate\Contracts\Pagination\LengthAwarePaginator;
   use Illuminate\Contracts\Routing\ResponseFactory;
+  use Illuminate\Http\RedirectResponse;
   use Illuminate\Http\Request;
   use Illuminate\Http\Response;
 
@@ -14,7 +16,7 @@
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function index()
     {
@@ -61,7 +63,7 @@
       $users = User::select('id', 'idn', 'idn_type', 'name', 'last_name', 'email', 'phone')->where('idn_type', $idnType)->where('idn', $idn)->get();
 
       if ($users->count() == 0) {
-        return $this->checkIfUserIdMismatchOrNotFound($idn, $users);
+        return $this->checkIfUserIdMismatchOrNotFound($idn);
       }
       return ['status' => 'OK', 'user' => $users->first()];
     }
@@ -102,12 +104,12 @@
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     public function resendVerificationEmail(Request $request)
     {
       $data = $request->validate([
-        'id' => ['required', 'exists:App\User,id']
+        'id' => ['required', 'exists:App\Models\User,id']
       ]);
       $user = User::find($data['id']);
       $user->sendEmailVerificationNotification();

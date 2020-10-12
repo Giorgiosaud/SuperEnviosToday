@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
-use App\Role;
-use App\User;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
@@ -15,7 +19,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index()
     {
@@ -32,13 +36,14 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      * */
     public function show(User $user)
     {
         $roles=Role::all();
         $accounts=$user->accounts()->with('bank.currency')->get();
         $accounts->append('balance');
+        $user->roles;
         return view('coordinator.users.show', compact('user','roles','accounts'));
         //
     }
@@ -49,8 +54,8 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param User $user
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Illuminate\Validation\ValidationException
+     * @return RedirectResponse|Redirector
+     * @throws ValidationException
      */
     public function update(Request $request, User $user)
     {
