@@ -31,7 +31,7 @@ Vue.component('currencies-list', require('./components/coordinator/currencies/cu
 Vue.component('settings-list', require('./components/coordinator/settings/settingsList').default);
 Vue.component('rates-list', require('./components/coordinator/rates/ratesList').default);
 
-Vue.component('pending-transactions', require('./components/coordinator/pendingTransactions/pendingTransactionsList').default);
+Vue.component('pending-transactions-list', require('./components/coordinator/pendingTransactions/pendingTransactionsList').default);
 
 Vue.component('transaction-create', require('./components/operator/transaction/create').default);
 Vue.component('review-transaction', require('./components/operator/transaction/reviewTransaction').default);

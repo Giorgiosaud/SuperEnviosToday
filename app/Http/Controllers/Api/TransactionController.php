@@ -56,7 +56,7 @@ class TransactionController extends Controller
       ->where('is_operator',true)
       ->get();
     $accountsId = $accountsWithCurrencies->pluck('id');
-    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.owners', 'related.client', 'related.account.bank.currency'])
+    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator', 'related.client', 'related.account.bank.currency'])
       ->whereIn('account_id', $accountsId);
     if (request()->status) {
       $transactions->where('status',request()->status);

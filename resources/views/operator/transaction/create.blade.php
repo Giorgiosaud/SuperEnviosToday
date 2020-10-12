@@ -54,6 +54,7 @@
                             @slot('properties')
                                 :transaction-data="transactionData"
                                 @operator-set="venezuelanOperatorDataSet"
+                                min-amount="{{config('app.min_amount')}}"
                                 @next-step="nextStep"
                             @endslot
                         @endcomponent

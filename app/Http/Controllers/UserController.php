@@ -43,6 +43,7 @@ class UserController extends Controller
         $roles=Role::all();
         $accounts=$user->accounts()->with('bank.currency')->get();
         $accounts->append('balance');
+        $user->roles;
         return view('coordinator.users.show', compact('user','roles','accounts'));
         //
     }

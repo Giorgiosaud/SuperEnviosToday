@@ -64,6 +64,8 @@ class PendingTransactionController extends Controller
      * @param CreateTransaction $request
      * @param PendingTransaction $pendingTransaction
      * @return ResponseFactory|Response|void
+     * TODO: Check if work
+     *
      */
     protected function acceptTransaction(CreateTransaction $request,PendingTransaction $pendingTransaction){
         $createTransactionService=new CreateTransactionService();
