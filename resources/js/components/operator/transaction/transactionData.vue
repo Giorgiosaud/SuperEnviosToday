@@ -143,7 +143,7 @@
           <div class="column is-narrow">
             <validation-provider
               rules="required_if:tryAnotherRate,true|min_value:0.00000001"
-              name="$t('transaction.RATE:NEW')"
+              :name="$t('transaction.RATE:NEW')"
               v-slot="{ classes,errors,valid}"
               tag="div"
               class="control">
