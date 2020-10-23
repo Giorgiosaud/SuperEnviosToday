@@ -4277,7 +4277,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    this.getPendingTransactions();
+    this.getPendingTransactionsPaginated();
   },
   watch: {
     query: Object(lodash__WEBPACK_IMPORTED_MODULE_0__["debounce"])(function getUsers() {
@@ -4331,10 +4331,10 @@ __webpack_require__.r(__webpack_exports__);
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       this.loading = true;
       axios.get("/api/pending-transactions?page=".concat(page)).then(function (response) {
-        _this4.myTransactions = response.data.data;
+        _this4.transactions = response.data.data;
         _this4.query = response.data;
         _this4.loading = false;
-        _this4.empty = _this4.myTransactions.length === 0;
+        _this4.empty = _this4.transactions.length === 0;
       });
     },
     foreignAccount: function foreignAccount(transaction) {

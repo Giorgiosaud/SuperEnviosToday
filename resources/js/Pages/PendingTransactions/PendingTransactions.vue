@@ -149,7 +149,7 @@ export default {
     };
   },
   created() {
-    this.getPendingTransactions();
+    this.getPendingTransactionsPaginated();
   },
   watch: {
     query: debounce(function getUsers() {
@@ -194,10 +194,10 @@ export default {
       this.loading = true;
       axios.get(`/api/pending-transactions?page=${page}`)
         .then((response) => {
-          this.myTransactions = response.data.data;
+          this.transactions = response.data.data;
           this.query = response.data;
           this.loading = false;
-          this.empty = this.myTransactions.length === 0;
+          this.empty = this.transactions.length === 0;
         });
     },
     foreignAccount(transaction) {
