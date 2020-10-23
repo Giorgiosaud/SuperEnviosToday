@@ -9,11 +9,11 @@
         </div>
         <div class="col-12 col-md-9">
           <label
-            for="query"
+            for="consulta"
             class="label-base"
           >Consulta</label> <input
-            id="query"
-            v-model="query"
+            id="consulta"
+            v-model="consulta"
             class="input-base"
           >
         </div>
@@ -134,6 +134,7 @@ export default {
   name: 'PendingTransactions',
   data() {
     return {
+      consulta:'',
       query: {},
       loading: true,
       empty: false,
@@ -152,12 +153,12 @@ export default {
     this.getPendingTransactionsPaginated();
   },
   watch: {
-    query: debounce(function getUsers() {
-      if (this.query.length > 0) {
+    consulta: debounce(function getUsers() {
+      if (this.consulta.length > 0) {
         this.loading = true;
         axios.get('/api/pending-transactions', {
           params: {
-            q: this.query,
+            q: this.consulta,
           },
 
         }).then((response) => {
