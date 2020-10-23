@@ -4266,7 +4266,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'PendingTransactions',
   data: function data() {
     return {
-      query: '',
+      query: {},
       loading: true,
       empty: false,
       transactions: [],
@@ -86664,7 +86664,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm.query.length
+              _vm.myTransactions.length
                 ? _c("pagination", {
                     attrs: { limit: "0", data: _vm.query },
                     on: {
