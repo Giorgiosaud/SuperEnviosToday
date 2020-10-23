@@ -119,7 +119,7 @@
           </tbody>
         </table>
         <pagination
-            v-if="myTransactions.length"
+            v-if="transactions.length"
             limit="0"
             :data="query" @pagination-change-page="getPendingTransactionsPaginated"></pagination>
       </div>

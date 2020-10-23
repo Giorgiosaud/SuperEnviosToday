@@ -86664,7 +86664,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm.myTransactions.length
+              _vm.transactions.length
                 ? _c("pagination", {
                     attrs: { limit: "0", data: _vm.query },
                     on: {
