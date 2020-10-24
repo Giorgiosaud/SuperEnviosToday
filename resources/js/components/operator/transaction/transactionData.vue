@@ -33,7 +33,7 @@
             <validation-provider
               rules="required"
               v-slot="{ classes,errors,valid }"
-              name="$t('transaction.CURRENCY')"
+              :name="$t('transaction.CURRENCY')"
               tag="div"
               class="control">
               <label class="label" for="idn_type">{{$t('transaction.CURRENCY')}}</label>
@@ -68,7 +68,7 @@
             <validation-provider
               rules="required"
               v-slot="{ classes,errors,valid }"
-              name="$t('transaction.ACCOUNTS')"
+              :name="$t('transaction.ACCOUNTS')"
               tag="div"
               vid="selectedAccount"
               class="control">
@@ -179,7 +179,7 @@
           <div class="column">
             <validation-provider
               rules="required"
-              name="$t('transaction.VOUCHER:NUMBER')"
+              :name="$t('transaction.VOUCHER:NUMBER')"
               v-slot="{ classes,errors,valid}"
               tag="div"
               class="control">
@@ -210,7 +210,7 @@
         <validation-provider
           rules="required|min:1"
           v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'"
-          name="$t('transaction.VOUCHER:FILES')"
+          :name="$t('transaction.VOUCHER:FILES')"
           v-slot="{ classes,errors}"
           tag="div"
           class="control">
