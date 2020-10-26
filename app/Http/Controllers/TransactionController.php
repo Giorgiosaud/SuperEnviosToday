@@ -19,14 +19,29 @@ class TransactionController extends Controller
    */
   public function index()
   {
-    $currency = Currency::whereId(request()->currency)->first() ?: (Currency::where('identifier', 'CLP')->with('banks.accounts')->first());
+    $currency = Currency::whereId(request()->currency)->first() ?: 
+      (Currency::where('identifier', 'CLP')->with('banks.accounts')->first());
     $currencies = Currency::all();
-    $banksWithCurrency = Bank::select('id')->where('currency_id', $currency->id)->get();
-    $accountsWithCurrencies = Account::select('id')->whereIn('bank_id', $banksWithCurrency->pluck('id'))->whereIsOperator(true)->get();
-    $accountsId = $accountsWithCurrencies->pluck('id');
-    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator', 'related.client', 'related.account.bank.currency'])->whereIn('account_id', $accountsId)->paginate();
-
-
+    $banksWithCurrency = Bank::select('id')
+      ->where('currency_id', $currency->id)
+      ->get();
+    $accountsWithCurrencies = Account::select('id')
+      ->whereIn('bank_id', $banksWithCurrency
+      ->pluck('id'))
+      ->whereIsOperator(true)
+      ->get();
+    $accountsId = $accountsWithCurrencies
+      ->pluck('id');
+    $transactions = Transaction::with([
+      'operator',
+      'client',
+      'account.bank.currency',
+      'related.operator',
+      'related.client',
+      'related.account.bank.currency'
+      ])
+      ->whereIn('account_id', $accountsId)
+      ->paginate();
     return view('coordinator.transactions.index', compact('transactions', 'currencies', 'currency'));
   }
 
@@ -39,7 +54,14 @@ class TransactionController extends Controller
     $currencies = Currency::all();
     $user = request()->user();
     $accountsId = $currency->accounts()->whereIn('accounts.id', $user->accounts->pluck('id'))->get()->pluck('id');
-    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator', 'related.client', 'related.account.bank.currency'])
+    $transactions = Transaction::with([
+      'operator',
+      'client',
+      'account.bank.currency',
+      'related.operator',
+      'related.client',
+      'related.account.bank.currency'
+      ])
       ->whereIn('account_id', $accountsId)->paginate();
     return view('operator.transactions.index', compact('transactions', 'currencies', 'currency', 'user'));
   }

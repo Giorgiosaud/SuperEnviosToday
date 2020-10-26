@@ -104,8 +104,8 @@
           <td></td>
           <td colspan="7" v-html="props.row.comment"></td>
         </tr>
-        <template>
-          <tr :key="relatedTransaction.id" v-for="relatedTransaction in props.row.related">
+        <template  v-for="relatedTransaction in props.row.related">
+          <tr :key="relatedTransaction.id">
             <td></td>
             <td>{{ relatedTransaction.id }}</td>
             <td>{{ relatedTransaction.bank_reference }}</td>
@@ -192,7 +192,7 @@ export default {
       }),
     },
     currencies: {
-      type: Object,
+      type: Array,
       default: () => ({
         data: [],
       }),
