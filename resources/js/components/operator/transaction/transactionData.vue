@@ -209,7 +209,6 @@
         </div>
         <div class="control">
           <uppy-uploader
-            :class="classes"
             v-model="uploadedFiles"
             :max-file-size-in-bytes="1000000">
           </uppy-uploader>
