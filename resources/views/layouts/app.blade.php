@@ -34,7 +34,7 @@
             <div class="block">
                 <img
                     height="28"
-                    src="http://superenvios.cl/image/superenvios.png"
+                    src="https://superenvios.cl/storage/image/superenvios.png"
                     alt="{{ config('app.name', 'Superenvios Today') }}"
                 />
             </div>
@@ -53,7 +53,7 @@
                     <span aria-hidden="true"></span>
                 </a>
                 <a class="navbar-item" href="/">
-                    <img src="http://superenvios.cl/image/superenvios.png"
+                    <img src="https://superenvios.cl/storage/image/superenvios.png"
                          alt="{{ config('app.name', 'Superenvios Today') }}"
                     >
                 </a>
