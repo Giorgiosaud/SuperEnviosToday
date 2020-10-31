@@ -98,7 +98,7 @@
       ]);
       $data['password'] = bcrypt('cliente');
       event(new Registered($user = User::create($data)));
-      return ['status' => 'OK', 'user' => $user];
+      return response(['status' => 'OK', 'user' => $user]);
 
     }
 
