@@ -336,14 +336,14 @@
           </td>
         </tr>
       </template>
-      <!--template slot="empty">
+      <template slot="empty">
         <section class="section">
           <div class="content has-text-grey has-text-centered">
             <font-awesome-icon class="is-size-1" icon="sad-tear"></font-awesome-icon>
             <p>No hay datos coincidentes.</p>
           </div>
         </section>
-      </template-->
+      </template>
     </b-table>
   </section>
 </template>

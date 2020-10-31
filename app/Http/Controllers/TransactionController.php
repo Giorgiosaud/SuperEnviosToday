@@ -58,9 +58,6 @@ class TransactionController extends Controller
       'operator',
       'client',
       'account.bank.currency',
-      'related.operator',
-      'related.client',
-      'related.account.bank.currency'
       ])
       ->whereIn('account_id', $accountsId)->paginate();
     return view('operator.transactions.index', compact('transactions', 'currencies', 'currency', 'user'));

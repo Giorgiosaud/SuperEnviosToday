@@ -128,6 +128,13 @@ class TransactionController extends Controller
     return $collection->where('account.bank.currency', '!=', null)
       ->where('amount', '>', 0)->first();
   }
+  public function myRelatedTransactions(Transaction $transaction)
+  {
+    return $transaction->related()->with('account.bank.currency', function ($q) {
+      $q->where('identifier', 'BsS');
+    })
+      ->with(['account.owners', 'attachments','operator'])->get();
+  }
 
   public function updateRelatedVenezuelanTransaction(Request $request)
   {

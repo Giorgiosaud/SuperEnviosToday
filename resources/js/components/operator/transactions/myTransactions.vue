@@ -41,6 +41,7 @@
       @page-change="changedPage"
       @filters-change="changedFilter"
       aria-next-label="Next page"
+      @details-open="getDetailsData"
       aria-previous-label="Previous page"
     >
 
@@ -97,7 +98,119 @@
         <span
           v-else-if="props.row.status=='in-progress'">{{$t('transaction.STATUS:IN:PROGRESS')}}</span>
       </b-table-column>
-      <template slot="detail" slot-scope="props">
+      <template #detail="{row:transaction}">
+        <tr v-if="transaction.comment">
+          <td colspan="8">
+            <section class="section">
+              {{transaction.comment}}
+              <br>
+            </section>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="8">
+            <b-loading :is-full-page="false"
+                       v-model="isLoadingTransaction"
+                       v-if="isLoadingTransaction"
+                       :can-cancel="false">
+            </b-loading>
+            <section
+              v-else
+              v-for="relatedTransaction in transaction.related"
+              :key="relatedTransaction.id"
+              class="section">
+              <div class="columns is-desktop">
+                <div class="column is-half is-offset-one-quarter">
+                  <div class="card">
+                    <div class="card-image" v-if="relatedTransaction.attachments.length">
+                      <b-carousel @click="switchGallery(true)">
+                        <b-carousel-item
+                          v-for="(attachment,key) in relatedTransaction.attachments"
+                          :key="`${attachment.id}-${key}`">
+                          <b-image
+                            :src="`${appUrl}${attachment.path}`"
+                            :placeholder="attachment.updated_at"
+                            ratio="2by1"
+                            @click="deleteImage(attachment.id)"
+                          ></b-image>
+                        </b-carousel-item>
+                      </b-carousel>
+                    </div>
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-content">
+                          <p class="title is-4">Datos de La Transacción</p>
+                          <p class="subtitle is-6">
+                            {{$t('transaction.BANK:REFERENCE')}}: {{relatedTransaction.bank_reference}}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="content">
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('transaction.CLIENT:NAME_AND_LAST_NAME')}}</div>
+                          <div class="level-right">
+                            {{relatedTransaction.account.owners[0].name}}
+                            {{relatedTransaction.account.owners[0].last_name}}
+                          </div>
+                        </div>
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('auth.IDN')}}</div>
+                          <div class="level-right">
+                            {{relatedTransaction.account.owners[0].idn_type}}
+                            -{{relatedTransaction.account.owners[0].idn}}
+                          </div>
+                        </div>
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('auth.PHONE')}}</div>
+                          <div class="level-right">
+                            {{relatedTransaction.account.owners[0].phone}}
+                          </div>
+                        </div>
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('auth.EMAIL')}}</div>
+                          <div class="level-right">
+                            {{relatedTransaction.account.owners[0].email}}
+                          </div>
+                        </div>
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('banks.MENU:TITLE')}}</div>
+                          <div class="level-right">
+                            {{relatedTransaction.account.bank.name}}
+                          </div>
+                        </div>
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('accounts.NUMBER')}}</div>
+                          <div class="level-right">
+                            {{relatedTransaction.account.number|account}}
+                          </div>
+                        </div>
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('transaction.CREATED_AT')}}</div>
+                          <div class="level-right">
+                            <time :datetime="relatedTransaction.created_at">
+                              {{relatedTransaction.created_at|datetime}}
+                            </time>
+                          </div>
+                        </div>
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('transaction.UPDATED_AT')}}</div>
+                          <div class="level-right">
+                            <time :datetime="relatedTransaction.updated_at">
+                              {{relatedTransaction.updated_at|datetime }}
+                            </time>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </td>
+        </tr>
+      </template>
+      <!-- <template slot="detail" slot-scope="props">
         <tr v-for="relatedTransaction in props.row.related" :key="relatedTransaction.id">
           <td></td>
           <td>{{ relatedTransaction.id }}</td>
@@ -119,7 +232,7 @@
               v-else-if="relatedTransaction.status=='in-progress'">{{$t('transaction.STATUS:IN:PROGRESS')}}</span>
           </td>
         </tr>
-      </template>
+      </template> -->
       <template slot="empty">
         <section class="section">
           <div class="content has-text-grey has-text-centered">
@@ -132,11 +245,19 @@
   </section>
 </template>
 <script>
+import { format, parseISO } from 'date-fns';
 import currencyFilter from '../../../currency';
 
 export default {
   name: 'MyTransactions',
   filters: {
+    datetime(time) {
+      return format(parseISO(time), 'dd-mm-yyyy HH:mm');
+    },
+    account(value) {
+      const result = value.match(/\d{4}/g);
+      return result.join('-');
+    },
     currency(value, selectedCurrency) {
       const formatOptions = {
         precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
@@ -177,7 +298,7 @@ export default {
       }),
     },
     currencies: {
-      type: Array,
+      type: [Array, Object],
       default: () => ({
         data: [],
       }),
@@ -256,6 +377,15 @@ export default {
     refreshData() {
       this.page = 1;
       this.loadAsyncData();
+    },
+    async getDetailsData(transaction) {
+      this.isLoadingTransaction = true;
+      try {
+        const request = await $http.get(`/api/my-related-transactions/${transaction.id}`);
+        this.$set(transaction, 'related', await request.json());
+      } finally {
+        this.isLoadingTransaction = false;
+      }
     },
     async loadAsyncData() {
       const params = this.getAllUrlParams(document.location.href);
