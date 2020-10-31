@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('coordinator');
         });
         Gate::define('manage-transactions', function ($user) {
-            return $user->hasRole('coordinator venezuelan_operator');
+            return $user->hasRole('coordinator venezuelan_operator foreign_operator');
         });
         Gate::define('manage-settings', function ($user) {
             return $user->hasRole('coordinator');
@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('coordinator');
         });
         Gate::define('create-transaction', function ($user) {
-            return $user->hasRole('coordinator');
+            return $user->hasRole('coordinator foreign_operator');
         });
         Gate::define('manage-currencies', function ($user) {
             return $user->hasRole('coordinator');
@@ -56,7 +56,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('coordinator');
         });
         Gate::define('see-my-transactions',function($user){
-            return $user->hasRole('coordinator');
+            return $user->hasRole('coordinator foreign_operator');
         });
       Gate::define('operate-venezuelan-transactions',function($user){
         return $user->hasRole('coordinator venezuelan_operator');
