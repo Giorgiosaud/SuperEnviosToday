@@ -111,11 +111,11 @@ class TransactionController extends Controller
     $data = $request->validate([
       'type' => ['required', 'in:income,outcome'],
       'amount' => ['required', 'numeric'],
-      'comment' => ['string','nullable']
     ]);
     $data['status'] = 'executed';
     $data['operator_id'] = $request->user()->id;
     $data['amount'] = $data['type'] == 'outcome' ? -1 * $data['amount'] : 1 * $data['amount'];
+    $data['comment']=$request->comment;
     return $account->transactions()->save($data);
   }
 
