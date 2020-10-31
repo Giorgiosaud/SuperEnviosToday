@@ -97,7 +97,7 @@
         'phone' => ['max:255'],
       ]);
       $data['password'] = bcrypt('cliente');
-      event(new Registered($user = User::create($data)));
+      $user = User::create($data);
       return response(['status' => 'OK', 'user' => $user]);
 
     }
