@@ -29065,28 +29065,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 7:
                 userData = _context2.sent;
+                debugger;
 
                 _this2.setClient(userData.user);
 
-                _context2.next = 14;
+                _context2.next = 15;
                 break;
 
-              case 11:
-                _context2.prev = 11;
+              case 12:
+                _context2.prev = 12;
                 _context2.t0 = _context2["catch"](1);
                 debugger;
 
-              case 14:
-                _context2.prev = 14;
+              case 15:
+                _context2.prev = 15;
                 _this2.savingClient = false;
-                return _context2.finish(14);
+                return _context2.finish(15);
 
-              case 17:
+              case 18:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 11, 14, 17]]);
+        }, _callee2, null, [[1, 12, 15, 18]]);
       }))();
     }
   }
