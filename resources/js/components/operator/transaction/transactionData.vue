@@ -208,7 +208,7 @@
           </div>
         </div>
         <validation-provider
-          rules="required|min:1"
+          rules="required|min:0"
           v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'"
           :name="$t('transaction.VOUCHER:FILES')"
           v-slot="{ classes,errors}"

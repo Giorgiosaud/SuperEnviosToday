@@ -192,7 +192,7 @@ export default {
       }),
     },
     currencies: {
-      type: Array,
+      type: [Array, Object],
       default: () => ({
         data: [],
       }),
