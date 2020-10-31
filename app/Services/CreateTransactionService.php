@@ -42,7 +42,7 @@ class CreateTransactionService
 
       if ($actualRate !== $request->rate && !$isCoordinator) {
         $this->createPendingTransaction($request);
-        return response('Request to Coordinator Made', 200);
+        return null;
       }
 
       $incomeTransaction = $this->createIncomeTransaction($request);
@@ -52,9 +52,16 @@ class CreateTransactionService
       $taxTransaction = $this->taxTransaction($request, $amountInBs);
       return compact('incomeTransaction', 'outcomeOfVenezuelanAccount', 'venezuelanAssigned', 'taxTransaction');
     });
-    broadcast(new TransactionCreated(User::find($request->client_id), $transaction['incomeTransaction'], $transaction['venezuelanAssigned'], 'made transaction'))->toOthers();
-
-    return response('All transactions created', 201);
+    if($transaction){
+      broadcast(new TransactionCreated(
+        User::find($request->client_id), 
+        $transaction['incomeTransaction'], 
+        $transaction['venezuelanAssigned'], 
+        'made transaction'))->toOthers();
+      return response('All transactions created', 201);
+    }else{
+      return response('Request to Coordinator Made', 200);
+    }
   }
 
   /**
