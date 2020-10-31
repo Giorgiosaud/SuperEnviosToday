@@ -285,6 +285,10 @@ export default {
     },
   },
   props: {
+    appUrl: {
+      type: String,
+      default: '#',
+    },
     transactionsQuery: {
       type: Object,
       default: () => ({

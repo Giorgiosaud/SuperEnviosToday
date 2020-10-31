@@ -16,6 +16,7 @@
     <section class="section">
         <my-transactions
                 :transactions-query='@json($transactions)'
+                app-url="{{Config::get('app.url')}}"
                 :currencies='@json($currencies)'
                 :currency='@json($currency)'>
 
