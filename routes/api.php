@@ -50,7 +50,7 @@ Route::group(['middleware' => [
   Route::get('my-transactions', ['uses' => 'Api\TransactionController@myIndex', 'as' => 'my.transactions.index']);
   Route::get('my-venezuelan-transactions', ['uses' => 'Api\TransactionController@myVenezuelanIndex', 'as' => 'my.venezuelan-transactions.index']);
   Route::get('related-venezuelan-transactions/{transaction}', ['uses' => 'Api\TransactionController@relatedVenezuelanTransactions', 'as' => 'venezuelan.transactions.index']);
-  Route::get('my-related-transactions/{transaction}', ['uses' => 'Api\TransactionController@myRelatedTransactions', 'as' => 'my.transactions.index']);
+  Route::get('my-related-transactions/{transaction}', ['uses' => 'Api\TransactionController@myRelatedTransactions', 'as' => 'my.own.transactions.index']);
   Route::patch('related-venezuelan-transaction', ['uses' => 'Api\TransactionController@updateRelatedVenezuelanTransaction', 'as' => 'venezuelan.transactions.update']);
   Route::delete('attachment/{attachment}',['uses'=>'Api\AttachmentController@destroy','as'=>'attachment.destroy']);
 
