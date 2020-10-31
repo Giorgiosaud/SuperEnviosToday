@@ -185,6 +185,12 @@
                           </div>
                         </div>
                         <div class="level p-0">
+                          <div class="level-left">{{$t('transaction.AMOUNT')}}</div>
+                          <div class="level-right">
+                            {{ transaction.venezuelanRelated.amount |currency(transaction.venezuelanRelated.account.bank.currency) }}
+                          </div>
+                        </div>
+                        <div class="level p-0">
                           <div class="level-left">{{$t('accounts.NUMBER')}}</div>
                           <div class="level-right">
                             {{transaction.venezuelanRelated.account.number|account}}
@@ -292,6 +298,13 @@
                             {{transaction.venezuelanRelated.account.bank.name}}
                           </div>
                         </div>
+                        <div class="level p-0">
+                          <div class="level-left">{{$t('transaction.AMOUNT')}}</div>
+                          <div class="level-right">
+                            {{ transaction.venezuelanRelated.amount |currency(transaction.venezuelanRelated.account.bank.currency) }}
+                          </div>
+                        </div>
+
                         <div class="level p-0">
                           <div class="level-left">{{$t('accounts.NUMBER')}}</div>
                           <div class="level-right">
