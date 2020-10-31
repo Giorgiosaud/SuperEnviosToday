@@ -207,10 +207,13 @@
             </validation-provider>
           </div>
         </div>
+        <div class="control">
           <uppy-uploader
+            :class="classes"
             v-model="uploadedFiles"
             :max-file-size-in-bytes="1000000">
           </uppy-uploader>
+      </div>
       </section>
       <div class="columns has-padding-top-5" v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'">
         <div class="column">
