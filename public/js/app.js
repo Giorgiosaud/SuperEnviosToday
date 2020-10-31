@@ -26297,17 +26297,51 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AddRate',
+  props: {
+    currencies: {
+      type: Array,
+      "default": function _default() {
+        return [];
+      }
+    }
+  },
   data: function data() {
     return {
-      key: '',
-      value: '',
-      savingSetting: false
+      since: new Date(),
+      currency_id: '',
+      amount: '',
+      message: '',
+      savingRate: false
     };
   },
   methods: {
-    newSetting: function newSetting() {
+    newRate: function newRate() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -26315,30 +26349,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.savingSetting = true;
+                _this.savingRate = true;
                 _context.prev = 1;
                 _context.next = 4;
-                return $http.post('api/settings', {
-                  key: _this.key,
-                  value: _this.value
+                return $http.post('api/rates', {
+                  since: _this.since,
+                  currency_id: _this.currency_id,
+                  amount: _this.amount,
+                  message: _this.message
                 });
 
               case 4:
-                _context.prev = 4;
-                _this.savingSetting = false;
+                _this.$emit('currency-created');
+
+              case 5:
+                _context.prev = 5;
+                _this.savingRate = false;
+                _this.since = new Date();
+                _this.currency_id = '';
+                _this.amount = '';
+                _this.message = '';
+                _this.savingRate = false;
 
                 _this.$parent.close();
 
-                _this.$emit('setting-created');
+                return _context.finish(5);
 
-                return _context.finish(4);
-
-              case 9:
+              case 14:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1,, 4, 9]]);
+        }, _callee, null, [[1,, 5, 14]]);
       }))();
     }
   }
@@ -114480,48 +114522,133 @@ var render = function() {
     _c("div", { staticClass: "modal-card", staticStyle: { width: "auto" } }, [
       _vm._m(0),
       _vm._v(" "),
-      _c(
-        "section",
-        { staticClass: "modal-card-body" },
-        [
-          _c(
-            "b-field",
-            { attrs: { label: "key" } },
-            [
-              _c("b-input", {
-                attrs: { type: "text", placeholder: "Key", required: "" },
-                model: {
-                  value: _vm.key,
-                  callback: function($$v) {
-                    _vm.key = $$v
+      _c("section", { staticClass: "modal-card-body" }, [
+        _c(
+          "section",
+          [
+            _c(
+              "b-field",
+              { attrs: { label: "Select datetime" } },
+              [
+                _c(
+                  "b-datetimepicker",
+                  {
+                    attrs: {
+                      "mobile-native": "",
+                      placeholder: "Click to select...",
+                      icon: "calendar-today",
+                      readonly: "",
+                      datepicker: { showWeekNumber: true },
+                      timepicker: { enableSeconds: true }
+                    },
+                    model: {
+                      value: _vm.since,
+                      callback: function($$v) {
+                        _vm.since = $$v
+                      },
+                      expression: "since"
+                    }
                   },
-                  expression: "key"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-field",
-            { attrs: { label: "value" } },
-            [
-              _c("b-input", {
-                attrs: { type: "text", placeholder: "Valor", required: "" },
-                model: {
-                  value: _vm.value,
-                  callback: function($$v) {
-                    _vm.value = $$v
+                  [
+                    _c("template", { slot: "left" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-primary",
+                          on: {
+                            click: function($event) {
+                              _vm.since = new Date()
+                            }
+                          }
+                        },
+                        [
+                          _c("b-icon", { attrs: { icon: "clock" } }),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Now")])
+                        ],
+                        1
+                      )
+                    ])
+                  ],
+                  2
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-field",
+              { attrs: { label: "Amount" } },
+              [
+                _c("b-input", {
+                  model: {
+                    value: _vm.amount,
+                    callback: function($$v) {
+                      _vm.amount = $$v
+                    },
+                    expression: "amount"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-field",
+              { attrs: { label: "Tipo de moneda" } },
+              [
+                _c(
+                  "b-select",
+                  {
+                    attrs: { placeholder: "Tipo de moneda", expanded: "" },
+                    model: {
+                      value: _vm.currency_id,
+                      callback: function($$v) {
+                        _vm.currency_id = $$v
+                      },
+                      expression: "currency_id"
+                    }
                   },
-                  expression: "value"
-                }
-              })
-            ],
-            1
-          )
-        ],
-        1
-      ),
+                  _vm._l(_vm.currencies, function(currency) {
+                    return _c(
+                      "option",
+                      { key: currency.id, domProps: { value: currency.id } },
+                      [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(currency.name) +
+                            "\n              "
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-field",
+              { attrs: { label: "Comentario" } },
+              [
+                _c("quill-editor", {
+                  attrs: { id: "comment" },
+                  model: {
+                    value: _vm.message,
+                    callback: function($$v) {
+                      _vm.message = $$v
+                    },
+                    expression: "message"
+                  }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c("footer", { staticClass: "modal-card-foot" }, [
         _c(
@@ -114555,7 +114682,7 @@ var render = function() {
           {
             staticClass: "button is-primary",
             on: {
-              click: _vm.newSetting,
+              click: _vm.newRate,
               keypress: function($event) {
                 if (
                   !$event.type.indexOf("key") &&
@@ -114563,7 +114690,7 @@ var render = function() {
                 ) {
                   return null
                 }
-                return _vm.newSetting($event)
+                return _vm.newRate($event)
               }
             }
           },
@@ -114827,7 +114954,6 @@ var render = function() {
                             { attrs: { label: "Comentario" } },
                             [
                               _c("quill-editor", {
-                                staticClass: "textarea",
                                 attrs: { id: "comment-" + props.row.id },
                                 model: {
                                   value: props.row.message,
@@ -115044,7 +115170,12 @@ var render = function() {
             }
           }
         },
-        [_c("add-rate", { on: { "currency-created": _vm.loadAsyncData } })],
+        [
+          _c("add-rate", {
+            attrs: { currencies: _vm.allCurrencies },
+            on: { "currency-created": _vm.loadAsyncData }
+          })
+        ],
         1
       )
     ],
@@ -142231,7 +142362,7 @@ module.exports = {"MENU:TITLE":"Bancos","MENU:MANAGE":"Manejar Bancos","WELCOME"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = {"MENU:TITLE":"Monedas","MENU:MANAGE":"Manejar Monedas","WELCOME":"Listado de tipos de Monedas","MESSAGE":"aqui podras listar, filtrar y editar todos los tipos de moneda de :app","GO_TO_SELECTED":"Ir al detalle de: ","ADD_CURRENCY":"Agregue un tipo de moneda","EDIT":"Editar Datos","UPDATE":"Actualizar Datos","CANCEL":"Cancelar actualización de datos","LIST":"Mostrar lista de Bancos","UPDATED:MESSAGE":"El banco fué Actualizado","NAME":"Nombre de Banco","CURRENCY":"Moneda","SIGN":"Signo","SELECT:CURRENCY":"Seleccione Moneda a filtrar"};
+module.exports = {"MENU:TITLE":"Monedas","MENU:MANAGE":"Manejar Monedas","ADD:RATE":"Tasa de cambio","ADD:TIME":"Agregue la fecha y hora","WELCOME":"Listado de tipos de Monedas","MESSAGE":"aqui podras listar, filtrar y editar todos los tipos de moneda de :app","GO_TO_SELECTED":"Ir al detalle de: ","ADD_CURRENCY":"Agregue un tipo de moneda","EDIT":"Editar Datos","UPDATE":"Actualizar Datos","CANCEL":"Cancelar actualización de datos","LIST":"Mostrar lista de Bancos","UPDATED:MESSAGE":"El banco fué Actualizado","NAME":"Nombre de Banco","CURRENCY":"Moneda","SIGN":"Signo","SELECT:CURRENCY":"Seleccione Moneda a filtrar"};
 
 /***/ }),
 

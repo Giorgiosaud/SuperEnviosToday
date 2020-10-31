@@ -116,7 +116,7 @@
               </b-select>
             </b-field>
             <b-field label="Comentario">
-              <quill-editor class="textarea"
+              <quill-editor
 
                             :id="`comment-${props.row.id}`"
                             v-model.lazy="props.row.message"></quill-editor>
@@ -161,7 +161,7 @@
       :destroy-on-hide="false"
       aria-role="dialog"
       aria-modal>
-      <add-rate @currency-created="loadAsyncData"></add-rate>
+      <add-rate @currency-created="loadAsyncData" :currencies="allCurrencies"></add-rate>
     </b-modal>
   </div>
 </template>

@@ -71,5 +71,27 @@ class RateController extends Controller
             ->where('since','<=',Carbon::now())
             ->orderBy('since', 'DESC')->first();
     }
+    /**
+         * Store a newly created resource in storage.
+         *
+         * @param Request $request
+         *
+         * @return Rate|Model
+         */
+        public function store(Request $request)
+        {
+            $validated = $request->validate([
+                'currency_id' => 'required',
+                'since'    => 'required|date',
+                'amount'   => 'required|Numeric',
+                'message'   => 'string',
+            ]);
+            return Rate::create([
+                'currency_id' => $validated['currency_id'],
+                'amount'      => $validated['amount'],
+                'since'       => Carbon::parse($validated['since']),
+                'message'       => $validated['message'],
+            ]);
+        }
     //
 }

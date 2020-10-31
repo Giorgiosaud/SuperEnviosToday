@@ -2,6 +2,8 @@
 return [
     'MENU:TITLE'=>'Monedas',
     'MENU:MANAGE'=>'Manejar Monedas',
+    'ADD:RATE'=>'Tasa de cambio',
+    'ADD:TIME'=>'Agregue la fecha y hora',
     'WELCOME'=>'Listado de tipos de Monedas',
     'MESSAGE'=>'aqui podras listar, filtrar y editar todos los tipos de moneda de :app',
     'GO_TO_SELECTED'=>'Ir al detalle de: ',

@@ -182,5 +182,9 @@ html, body {
         font-size: 5rem;
     }
 }
-
-
+.ql-toolbar.ql-snow{
+  border-radius: 5px 5px 0 0;
+}
+.ql-toolbar.ql-snow + .ql-container.ql-snow{
+border-radius: 0 0 5px 5px;
+}
