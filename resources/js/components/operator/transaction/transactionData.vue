@@ -207,21 +207,10 @@
             </validation-provider>
           </div>
         </div>
-        <validation-provider
-          rules="required|min:0"
-          v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'"
-          :name="$t('transaction.VOUCHER:FILES')"
-          v-slot="{ classes,errors}"
-          tag="div"
-          class="control">
           <uppy-uploader
-            :class="classes"
             v-model="uploadedFiles"
             :max-file-size-in-bytes="1000000">
           </uppy-uploader>
-          <strong v-if="errors[0]" class="help is-danger">{{errors[0]}}</strong>
-        </validation-provider>
-
       </section>
       <div class="columns has-padding-top-5" v-if="selectedAccount && selectedAccount.bank.name!=='Efectivo'">
         <div class="column">
