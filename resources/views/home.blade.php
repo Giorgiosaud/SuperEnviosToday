@@ -16,7 +16,9 @@
     <section class="section">
         <div class="columns">
             <div class="column">
+              @can('create-transaction')
                 <a class="button is-primary is-light" href="{{route('transaction.create')}}">{{__('transaction.MENU:CREATE')}}</a>
+              @endcan
             </div>
         </div>
     </section>
