@@ -29056,7 +29056,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this2.savingClient = true;
                 _context2.prev = 1;
                 _context2.next = 4;
-                return $http.post('/api/user/', _objectSpread({}, _this2.client));
+                return $http.post('/api/user/save', _objectSpread({}, _this2.client));
 
               case 4:
                 response = _context2.sent;

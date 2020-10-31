@@ -403,7 +403,7 @@ export default {
     async saveClient() {
       this.savingClient = true;
       try {
-        const response = await $http.post('/api/user/', {
+        const response = await $http.post('/api/user/save', {
           ...this.client,
         });
         const userData = await response.json();

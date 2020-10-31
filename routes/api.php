@@ -21,7 +21,7 @@ Route::group(['middleware' => [
   ]);
   Route::patch('user/{client}/receiver/{receiver}/unlink', ['uses' => 'Api\UserController@unlink', 'as' => 'receiver.unlink']);
   Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'update']]);
-  Route::post('user',['uses'=>'Api\UserController@store', 'as'=>'api.user.store']);
+  Route::post('user/save',['uses'=>'Api\UserController@store', 'as'=>'api.user.store']);
   Route::get('users/operators', ['uses' => 'Api\UserController@getOperators', 'as' => 'users.operators.index']);
   Route::post('user/verify_email', ['uses' => 'Api\UserController@resendVerificationEmail', 'as' => 'user.resend']);
   Route::get('user/receivers/{user}', ['uses' => 'Api\UserController@receivers', 'as' => 'user.receivers']);
