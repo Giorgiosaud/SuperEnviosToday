@@ -98,7 +98,7 @@
       ]);
       $data['password'] = bcrypt('cliente');
       $user = User::create($data);
-      return response(['status' => 'OK', 'user' => $user],201);
+      return ['status' => 'OK', 'user' => $user];
 
     }
 

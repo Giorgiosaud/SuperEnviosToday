@@ -407,10 +407,7 @@ export default {
           ...this.client,
         });
         const userData = await response.json();
-        debugger;
         this.setClient(userData.user);
-      } catch (error) {
-        debugger;
       } finally {
         this.savingClient = false;
       }
