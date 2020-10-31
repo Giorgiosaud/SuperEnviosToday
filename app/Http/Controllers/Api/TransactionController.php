@@ -111,7 +111,7 @@ class TransactionController extends Controller
     $data = $request->validate([
       'type' => ['required', 'in:income,outcome'],
       'amount' => ['required', 'numeric'],
-      'comment' => ['string','null']
+      'comment' => ['string','nullable']
     ]);
     $data['status'] = 'executed';
     $data['operator_id'] = $request->user()->id;
