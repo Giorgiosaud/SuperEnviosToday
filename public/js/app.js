@@ -26122,8 +26122,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _yield$$http$patch, data;
-
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -26137,8 +26136,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
                 });
 
               case 4:
-                _yield$$http$patch = _context2.sent;
-                data = _yield$$http$patch.data;
+                data = _context2.sent;
 
                 _this2.$buefy.notification.open({
                   message: "Transacci\xF3n #".concat(data.id, " Aprovada"),
@@ -26149,11 +26147,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
                 transaction.status = 'approved';
-                _context2.next = 13;
+                _context2.next = 12;
                 break;
 
-              case 10:
-                _context2.prev = 10;
+              case 9:
+                _context2.prev = 9;
                 _context2.t0 = _context2["catch"](1);
 
                 _this2.$buefy.notification.open({
@@ -26163,23 +26161,22 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
                   duration: 5000
                 });
 
-              case 13:
+              case 12:
                 _this2.onChangeState = false;
 
-              case 14:
+              case 13:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[1, 10]]);
+        }, _callee2, null, [[1, 9]]);
       }))();
     },
     rejectTransation: function rejectTransation(transaction) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _yield$$http$patch2, data;
-
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -26193,8 +26190,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
                 });
 
               case 4:
-                _yield$$http$patch2 = _context3.sent;
-                data = _yield$$http$patch2.data;
+                data = _context3.sent;
 
                 _this3.$buefy.notification.open({
                   message: "Transacci\xF3n #".concat(data.id, " Rechazada"),
@@ -26205,11 +26201,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
                 transaction.status = 'rejected';
-                _context3.next = 13;
+                _context3.next = 12;
                 break;
 
-              case 10:
-                _context3.prev = 10;
+              case 9:
+                _context3.prev = 9;
                 _context3.t0 = _context3["catch"](1);
 
                 _this3.$buefy.notification.open({
@@ -26219,15 +26215,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
                   duration: 5000
                 });
 
-              case 13:
+              case 12:
                 _this3.onChangeState = false;
 
-              case 14:
+              case 13:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[1, 10]]);
+        }, _callee3, null, [[1, 9]]);
       }))();
     }
   }

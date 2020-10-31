@@ -84,7 +84,6 @@ class PendingTransactionController extends Controller
         $pendingTransaction->status = 'rejected';
         $pendingTransaction->save();
         broadcast(new PendingTransactionRejected($pendingTransaction));
-
         return $pendingTransaction;
     }
 }
