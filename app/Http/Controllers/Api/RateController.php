@@ -84,13 +84,12 @@ class RateController extends Controller
                 'currency_id' => 'required',
                 'since'    => 'required|date',
                 'amount'   => 'required|Numeric',
-                'message'   => 'string',
             ]);
             return Rate::create([
                 'currency_id' => $validated['currency_id'],
                 'amount'      => $validated['amount'],
                 'since'       => Carbon::parse($validated['since']),
-                'message'       => $validated['message'],
+                'message'       => $request->message,
             ]);
         }
     //
