@@ -20,14 +20,15 @@ Route::group(['middleware' => [
   Route::apiResource('pending-transaction', 'Api\PendingTransactionController', [
       'only' => ['index', 'update']
   ]);
-  Route::patch('user/{client}/receiver/{receiver}/unlink', ['uses' => 'Api\UserController@unlink', 'as' => 'receiver.unlink']);
   Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'update']]);
   
   Route::get('users/operators', ['uses' => 'Api\UserController@getOperators', 'as' => 'users.operators.index']);
   Route::post('user/verify_email', ['uses' => 'Api\UserController@resendVerificationEmail', 'as' => 'user.resend']);
   Route::get('user/receivers/{user}', ['uses' => 'Api\UserController@receivers', 'as' => 'user.receivers']);
   Route::post('user/{user}/receiver', ['uses' => 'Api\UserController@createReceiver', 'as' => 'user.create.receiver']);
+  Route::patch('user/{client}/receiver/{receiver}/unlink', ['uses' => 'Api\UserController@unlink', 'as' => 'receiver.unlink']);
   Route::get('user/{idnType}/{idn}', ['uses' => 'Api\UserController@search', 'as' => 'user.search']);
+
   Route::get('currency/foreign', ['uses' => 'Api\CurrencyController@foreign', 'as' => 'currency.foreign']);
   Route::apiResource('currencies', 'Api\CurrencyController', ['only' => ['index', 'store', 'destroy', 'update']]);
   Route::apiResource('settings', 'Api\SettingController', ['only' => ['index', 'store', 'destroy', 'update']]);

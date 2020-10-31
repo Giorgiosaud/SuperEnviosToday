@@ -14,7 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'logo' => env('APP_LOGO', 'http://superenvios.cl/image/superenvios.png'),
+    'logo' => env('APP_LOGO', 'http://superenvios.cl/storage/image/superenvios.png'),
     /*
     |--------------------------------------------------------------------------
     | Base Currency id
