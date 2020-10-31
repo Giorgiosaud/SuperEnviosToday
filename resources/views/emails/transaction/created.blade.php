@@ -3,8 +3,7 @@
 @component('mail::panel')
 Se ha comenzado a procesar tu orden por un monto de
 {{$foreignTransaction->amount}} {{$foreignTransaction->account->bank->currency->identifier}} equivalentes a
-{{$venezuelanTransaction->amount}} BsS, la misma estará lista en un periodo maximo de 24 horas y efectiva
-en un periodo maximo de  72 horas.
+{{$venezuelanTransaction->amount}} BsS, la misma estará lista a la brevedad.
 se realizara la transferencia a la cuenta {{$venezuelanTransaction->account->number}}
 del banco {{$venezuelanTransaction->account->bank->name}}
 a nombre de {{$venezuelanTransaction->client->name}} {{$venezuelanTransaction->client->last_name}}
