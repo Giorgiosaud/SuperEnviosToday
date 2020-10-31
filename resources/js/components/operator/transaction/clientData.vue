@@ -402,13 +402,18 @@ export default {
     },
     async saveClient() {
       this.savingClient = true;
-      const response = await $http.post('/api/user/', {
-        ...this.client,
-      });
-      const userData = await response.json();
+      try {
+        const response = await $http.post('/api/user/', {
+          ...this.client,
+        });
+        const userData = await response.json();
 
-      this.setClient(userData.user);
-      this.savingClient = false;
+        this.setClient(userData.user);
+      } catch (error) {
+        debugger;
+      } finally {
+        this.savingClient = false;
+      }
     },
   },
 };
