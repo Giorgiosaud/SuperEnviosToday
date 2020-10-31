@@ -291,10 +291,11 @@ export default {
       this.onChangeState = true;
       // const data = { accept_transaction: false };
       try {
-        const data = await $http.patch(`api/pending-transaction/${transaction.id}`,
+        const response = await $http.patch(`api/pending-transaction/${transaction.id}`,
           {
             accept_transaction: true,
           });
+        const data = await response.json();
 
         this.$buefy.notification.open({
           message: `Transacción #${data.id} Aprovada`,
@@ -318,11 +319,12 @@ export default {
       this.onChangeState = true;
       // const data = { accept_transaction: false };
       try {
-        const data = await $http.patch(`api/pending-transaction/${transaction.id}`,
+        const response = await $http.patch(`api/pending-transaction/${transaction.id}`,
           {
             accept_transaction: false,
           });
-
+        const data = await response.json();
+        debugger;
         this.$buefy.notification.open({
           message: `Transacción #${data.id} Rechazada`,
           type: 'is-success',
