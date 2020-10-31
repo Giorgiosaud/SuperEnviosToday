@@ -33,7 +33,7 @@ class CreateTransactionService
       $currency = $foreign_account->bank->currency;
       $actualRate = $this->actualRate($currency->id);
       $isCoordinator = $request->user()->hasRole('coordinator');
-      $amountInBs = $actualRate * $request->amount;
+      $amountInBs = $request->rate * $request->amount;
       $attachmentIds = $request->received_transaction_attachment_ids;
       if ($amountInBs > $venezuelan_account->balance) {
         return abort(424, 'No hay dinero disponible suficiente en la cuenta seleccionada');
