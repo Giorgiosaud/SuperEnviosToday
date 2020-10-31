@@ -116,7 +116,7 @@ class TransactionController extends Controller
     $data['operator_id'] = $request->user()->id;
     $data['amount'] = $data['type'] == 'outcome' ? -1 * $data['amount'] : 1 * $data['amount'];
     $data['comment']=$request->comment;
-    return $account->transactions()->save($data);
+    return $account->transactions()->save(new Transaction($data));
   }
 
   public function relatedVenezuelanTransactions(Transaction $transaction)
