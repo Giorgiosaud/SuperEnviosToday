@@ -23,6 +23,12 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         Telescope::filter(function () {
             return true;
         });
+        Telescope::tag(function (IncomingEntry $entry) {
+          if ($entry->type === 'request') {
+              return ['status:'.$entry->content['response_status']];
+          }
+          return [];
+        });
     }
 
     /**
