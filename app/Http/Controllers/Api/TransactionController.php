@@ -73,11 +73,8 @@ class TransactionController extends Controller
     $currency = Currency::where('id',request()->currency)->first();
     $user = request()->user();
     $accountsId = $currency->accounts()->whereIn('accounts.id', $user->accounts->pluck('id'))->get()->pluck('id');
-    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'related.operator', 'related.client', 'related.account.bank.currency'])
+    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency'])
       ->whereIn('account_id', $accountsId);
-    if (request()->status) {
-      $transactions->where('status',request()->status);
-    }
     return $transactions->paginate();
   }
 
