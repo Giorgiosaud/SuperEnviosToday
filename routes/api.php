@@ -37,7 +37,7 @@ Route::group(['middleware' => [
   Route::apiResource('banks', 'Api\BankController', ['only' => ['index', 'store', 'destroy', 'update']]);
   Route::get('accounts', ['uses' => 'Api\AccountController@index', 'as' => 'index.accounts']);
   Route::post('accounts', ['uses' => 'Api\AccountController@store', 'as' => 'store.accounts']);
-  Route::delete('accounts/{account}', ['uses' => 'Api\AccountController@destroy', 'as' => 'destroy.accounts'])->middleware('role:asddd coordinator');
+  Route::delete('accounts/{account}', ['uses' => 'Api\AccountController@destroy', 'as' => 'destroy.accounts'])->middleware('role:coordinator');
   Route::patch('account/{account}', ['uses' => 'Api\AccountController@update', 'as' => 'account.update']);
   Route::patch('account/{account}/toggle-operator-state', ['uses' => 'Api\AccountController@toggleOperatorState', 'as' => 'account.toggle.operator.state']);
   Route::get('accounts/base', ['uses' => 'Api\AccountController@indexBase', 'as' => 'index.base.accounts']);
