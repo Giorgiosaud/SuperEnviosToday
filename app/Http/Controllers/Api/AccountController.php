@@ -169,7 +169,7 @@ class AccountController extends Controller
       return $account->save();
     }
     if($associatesQty===0 && $transactionsQty===0){
-      return $account->destroy();
+      return $account->delete();
     }
     return response('Hubo un error no se puede borrar',403);
   }
