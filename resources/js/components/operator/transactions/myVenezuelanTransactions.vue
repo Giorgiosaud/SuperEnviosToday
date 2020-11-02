@@ -58,6 +58,13 @@
                       v-slot="props">
         {{ props.row.id }}
       </b-table-column>
+       <!-- <b-table-column field="track_number"
+                      :label="$t('transaction.TRACKING:NUMBER')"
+                      width="200"
+                      v-slot="prop"
+      >
+        {{ prop.row.track_number }}
+      </b-table-column> -->
       <b-table-column field="bank_reference"
                       :label="$t('transaction.BANK:REFERENCE')"
                       width="200"
@@ -65,12 +72,15 @@
       >
         {{ prop.row.bank_reference }}
       </b-table-column>
-      <b-table-column field="track_number"
-                      :label="$t('transaction.TRACKING:NUMBER')"
-                      width="200"
+      <b-table-column field="client_id"
+                      :label="$t('transaction.CLIENT')"
                       v-slot="prop"
-      >
-        {{ prop.row.track_number }}
+                      width="200"
+
+      ><span v-if="prop.row.foreign_related[0]">
+                            {{ prop.row.foreign_related[0].client.name }} {{ prop.row.foreign_related[0].client.last_name }}
+                            </span>
+        <span v-else>N/A</span>
       </b-table-column>
       <b-table-column field="operator"
                       :label="$t('transaction.OPERATOR')"
@@ -79,16 +89,7 @@
       >
         {{ prop.row.operator.name }} {{ prop.row.operator.last_name }}
       </b-table-column>
-      <b-table-column field="client_id"
-                      :label="$t('transaction.CLIENT')"
-                      v-slot="prop"
-                      width="200"
 
-      ><span v-if="prop.row.client">
-                            {{ prop.row.client.name }} {{ prop.row.client.last_name }}
-                            </span>
-        <span v-else>N/A</span>
-      </b-table-column>
       <b-table-column field="amount"
                       :label="$t('transaction.AMOUNT')"
                       v-slot="prop">

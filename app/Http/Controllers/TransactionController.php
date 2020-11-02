@@ -71,7 +71,9 @@ class TransactionController extends Controller
     $accountsId = $currency->accounts()->whereIn('accounts.id', $user->accounts->pluck('id'))->get()->pluck('id');
     $accounts=Account::whereIn('id',$accountsId)->with('bank')->get();
     $transactions = Transaction::with(['operator', 'client', 'account.bank.currency', 'attachments'])
-      ->whereIn('account_id', $accountsId)->paginate();
+      ->whereIn('account_id', $accountsId)
+      ->with('foreignRelated')
+      ->paginate();
     return view('operator.transactions.venezuelan.my-index', compact('transactions', 'currency','accounts'));
   }
 

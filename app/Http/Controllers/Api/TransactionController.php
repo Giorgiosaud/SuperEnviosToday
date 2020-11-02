@@ -90,7 +90,7 @@ class TransactionController extends Controller
     }else {
       $accountsId = $currency->accounts()->whereIn('accounts.id', $user->accounts->pluck('id'))->get()->pluck('id');
     }
-    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency','attachments'])
+    $transactions = Transaction::with(['operator', 'client', 'account.bank.currency','attachments','foreignRelated'])
       ->whereIn('account_id', $accountsId);
     if (request()->status) {
       $transactions->where('status',request()->status);

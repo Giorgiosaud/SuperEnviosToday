@@ -19,13 +19,6 @@ class Transaction extends Model
 
     use SoftDeletes, HasFactory;
     protected $fillable = [
-        //'from_user_id',
-        //'from_account_id',
-        //'to_user_id',
-        //'to_account_id',
-        //'related_transaction_id',
-        //'transaction_number',
-        //'type',
         'account_id',
         'client_id',
         'operator_id',
@@ -38,8 +31,6 @@ class Transaction extends Model
 
     protected $casts=['amount'=>'integer'];
 
-    //protected $with = ['attachments'];
-
     protected static function boot()
     {
         parent::boot();
@@ -48,28 +39,12 @@ class Transaction extends Model
             $builder->orderBy('created_at', 'desc');
         });
     }
-    /*TODO Delete*/
-    public function originAccount()
-    {
-        return $this->belongsTo(Account::class, 'from_account_id');
-    }
-    /*TODO Delete*/
-
-    public function fromUser()
-    {
-        return $this->belongsTo(User::class, 'from_user_id');
-    }
 
     public function account()
     {
         return $this->belongsTo(Account::class, 'account_id');
     }
-    /*TODO Delete*/
-
-    public function toUser()
-    {
-        return $this->belongsTo(User::class, 'to_user_id');
-    }
+ 
 
     public function getAmountAttribute($value)
     {
@@ -90,22 +65,26 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'client_id');
     }
-    /*TODO Delete*/
-
-    public function relatedTransactions()
-    {
-        return $this->hasMany(self::class, 'related_transaction_id');
-    }
-    /*TODO Delete*/
-
-    public function parentTransaction()
-    {
-        return $this->belongsTo(self::class, 'related_transaction_id');
-    }
     public function operator(){
         return $this->belongsTo(User::class, 'operator_id');
     }
     public function related(){
         return $this->hasMany(Transaction::class, 'track_number','track_number');
+    }
+    public function venezuelanRelated(){
+      return $this->hasMany(Transaction::class, 'track_number','track_number')
+      ->where('amount','>',0)
+      ->with('account.owners')
+      ->whereHas('account.bank',function($q){
+        $q->where('currency_id','2');
+      });
+    }
+    public function foreignRelated(){
+      return $this->hasMany(Transaction::class, 'track_number','track_number')
+      ->where('amount','>',0)
+      ->with('client')
+      ->whereHas('account.bank',function($q){
+        $q->where('currency_id','!=','2');
+      });
     }
 }
