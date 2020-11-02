@@ -80,7 +80,7 @@
           <div class="buttons">
 
             <button class="button field is-danger"
-                    @click="deleteAccount(account.id)">
+                    @click="deleteAccount(account)">
               {{$t('accounts.DELETE_ACCOUNT')}}
 
             </button>
@@ -283,9 +283,18 @@ export default {
         },
       });
     },
-    deleteAccount(id) {
-      // TODO: remove or check
-      return id;
+    deleteAccount(account) {
+      this.$buefy.dialog.confirm({
+        message: `¿Desea remover la cuenta ${account.number}
+        de la cuenta del banco ${account.bank.name} numero ${account.number} ?`,
+        onConfirm: async () => {
+          try {
+            await $http.delete(`/api/accounts/${account.id}`);
+          } finally {
+            this.loadAsyncData();
+          }
+        },
+      });
     },
     openAddAccountModal() {
       this.modal = 'account';

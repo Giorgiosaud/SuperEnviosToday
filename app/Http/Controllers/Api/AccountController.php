@@ -154,6 +154,25 @@ class AccountController extends Controller
     $account->owners()->detach($user->id);
     return response('Un Bonded Account', 204);
   }
+  /**
+   * @param Account $account
+   * @return Application|ResponseFactory|\Illuminate\Http\Response
+   */
+  public function destroy(Account $account){
+    $associatesQty=$account->owners->count();
+    if($associatesQty>0){
+      return response('Couldn\'t delete because asociated users',403);
+    }
+    $transactionsQty=$account->transactions->count();
+    if($transactionsQty>0){
+      $account->is_operator=false;
+      return $account->save();
+    }
+    if($associatesQty===0 && $transactionsQty===0){
+      return $account->destroy();
+    }
+    return response('Hubo un error no se puede borrar',403);
+  }
 
   public function toggleOperatorState(Account $account)
   {

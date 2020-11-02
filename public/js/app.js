@@ -24285,54 +24285,88 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    deleteAccount: function deleteAccount(id) {
-      // TODO: remove or check
-      return id;
+    deleteAccount: function deleteAccount(account) {
+      var _this4 = this;
+
+      this.$buefy.dialog.confirm({
+        message: "\xBFDesea remover la cuenta ".concat(account.number, "\n        de la cuenta del banco ").concat(account.bank.name, " numero ").concat(account.number, " ?"),
+        onConfirm: function () {
+          var _onConfirm2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+              while (1) {
+                switch (_context5.prev = _context5.next) {
+                  case 0:
+                    _context5.prev = 0;
+                    _context5.next = 3;
+                    return $http["delete"]("/api/accounts/".concat(account.id));
+
+                  case 3:
+                    _context5.prev = 3;
+
+                    _this4.loadAsyncData();
+
+                    return _context5.finish(3);
+
+                  case 6:
+                  case "end":
+                    return _context5.stop();
+                }
+              }
+            }, _callee5, null, [[0,, 3, 6]]);
+          }));
+
+          function onConfirm() {
+            return _onConfirm2.apply(this, arguments);
+          }
+
+          return onConfirm;
+        }()
+      });
     },
     openAddAccountModal: function openAddAccountModal() {
       this.modal = 'account';
       this.isOpenModal = true;
     },
     removeAccount: function removeAccount(id) {
-      var _this4 = this;
+      var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _this4.$buefy.dialog.confirm({
+                _this5.$buefy.dialog.confirm({
                   message: 'Continue on this task?',
                   onConfirm: function () {
-                    var _onConfirm2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-                      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+                    var _onConfirm3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+                      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
                         while (1) {
-                          switch (_context5.prev = _context5.next) {
+                          switch (_context6.prev = _context6.next) {
                             case 0:
-                              _this4.removingBank = true;
-                              _context5.prev = 1;
-                              _context5.next = 4;
+                              _this5.removingBank = true;
+                              _context6.prev = 1;
+                              _context6.next = 4;
                               return $http["delete"]("api/banks/".concat(id));
 
                             case 4:
-                              _context5.prev = 4;
-                              _this4.removingBank = false;
-                              _context5.next = 8;
-                              return _this4.loadAsyncData();
+                              _context6.prev = 4;
+                              _this5.removingBank = false;
+                              _context6.next = 8;
+                              return _this5.loadAsyncData();
 
                             case 8:
-                              return _context5.finish(4);
+                              return _context6.finish(4);
 
                             case 9:
                             case "end":
-                              return _context5.stop();
+                              return _context6.stop();
                           }
                         }
-                      }, _callee5, null, [[1,, 4, 9]]);
+                      }, _callee6, null, [[1,, 4, 9]]);
                     }));
 
                     function onConfirm() {
-                      return _onConfirm2.apply(this, arguments);
+                      return _onConfirm3.apply(this, arguments);
                     }
 
                     return onConfirm;
@@ -24341,42 +24375,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 1:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6);
+        }, _callee7);
       }))();
     },
     changeName: function changeName(id, name) {
-      var _this5 = this;
+      var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _this5.savingName = true;
-                _context7.prev = 1;
-                _context7.next = 4;
+                _this6.savingName = true;
+                _context8.prev = 1;
+                _context8.next = 4;
                 return $http.patch("api/accounts/".concat(id), {
                   name: name
                 });
 
               case 4:
-                _context7.prev = 4;
-                _context7.next = 7;
-                return _this5.loadAsyncData();
+                _context8.prev = 4;
+                _context8.next = 7;
+                return _this6.loadAsyncData();
 
               case 7:
-                _this5.savingName = false;
-                return _context7.finish(4);
+                _this6.savingName = false;
+                return _context8.finish(4);
 
               case 9:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, null, [[1,, 4, 9]]);
+        }, _callee8, null, [[1,, 4, 9]]);
       }))();
     },
     toggle: function toggle(row) {
@@ -24397,51 +24431,51 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     loadAsyncData: function loadAsyncData() {
-      var _this6 = this;
+      var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
         var params, request;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                params = _this6.getAllUrlParams(document.location.href);
-                params.page = _this6.page;
-                Object.assign(params, _this6.filters);
+                params = _this7.getAllUrlParams(document.location.href);
+                params.page = _this7.page;
+                Object.assign(params, _this7.filters);
 
-                if (_this6.selectedCurrencies.length) {
-                  params.currencies = _this6.selectedCurrencies.map(function (currency) {
+                if (_this7.selectedCurrencies.length) {
+                  params.currencies = _this7.selectedCurrencies.map(function (currency) {
                     return currency.id;
                   });
                 }
 
-                if (_this6.selectedBanks.length) {
-                  params.banks = _this6.selectedBanks.map(function (bank) {
+                if (_this7.selectedBanks.length) {
+                  params.banks = _this7.selectedBanks.map(function (bank) {
                     return bank.id;
                   });
                 }
 
-                _this6.loading = true;
-                _context8.next = 8;
+                _this7.loading = true;
+                _context9.next = 8;
                 return $http.get('/api/accounts', {
                   params: _objectSpread({}, params)
                 });
 
               case 8:
-                request = _context8.sent;
-                _context8.next = 11;
+                request = _context9.sent;
+                _context9.next = 11;
                 return request.json();
 
               case 11:
-                _this6.query = _context8.sent;
-                _this6.loading = false;
+                _this7.query = _context9.sent;
+                _this7.loading = false;
 
               case 13:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8);
+        }, _callee9);
       }))();
     }
   }
@@ -112467,7 +112501,7 @@ var render = function() {
                                 staticClass: "button field is-danger",
                                 on: {
                                   click: function($event) {
-                                    return _vm.deleteAccount(account.id)
+                                    return _vm.deleteAccount(account)
                                   }
                                 }
                               },
