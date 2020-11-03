@@ -51,12 +51,6 @@ class TransactionCreatedMail extends Mailable implements ShouldQueue
       $this->venezuelanTransaction->client;
       $this->venezuelanTransaction->account;
       $this->foreignTransaction->account->bank->currency;
-      $this->attachments = $this->foreignTransaction
-        ->attachments
-        ->pluck('path')
-        ->map(function ($path) {
-          return ['file'=>public_path() . $path,'options'=>[]];
-        })->toArray();
       return $this->markdown('emails.transaction.created')
         ->subject(__('email.TRANSACTION:CREATED:SUBJECT',
             ['cliente' => $this->client->name . ' ' . $this->client->last_name]
