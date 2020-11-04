@@ -324,7 +324,6 @@ export default {
             accept_transaction: false,
           });
         const data = await response.json();
-        debugger;
         this.$buefy.notification.open({
           message: `Transacción #${data.id} Rechazada`,
           type: 'is-success',
