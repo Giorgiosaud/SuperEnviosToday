@@ -29,9 +29,15 @@
             @endcan
             @can('approve-operations')
                 <b-menu-item icon="calendar-check"
-                             label="{{__('transaction.MENU:PENDING')}}"
+                             label="{{__('pendingTransactions.MENU:PENDING')}}"
                              tag="a"
                              href="{{ route('pending-transactions.index') }}"></b-menu-item>
+            @endcan
+            @can('review-pending-operations')
+                <b-menu-item icon="calendar-check"
+                             label="{{__('pendingTransactions.MENU:MY:PENDING')}}"
+                             tag="a"
+                             href="{{ route('my-pending-transactions.index') }}"></b-menu-item>
             @endcan
             @can('create-transaction')
                 <b-menu-item icon="money-check-alt"

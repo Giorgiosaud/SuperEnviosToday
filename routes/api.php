@@ -17,24 +17,24 @@ Route::group(['middleware' => [
     'auth:api'
 ], 'as' => 'api.'], function () {
   Route::post('user/save',['uses'=>'Api\UserController@store', 'as'=>'api.user.store']);
-  Route::apiResource('pending-transaction', 'Api\PendingTransactionController', [
-      'only' => ['index', 'update']
-  ]);
-  Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'update']]);
+  Route::apiResource('pending-transaction', 'Api\PendingTransactionController', ['only' => ['index', 'update']])->middleware('role:coordinator');
+  Route::get('my-pending-transaction',['uses'=> 'Api\PendingTransactionController@myIndex','as'=>'api.my-pending-transactions.index'])->middleware('role:coordinator foreign_operator');
+  Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'update']])->middleware('role:coordinator');
   
-  Route::get('users/operators', ['uses' => 'Api\UserController@getOperators', 'as' => 'users.operators.index']);
-  Route::post('user/verify_email', ['uses' => 'Api\UserController@resendVerificationEmail', 'as' => 'user.resend']);
-  Route::get('user/receivers/{user}', ['uses' => 'Api\UserController@receivers', 'as' => 'user.receivers']);
-  Route::post('user/{user}/receiver', ['uses' => 'Api\UserController@createReceiver', 'as' => 'user.create.receiver']);
-  Route::patch('user/{client}/receiver/{receiver}/unlink', ['uses' => 'Api\UserController@unlink', 'as' => 'receiver.unlink']);
-  Route::get('user/{idnType}/{idn}', ['uses' => 'Api\UserController@search', 'as' => 'user.search']);
+  Route::get('users/operators', ['uses' => 'Api\UserController@getOperators', 'as' => 'users.operators.index'])->middleware('role:coordinator');;
+  Route::post('user/verify_email', ['uses' => 'Api\UserController@resendVerificationEmail', 'as' => 'user.resend'])->middleware('role:coordinator foreign_operator');
+  Route::get('user/receivers/{user}', ['uses' => 'Api\UserController@receivers', 'as' => 'user.receivers'])->middleware('role:coordinator foreign_operator');
+  Route::post('user/{user}/receiver', ['uses' => 'Api\UserController@createReceiver', 'as' => 'user.create.receiver'])->middleware('role:coordinator foreign_operator');
+  Route::patch('user/{client}/receiver/{receiver}/unlink', ['uses' => 'Api\UserController@unlink', 'as' => 'receiver.unlink'])->middleware('role:coordinator foreign_operator');
+  Route::get('user/{idnType}/{idn}', ['uses' => 'Api\UserController@search', 'as' => 'user.search'])->middleware('role:coordinator foreign_operator');
 
-  Route::get('currency/foreign', ['uses' => 'Api\CurrencyController@foreign', 'as' => 'currency.foreign']);
+  Route::get('currency/foreign', ['uses' => 'Api\CurrencyController@foreign', 'as' => 'currency.foreign'])->middleware('role:coordinator foreign_operator');
   Route::apiResource('currencies', 'Api\CurrencyController', ['only' => ['index', 'store', 'destroy', 'update']]);
-  Route::apiResource('settings', 'Api\SettingController', ['only' => ['index', 'store', 'destroy', 'update']]);
+  Route::apiResource('settings', 'Api\SettingController', ['only' => ['index', 'store', 'destroy', 'update']])->middleware('role:coordinator');;
   Route::apiResource('rates', 'Api\RateController', ['only' => ['index', 'store', 'destroy', 'update']]);
   Route::get('banks/base', ['uses' => 'Api\BankController@baseBanks', 'as' => 'index.banks.venezuelan']);
   Route::apiResource('banks', 'Api\BankController', ['only' => ['index', 'store', 'destroy', 'update']]);
+  //TODO review permmissions go on
   Route::get('accounts', ['uses' => 'Api\AccountController@index', 'as' => 'index.accounts']);
   Route::post('accounts', ['uses' => 'Api\AccountController@store', 'as' => 'store.accounts']);
   Route::delete('accounts/{account}', ['uses' => 'Api\AccountController@destroy', 'as' => 'destroy.accounts'])->middleware('role:coordinator');
@@ -57,5 +57,4 @@ Route::group(['middleware' => [
   Route::get('my-related-transactions/{transaction}', ['uses' => 'Api\TransactionController@myRelatedTransactions', 'as' => 'my.own.transactions.index']);
   Route::patch('related-venezuelan-transaction', ['uses' => 'Api\TransactionController@updateRelatedVenezuelanTransaction', 'as' => 'venezuelan.transactions.update']);
   Route::delete('attachment/{attachment}',['uses'=>'Api\AttachmentController@destroy','as'=>'attachment.destroy']);
-
 });

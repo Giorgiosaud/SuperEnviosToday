@@ -12,6 +12,9 @@ use Illuminate\Http\Response;
 
 class CurrencyController extends Controller
 {
+    public function __construct(){
+      $this->middleware('role:coordinator', ['only' => ['store', 'destroy', 'update']]);
+    }
     public function indexList(){
         return Currency::select('id','name','identifier')->all();
     }

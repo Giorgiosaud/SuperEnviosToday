@@ -52,6 +52,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('approve-operations', function ($user) {
             return $user->hasRole('coordinator');
         });
+         Gate::define('review-pending-operations', function ($user) {
+            return $user->hasRole('coordinator foreign_operator');
+        });
         Gate::define('see-all-transactions',function($user){
             return $user->hasRole('coordinator');
         });

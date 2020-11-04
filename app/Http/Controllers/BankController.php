@@ -9,6 +9,7 @@ use Illuminate\View\View;
 
 class BankController extends Controller
 {
+  
     /**
      * Display a listing of the resource.
      *

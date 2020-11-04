@@ -16,6 +16,7 @@ import currenciesList from './components/coordinator/currencies/currenciesList.v
 import settingsList from './components/coordinator/settings/settingsList.vue';
 import ratesList from './components/coordinator/rates/ratesList.vue';
 import pendingTransactionsList from './components/coordinator/pendingTransactions/pendingTransactionsList.vue';
+import MyPendingTransactionsList from './components/coordinator/pendingTransactions/myPendingTransactionsList.vue';
 import create from './components/operator/transaction/create.vue';
 import reviewTransaction from './components/operator/transaction/reviewTransaction.vue';
 import transactions from './components/coordinator/transactions/transactions.vue';
@@ -51,6 +52,7 @@ Vue.component('settings-list', settingsList);
 Vue.component('rates-list', ratesList);
 
 Vue.component('pending-transactions-list', pendingTransactionsList);
+Vue.component('my-pending-transactions-list', MyPendingTransactionsList);
 
 Vue.component('transaction-create', create);
 Vue.component('review-transaction', reviewTransaction);

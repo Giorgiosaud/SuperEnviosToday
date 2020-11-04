@@ -61,11 +61,11 @@
         {{ props.row.bank_reference}}
       </b-table-column>
       <b-table-column field="track_number"
-                      :label="$t('transaction.TRACKING:NUMBER')"
+                      :label="$t('transaction.DATE')"
                       width="200"
                       v-slot="props"
       >
-        {{ props.row.track_number}}
+        {{ props.row.created_at|datetime}}
       </b-table-column>
       <b-table-column field="operator"
                       :label="$t('transaction.OPERATOR')"
@@ -251,15 +251,13 @@
   </section>
 </template>
 <script>
-import { format, parseISO } from 'date-fns';
 import currencyFilter from '../../../currency';
+import { datetime } from '../../../datetimeFilter';
 
 export default {
   name: 'MyTransactions',
   filters: {
-    datetime(time) {
-      return format(parseISO(time), 'dd-mm-yyyy HH:mm');
-    },
+    datetime,
     account(value) {
       const result = value.match(/\d{4}/g);
       return result.join('-');

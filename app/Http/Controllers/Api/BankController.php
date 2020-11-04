@@ -15,6 +15,9 @@
 
   class BankController extends Controller
   {
+    public function __construct(){
+      $this->middleware('role:coordinator', ['only' => ['store', 'destroy', 'update']]);
+    }
     /**
      */
     public function index()

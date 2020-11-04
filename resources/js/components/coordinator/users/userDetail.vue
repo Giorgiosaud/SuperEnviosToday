@@ -410,16 +410,14 @@
   </div>
 </template>
 <script>
-import {format, parseISO} from 'date-fns';
 import currencyFilter from '../../../currency';
+import { datetime } from '../../../datetimeFilter';
 
 export default {
   name: 'UserDetail',
   filters: {
     currencyFilter,
-    datetime(time) {
-      return format(parseISO(time), 'dd-mm-yyyy HH:mm');
-    },
+    datetime,
   },
 
   props: {

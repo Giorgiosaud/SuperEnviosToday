@@ -43,6 +43,31 @@ class PendingTransactionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
     }
+    public function myIndex()
+    {
+        request()->validate([
+            'amount'=>'numeric',
+            'rate'=>'numeric',
+            'venezuelan_bank_to'=>'string'
+        ]);
+        $user=request()->user();
+        $pendingTransactions = PendingTransaction::with(['client', 'receiver', 'venezuelanOperator', 'foreignOperator','foreignAccount.bank.currency','receiverAccount.bank','localOperatorAccount.bank']);
+        $moneyFilters = ['amount','rate'];
+        foreach ($moneyFilters as $moneyFilter) {
+            if (request()->has($moneyFilter)) {
+                $pendingTransactions->where($moneyFilter, '=',  request()->get($moneyFilter) *10000);
+            }
+        }
+        if (request()->status) {
+            $pendingTransactions->where('status', '=',  request()->status);
+        }
+        $pendingTransactions->where('operator_id',$user->id);
+        $perPage = request()->has('perPage') ? request()->get('perPage') : config('app.paginated_by');
+
+        return $pendingTransactions
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+    }
 
     public function update(Request $request, PendingTransaction $pendingTransaction)
     {

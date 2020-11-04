@@ -362,8 +362,8 @@
   </section>
 </template>
 <script>
-import { format, parseISO } from 'date-fns';
 import currencyFilter from '../../../currency';
+import { datetime } from '../../../datetimeFilter';
 import UppyUploader from '../../../UppyUploader.vue';
 
 export default {
@@ -372,9 +372,7 @@ export default {
     UppyUploader,
   },
   filters: {
-    datetime(time) {
-      return format(parseISO(time), 'dd-mm-yyyy HH:mm');
-    },
+    datetime,
     account(value) {
       const result = value.match(/\d{4}/g);
       return result.join('-');

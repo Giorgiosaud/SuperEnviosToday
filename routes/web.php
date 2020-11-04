@@ -28,7 +28,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('rates', ['uses'=>'RateController@index','as'=>'rates.index']);
     Route::get('settings', ['uses'=>'SettingController@index','as'=>'settings.index']);
     Route::get('users/login-as/{user}',['uses'=>'UserController@loginAs','as'=>'user.login.as']);
-    Route::resource('pending-transactions', 'PendingTransactionController',['only'=>['index']]);
+    Route::get('pending-transactions', ['uses'=>'PendingTransactionController@index','as'=>'pending-transactions.index']);
+    Route::get('my-pending-transactions', ['uses'=>'PendingTransactionController@myIndex','as'=>'my-pending-transactions.index']);
     Route::get('transaction/create', ['uses'=>'TransactionController@create','as'=>'transaction.create']);
     Route::get('transactions', ['uses'=>'TransactionController@index','as'=>'transaction.index']);
     Route::get('my-transactions', ['uses'=>'TransactionController@myIndex','as'=>'transaction.my.index']);

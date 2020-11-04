@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RateController extends Controller
 {
+    public function __construct(){
+      $this->middleware('role:coordinator', ['only' => ['store', 'destroy', 'update']]);
+    }
     /**
      * Display a listing of the resource.
      *

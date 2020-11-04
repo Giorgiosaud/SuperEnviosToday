@@ -21,5 +21,6 @@ return [
     'STATUS:REJECTED'=>'Rechazada',
     'STATUS:REJECT'=>'Rechazar',
     'STATUS:PENDING'=>'Pendientes',
-
+    'MENU:MY:PENDING'=>'Mis Transacciones Pendientes',
+    'MENU:PENDING'=>'Transacciones Pendientes'
 ];
