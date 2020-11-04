@@ -61,7 +61,7 @@ class TransactionController extends Controller
       ])
       ->whereIn('account_id', $accountsId)->paginate();
     return view('operator.transactions.index', compact('transactions', 'currencies', 'currency', 'user'));
-  }ç
+  }
 
   public function venezuelanIndex()
   {
