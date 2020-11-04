@@ -66,6 +66,13 @@
       >
         {{ props.row.track_number}}
       </b-table-column>
+      <b-table-column field="track_number"
+                      :label="$t('transaction.DATE')"
+                      width="200"
+                      v-slot="props"
+      >
+        {{ props.row.created_at|datetime}}
+      </b-table-column>
       <b-table-column field="operator"
                       :label="$t('transaction.OPERATOR')"
                       width="200"
@@ -110,6 +117,7 @@
             <td>{{ relatedTransaction.id }}</td>
             <td>{{ relatedTransaction.bank_reference }}</td>
             <td>{{ relatedTransaction.track_number }}</td>
+            <td>{{ relatedTransaction.created_at|datetime}}</td>
             <td>{{ relatedTransaction.operator.name }} {{ relatedTransaction.operator.last_name }}
             </td>
             <td v-if="relatedTransaction.client">{{ relatedTransaction.client.name }} {{
@@ -128,7 +136,7 @@
                 v-else-if="relatedTransaction.status=='in-progress'">{{$t('transaction.STATUS:IN:PROGRESS')}}</span>
             </td>
           </tr>
-          <tr v-if="relatedTransaction.comment">
+          <tr v-if="relatedTransaction.comment" :key="relatedTransaction.id">
             <td></td>
             <td colspan="7" v-html="relatedTransaction.comment"></td>
           </tr>
@@ -148,10 +156,12 @@
 </template>
 <script>
 import currencyFilter from '../../../currency';
+import { datetime } from '../../../datetimeFilter';
 
 export default {
   name: 'Transactions',
   filters: {
+    datetime,
     currency(value, selectedCurrency) {
       const formatOptions = {
         precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
