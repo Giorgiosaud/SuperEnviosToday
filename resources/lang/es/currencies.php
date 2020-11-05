@@ -15,6 +15,10 @@ return [
     'UPDATED:MESSAGE'=>'El banco fué Actualizado',
     'NAME'=>'Nombre de Banco',
     'CURRENCY'=>'Moneda',
+    'FORMATWITHSYMBOL'=>'agregar simbolo en formato',
+    'DECIMAL:SEPARATOR'=>'Separador decimal',
+    'THOUSAND:SEPARATOR'=>'Separador Miles',
+    'PRECISION'=>'Presicion',
     'SIGN'=>'Signo',
     'SELECT:CURRENCY'=>'Seleccione Moneda a filtrar'
 ];

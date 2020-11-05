@@ -16,18 +16,42 @@
             placeholder="Nombre de Moneda"
             required />
         </b-field>
-        <b-field label="Indentificador">
+        <b-field :label="$t('currencies.CURRENCY')">
           <b-input
             v-model="identifier"
             type="text"
-            placeholder="Identificador de moneda"
+            :placeholder="$t('currencies.CURRENCY')"
             required />
         </b-field>
-        <b-field label="Sign">
+        <b-field :label="$t('currencies.SIGN')">
           <b-input
             v-model="sign"
             type="text"
-            placeholder="Signo de moneda"
+            :placeholder="$t('currencies.SIGN')"
+            required />
+        </b-field>
+        <div class="field">
+            <b-checkbox v-model="format_with_symbol">{{$t('currencies.FORMATWITHSYMBOL')}}</b-checkbox>
+        </div>
+        <b-field :label="$t('currencies.DECIMAL:SEPARATOR')">
+          <b-input
+            v-model="decimal"
+            type="text"
+            :placeholder="$t('currencies.DECIMAL:SEPARATOR')"
+            required />
+        </b-field>
+        <b-field :label="$t('currencies.THOUSAND:SEPARATOR')">
+          <b-input
+            v-model="separator"
+            type="text"
+            :placeholder="$t('currencies.THOUSAND:SEPARATOR')"
+            required />
+        </b-field>
+        <b-field :label="$t('currencies.PRECISION')">
+          <b-input
+            v-model="precision"
+            type="text"
+            :placeholder="$t('currencies.PRECISION')"
             required />
         </b-field>
       </section>
@@ -57,6 +81,10 @@ export default {
     name: '',
     identifier: '',
     sign: '',
+    separator: '.',
+    format_with_symbol: false,
+    decimal: ',',
+    precision: 0,
     savingCurrency: false,
   }),
   methods: {
@@ -68,6 +96,10 @@ export default {
           name: this.name,
           identifier: this.identifier,
           sign: this.sign,
+          separator: this.separator,
+          format_with_symbol: this.format_with_symbol,
+          decimal: this.decimal,
+          precision: this.precision,
         });
       } finally {
         this.savingCurrency = false;

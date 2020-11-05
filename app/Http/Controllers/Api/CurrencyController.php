@@ -72,7 +72,14 @@ class CurrencyController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'identifier' => ['required', 'string', 'max:255'],
             'sign' => ['required', 'string', 'max:255'],
+            'separator' => ['required', 'string', 'max:1'],
+            'decimal' => ['required', 'string', 'max:1'],
+            'precision' => ['required'],
         ]);
+        if($request->format_with_symbol){
+          $data['format_with_symbol']=1;
+        }
+        $data['symbol']=$data['sign'];
         $currency=Currency::where('name',$data['name'])
             ->where('identifier',$data['identifier'])
             ->where('sign',$data['sign'])

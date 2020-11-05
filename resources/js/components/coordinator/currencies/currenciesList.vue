@@ -52,6 +52,28 @@
                         v-slot="props">
           {{ props.row.identifier }}
         </b-table-column>
+        <b-table-column field="identifier"
+                        :label="$t('currencies.FORMATWITHSYMBOL')"
+                        v-slot="props">
+          <span v-if="props.row.format_with_symbol">Si</span>
+          <span v-else>No</span>
+        </b-table-column>
+         <b-table-column field="identifier"
+                        :label="$t('currencies.DECIMAL:SEPARATOR')"
+                        v-slot="props">
+          {{ props.row.decimal }}
+        </b-table-column>
+         <b-table-column field="identifier"
+                        :label="$t('currencies.THOUSAND:SEPARATOR')"
+                        v-slot="props">
+          {{ props.row.separator }}
+        </b-table-column>
+         <b-table-column field="identifier"
+                        :label="$t('currencies.PRECISION')"
+                        v-slot="props">
+          {{ props.row.precision }}
+        </b-table-column>
+
         <b-table-column field="sign"
                         :label="$t('currencies.SIGN')"
                         v-slot="props">

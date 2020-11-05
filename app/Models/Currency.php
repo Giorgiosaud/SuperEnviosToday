@@ -19,7 +19,7 @@
 
     use SoftDeletes, HasFactory;
 
-    protected $fillable = ['name', 'identifier', 'sign'];
+    protected $fillable = ['name', 'identifier', 'sign', 'separator', 'decimal' ,'precision','symbol'];
 
     public static function boot()
     {
