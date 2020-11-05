@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Gate::define('manage-users', function ($user) {
-            return $user->hasRole('coordinator');
+            return $user->hasRole('coordinator foreign_operator');
         });
         Gate::define('manage-transactions', function ($user) {
             return $user->hasRole('coordinator venezuelan_operator foreign_operator');
