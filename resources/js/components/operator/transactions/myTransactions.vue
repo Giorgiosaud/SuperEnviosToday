@@ -216,29 +216,6 @@
           </td>
         </tr>
       </template>
-      <!-- <template slot="detail" slot-scope="props">
-        <tr v-for="relatedTransaction in props.row.related" :key="relatedTransaction.id">
-          <td></td>
-          <td>{{ relatedTransaction.id }}</td>
-          <td>{{ relatedTransaction.bank_reference }}</td>
-          <td>{{ relatedTransaction.track_number }}</td>
-          <td>{{ relatedTransaction.operator.name }} {{ relatedTransaction.operator.last_name }}
-          </td>
-          <td v-if="relatedTransaction.client">{{ relatedTransaction.client.name }} {{
-              relatedTransaction.client.last_name }}
-          </td>
-          <td v-else>Cuenta Propia</td>
-          <td>{{ relatedTransaction.amount |currency(relatedTransaction.account.bank.currency)}}</td>
-          <td>
-            <span
-              v-if="relatedTransaction.status=='pending'">{{$t('transaction.STATUS:PENDING')}}</span>
-            <span
-              v-else-if="relatedTransaction.status=='executed'">{{$t('transaction.STATUS:APPROVED')}}</span>
-            <span
-              v-else-if="relatedTransaction.status=='in-progress'">{{$t('transaction.STATUS:IN:PROGRESS')}}</span>
-          </td>
-        </tr>
-      </template> -->
       <template slot="empty">
         <section class="section">
           <div class="content has-text-grey has-text-centered">
