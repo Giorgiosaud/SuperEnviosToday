@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => [
     'auth:api'
 ], 'as' => 'api.'], function () {
-  Route::post('user/save',['uses'=>'Api\UserController@store', 'as'=>'api.user.store']);
+  Route::post('user/save',['uses'=>'Api\UserController@store', 'as'=>'api.user.store'])->middleware('role:coordinator foreign_operator');
   Route::apiResource('pending-transaction', 'Api\PendingTransactionController', ['only' => ['index', 'update']])->middleware('role:coordinator foreign_operator');
   Route::get('my-pending-transaction',['uses'=> 'Api\PendingTransactionController@myIndex','as'=>'api.my-pending-transactions.index'])->middleware('role:coordinator foreign_operator');
   Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'update']])->middleware('role:coordinator foreign_operator');

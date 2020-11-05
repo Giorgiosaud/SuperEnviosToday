@@ -112,7 +112,7 @@
                 <money id="amount"
                        v-model="amount"
                        :disabled="!selectedAccount"
-                       v-bind="clp"
+                       v-bind="calcFormat"
                        name="amount"
                        class="input"
                        :class="classes"
@@ -149,17 +149,14 @@
               class="control">
               <label class="label" for="idn">{{$t('transaction.RATE:NEW')}}</label>
               <div class="control has-icons-right">
-                <money id="idn"
+                <input id="idn"
                        v-model="newRate"
-                       v-bind="clp"
                        name="newRate"
                        class="input"
                        :class="classes"
                        type="text"
                        :placeholder="$t('transaction.RATE:NEW')"
                 >
-
-                </money>
                 <span class="icon is-small has-text-warning is-right"
                       v-if="errors[0]">
                                 <font-awesome-icon icon="exclamation-triangle"></font-awesome-icon>
@@ -304,24 +301,14 @@ export default {
     voucher: '',
     uploadedFiles: [],
     tempUploadFiles: [],
-    bs: {
-      decimal: ',',
-      thousands: '.',
-      prefix: 'Bs ',
-      suffix: ' ',
-      precision: 0,
-      masked: false,
-    },
-    clp: {
-      decimal: ',',
-      thousands: '.',
-      prefix: '$ ',
-      suffix: ' ',
-      precision: 0,
-      masked: false,
-    },
+    currenciesFormats: {},
   }),
   computed: {
+    calcFormat() {
+      if (this.selectedCurrency) {
+        return this.currenciesFormats[this.selectedCurrency.identifier];
+      } return null;
+    },
     calcExchange() {
       if (this.tryAnotherRate) {
         return this.newRate * this.amount;
@@ -356,6 +343,18 @@ export default {
   async created() {
     const response = await $http.get('/api/currency/foreign');
     const foreignCurrencies = await response.json();
+    foreignCurrencies.map((curr) => {
+      this.$set(this.currenciesFormats, curr.identifier, {
+        decimal: curr.decimal,
+        thousands: curr.separator,
+        prefix: curr.symbol,
+        suffix: ' ',
+        precision: curr.precision,
+        masked: false,
+      });
+      return curr;
+    });
+
     this.foreignCurrencies = foreignCurrencies;
   },
   methods: {
