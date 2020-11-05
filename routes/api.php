@@ -17,9 +17,9 @@ Route::group(['middleware' => [
     'auth:api'
 ], 'as' => 'api.'], function () {
   Route::post('user/save',['uses'=>'Api\UserController@store', 'as'=>'api.user.store']);
-  Route::apiResource('pending-transaction', 'Api\PendingTransactionController', ['only' => ['index', 'update']])->middleware('role:coordinator');
+  Route::apiResource('pending-transaction', 'Api\PendingTransactionController', ['only' => ['index', 'update']])->middleware('role:coordinator foreign_operator');
   Route::get('my-pending-transaction',['uses'=> 'Api\PendingTransactionController@myIndex','as'=>'api.my-pending-transactions.index'])->middleware('role:coordinator foreign_operator');
-  Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'update']])->middleware('role:coordinator');
+  Route::apiResource('user', 'Api\UserController', ['only' => ['index', 'update']])->middleware('role:coordinator foreign_operator');
   
   Route::get('users/operators', ['uses' => 'Api\UserController@getOperators', 'as' => 'users.operators.index'])->middleware('role:coordinator');;
   Route::post('user/verify_email', ['uses' => 'Api\UserController@resendVerificationEmail', 'as' => 'user.resend'])->middleware('role:coordinator foreign_operator');
