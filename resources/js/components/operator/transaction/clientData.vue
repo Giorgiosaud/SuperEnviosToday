@@ -213,7 +213,7 @@
           <div class="column">
             <validation-provider
               :name="$t('auth.PHONE')"
-              rules="alpha_dash"
+              rules="required"
               v-slot="{ classes,errors,valid }"
               tag="div"
               class="field">

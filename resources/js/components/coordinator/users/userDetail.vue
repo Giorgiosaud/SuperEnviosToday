@@ -296,7 +296,7 @@
             <div class="control has-icons-right">
               <input id="last_name"
                      name="last_name"
-                     v-model="userData.lastName"
+                     v-model="userData.last_name"
                      class="input"
                      :class="classes"
                      type="text"
