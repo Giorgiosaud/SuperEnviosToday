@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Test extends Mailable
+class Test extends SendgridCategoryBase
 {
-  use Queueable, SerializesModels;
 
   /**
    * Create a new message instance.
@@ -27,19 +26,8 @@ class Test extends Mailable
    */
   public function build()
   {
-    $headerData = [
-      'category' => 'test',
-      'unique_args' => [
-        'variable_1' => 'email'
-      ]
-    ];
+    $this->addSwiftData('Test-cat','Prueba');
 
-    $header = $this->asString($headerData);
-
-    $this->withSwiftMessage(function ($message) use ($header) {
-      $message->getHeaders()
-        ->addTextHeader('X-SMTPAPI', $header);
-    });
     return $this->markdown('emails.test');
   }
 
