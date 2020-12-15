@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 
 class TransactionExecutedMail extends Mailable
 {
@@ -51,9 +52,13 @@ class TransactionExecutedMail extends Mailable
       ->map(function ($path) {
         return ['file'=>public_path() . $path,'options'=>[]];
       })->toArray();
+    Carbon::setLocale('es');
+    $fecha = Carbon::parse($this->venezuelanTransaction->created_at);
+    $humanTime=$fecha->diffForHumans(); //esto se mostrará en español
     return $this->markdown('emails.transaction.executed')
       ->subject(__('email.TRANSACTION:COMPLETED:SUBJECT',
-          ['cliente' => $this->client->name . ' ' . $this->client->last_name]
+          ['cliente' => $this->client->name . ' ' . $this->client->last_name,
+            'human_time'=>$humanTime]
         )
       )
       ->with([

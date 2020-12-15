@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 
 class TransactionCreatedMail extends Mailable implements ShouldQueue
 {
@@ -51,9 +52,13 @@ class TransactionCreatedMail extends Mailable implements ShouldQueue
       $this->venezuelanTransaction->client;
       $this->venezuelanTransaction->account;
       $this->foreignTransaction->account->bank->currency;
+      Carbon::setLocale('es');
+      $fecha = Carbon::parse($this->foreignTransaction->created_at);
+      $humanTime=$fecha->diffForHumans(); //esto se mostrará en español
       return $this->markdown('emails.transaction.created')
         ->subject(__('email.TRANSACTION:CREATED:SUBJECT',
-            ['cliente' => $this->client->name . ' ' . $this->client->last_name]
+            ['cliente' => $this->client->name . ' ' . $this->client->last_name,
+              'human_time'=>$humanTime]
           )
         )
         ->with([
