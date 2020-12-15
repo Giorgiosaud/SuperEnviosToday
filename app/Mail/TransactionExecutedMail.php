@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 
-class TransactionExecutedMail extends Mailable
+class TransactionExecutedMail extends SendgridCategoryBase  implements ShouldQueue
 {
   use Queueable, SerializesModels;
 
@@ -46,6 +46,7 @@ class TransactionExecutedMail extends Mailable
    */
   public function build()
   {
+    $this->addSwiftData('Transaction-Executed',$this->foreignTransaction->id);
     $this->attachments = $this->venezuelanTransaction
       ->attachments
       ->pluck('path')

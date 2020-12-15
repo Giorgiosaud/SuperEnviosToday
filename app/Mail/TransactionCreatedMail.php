@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 
-class TransactionCreatedMail extends Mailable implements ShouldQueue
+class TransactionCreatedMail extends SendgridCategoryBase implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -49,6 +49,7 @@ class TransactionCreatedMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
+      $this->addSwiftData('Transaction-Created',$this->venezuelanTransaction->id);
       $this->venezuelanTransaction->client;
       $this->venezuelanTransaction->account;
       $this->foreignTransaction->account->bank->currency;
