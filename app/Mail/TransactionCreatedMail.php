@@ -53,7 +53,7 @@ class TransactionCreatedMail extends Mailable implements ShouldQueue
       $this->venezuelanTransaction->account;
       $this->foreignTransaction->account->bank->currency;
       Carbon::setLocale('es');
-      $fecha = Carbon::parse($this->foreignTransaction->created_at);
+      $fecha = Carbon::parse($this->foreignTransaction->updated_at);
       $humanTime=$fecha->diffForHumans(); //esto se mostrará en español
       return $this->markdown('emails.transaction.created')
         ->subject(__('email.TRANSACTION:CREATED:SUBJECT',

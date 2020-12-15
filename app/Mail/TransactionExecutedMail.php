@@ -53,7 +53,7 @@ class TransactionExecutedMail extends Mailable
         return ['file'=>public_path() . $path,'options'=>[]];
       })->toArray();
     Carbon::setLocale('es');
-    $fecha = Carbon::parse($this->venezuelanTransaction->created_at);
+    $fecha = Carbon::parse($this->venezuelanTransaction->updated_at);
     $humanTime=$fecha->diffForHumans(); //esto se mostrará en español
     return $this->markdown('emails.transaction.executed')
       ->subject(__('email.TRANSACTION:COMPLETED:SUBJECT',
