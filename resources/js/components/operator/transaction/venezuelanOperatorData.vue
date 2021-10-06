@@ -115,7 +115,7 @@
 import currencyFilter from '../../../currency';
 
 const bsFormat = {
-  symbol: 'Bs ', precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+  symbol: 'Bs ', precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
 };
 
 export default {

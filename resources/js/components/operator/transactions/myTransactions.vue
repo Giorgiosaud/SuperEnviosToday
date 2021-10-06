@@ -241,7 +241,7 @@ export default {
     },
     currency(value, selectedCurrency) {
       const formatOptions = {
-        precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+        precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
       };
       if (!selectedCurrency) {
         formatOptions.symbol = '$ ';
@@ -252,7 +252,7 @@ export default {
     },
     rateCurrency: (value, selectedCurrency) => {
       const formatOptions = {
-        precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+        precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
       };
       if (!selectedCurrency) {
         formatOptions.symbol = 'Bs/$ ';

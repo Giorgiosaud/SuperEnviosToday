@@ -180,7 +180,7 @@ export default {
   filters: {
     rateCurrency: (value, selectedCurrency) => {
       const formatOptions = {
-        precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+        precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
       };
       if (!selectedCurrency) {
         formatOptions.symbol = 'Bs/$ ';

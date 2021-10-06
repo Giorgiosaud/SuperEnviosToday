@@ -20,7 +20,7 @@
         <div>
           <p class="heading">{{$t('transaction.RATE:CALC')}}</p>
           <p class="title">{{calcExchange|currency({
-            symbol: 'Bs ', precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+            symbol: 'Bs ', precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
           })}}</p>
         </div>
       </div>
@@ -268,7 +268,7 @@ export default {
     currency,
     rateCurrency: (value, selectedCurrency) => {
       const formatOptions = {
-        precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+        precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
       };
       if (!selectedCurrency) {
         formatOptions.symbol = 'Bs/$ ';
