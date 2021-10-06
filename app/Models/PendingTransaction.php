@@ -73,21 +73,21 @@
 
     public function getRateAttribute($value)
     {
-      return $value / 10000;
+      return $value / (10000*1000000);
     }
 
     public function setRateAttribute($value)
     {
-      $this->attributes['rate'] = strval($value * 10000);
+      $this->attributes['rate'] = strval($value * (10000*1000000));
     }
 
     public function getAmountAttribute($value)
     {
-      return $value / 10000;
+      return $value / (10000*1000000);
     }
 
     public function setAmountAttribute($value)
     {
-      $this->attributes['amount'] = strval($value * 10000);
+      $this->attributes['amount'] = strval($value * (10000*1000000));
     }
   }
