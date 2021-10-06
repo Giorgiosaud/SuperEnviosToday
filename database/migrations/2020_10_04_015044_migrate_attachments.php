@@ -17,9 +17,6 @@ class MigrateAttachments extends Migration
       Schema::table('attachments', function (Blueprint $table) {
         $table->index('attachable_id');
       });
-      Schema::table('transactions', function (Blueprint $table) {
-//        $table->index('old_id');
-      });
       DB::statement("
                   UPDATE `attachments`
                     SET `attachable_type`='App\\\Models\\\Transaction'
@@ -41,8 +38,5 @@ class MigrateAttachments extends Migration
      */
     public function down()
     {
-      dump('cant downgrade');
-
-        //
     }
 }
