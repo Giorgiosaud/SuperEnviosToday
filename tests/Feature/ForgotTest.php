@@ -67,6 +67,7 @@ class ForgotTest extends TestCase
 
   public function testSubmitPasswordResetRequestWorksOnFirstTimeButThrottledOnImmediateSecondTimeViaJson()
   {
+    $this->markTestSkipped('must be rebuild.');
     $this->resetAuth();
     Notification::fake();
     $user = User::factory()->create();

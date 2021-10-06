@@ -27,7 +27,6 @@
     use HasFactory;
     use SoftDeletes;
 
-    //protected $with = ['bank'];
     protected $fillable = ['bank_id', 'type', 'number', 'is_operator'];
 
     /**
@@ -61,7 +60,7 @@
     {
       $sum = DB::selectOne("SELECT SUM(amount) AS amount FROM transactions WHERE account_id=? GROUP BY `account_id`", [$this->id]);
       if ($sum) {
-        return $sum->amount / 10000;
+        return $sum->amount / (10000*1000000);
       }
       return 0;
     }

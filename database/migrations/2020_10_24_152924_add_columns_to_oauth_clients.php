@@ -14,7 +14,7 @@ class AddColumnsToOauthClients extends Migration
     public function up()
     {
         Schema::table('oauth_clients', function (Blueprint $table) {
-          $table->string('provider')->nullable();
+          $table->string('provider')->nullable()->change();
         });
     }
 

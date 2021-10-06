@@ -1,7 +1,7 @@
 import currencyLib from 'currency.js';
 
 const formatOptions = {
-  symbol: '$', precision: 2, separator: '.', decimal: ',', formatWithSymbol: true,
+  symbol: '$', precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
 };
 
 export default function currencyFilter(value, options = formatOptions) {

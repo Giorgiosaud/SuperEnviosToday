@@ -21,8 +21,8 @@ class AttachmentTest extends TestCase
         $attachment=Attachment::factory()->create();
         $transaction=Transaction::factory()->create();
         $transaction->attachments()->save($attachment);
-        $this->assertEquals(1,$attachment->fresh()->attachable->count());
-
+        $this->assertEquals(1,$attachment->fresh()->transactions->count());
     }
+
 
 }
