@@ -1,11 +1,11 @@
 /*!
-  Copyright (c) 2017 Jed Watson.
+  Copyright (c) 2018 Jed Watson.
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/classnames
 */
 
 /*!
- * Font Awesome Free 5.15.1 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 
@@ -24,8 +24,8 @@
  */
 
 /*!
- * Vue.js v2.6.12
- * (c) 2014-2020 Evan You
+ * Vue.js v2.6.14
+ * (c) 2014-2021 Evan You
  * Released under the MIT License.
  */
 
@@ -44,6 +44,8 @@ OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
 
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
 /**
    * Takes a string with placeholder variables like `%{smart_count} file selected`
    * and replaces it with values from options `{smart_count: 5}`
@@ -53,12 +55,12 @@ PERFORMANCE OF THIS SOFTWARE.
    *
    * @param {string} phrase that needs interpolation, with placeholders
    * @param {object} options with values that will be used to replace placeholders
-   * @returns {string} interpolated
+   * @returns {any[]} interpolated
    */
 
 /**
-  * vee-validate v3.4.1
-  * (c) 2020 Abdelrahman Awad
+  * vee-validate v3.4.13
+  * (c) 2021 Abdelrahman Awad
   * @license MIT
   */
 
