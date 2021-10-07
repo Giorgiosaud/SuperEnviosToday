@@ -161,10 +161,11 @@ class TransactionController extends Controller
   protected function saveAttachmentAndExecuteTransaction($attachment,$bankReference, $transaction): void
   {
     $attachment->transactions()->save($transaction);
-    if($transaction->account->bank->currency->identifier==='BsS')
-    $transaction['bank_reference']=$bankReference;
-    $transaction->status = 'executed';
-    $transaction->save();
+    if($transaction->account->bank->currency->identifier==='BsS'){
+      $transaction['bank_reference']=$bankReference;
+      $transaction->status = 'executed';
+      $transaction->save();
+    }
   }
 
   /**
