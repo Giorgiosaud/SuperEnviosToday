@@ -21,6 +21,10 @@ class AddDecimalsToRatesAndTransactions extends Migration
         UPDATE `rates`
           SET `amount`=`amount`*1000000
         ");
+        DB::statement("
+        UPDATE `balance_caches`
+          SET `amount`=`amount`*1000000
+        ");
 
     }
 
@@ -37,6 +41,10 @@ class AddDecimalsToRatesAndTransactions extends Migration
         ");
         DB::statement("
         UPDATE `rates`
+          SET `amount`=`amount`/1000000
+        ");
+        DB::statement("
+        UPDATE `balance_caches`
           SET `amount`=`amount`/1000000
         ");
     }
