@@ -126,7 +126,7 @@ export default {
   filters: {
     currency(value, selectedCurrency) {
       const formatOptions = {
-        precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
+        precision: 8, separator: '.', decimal: ',', formatWithSymbol: true,
       };
       if (!selectedCurrency) {
         formatOptions.symbol = '$ ';
@@ -137,7 +137,7 @@ export default {
     },
     rateCurrency: (value, selectedCurrency) => {
       const formatOptions = {
-        precision: 7, separator: '.', decimal: ',', formatWithSymbol: true,
+        precision: 8, separator: '.', decimal: ',', formatWithSymbol: true,
       };
       if (!selectedCurrency) {
         formatOptions.symbol = 'Bs/$ ';
